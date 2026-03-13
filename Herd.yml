@@ -1,0 +1,6 @@
+php: 8.4
+sites:
+  - name: hrms
+    tld: test
+  - name: app.hrms
+    tld: test

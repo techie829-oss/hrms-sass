@@ -1,0 +1,20 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/Users/rohitk/Library/Application Support/Herd/bin/php84",
+            "args": [
+                "/Users/rohitk/react/lara/hrms/hrms-sass/artisan",
+                "boost:mcp"
+            ]
+        },
+        "herd": {
+            "command": "/Users/rohitk/Library/Application Support/Herd/bin/php84",
+            "args": [
+                "/Applications/Herd.app/Contents/Resources/herd-mcp.phar"
+            ],
+            "env": {
+                "SITE_PATH": "/Users/rohitk/react/lara/hrms/hrms-sass"
+            }
+        }
+    }
+}

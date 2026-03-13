@@ -1,0 +1,8 @@
+{
+    "HR": true,
+    "Attendance": true,
+    "Payroll": true,
+    "Leave": true,
+    "Recruitment": true,
+    "Performance": true
+}

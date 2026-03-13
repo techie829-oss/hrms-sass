@@ -1,0 +1,23 @@
+{
+    "agents": [
+        "amp",
+        "cursor",
+        "claude_code",
+        "codex",
+        "gemini",
+        "copilot",
+        "opencode",
+        "junie"
+    ],
+    "guidelines": true,
+    "herd_mcp": true,
+    "mcp": true,
+    "nightwatch_mcp": false,
+    "sail": false,
+    "skills": [
+        "configuring-horizon",
+        "livewire-development",
+        "pest-testing",
+        "tailwindcss-development"
+    ]
+}
