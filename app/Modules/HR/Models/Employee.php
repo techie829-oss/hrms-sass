@@ -33,6 +33,7 @@ class Employee extends Model
         'date_of_birth' => 'date',
         'date_of_joining' => 'date',
         'salary' => 'decimal:2',
+        'basic_salary' => 'decimal:2',
     ];
 
     public function getActivitylogOptions(): LogOptions

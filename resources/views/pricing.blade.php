@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Pricing Hero -->
-<section class="py-20 md:py-32 px-6 md:px-12 bg-hero-gradient overflow-hidden">
+<section x-data="{ yearly: true }" class="py-20 md:py-32 px-6 md:px-12 bg-hero-gradient overflow-hidden">
     <div class="max-w-7xl mx-auto text-center space-y-6 md:space-y-8 relative z-10">
         <div class="inline-flex items-center px-4 py-1.5 bg-primary/10 text-primary rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase premium-shadow border border-primary/10">
             Hybrid Infrastructure
@@ -18,11 +18,11 @@
 
         <!-- Toggle -->
         <div class="flex items-center justify-center gap-4 pt-6 md:pt-8">
-            <span class="text-sm font-bold text-on-surface font-label uppercase tracking-widest">Monthly</span>
-            <div class="w-14 h-7 bg-surface-container-high rounded-full relative p-1 cursor-pointer border border-outline-variant/20 premium-shadow group">
-                <div class="w-5 h-5 bg-primary rounded-full absolute right-1 shadow-sm transition-all group-hover:scale-110"></div>
+            <span class="text-sm font-bold text-on-surface font-label uppercase tracking-widest" :class="!yearly ? 'text-primary' : 'text-on-surface/60'">Monthly</span>
+            <div @click="yearly = !yearly" class="w-14 h-7 bg-surface-container-high rounded-full relative p-1 cursor-pointer border border-outline-variant/20 premium-shadow group">
+                <div class="w-5 h-5 bg-primary rounded-full absolute transition-all duration-300 shadow-sm group-hover:scale-110" :class="yearly ? 'right-1' : 'left-1'"></div>
             </div>
-            <span class="text-sm font-bold text-on-surface font-label uppercase tracking-widest">Yearly</span>
+            <span class="text-sm font-bold text-on-surface font-label uppercase tracking-widest" :class="yearly ? 'text-primary' : 'text-on-surface/60'">Yearly</span>
             <span class="px-3 py-1 bg-tertiary/10 text-tertiary text-[10px] font-black rounded-full uppercase tracking-tighter border border-tertiary/20">Save 20%</span>
         </div>
     </div>
@@ -58,7 +58,9 @@
         <div class="bg-surface-container-low p-8 rounded-[2rem] border border-outline-variant/15 flex flex-col space-y-10 hover:bg-surface-bright transition-all premium-shadow group">
             <div class="space-y-2">
                 <p class="text-[10px] font-bold text-outline uppercase tracking-[0.2em] font-label">Growth Tier</p>
-                <h3 class="text-4xl font-extrabold text-on-surface font-headline">₹999<span class="text-sm font-medium text-on-surface-variant ml-1 uppercase tracking-widest">/mo</span></h3>
+                <h3 class="text-4xl font-extrabold text-on-surface font-headline">
+                    <span x-text="yearly ? '₹799' : '₹999'"></span><span class="text-sm font-medium text-on-surface-variant ml-1 uppercase tracking-widest">/mo</span>
+                </h3>
             </div>
             <ul class="space-y-5 flex-1">
                 <li class="flex items-start gap-3 text-sm text-on-surface font-medium leading-relaxed">
@@ -82,7 +84,9 @@
             <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-primary px-5 py-1.5 rounded-full text-[10px] font-black text-on-primary uppercase tracking-widest whitespace-nowrap">Architect Choice</div>
             <div class="space-y-2">
                 <p class="text-[10px] font-black text-primary uppercase tracking-[0.2em] font-label">Enterprise Ready</p>
-                <h3 class="text-4xl font-extrabold text-on-surface font-headline">₹2,999<span class="text-sm font-medium text-on-surface-variant ml-1 uppercase tracking-widest">/mo</span></h3>
+                <h3 class="text-4xl font-extrabold text-on-surface font-headline">
+                    <span x-text="yearly ? '₹2,399' : '₹2,999'"></span><span class="text-sm font-medium text-on-surface-variant ml-1 uppercase tracking-widest">/mo</span>
+                </h3>
             </div>
             <ul class="space-y-5 flex-1">
                 <li class="flex items-start gap-3 text-sm text-on-surface font-bold leading-relaxed">
@@ -105,7 +109,9 @@
         <div class="bg-inverse-surface p-8 rounded-[2rem] flex flex-col space-y-10 premium-shadow group">
             <div class="space-y-2">
                 <p class="text-[10px] font-bold text-inverse-on-surface uppercase tracking-[0.2em] font-label">Custom Scale</p>
-                <h3 class="text-4xl font-extrabold text-white font-headline">₹7,999+<span class="text-sm font-medium text-inverse-on-surface ml-1 uppercase tracking-widest">/mo</span></h3>
+                <h3 class="text-4xl font-extrabold text-white font-headline">
+                    <span x-text="yearly ? '₹6,399+' : '₹7,999+'"></span><span class="text-sm font-medium text-inverse-on-surface ml-1 uppercase tracking-widest">/mo</span>
+                </h3>
             </div>
             <ul class="space-y-5 flex-1">
                 <li class="flex items-start gap-3 text-sm text-white font-medium leading-relaxed">

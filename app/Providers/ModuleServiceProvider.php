@@ -18,6 +18,35 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->singleton(ModuleManager::class, function ($app) {
             return new ModuleManager;
         });
+
+        $this->registerModuleProviders();
+    }
+
+    /**
+     * Auto-discover and register module providers.
+     */
+    protected function registerModuleProviders(): void
+    {
+        $modulePath = app_path('Modules');
+        if (! File::isDirectory($modulePath)) {
+            return;
+        }
+
+        $modules = File::directories($modulePath);
+        foreach ($modules as $module) {
+            $name = basename($module);
+            $providerPath = $module.'/Providers';
+
+            if (File::isDirectory($providerPath)) {
+                $providers = File::files($providerPath);
+                foreach ($providers as $provider) {
+                    $className = 'App\\Modules\\'.$name.'\\Providers\\'.str_replace('.php', '', $provider->getFilename());
+                    if (class_exists($className)) {
+                        $this->app->register($className);
+                    }
+                }
+            }
+        }
     }
 
     /**

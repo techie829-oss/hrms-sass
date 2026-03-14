@@ -38,6 +38,7 @@ class ModuleInstaller
         Artisan::call('migrate', [
             '--path' => $path,
             '--force' => true,
+            '--database' => 'tenant',
         ]);
 
         return true;
@@ -66,6 +67,7 @@ class ModuleInstaller
         Artisan::call('migrate:rollback', [
             '--path' => $path,
             '--force' => true,
+            '--database' => 'tenant',
         ]);
 
         return true;

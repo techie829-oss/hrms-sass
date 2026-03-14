@@ -25,22 +25,15 @@
                     {{ config('app.name', 'HRMS Solutions') }}
                 </a>
                 <div class="hidden md:flex items-center gap-8">
-                    <a class="text-sm font-medium text-on-surface hover:text-primary transition-colors" href="/">Home</a>
-                    <a class="text-sm font-medium text-on-surface hover:text-primary transition-colors" href="/modules">Modules</a>
-                    <a class="text-sm font-medium text-on-surface hover:text-primary transition-colors" href="/pricing">Pricing</a>
-                    <a class="text-sm font-medium text-on-surface hover:text-primary transition-colors" href="/about">About</a>
-                    <a class="text-sm font-medium text-on-surface hover:text-primary transition-colors" href="/contact">Contact</a>
+                    <a class="text-sm font-medium transition-colors {{ request()->is('/') ? 'text-primary font-bold' : 'text-on-surface hover:text-primary' }}" href="/">Home</a>
+                    <a class="text-sm font-medium transition-colors {{ request()->is('modules') ? 'text-primary font-bold' : 'text-on-surface hover:text-primary' }}" href="/modules">Modules</a>
+                    <a class="text-sm font-medium transition-colors {{ request()->is('pricing') ? 'text-primary font-bold' : 'text-on-surface hover:text-primary' }}" href="/pricing">Pricing</a>
+                    <a class="text-sm font-medium transition-colors {{ request()->is('about') ? 'text-primary font-bold' : 'text-on-surface hover:text-primary' }}" href="/about">About</a>
+                    <a class="text-sm font-medium transition-colors {{ request()->is('contact') ? 'text-primary font-bold' : 'text-on-surface hover:text-primary' }}" href="/contact">Contact</a>
                 </div>
             </div>
             <div class="flex items-center gap-4">
-                @if (Route::has('login'))
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="px-5 py-2.5 text-sm font-semibold text-primary hover:bg-primary/5 transition-colors">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}" class="px-5 py-2.5 text-sm font-semibold text-primary hover:bg-primary/5 transition-colors">Login</a>
-                        <a href="/contact" class="px-6 py-2.5 text-sm font-bold bg-primary text-on-primary rounded-xl hover:opacity-90 transition-all premium-shadow primary-gradient">Book a Demo</a>
-                    @endauth
-                @endif
+                <a href="/contact" class="px-6 py-2.5 text-sm font-bold bg-primary text-on-primary rounded-xl hover:opacity-90 transition-all premium-shadow primary-gradient">Book a Demo</a>
             </div>
         </div>
     </nav>
@@ -67,14 +60,14 @@
                     <h5 class="font-bold text-on-surface mb-6 uppercase tracking-widest text-[10px]">Company</h5>
                     <ul class="space-y-4">
                         <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="/about">About</a></li>
-                        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Careers</a></li>
+                        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="/contact">Careers</a></li>
                         <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="/contact">Contact</a></li>
                     </ul>
                 </div>
                 <div class="md:col-span-2">
                     <h5 class="font-bold text-on-surface mb-6 uppercase tracking-widest text-[10px]">Product</h5>
                     <ul class="space-y-4">
-                        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Features</a></li>
+                        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="/modules">Features</a></li>
                         <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="/pricing">Pricing</a></li>
                         <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="/modules">Modules</a></li>
                     </ul>

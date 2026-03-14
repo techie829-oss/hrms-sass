@@ -52,6 +52,9 @@ class TenantManager
             $this->moduleManager->enableModule($module, $tenant);
         }
 
+        // 5. Dispatch Provisioned Event for Blueprinting
+        event(new \App\Events\TenantProvisioned($tenant));
+
         return $tenant;
     }
 

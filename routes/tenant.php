@@ -10,42 +10,32 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 |--------------------------------------------------------------------------
 | Tenant Routes
 |--------------------------------------------------------------------------
-|
-| Here you can register the tenant routes for your application.
-| These routes are loaded by the TenantRouteServiceProvider.
-|
-| Feel free to customize them however you want. Good luck!
-|
 */
 
-Route::middleware([
-    'web',
-    InitializeTenancyByDomain::class,
-    PreventAccessFromCentralDomains::class,
-    'tenant.active',
-    'auth', // Require login even on subdomains
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('tenant.dashboard');
+$centralDomains = config('tenancy.central_domains', []);
 
-    Route::get('/', function () {
-        return redirect()->route('tenant.dashboard');
-    });
+foreach ($centralDomains as $centralDomain) {
+    Route::domain('{tenant}.' . $centralDomain)->middleware([
+        'web',
+        InitializeTenancyByDomain::class,
+        PreventAccessFromCentralDomains::class,
+        'tenant.active',
+        'auth',
+    ])->group(function () {
+        
+        Route::get('/dashboard', [\App\Http\Controllers\Tenant\DashboardController::class, 'index'])->name('tenant.dashboard');
 
-    // HR Module Routes
-    Route::middleware('module.access:hr')->group(function () {
-        Route::get('/hr', function () {
-            return 'HR Module Dashboard';
+        Route::get('/', function () {
+            return redirect()->route('tenant.dashboard');
         });
-    });
 
-    // Attendance Module Routes
-    Route::middleware('module.access:attendance')->group(function () {
-        Route::get('/attendance', function () {
-            return 'Attendance Module Dashboard';
+        // HR Module Routes
+        Route::middleware('module.access:hr')->group(function () {
+            Route::get('/hr', function () {
+                return 'HR Module Dashboard';
+            });
         });
-    });
 
-    require __DIR__.'/auth.php';
-});
+        require __DIR__.'/auth.php';
+    });
+}

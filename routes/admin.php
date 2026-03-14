@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\ModuleController;
+use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\TenantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,17 +23,16 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     })->name('dashboard');
 
     // Tenant Management
-    Route::get('/tenants', function () {
-        return view('admin.tenants.index');
-    })->name('tenants.index');
+    Route::resource('tenants', TenantController::class)->except(['edit', 'update']);
+    Route::patch('/tenants/{tenant}/toggle-status', [TenantController::class, 'toggleStatus'])->name('tenants.toggle-status');
 
     // Plan Management
-    Route::get('/plans', function () {
-        return view('admin.plans.index');
-    })->name('plans.index');
+    Route::resource('plans', PlanController::class)->only(['index', 'edit', 'update']);
 
     // Module Management
-    Route::get('/modules', function () {
-        return view('admin.modules.index');
-    })->name('modules.index');
+    Route::get('/modules', [ModuleController::class, 'index'])->name('modules.index');
+    Route::post('/modules/sync', [ModuleController::class, 'sync'])->name('modules.sync');
+
+    // Role & Permission Management
+    Route::resource('roles', RoleController::class);
 });

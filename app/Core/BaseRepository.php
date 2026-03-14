@@ -4,6 +4,7 @@ namespace App\Core;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 abstract class BaseRepository
 {
@@ -74,7 +75,7 @@ abstract class BaseRepository
     /**
      * Paginate records.
      */
-    public function paginate(int $perPage = 15, array $filters = [])
+    public function paginate(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         $query = $this->model->query();
 

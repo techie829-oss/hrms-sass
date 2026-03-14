@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->string('tenant_id')->index();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('employee_id', 20);
             $table->foreignId('department_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('designation_id')->nullable()->constrained()->nullOnDelete();

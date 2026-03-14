@@ -17,7 +17,14 @@ class TenantResolver
         // 1. Check central domains (skip if it matches central)
         $centralDomains = config('tenancy.central_domains', []);
 
-        // Check exact host match
+        foreach ($centralDomains as $domain) {
+            if ($host === $domain || str_ends_with($host, '.'.$domain)) {
+                if (str_starts_with($host, 'app.')) {
+                    return null;
+                }
+            }
+        }
+
         if (in_array($host, $centralDomains)) {
             return null;
         }

@@ -26,6 +26,14 @@ abstract class BaseService
     }
 
     /**
+     * Find a record by ID or fail.
+     */
+    public function findOrFail(int|string $id)
+    {
+        return $this->repository->findOrFail($id);
+    }
+
+    /**
      * Create a new record.
      */
     public function create(array $data)
@@ -47,5 +55,13 @@ abstract class BaseService
     public function delete(int|string $id): bool
     {
         return $this->repository->delete($id);
+    }
+
+    /**
+     * Paginate records.
+     */
+    public function paginate(int $perPage = 15, array $filters = [])
+    {
+        return $this->repository->paginate($perPage, $filters);
     }
 }

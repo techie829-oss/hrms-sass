@@ -38,8 +38,14 @@
                         <x-nav-link href="/tenants" :active="request()->is('tenants*')" class="text-sm font-bold uppercase tracking-widest font-label">
                             {{ __('Tenants') }}
                         </x-nav-link>
+                        <x-nav-link href="/plans" :active="request()->is('plans*')" class="text-sm font-bold uppercase tracking-widest font-label">
+                            {{ __('Plans') }}
+                        </x-nav-link>
+                        <x-nav-link href="/roles" :active="request()->is('roles*')" class="text-sm font-bold uppercase tracking-widest font-label">
+                            {{ __('Roles') }}
+                        </x-nav-link>
                         <x-nav-link href="/modules" :active="request()->is('modules*')" class="text-sm font-bold uppercase tracking-widest font-label">
-                            {{ __('System Modules') }}
+                            {{ __('Modules') }}
                         </x-nav-link>
                     @endif
                 </div>
@@ -103,6 +109,21 @@
             <x-responsive-nav-link href="/contact" class="font-bold uppercase tracking-widest font-label">
                 {{ __('Contact') }}
             </x-responsive-nav-link>
+
+            @if(!tenant() && Auth::user()->hasRole('super_admin'))
+                <x-responsive-nav-link href="/tenants" :active="request()->is('tenants*')" class="font-bold uppercase tracking-widest font-label">
+                    {{ __('Tenants') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="/plans" :active="request()->is('plans*')" class="font-bold uppercase tracking-widest font-label">
+                    {{ __('Plans') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="/roles" :active="request()->is('roles*')" class="font-bold uppercase tracking-widest font-label">
+                    {{ __('Roles') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="/modules" :active="request()->is('modules*')" class="font-bold uppercase tracking-widest font-label">
+                    {{ __('Modules') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

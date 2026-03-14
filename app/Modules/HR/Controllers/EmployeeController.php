@@ -5,6 +5,7 @@ namespace App\Modules\HR\Controllers;
 use App\Core\BaseController;
 use App\Modules\HR\Services\EmployeeService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class EmployeeController extends BaseController
 {
@@ -15,11 +16,12 @@ class EmployeeController extends BaseController
     /**
      * Display employees listing.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $employees = $this->employeeService->all();
+        $filters = $request->only(['department_id', 'status', 'employment_type']);
+        $employees = $this->employeeService->all($filters);
 
-        return view('modules.hr.employees', compact('employees'));
+        return view('modules.hr.employees.index', compact('employees'));
     }
 
     /**
@@ -27,7 +29,8 @@ class EmployeeController extends BaseController
      */
     public function create()
     {
-        return view('modules.hr.employee-create');
+        // For now, simple view. In a full implementation, we'd pass departments/designations
+        return view('modules.hr.employees.create');
     }
 
     /**
@@ -35,7 +38,20 @@ class EmployeeController extends BaseController
      */
     public function store(Request $request)
     {
-        $employee = $this->employeeService->create($request->validated());
+        $validated = $request->validate([
+            'employee_id' => ['required', 'string', 'max:20', Rule::unique('employees')->where('tenant_id', tenant('id'))],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', Rule::unique('employees')->where('tenant_id', tenant('id'))],
+            'department_id' => ['nullable', 'exists:departments,id'],
+            'designation_id' => ['nullable', 'exists:designations,id'],
+            'date_of_joining' => ['required', 'date'],
+            'employment_type' => ['required', Rule::in(['full_time', 'part_time', 'contract', 'intern'])],
+            'status' => ['required', Rule::in(['active', 'inactive', 'on_leave', 'terminated', 'resigned'])],
+            'basic_salary' => ['required', 'numeric', 'min:0'],
+        ]);
+
+        $this->employeeService->create($validated);
 
         return redirect()->route('hr.employees.index')
             ->with('success', 'Employee created successfully.');
@@ -44,19 +60,41 @@ class EmployeeController extends BaseController
     /**
      * Show employee details.
      */
-    public function show(int $id)
+    public function show($id)
     {
-        $employee = $this->employeeService->find($id);
+        $employee = $this->employeeService->findOrFail($id);
 
-        return view('modules.hr.employee-show', compact('employee'));
+        return view('modules.hr.employees.show', compact('employee'));
+    }
+
+    /**
+     * Show edit employee form.
+     */
+    public function edit($id)
+    {
+        $employee = $this->employeeService->findOrFail($id);
+
+        return view('modules.hr.employees.edit', compact('employee'));
     }
 
     /**
      * Update an employee.
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, $id)
     {
-        $this->employeeService->update($id, $request->validated());
+        $validated = $request->validate([
+            'employee_id' => ['required', 'string', 'max:20', Rule::unique('employees')->where('tenant_id', tenant('id'))->ignore($id)],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', Rule::unique('employees')->where('tenant_id', tenant('id'))->ignore($id)],
+            'department_id' => ['nullable', 'exists:departments,id'],
+            'date_of_joining' => ['required', 'date'],
+            'employment_type' => ['required', Rule::in(['full_time', 'part_time', 'contract', 'intern'])],
+            'status' => ['required', Rule::in(['active', 'inactive', 'on_leave', 'terminated', 'resigned'])],
+            'basic_salary' => ['required', 'numeric', 'min:0'],
+        ]);
+
+        $this->employeeService->update($id, $validated);
 
         return redirect()->route('hr.employees.index')
             ->with('success', 'Employee updated successfully.');
@@ -65,7 +103,7 @@ class EmployeeController extends BaseController
     /**
      * Delete an employee.
      */
-    public function destroy(int $id)
+    public function destroy($id)
     {
         $this->employeeService->delete($id);
 

@@ -21,9 +21,9 @@
                 <a href="/contact" class="px-8 py-4 bg-primary text-on-primary font-bold rounded-xl premium-shadow hover:scale-[1.02] transition-transform primary-gradient text-center">
                     Book a Demo
                 </a>
-                <a href="#" class="px-8 py-4 bg-surface-container-lowest text-on-surface font-bold rounded-xl premium-shadow flex items-center justify-center gap-2 border border-outline-variant/10 hover:bg-surface-container-low transition-all">
-                    <span class="material-symbols-outlined">play_circle</span>
-                    View Showreel
+                <a href="/modules" class="px-8 py-4 bg-surface-container-lowest text-on-surface font-bold rounded-xl premium-shadow flex items-center justify-center gap-2 border border-outline-variant/10 hover:bg-surface-container-low transition-all">
+                    <span class="material-symbols-outlined">widgets</span>
+                    Explore Modules
                 </a>
             </div>
         </div>

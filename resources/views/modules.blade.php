@@ -17,9 +17,9 @@
                 Scale your HR operations with precision. Our modular design allows you to pick exactly what you need today, and expand effortlessly tomorrow.
             </p>
             <div class="flex flex-col sm:flex-row items-center gap-4 pt-4">
-                <a href="/contact" class="w-full sm:w-auto primary-gradient px-8 py-4 text-on-primary font-bold rounded-xl shadow-lg hover:scale-105 transition-transform premium-shadow text-center">Explore Suite</a>
-                <a href="#" class="w-full sm:w-auto text-on-surface font-semibold flex items-center justify-center gap-2 px-6 py-4 rounded-xl hover:bg-surface-container-low transition-colors">
-                    View Documentation <span class="material-symbols-outlined">arrow_forward</span>
+                <a href="/contact" class="w-full sm:auto primary-gradient px-8 py-4 text-on-primary font-bold rounded-xl shadow-lg hover:scale-105 transition-transform premium-shadow text-center">Book a Demo</a>
+                <a href="/pricing" class="w-full sm:auto text-on-surface font-semibold flex items-center justify-center gap-2 px-6 py-4 rounded-xl hover:bg-surface-container-low transition-colors">
+                    View Pricing <span class="material-symbols-outlined">payments</span>
                 </a>
             </div>
         </div>

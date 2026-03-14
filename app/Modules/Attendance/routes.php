@@ -1,9 +1,16 @@
 <?php
 
+use App\Modules\Attendance\Controllers\AttendanceController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('attendance')->name('attendance.')->middleware(['auth'])->group(function () {
-    // Route::resource('records', AttendanceController::class);
-    // Route::post('check-in', [AttendanceController::class, 'checkIn'])->name('check-in');
-    // Route::post('check-out', [AttendanceController::class, 'checkOut'])->name('check-out');
+Route::name('attendance.')->middleware(['auth'])->group(function () {
+    Route::resource('logs', AttendanceController::class)->names([
+        'index' => 'index',
+        'create' => 'create',
+        'store' => 'store',
+        'show' => 'show',
+        'edit' => 'edit',
+        'update' => 'update',
+        'destroy' => 'destroy',
+    ]);
 });
