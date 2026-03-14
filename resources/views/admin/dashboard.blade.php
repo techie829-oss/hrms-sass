@@ -81,13 +81,46 @@
 
             <!-- Admin Quick Actions -->
             <div class="space-y-8">
-                <div class="bg-surface-container-lowest p-8 rounded-[2.5rem] premium-shadow border border-outline-variant/15">
-                    <h4 class="text-lg font-black font-headline text-on-surface mb-6 uppercase tracking-widest text-xs">System Control</h4>
-                    <ul class="menu bg-surface-container-low rounded-2xl p-2 gap-1 font-medium">
-                        <li><a href="{{ route('admin.tenants.create') }}" class="py-3 hover:bg-primary/5 hover:text-primary"><span class="material-symbols-outlined text-xl">add_business</span> Create Tenant</a></li>
-                        <li><a href="{{ route('admin.modules.index') }}" class="py-3 hover:bg-primary/5 hover:text-primary"><span class="material-symbols-outlined text-xl">widgets</span> Manage Modules</a></li>
-                        <li><a href="{{ route('admin.plans.index') }}" class="py-3 hover:bg-primary/5 hover:text-primary"><span class="material-symbols-outlined text-xl">security</span> Manage Plans</a></li>
-                        <li><a class="py-3 hover:bg-primary/5 hover:text-primary text-error"><span class="material-symbols-outlined text-xl">report_problem</span> Critical Alerts <span class="badge badge-error text-white font-black text-[10px] animate-pulse">0</span></a></li>
+                <div class="bg-surface-container-lowest p-8 md:p-10 rounded-[2.5rem] premium-shadow border border-outline-variant/15 h-full">
+                    <div class="flex items-center gap-3 mb-8">
+                        <div class="w-2 h-6 bg-primary rounded-full"></div>
+                        <h4 class="text-xs font-black font-headline text-outline uppercase tracking-[0.2em] leading-none">System Control</h4>
+                    </div>
+                    
+                    <ul class="flex flex-col gap-3 font-medium">
+                        <li>
+                            <a href="{{ route('admin.tenants.create') }}" class="group flex items-center gap-4 p-4 rounded-2xl bg-surface-container-low hover:bg-primary/5 hover:text-primary transition-all">
+                                <span class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <span class="material-symbols-outlined text-xl">add_business</span>
+                                </span>
+                                <span class="text-sm font-bold font-headline">Create Tenant</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.modules.index') }}" class="group flex items-center gap-4 p-4 rounded-2xl bg-surface-container-low hover:bg-primary/5 hover:text-primary transition-all">
+                                <span class="w-10 h-10 rounded-xl bg-tertiary/10 text-tertiary flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <span class="material-symbols-outlined text-xl">widgets</span>
+                                </span>
+                                <span class="text-sm font-bold font-headline">Manage Modules</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.plans.index') }}" class="group flex items-center gap-4 p-4 rounded-2xl bg-surface-container-low hover:bg-primary/5 hover:text-primary transition-all">
+                                <span class="w-10 h-10 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <span class="material-symbols-outlined text-xl">security</span>
+                                </span>
+                                <span class="text-sm font-bold font-headline">Security Audit</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="group flex items-center gap-4 p-4 rounded-2xl bg-surface-container-low hover:bg-error/5 hover:text-error transition-all cursor-pointer">
+                                <span class="w-10 h-10 rounded-xl bg-error/10 text-error flex items-center justify-center group-hover:scale-110 transition-transform relative">
+                                    <span class="material-symbols-outlined text-xl">report_problem</span>
+                                    <span class="absolute -top-1 -right-1 w-4 h-4 bg-error text-white text-[9px] font-black rounded-full flex items-center justify-center animate-pulse">0</span>
+                                </span>
+                                <span class="text-sm font-bold font-headline">Critical Alerts</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
 

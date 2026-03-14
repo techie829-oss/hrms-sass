@@ -26,25 +26,31 @@
                     </x-nav-link>
 
                     @if(tenant() && app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('hr', tenant('id')))
-                        <x-nav-link href="/hr/employees" :active="request()->is('hr/employees*')" class="text-sm font-bold uppercase tracking-widest font-label">
+                        <x-nav-link :href="route('hr.employees.index')" :active="request()->routeIs('hr.employees.*')" class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">group</span>
                             {{ __('Employees') }}
                         </x-nav-link>
-                        <x-nav-link href="/hr/departments" :active="request()->is('hr/departments*')" class="text-sm font-bold uppercase tracking-widest font-label">
+                        <x-nav-link :href="route('hr.departments.index')" :active="request()->routeIs('hr.departments.*')" class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">hub</span>
                             {{ __('Departments') }}
                         </x-nav-link>
                     @endif
 
                     @if(!tenant() && Auth::user()->hasRole('super_admin'))
-                        <x-nav-link href="/tenants" :active="request()->is('tenants*')" class="text-sm font-bold uppercase tracking-widest font-label">
+                        <x-nav-link :href="route('admin.tenants.index')" :active="request()->routeIs('admin.tenants.*')" class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">domain</span>
                             {{ __('Tenants') }}
                         </x-nav-link>
-                        <x-nav-link href="/plans" :active="request()->is('plans*')" class="text-sm font-bold uppercase tracking-widest font-label">
+                        <x-nav-link :href="route('admin.plans.index')" :active="request()->routeIs('admin.plans.*')" class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">payments</span>
                             {{ __('Plans') }}
                         </x-nav-link>
-                        <x-nav-link href="/roles" :active="request()->is('roles*')" class="text-sm font-bold uppercase tracking-widest font-label">
+                        <x-nav-link :href="route('admin.roles.index')" :active="request()->routeIs('admin.roles.*')" class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">security</span>
                             {{ __('Roles') }}
                         </x-nav-link>
-                        <x-nav-link href="/modules" :active="request()->is('modules*')" class="text-sm font-bold uppercase tracking-widest font-label">
+                        <x-nav-link :href="route('admin.modules.index')" :active="request()->routeIs('admin.modules.*')" class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">widgets</span>
                             {{ __('Modules') }}
                         </x-nav-link>
                     @endif
@@ -111,16 +117,20 @@
             </x-responsive-nav-link>
 
             @if(!tenant() && Auth::user()->hasRole('super_admin'))
-                <x-responsive-nav-link href="/tenants" :active="request()->is('tenants*')" class="font-bold uppercase tracking-widest font-label">
+                <x-responsive-nav-link :href="route('admin.tenants.index')" :active="request()->routeIs('admin.tenants.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">domain</span>
                     {{ __('Tenants') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link href="/plans" :active="request()->is('plans*')" class="font-bold uppercase tracking-widest font-label">
+                <x-responsive-nav-link :href="route('admin.plans.index')" :active="request()->routeIs('admin.plans.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">payments</span>
                     {{ __('Plans') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link href="/roles" :active="request()->is('roles*')" class="font-bold uppercase tracking-widest font-label">
+                <x-responsive-nav-link :href="route('admin.roles.index')" :active="request()->routeIs('admin.roles.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">security</span>
                     {{ __('Roles') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link href="/modules" :active="request()->is('modules*')" class="font-bold uppercase tracking-widest font-label">
+                <x-responsive-nav-link :href="route('admin.modules.index')" :active="request()->routeIs('admin.modules.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">widgets</span>
                     {{ __('Modules') }}
                 </x-responsive-nav-link>
             @endif

@@ -32,8 +32,10 @@ foreach ($centralDomains as $centralDomain) {
         // HR Module Routes
         Route::middleware('module.access:hr')->group(function () {
             Route::get('/hr', function () {
-                return 'HR Module Dashboard';
-            });
+                return view('modules.hr.index');
+            })->name('hr.dashboard');
+            
+            require app_path('Modules/HR/routes.php');
         });
 
         require __DIR__.'/auth.php';
