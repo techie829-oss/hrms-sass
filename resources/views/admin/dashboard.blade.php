@@ -129,15 +129,20 @@
                         <h4 class="text-lg font-black font-headline mb-4 uppercase tracking-widest text-xs">Infrastructure</h4>
                         <div class="space-y-4">
                             <div class="flex justify-between items-center text-xs">
-                                <span class="font-bold opacity-70">CPU Usage</span>
+                                <span class="font-bold opacity-70 uppercase tracking-tighter">CPU Usage</span>
                                 <span class="font-black">12%</span>
                             </div>
-                            <progress class="progress progress-primary w-full h-2 bg-white/20" value="12" max="100"></progress>
-                            <div class="flex justify-between items-center text-xs">
-                                <span class="font-bold opacity-70">Memory</span>
+                            <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary shadow-[0_0_10px_rgba(var(--primary-rgb),0.5)]" style="width: 12%"></div>
+                            </div>
+                            
+                            <div class="flex justify-between items-center text-xs pt-2">
+                                <span class="font-bold opacity-70 uppercase tracking-tighter">Memory</span>
                                 <span class="font-black">2.1GB / 8GB</span>
                             </div>
-                            <progress class="progress progress-secondary w-full h-2 bg-white/20" value="26" max="100"></progress>
+                            <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                                <div class="h-full bg-tertiary shadow-[0_0_10px_rgba(var(--tertiary-rgb),0.5)]" style="width: 26%"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
