@@ -4,11 +4,11 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="relative bg-hero-gradient py-24 px-6 overflow-hidden">
+<section class="relative bg-gradient-to-br from-primary/10 via-surface to-tertiary/10 py-24 px-6 overflow-hidden">
     <div class="max-w-7xl mx-auto relative z-10">
         <div class="max-w-2xl space-y-6">
-            <span class="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary font-label text-xs font-bold tracking-widest uppercase premium-shadow">Contact Us</span>
-            <h1 class="font-headline text-5xl md:text-7xl font-extrabold text-on-surface tracking-tight leading-[1.1]">Get in <span class="text-gradient">Touch.</span></h1>
+            <span class="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary font-label text-xs font-bold tracking-widest uppercase shadow-xl">Contact Us</span>
+            <h1 class="font-headline text-5xl md:text-7xl font-extrabold text-on-surface tracking-tight leading-[1.1]">Get in <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-tertiary">Touch.</span></h1>
             <p class="text-on-surface-variant text-xl leading-relaxed font-medium">
                 Connect with our experts to discuss how {{ config('app.name', 'HRMS Solutions') }} can transform your organization's architectural approach to human capital.
             </p>
@@ -23,7 +23,7 @@
     <div class="max-w-7xl mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
             <!-- Contact Form -->
-            <div class="lg:col-span-7 bg-surface-container-lowest p-10 md:p-12 rounded-[2.5rem] premium-shadow border border-outline-variant/10">
+            <div class="lg:col-span-7 bg-surface-container-lowest p-10 md:p-12 rounded-[2.5rem] shadow-xl border border-outline-variant/10">
                 <form class="space-y-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="space-y-3">
@@ -54,14 +54,14 @@
                         <label class="text-xs font-bold text-on-surface uppercase tracking-widest font-label">Message</label>
                         <textarea class="w-full bg-surface-container-low border-transparent focus:border-primary focus:ring-0 rounded-xl p-4 text-on-surface placeholder-outline/50 transition-all font-medium" placeholder="Tell us more about your needs..." rows="5"></textarea>
                     </div>
-                    <button type="submit" class="w-full primary-gradient py-5 rounded-2xl text-on-primary font-black tracking-widest uppercase text-sm hover:scale-[1.02] transition-transform premium-shadow">Send Message</button>
+                    <button type="submit" class="w-full bg-gradient-to-br from-primary to-tertiary py-5 rounded-2xl text-on-primary font-black tracking-widest uppercase text-sm hover:scale-[1.02] transition-transform shadow-xl">Send Message</button>
                 </form>
             </div>
 
             <!-- Contact Info Cards -->
             <div class="lg:col-span-5 flex flex-col gap-8">
                 <!-- Sales -->
-                <div class="bg-surface-container-low p-8 rounded-[2rem] border border-outline-variant/15 hover:bg-surface-bright transition-all premium-shadow group">
+                <div class="bg-surface-container-low p-8 rounded-[2rem] border border-outline-variant/15 hover:bg-surface-bright transition-all shadow-xl group">
                     <div class="flex items-start gap-6">
                         <div class="p-4 bg-primary/10 rounded-2xl text-primary group-hover:scale-110 transition-transform">
                             <span class="material-symbols-outlined text-3xl">payments</span>
@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <!-- Support -->
-                <div class="bg-surface-container-low p-8 rounded-[2rem] border border-outline-variant/15 hover:bg-surface-bright transition-all premium-shadow group">
+                <div class="bg-surface-container-low p-8 rounded-[2rem] border border-outline-variant/15 hover:bg-surface-bright transition-all shadow-xl group">
                     <div class="flex items-start gap-6">
                         <div class="p-4 bg-tertiary/10 rounded-2xl text-tertiary group-hover:scale-110 transition-transform">
                             <span class="material-symbols-outlined text-3xl">contact_support</span>
@@ -128,13 +128,13 @@
                             <p class="text-xs font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-2 font-label">Local Time</p>
                             <p class="text-3xl font-headline font-extrabold text-on-surface">10:42 AM PST</p>
                         </div>
-                        <a href="#" class="inline-flex items-center gap-3 px-6 py-3 bg-surface-container-lowest text-primary font-bold rounded-xl premium-shadow border border-outline-variant/15 hover:bg-white transition-all group">
+                        <a href="#" class="inline-flex items-center gap-3 px-6 py-3 bg-surface-container-lowest text-primary font-bold rounded-xl shadow-xl border border-outline-variant/15 hover:bg-white transition-all group">
                             Get Directions <span class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">open_in_new</span>
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="h-[500px] relative rounded-[3rem] overflow-hidden premium-shadow border-4 border-white">
+            <div class="h-[500px] relative rounded-[3rem] overflow-hidden shadow-xl border-4 border-white">
                 <img class="w-full h-full object-cover grayscale opacity-90 hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiafkjW1mJ4KjupJIZNTGy0oVbaPfpSHPMsckYoZOzULU7dbGfzW6FV7_OPLRonx6aQPjg8W7EnHxTXhGYQyg8zNKprm7G4fTRlGnRTuuvQ6tngSL6rWfekpdatMXAsfI6Fy4uui9z043u1p-GPdipaVDl_SCX9z4qliiRNzJiNYvtewejK8BtYMeQj3k4X9dPYVjJ2x04qXZNhbBJ1SQaUWYAr7g0EIY9ZgN0VPPln3ejhuj9ag5BJ4k5Mr7cFqIgxIGRJ7aNSFBg" alt="Office View">
                 <div class="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
             </div>
@@ -150,21 +150,21 @@
             <p class="text-on-surface-variant text-lg">Our global teams operate across multiple timezones to ensure consistent reliability.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-surface-container-low p-10 rounded-[2.5rem] border border-outline-variant/10 premium-shadow flex flex-col items-center text-center group hover:bg-surface-bright transition-all">
+            <div class="bg-surface-container-low p-10 rounded-[2.5rem] border border-outline-variant/10 shadow-xl flex flex-col items-center text-center group hover:bg-surface-bright transition-all">
                 <span class="material-symbols-outlined text-primary text-4xl mb-6 group-hover:scale-110 transition-transform">schedule</span>
                 <h4 class="font-headline font-bold text-2xl text-on-surface mb-3">Office Hours</h4>
                 <p class="text-on-surface-variant mb-4">Monday – Friday</p>
                 <p class="text-2xl font-bold text-on-surface font-headline">9:00 AM – 6:00 PM</p>
                 <span class="mt-6 text-xs text-on-surface-variant font-bold tracking-[0.2em] uppercase font-label">PST Timezone</span>
             </div>
-            <div class="bg-surface-container-low p-10 rounded-[2.5rem] border border-outline-variant/10 premium-shadow flex flex-col items-center text-center group hover:bg-surface-bright transition-all">
+            <div class="bg-surface-container-low p-10 rounded-[2.5rem] border border-outline-variant/10 shadow-xl flex flex-col items-center text-center group hover:bg-surface-bright transition-all">
                 <span class="material-symbols-outlined text-tertiary text-4xl mb-6 group-hover:scale-110 transition-transform">weekend</span>
                 <h4 class="font-headline font-bold text-2xl text-on-surface mb-3">Weekend Support</h4>
                 <p class="text-on-surface-variant mb-4">Saturday – Sunday</p>
                 <p class="text-2xl font-bold text-on-surface font-headline">10:00 AM – 4:00 PM</p>
                 <span class="mt-6 text-xs text-on-surface-variant font-bold tracking-[0.2em] uppercase font-label">Limited Inquiries</span>
             </div>
-            <div class="primary-gradient p-10 rounded-[2.5rem] premium-shadow flex flex-col items-center text-center text-on-primary group hover:scale-[1.02] transition-all">
+            <div class="bg-gradient-to-br from-primary to-tertiary p-10 rounded-[2.5rem] shadow-xl flex flex-col items-center text-center text-on-primary group hover:scale-[1.02] transition-all">
                 <span class="material-symbols-outlined text-4xl mb-6">priority_high</span>
                 <h4 class="font-headline font-bold text-2xl mb-3 text-white">Emergency Desk</h4>
                 <p class="text-white/80 mb-4">For critical system outages</p>

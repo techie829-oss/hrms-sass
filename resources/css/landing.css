@@ -1,0 +1,42 @@
+@import "tailwindcss";
+@import "./theme.css";
+
+@layer components {
+    /* 
+    |--------------------------------------------------------------------------
+    | Landing Page Component Overrides
+    |--------------------------------------------------------------------------
+    */
+
+    .landing-hero {
+        @apply relative pt-20 md:pt-24 pb-24 md:pb-32 overflow-hidden bg-gradient-to-br from-surface-container-low to-surface;
+    }
+
+    .landing-nav {
+        @apply sticky top-0 z-50 bg-surface-container/80 backdrop-blur-xl border-b border-outline-variant/15;
+    }
+
+    .landing-btn-primary {
+        @apply px-8 py-4 bg-primary text-on-primary font-bold rounded-xl shadow-xl hover:scale-[1.02] transition-transform bg-gradient-to-br from-primary to-tertiary text-center;
+    }
+
+    .landing-btn-secondary {
+        @apply px-8 py-4 bg-surface-container-lowest text-on-surface font-bold rounded-xl shadow-xl flex items-center justify-center gap-2 border border-outline-variant/10 hover:bg-surface-container-low transition-all;
+    }
+
+    .landing-card {
+        @apply bg-surface-container-lowest rounded-[2rem] p-8 md:p-10 shadow-xl border border-outline-variant/10 transition-all duration-500;
+    }
+
+    .landing-section-spacing {
+        @apply py-24 md:py-32;
+    }
+
+    .landing-gradient-text {
+        @apply bg-gradient-to-br from-primary to-tertiary bg-clip-text text-transparent;
+    }
+
+    .landing-footer {
+        @apply bg-surface-container-low pt-24 pb-12 border-t border-outline-variant/15;
+    }
+}

@@ -10,7 +10,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         @foreach($plans as $plan)
-            <div class="bg-surface-container-lowest p-8 rounded-[2.5rem] border border-outline-variant/15 premium-shadow flex flex-col justify-between h-full group {{ !$plan->is_active ? 'opacity-60' : '' }}">
+            <div class="bg-surface-container-lowest p-8 rounded-[2.5rem] border border-outline-variant/15 shadow-xl flex flex-col justify-between h-full group {{ !$plan->is_active ? 'opacity-60' : '' }}">
                 <div>
                     <div class="flex items-center justify-between mb-4">
                         <span class="badge {{ $plan->price_monthly == 0 ? 'badge-ghost' : 'badge-primary' }} text-[9px] font-black uppercase tracking-widest px-2 py-1">

@@ -21,6 +21,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'module.access' => CheckModuleAccess::class,
             'super_admin' => CheckSuperAdmin::class,
         ]);
+
+        $middleware->redirectGuestsTo(function ($request) {
+            if (tenant()) {
+                return route('tenant.login');
+            }
+            return route('login');
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -3,6 +3,7 @@
 namespace App\Modules\HR\Controllers;
 
 use App\Core\BaseController;
+use App\Modules\HR\Models\Department;
 use App\Modules\HR\Services\EmployeeService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -29,8 +30,8 @@ class EmployeeController extends BaseController
      */
     public function create()
     {
-        // For now, simple view. In a full implementation, we'd pass departments/designations
-        return view('modules.hr.employees.create');
+        $departments = Department::all();
+        return view('modules.hr.employees.create', compact('departments'));
     }
 
     /**
@@ -63,6 +64,9 @@ class EmployeeController extends BaseController
     public function show($id)
     {
         $employee = $this->employeeService->findOrFail($id);
+        
+        // Eager load relationships if needed, or fetch related data
+        $employee->load(['department', 'appraisals', 'goals']);
 
         return view('modules.hr.employees.show', compact('employee'));
     }
@@ -73,8 +77,9 @@ class EmployeeController extends BaseController
     public function edit($id)
     {
         $employee = $this->employeeService->findOrFail($id);
+        $departments = Department::all();
 
-        return view('modules.hr.employees.edit', compact('employee'));
+        return view('modules.hr.employees.edit', compact('employee', 'departments'));
     }
 
     /**

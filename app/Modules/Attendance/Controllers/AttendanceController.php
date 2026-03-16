@@ -48,4 +48,14 @@ class AttendanceController extends BaseController
         return redirect()->route('attendance.index')
             ->with('success', 'Check-in recorded successfully.');
     }
+
+    /**
+     * Display a single attendance log.
+     */
+    public function show(string $id)
+    {
+        $log = \App\Modules\Attendance\Models\AttendanceLog::with('employee')->findOrFail($id);
+
+        return view('modules.attendance.show', compact('log'));
+    }
 }

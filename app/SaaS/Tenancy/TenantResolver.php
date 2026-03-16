@@ -35,13 +35,17 @@ class TenantResolver
             return $tenant;
         }
 
-        // 3. Resolve by Subdomain (Slug)
-        // Extract the first part of the domain (e.g., 'company1' from 'company1.hrms.com')
+        // 3. Resolve by Stancl Domains Table
+        $domainRecord = \Stancl\Tenancy\Database\Models\Domain::where('domain', $host)->first();
+        if ($domainRecord) {
+            return $domainRecord->tenant;
+        }
+
+        // 4. Resolve by Subdomain (Slug)
         $parts = explode('.', $host);
         if (count($parts) >= 2) {
             $subdomain = $parts[0];
 
-            // Exclude 'www' or any other specific non-tenant subdomains if needed
             if (in_array($subdomain, ['www', 'app', 'admin'])) {
                 return null;
             }

@@ -27,6 +27,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
             'plan_id',
             'status',
             'email',
+            'contact_no',
         ];
     }
 }

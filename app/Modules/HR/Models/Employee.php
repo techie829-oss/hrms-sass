@@ -46,6 +46,16 @@ class Employee extends Model
         return $this->belongsTo(Department::class);
     }
 
+    public function appraisals()
+    {
+        return $this->hasMany(\App\Modules\Performance\Models\Appraisal::class);
+    }
+
+    public function goals()
+    {
+        return $this->hasMany(\App\Modules\Performance\Models\Goal::class);
+    }
+
     public function getFullNameAttribute(): string
     {
         return "{$this->first_name} {$this->last_name}";

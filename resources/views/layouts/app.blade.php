@@ -20,9 +20,9 @@
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-surface-container-lowest border-b border-outline-variant/15 premium-shadow">
-                    <div class="max-w-7xl mx-auto py-8 px-6">
-                        <div class="text-3xl font-extrabold font-headline tracking-tight text-on-surface">
+                <header class="bg-surface-container-lowest border-b border-outline-variant/10">
+                    <div class="max-w-7xl mx-auto py-5 px-6">
+                        <div class="text-xl font-bold text-on-surface">
                             {{ $header }}
                         </div>
                     </div>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-abstract class BaseRepository
+abstract class BaseRepository implements BaseRepositoryInterface
 {
     /**
      * The model instance.

@@ -1,8 +1,18 @@
 <?php
 
+use App\Modules\Payroll\Controllers\PayrollController;
+use App\Modules\Payroll\Controllers\SalaryComponentController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('payroll')->name('payroll.')->middleware(['auth'])->group(function () {
-    // Route::resource('payslips', PayslipController::class);
-    // Route::post('generate/{month}', [PayrollController::class, 'generate'])->name('generate');
+Route::name('payroll.')->middleware(['auth'])->group(function () {
+    Route::get('/', [PayrollController::class, 'index'])->name('index');
+    Route::get('/create', [PayrollController::class, 'create'])->name('create');
+    Route::post('/', [PayrollController::class, 'store'])->name('store');
+    Route::get('/{run}', [PayrollController::class, 'show'])->name('show');
+    Route::post('/{run}/generate', [PayrollController::class, 'generate'])->name('generate');
+
+    Route::prefix('settings')->group(function () {
+        Route::get('components', [SalaryComponentController::class, 'index'])->name('components.index');
+        Route::post('components', [SalaryComponentController::class, 'store'])->name('components.store');
+    });
 });

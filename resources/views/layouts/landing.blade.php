@@ -14,11 +14,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
     <!-- Scripts & Styles -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/landing.css', 'resources/js/app.js'])
 </head>
 <body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
     <!-- TopNavBar -->
-    <nav class="sticky top-0 z-50 glass-nav border-b border-outline-variant/15">
+    <nav class="landing-nav">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-12">
                 <a href="/" class="text-2xl font-extrabold tracking-tight font-headline text-primary">
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="flex items-center gap-4">
-                <a href="/contact" class="px-6 py-2.5 text-sm font-bold bg-primary text-on-primary rounded-xl hover:opacity-90 transition-all premium-shadow primary-gradient">Book a Demo</a>
+                <a href="/contact" class="px-6 py-2.5 text-sm font-bold text-on-primary rounded-xl hover:opacity-90 transition-all shadow-xl bg-gradient-to-br from-primary to-tertiary">Book a Demo</a>
             </div>
         </div>
     </nav>
@@ -43,7 +43,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-surface-container-low pt-24 pb-12 border-t border-outline-variant/15">
+    <footer class="landing-footer">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-20">
                 <div class="md:col-span-4">

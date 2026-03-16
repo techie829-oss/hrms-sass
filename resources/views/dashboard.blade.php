@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <span>{{ __('Dashboard Overview') }}</span>
+            <h2 class="text-xl font-bold text-on-surface">Dashboard</h2>
             <div class="flex gap-2">
-                <button class="btn btn-sm btn-ghost border-outline-variant/20 rounded-lg font-bold text-[10px] uppercase tracking-widest">
-                    <span class="material-symbols-outlined text-sm">calendar_today</span> Mar 2026
+                <button class="btn btn-sm btn-ghost border-outline-variant/10 rounded-lg font-bold text-[10px] uppercase tracking-wider">
+                    <span class="material-symbols-outlined text-sm">calendar_today</span> {{ now()->format('M Y') }}
                 </button>
-                <button class="btn btn-sm btn-primary primary-gradient rounded-lg font-bold text-[10px] uppercase tracking-widest border-none shadow-sm">
+                <button class="btn btn-sm btn-primary border-none rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">
                     <span class="material-symbols-outlined text-sm">download</span> Export
                 </button>
             </div>
@@ -16,66 +16,74 @@
     <div class="space-y-6">
         <!-- Compact Stats Row -->
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            <div class="bg-surface-container-lowest p-4 rounded-2xl border border-outline-variant/10 premium-shadow group hover:border-primary/30 transition-all">
+            @if($hasHr)
+            <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Workforce</span>
-                    <span class="material-symbols-outlined text-primary text-lg">groups</span>
+                    <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Workforce</span>
+                    <span class="material-symbols-outlined text-primary text-base">groups</span>
                 </div>
-                <div class="text-2xl font-black font-headline">1,240</div>
+                <div class="text-2xl font-bold text-on-surface">{{ number_format($totalEmployees) }}</div>
                 <div class="text-[9px] font-bold text-success mt-1 flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[10px]">trending_up</span> 14%
+                    <span class="material-symbols-outlined text-[10px]">person</span> {{ number_format($activeEmployees) }} Active
                 </div>
             </div>
+            @endif
             
-            <div class="bg-surface-container-lowest p-4 rounded-2xl border border-outline-variant/10 premium-shadow group hover:border-secondary/30 transition-all">
+            @if($hasAttendance)
+            <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Attendance</span>
-                    <span class="material-symbols-outlined text-secondary text-lg">event_available</span>
+                    <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Attendance</span>
+                    <span class="material-symbols-outlined text-secondary text-base">event_available</span>
                 </div>
-                <div class="text-2xl font-black font-headline">94.2%</div>
-                <div class="text-[9px] font-bold text-success mt-1 flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[10px]">trending_up</span> 2%
-                </div>
+                <div class="text-2xl font-bold text-on-surface">{{ $attendanceRate }}%</div>
+                <div class="text-[9px] font-bold text-on-surface-variant mt-1 italic opacity-70">Today's rate</div>
             </div>
+            @endif
 
-            <div class="bg-surface-container-lowest p-4 rounded-2xl border border-outline-variant/10 premium-shadow group hover:border-tertiary/30 transition-all">
+            @if($hasLeave)
+            <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Pending Leaves</span>
-                    <span class="material-symbols-outlined text-tertiary text-lg">pending_actions</span>
+                    <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Pending Leaves</span>
+                    <span class="material-symbols-outlined text-tertiary text-base">pending_actions</span>
                 </div>
-                <div class="text-2xl font-black font-headline text-tertiary">12</div>
-                <div class="text-[9px] font-bold text-on-surface-variant mt-1 italic">Awaiting approval</div>
+                <div class="text-2xl font-bold text-tertiary">{{ number_format($pendingLeaves) }}</div>
+                <div class="text-[9px] font-bold text-on-surface-variant mt-1 italic opacity-70">Awaiting approval</div>
             </div>
+            @endif
 
-            <div class="bg-surface-container-lowest p-4 rounded-2xl border border-outline-variant/10 premium-shadow group hover:border-primary/30 transition-all">
+            @if($hasPayroll)
+            <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[10px] font-black uppercase tracking-[0.15em] text-on-surface-variant">Payroll Status</span>
-                    <span class="material-symbols-outlined text-primary text-lg">payments</span>
+                    <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Payroll Disbursed</span>
+                    <span class="material-symbols-outlined text-primary text-base">payments</span>
                 </div>
-                <div class="text-2xl font-black font-headline">₹4.2M</div>
-                <div class="badge badge-success badge-outline text-[8px] font-black uppercase h-4 py-0">Disbursed</div>
+                <div class="text-2xl font-bold text-on-surface">₹{{ number_format($payrollDisbursed) }}</div>
+                <div class="badge badge-success badge-outline text-[8px] font-bold uppercase h-4 py-0">This Month</div>
             </div>
+            @endif
 
-            <div class="hidden lg:block bg-inverse-surface p-4 rounded-2xl premium-shadow primary-gradient relative overflow-hidden group">
+            <div class="hidden lg:block bg-primary p-5 rounded-xl shadow-sm relative overflow-hidden transition-all">
                 <div class="relative z-10">
-                    <span class="text-[10px] font-black uppercase tracking-[0.15em] text-white/70">System Health</span>
-                    <div class="text-2xl font-black font-headline text-white">99.9%</div>
-                    <div class="w-full bg-white/20 h-1 rounded-full mt-2">
+                    <span class="text-[9px] font-bold uppercase tracking-wider text-white/80">System Health</span>
+                    <div class="text-2xl font-bold text-white">99.9%</div>
+                    <div class="w-full bg-white/20 h-1.5 rounded-full mt-2 overflow-hidden">
                         <div class="bg-white h-full rounded-full" style="width: 99%"></div>
                     </div>
                 </div>
-                <span class="material-symbols-outlined absolute -right-4 -bottom-4 text-6xl opacity-10 text-white">bolt</span>
+                <span class="material-symbols-outlined absolute -right-3 -bottom-3 text-5xl opacity-10 text-white">bolt</span>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <!-- Left Side: Main Tables and Charts (Dense) -->
+            <!-- Left Side: Main Tables and Charts -->
             <div class="lg:col-span-8 space-y-6">
                 <!-- Employee Overview Table -->
-                <div class="bg-surface-container-lowest rounded-3xl border border-outline-variant/15 premium-shadow overflow-hidden">
-                    <div class="p-5 border-b border-outline-variant/10 flex items-center justify-between">
-                        <h3 class="font-black font-headline text-sm uppercase tracking-widest">Active Directory</h3>
-                        <a href="#" class="text-[10px] font-black text-primary hover:underline uppercase tracking-tighter">Manage All</a>
+                <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm overflow-hidden">
+                    <div class="p-4 border-b border-outline-variant/5 flex items-center justify-between">
+                        <h3 class="font-bold text-xs uppercase tracking-wider text-on-surface">Employee Directory</h3>
+                        @if($hasHr)
+                        <a href="{{ route('hr.employees.index') }}" class="text-[9px] font-bold text-primary hover:underline uppercase tracking-wider">View All</a>
+                        @endif
                     </div>
                     <div class="overflow-x-auto">
                         <table class="table table-xs table-zebra w-full">
@@ -89,92 +97,64 @@
                                 </tr>
                             </thead>
                             <tbody class="font-medium text-[11px]">
+                                @forelse($recentEmployees as $employee)
                                 <tr class="hover:bg-primary/5 transition-colors border-b border-outline-variant/5">
                                     <td class="py-3 px-5">
                                         <div class="flex items-center gap-3">
                                             <div class="avatar placeholder">
-                                                <div class="bg-primary/10 text-primary rounded-lg w-8 h-8 font-black text-[10px]">SC</div>
+                                                <div class="bg-primary/10 text-primary rounded-lg w-8 h-8 font-bold text-[9px]">{{ substr($employee->first_name, 0, 1) }}{{ substr($employee->last_name, 0, 1) }}</div>
                                             </div>
                                             <div>
-                                                <div class="font-black text-on-surface">Sarah Chen</div>
-                                                <div class="text-[9px] opacity-60">sarah.c@company.com</div>
+                                                <div class="font-bold text-on-surface">{{ $employee->first_name }} {{ $employee->last_name }}</div>
+                                                <div class="text-[9px] opacity-60">{{ $employee->email }}</div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>Engineering</td>
-                                    <td>Lead Architect</td>
-                                    <td><span class="badge badge-success badge-sm text-[8px] font-black text-white">ACTIVE</span></td>
+                                    <td>{{ $employee->department ? $employee->department->name : 'N/A' }}</td>
+                                    <td>{{ $employee->designation ? $employee->designation->name : 'N/A' }}</td>
+                                    <td>
+                                        @if($employee->status === 'active')
+                                            <span class="badge badge-success badge-sm text-[8px] font-bold text-white px-2 py-0.5">ACTIVE</span>
+                                        @else
+                                            <span class="badge badge-neutral badge-sm text-[8px] font-bold text-white px-2 py-0.5">{{ strtoupper($employee->status) }}</span>
+                                        @endif
+                                    </td>
                                     <td class="text-right pr-5">
-                                        <button class="btn btn-ghost btn-xs rounded-md"><span class="material-symbols-outlined text-sm">edit</span></button>
+                                        <a href="{{ route('hr.employees.show', $employee->id) }}" class="btn btn-ghost btn-xs rounded-md"><span class="material-symbols-outlined text-sm">visibility</span></a>
                                     </td>
                                 </tr>
-                                <tr class="hover:bg-primary/5 transition-colors border-b border-outline-variant/5">
-                                    <td class="py-3 px-5">
-                                        <div class="flex items-center gap-3">
-                                            <div class="avatar placeholder">
-                                                <div class="bg-secondary/10 text-secondary rounded-lg w-8 h-8 font-black text-[10px]">MV</div>
-                                            </div>
-                                            <div>
-                                                <div class="font-black text-on-surface">Marcus Vance</div>
-                                                <div class="text-[9px] opacity-60">m.vance@company.com</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Operations</td>
-                                    <td>Manager</td>
-                                    <td><span class="badge badge-warning badge-sm text-[8px] font-black text-white">ON LEAVE</span></td>
-                                    <td class="text-right pr-5">
-                                        <button class="btn btn-ghost btn-xs rounded-md"><span class="material-symbols-outlined text-sm">edit</span></button>
-                                    </td>
+                                @empty
+                                <tr>
+                                    <td colspan="5" class="py-8 text-center text-on-surface-variant opacity-70 italic text-[11px]">No employees found.</td>
                                 </tr>
-                                <tr class="hover:bg-primary/5 transition-colors">
-                                    <td class="py-3 px-5">
-                                        <div class="flex items-center gap-3">
-                                            <div class="avatar placeholder">
-                                                <div class="bg-tertiary/10 text-tertiary rounded-lg w-8 h-8 font-black text-[10px]">JR</div>
-                                            </div>
-                                            <div>
-                                                <div class="font-black text-on-surface">Julian Rodriguez</div>
-                                                <div class="text-[9px] opacity-60">j.rod@company.com</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Marketing</td>
-                                    <td>Sr. Designer</td>
-                                    <td><span class="badge badge-success badge-sm text-[8px] font-black text-white">ACTIVE</span></td>
-                                    <td class="text-right pr-5">
-                                        <button class="btn btn-ghost btn-xs rounded-md"><span class="material-symbols-outlined text-sm">edit</span></button>
-                                    </td>
-                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-surface-container-low p-6 rounded-[2rem] border border-outline-variant/10 premium-shadow">
-                        <h4 class="text-[10px] font-black uppercase tracking-[0.2em] mb-6 text-on-surface-variant">Department Distribution</h4>
-                        <div class="space-y-4">
+                    <div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10 shadow-sm">
+                        <h4 class="text-[9px] font-bold uppercase tracking-wider mb-6 text-on-surface-variant">Department Distribution</h4>
+                        <div class="space-y-5">
+                            @php $colors = ['primary', 'secondary', 'tertiary', 'info']; $colorIndex = 0; @endphp
+                            @forelse($departmentDistribution as $dept)
                             <div>
-                                <div class="flex justify-between text-[10px] font-black mb-1"><span>ENGINEERING</span><span>45%</span></div>
-                                <progress class="progress progress-primary h-1.5" value="45" max="100"></progress>
+                                <div class="flex justify-between text-[9px] font-bold mb-1.5 uppercase"><span>{{ $dept['name'] }}</span><span>{{ $dept['percentage'] }}%</span></div>
+                                <progress class="progress progress-{{ $colors[$colorIndex % count($colors)] }} h-1.5" value="{{ $dept['percentage'] }}" max="100"></progress>
                             </div>
-                            <div>
-                                <div class="flex justify-between text-[10px] font-black mb-1"><span>OPERATIONS</span><span>25%</span></div>
-                                <progress class="progress progress-secondary h-1.5" value="25" max="100"></progress>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-[10px] font-black mb-1"><span>SALES</span><span>30%</span></div>
-                                <progress class="progress progress-tertiary h-1.5" value="30" max="100"></progress>
-                            </div>
+                            @php $colorIndex++; @endphp
+                            @empty
+                            <p class="text-[10px] text-center text-on-surface-variant italic">No data</p>
+                            @endforelse
                         </div>
                     </div>
-                    <div class="bg-surface-container-lowest p-6 rounded-[2rem] border border-outline-variant/10 premium-shadow flex flex-col justify-center items-center text-center">
-                        <div class="radial-progress text-primary mb-4" style="--value:82; --size:5rem; --thickness: 4px;" role="progressbar">
-                            <span class="text-[10px] font-black">82%</span>
+                    <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col justify-center items-center text-center">
+                        <div class="radial-progress text-primary mb-4" style="--value:82; --size:4.5rem; --thickness: 4px;" role="progressbar">
+                            <span class="text-[10px] font-bold">82%</span>
                         </div>
-                        <h4 class="text-[10px] font-black uppercase tracking-widest text-on-surface">Target Met</h4>
-                        <p class="text-[9px] text-on-surface-variant font-medium mt-1">Quarterly productivity alignment</p>
+                        <h4 class="text-[10px] font-bold uppercase tracking-wider text-on-surface">Target Progress</h4>
+                        <p class="text-[9px] text-on-surface-variant font-medium mt-1">Productivity alignment status</p>
                     </div>
                 </div>
             </div>
@@ -182,29 +162,34 @@
             <!-- Right Side: Activity and Tasks (Dense Sidebar) -->
             <div class="lg:col-span-4 space-y-6">
                 <!-- Task List -->
-                <div class="bg-surface-container-lowest p-6 rounded-[2rem] border border-outline-variant/15 premium-shadow">
-                    <h4 class="text-[10px] font-black uppercase tracking-[0.2em] mb-6 text-on-surface-variant">Critical Tasks</h4>
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl group hover:bg-white transition-all cursor-pointer">
-                            <input type="checkbox" class="checkbox checkbox-xs checkbox-primary rounded-md" />
-                            <span class="text-[11px] font-black text-on-surface line-through decoration-primary/30">Verify payroll logs</span>
+                <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm">
+                    <div class="flex justify-between items-center mb-6">
+                        <h4 class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Pending Tasks</h4>
+                        @if($hasLeave)
+                        <a href="{{ route('leave.requests.index') }}" class="text-[9px] font-bold text-primary hover:underline uppercase tracking-wider">View All</a>
+                        @endif
+                    </div>
+                    <div class="space-y-2.5">
+                        @forelse($pendingTasks ?? [] as $task)
+                        <div class="flex items-center gap-3 p-3 bg-surface-container-low/40 rounded-lg hover:bg-surface-container-low transition-all cursor-pointer {{ $task['urgent'] ? 'border border-error/20 bg-error/5' : '' }}">
+                            <input type="checkbox" class="checkbox checkbox-xs checkbox-primary rounded-md" {{ $task['is_completed'] ? 'checked' : '' }} />
+                            <div class="flex flex-col gap-0.5">
+                                <span class="text-[11px] font-bold {{ $task['is_completed'] ? 'text-on-surface line-through opacity-40' : 'text-on-surface' }}">{{ $task['title'] }}</span>
+                                @if($task['urgent'] && !$task['is_completed'])
+                                <span class="text-[8px] text-error font-bold uppercase tracking-tighter">Urgent Action</span>
+                                @endif
+                            </div>
                         </div>
-                        <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl group hover:bg-white transition-all cursor-pointer">
-                            <input type="checkbox" class="checkbox checkbox-xs checkbox-primary rounded-md" />
-                            <span class="text-[11px] font-black text-on-surface">Approve Sarah's Leave</span>
-                            <span class="badge badge-xs badge-error text-white font-black text-[7px] ml-auto">URGENT</span>
-                        </div>
-                        <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl group hover:bg-white transition-all cursor-pointer">
-                            <input type="checkbox" class="checkbox checkbox-xs checkbox-primary rounded-md" />
-                            <span class="text-[11px] font-black text-on-surface">Compliance audit</span>
-                        </div>
+                        @empty
+                        <p class="text-[10px] text-center text-on-surface-variant italic py-2">No pending tasks right now.</p>
+                        @endforelse
                     </div>
                 </div>
 
                 <!-- Recent Activity Feed -->
-                <div class="bg-surface-container-lowest p-6 rounded-[2rem] border border-outline-variant/15 premium-shadow">
-                    <h4 class="text-[10px] font-black uppercase tracking-[0.2em] mb-6 text-on-surface-variant">Live Feed</h4>
-                    <div class="space-y-6 relative before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-[1px] before:bg-outline-variant/20">
+                <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm">
+                    <h4 class="text-[9px] font-bold uppercase tracking-wider mb-6 text-on-surface-variant">System Activity</h4>
+                    <div class="space-y-5 relative before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-[1px] before:bg-outline-variant/10">
                         @forelse($recentActivities as $activity)
                         <div class="flex gap-4 relative">
                             @php
@@ -212,15 +197,15 @@
                                 if($activity['type'] === 'deleted') $dotColor = 'bg-error';
                                 if($activity['type'] === 'updated') $dotColor = 'bg-secondary';
                             @endphp
-                            <div class="w-4 h-4 rounded-full {{ $dotColor }} border-4 border-white premium-shadow z-10 mt-1"></div>
+                            <div class="w-3.5 h-3.5 rounded-full {{ $dotColor }} border-[3px] border-white shadow-sm z-10 mt-0.5"></div>
                             <div>
-                                <p class="text-[11px] font-black text-on-surface capitalize">{{ $activity['description'] }}</p>
-                                <p class="text-[10px] text-on-surface-variant font-medium">{{ $activity['subject_name'] }} by {{ $activity['causer_name'] }}</p>
-                                <p class="text-[8px] text-outline font-black uppercase mt-1">{{ $activity['time_ago'] }}</p>
+                                <p class="text-[11px] font-bold text-on-surface leading-tight capitalize">{{ $activity['description'] }}</p>
+                                <p class="text-[9px] text-on-surface-variant font-medium mt-0.5">{{ $activity['subject_name'] }} <span class="opacity-50">by</span> {{ $activity['causer_name'] }}</p>
+                                <p class="text-[8px] text-outline font-bold uppercase mt-1 tracking-wider">{{ $activity['time_ago'] }}</p>
                             </div>
                         </div>
                         @empty
-                        <p class="text-[10px] text-center text-on-surface-variant py-10 italic">No recent activity curated.</p>
+                        <p class="text-[10px] text-center text-on-surface-variant py-8 italic">No recent activity found.</p>
                         @endforelse
                     </div>
                 </div>

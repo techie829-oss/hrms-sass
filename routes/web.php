@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 // 1. Landing Site Routes (hrms.com / hrms.test)
 $centralHost = parse_url(config('app.url'), PHP_URL_HOST) ?? config('app.url');
+
 Route::domain($centralHost)->group(function () {
     Route::get('/', function () {
         return view('welcome');
@@ -27,10 +28,15 @@ Route::domain($centralHost)->group(function () {
     Route::get('/contact', function () {
         return view('contact');
     });
+
+    // 3. Fallback for Central Dashboard
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
 });
 
 // 2. Super Admin Routes (app.hrms.com / app.hrms.test)
-Route::domain('app.'.config('app.url', 'hrms.com'))->group(function () {
+Route::domain('app.' . $centralHost)->group(function () {
     Route::get('/', function () {
         return redirect('/login');
     });
@@ -62,7 +68,3 @@ Route::domain('app.'.config('app.url', 'hrms.com'))->group(function () {
     require __DIR__.'/auth.php';
 });
 
-// 3. Fallback for Localhost / Development
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');

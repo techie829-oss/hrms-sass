@@ -20,7 +20,7 @@ class TenantManager
     /**
      * Provision a new tenant.
      *
-     * @param  array  $data  [id, name, email, domain, mode, plan_id]
+     * @param  array  $data  [id, name, email, domain, mode, plan_id, contact_no]
      */
     public function provision(array $data): Tenant
     {
@@ -29,6 +29,7 @@ class TenantManager
             'id' => $data['id'] ?? Str::slug($data['name']),
             'name' => $data['name'],
             'email' => $data['email'],
+            'contact_no' => $data['contact_no'] ?? null,
             'slug' => $data['id'] ?? Str::slug($data['name']),
             'mode' => $data['mode'] ?? 'shared',
             'schema' => ($data['mode'] === 'dedicated') ? 'tenant_'.($data['id'] ?? Str::slug($data['name'])) : 'shared',

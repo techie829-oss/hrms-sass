@@ -1,0 +1,15 @@
+
+> build
+> vite build
+
+vite v7.3.1 building client environment for production...
+transforming...
+/*! 🌼 daisyUI 5.5.19 */
+✓ 55 modules transformed.
+rendering chunks...
+computing gzip size...
+public/build/manifest.json                  0.54 kB │ gzip:  0.20 kB
+public/build/assets/landing-rhfrmtcq.css   75.48 kB │ gzip: 11.57 kB
+public/build/assets/app-pC7T6czo.css      130.42 kB │ gzip: 20.12 kB
+public/build/assets/app-BIJoUbyE.js        83.51 kB │ gzip: 31.00 kB
+✓ built in 667ms

@@ -15,7 +15,7 @@
         <form action="{{ route('admin.roles.store') }}" method="POST" class="space-y-8">
             @csrf
             
-            <div class="bg-surface-container-lowest p-8 md:p-12 rounded-[3rem] premium-shadow border border-outline-variant/15 space-y-8">
+            <div class="bg-surface-container-lowest p-8 md:p-12 rounded-[3rem] shadow-xl border border-outline-variant/15 space-y-8">
                 <div class="space-y-2">
                     <x-input-label for="name" :value="__('Role Name (e.g. system_auditor)')" />
                     <x-text-input id="name" name="name" type="text" class="block w-full" required placeholder="system_auditor" />
@@ -44,7 +44,7 @@
 
                 <div class="flex justify-end gap-4 pt-8">
                     <a href="{{ route('admin.roles.index') }}" class="btn btn-ghost rounded-xl font-bold uppercase tracking-widest text-xs px-8">Cancel</a>
-                    <button type="submit" class="btn btn-primary primary-gradient border-none rounded-xl font-black uppercase tracking-[0.2em] text-xs px-10 shadow-lg">
+                    <button type="submit" class="btn btn-primary bg-gradient-to-br from-primary to-tertiary border-none rounded-xl font-black uppercase tracking-[0.2em] text-xs px-10 shadow-lg">
                         Create Role
                     </button>
                 </div>

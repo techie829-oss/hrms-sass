@@ -1,35 +1,59 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "./theme.css";
+@plugin "daisyui";
 
 @layer components {
-    .glass-nav {
-        background: rgba(216, 218, 255, 0.6);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+    /* 
+    |--------------------------------------------------------------------------
+    | CRM Core Component Patterns
+    |--------------------------------------------------------------------------
+    */
+
+    .card-crm {
+        @apply bg-surface-container-lowest border border-outline-variant/10 rounded-xl shadow-sm overflow-hidden;
     }
-    .bg-glass {
-        background: rgba(213, 227, 255, 0.7);
-        backdrop-filter: blur(12px);
+
+    .card-crm-header {
+        @apply p-4 border-b border-outline-variant/10 flex items-center justify-between bg-surface-container-lowest;
     }
-    .premium-shadow {
-        box-shadow: 0 20px 40px rgba(39, 44, 81, 0.08);
+
+    .card-crm-body {
+        @apply p-6;
     }
-    .shadow-deep-breath {
-        box-shadow: 0 24px 48px -12px rgba(13, 28, 48, 0.08);
+
+    .table-crm {
+        @apply table table-sm table-zebra w-full;
     }
-    .text-gradient {
-        background: linear-gradient(135deg, #0053cd 0%, #8c3a8c 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+
+    .table-crm thead th {
+        @apply text-[10px] font-bold uppercase tracking-wider text-on-surface-variant bg-surface-container-low/50 py-3 px-4;
     }
-    .primary-gradient {
-        background: linear-gradient(135deg, #0053cd 0%, #8c3a8c 100%);
+
+    .table-crm tbody td {
+        @apply py-3 px-4 text-sm align-middle;
     }
-    .bg-hero-gradient {
-        background: radial-gradient(circle at top right, #e6e6ff 0%, #f8f5ff 100%);
+
+    .stat-crm {
+        @apply stat bg-surface-container-lowest border border-outline-variant/10 rounded-xl p-4 md:p-6;
     }
-    .ghost-border {
-        outline: 1px solid rgba(195, 198, 214, 0.15);
+
+    .stat-value-crm {
+        @apply text-2xl md:text-3xl font-bold font-headline text-on-surface;
+    }
+
+    .stat-title-crm {
+        @apply text-[10px] md:text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label;
+    }
+
+    .label-crm {
+        @apply label p-0 mb-1.5;
+    }
+
+    .label-text-crm {
+        @apply text-[10px] font-bold uppercase tracking-wider text-on-surface-variant font-label;
+    }
+
+    .input-crm {
+        @apply input input-sm rounded-lg w-full bg-surface-container-lowest/50 focus:bg-white;
     }
 }

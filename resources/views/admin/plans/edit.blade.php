@@ -12,7 +12,7 @@
     </x-slot>
 
     <div class="max-w-3xl mx-auto">
-        <form action="{{ route('admin.plans.update', $plan->id) }}" method="POST" class="bg-surface-container-lowest p-8 md:p-12 rounded-[3rem] premium-shadow border border-outline-variant/15 space-y-8">
+        <form action="{{ route('admin.plans.update', $plan->id) }}" method="POST" class="bg-surface-container-lowest p-8 md:p-12 rounded-[3rem] shadow-xl border border-outline-variant/15 space-y-8">
             @csrf
             @method('PUT')
 
@@ -60,7 +60,7 @@
 
             <div class="flex justify-end gap-4 pt-6 border-t border-outline-variant/10">
                 <a href="{{ route('admin.plans.index') }}" class="btn btn-ghost rounded-xl font-bold uppercase tracking-widest text-xs px-8">Cancel</a>
-                <button type="submit" class="btn btn-primary primary-gradient border-none rounded-xl font-bold uppercase tracking-widest text-xs px-8 shadow-lg">
+                <button type="submit" class="btn btn-primary bg-gradient-to-br from-primary to-tertiary border-none rounded-xl font-bold uppercase tracking-widest text-xs px-8 shadow-lg">
                     Save Changes
                 </button>
             </div>

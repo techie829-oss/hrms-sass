@@ -1,103 +1,122 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center gap-4">
-            <a href="{{ route('hr.employees.index') }}" class="btn btn-ghost btn-sm btn-square rounded-xl">
-                <span class="material-symbols-outlined">arrow_back</span>
-            </a>
+        <div class="flex items-center justify-between">
             <div>
-                <h2 class="text-3xl font-black font-headline tracking-tight text-on-surface uppercase">Onboard Architect</h2>
-                <p class="text-sm text-on-surface-variant font-medium">Curate a new member into your organizational sanctuary.</p>
+                <h2 class="text-2xl font-bold">Add New Employee</h2>
+                <p class="text-sm opacity-70 mt-1">Register a new member in the organizational system.</p>
             </div>
+            <a href="{{ route('hr.employees.index') }}" class="btn btn-ghost btn-sm">
+                <span class="material-symbols-outlined">arrow_back</span> Back
+            </a>
         </div>
     </x-slot>
 
-    <div class="max-w-4xl mx-auto">
-        <form action="{{ route('hr.employees.store') }}" method="POST" class="space-y-8">
+    <div class="max-w-5xl mx-auto py-6">
+        <form action="{{ route('hr.employees.store') }}" method="POST" class="space-y-6">
             @csrf
             
             <!-- Personal Section -->
-            <div class="bg-surface-container-lowest p-8 md:p-12 rounded-[3rem] premium-shadow border border-outline-variant/15 space-y-10">
-                <div class="flex items-center gap-4 border-b border-outline-variant/10 pb-6">
-                    <span class="material-symbols-outlined text-primary text-3xl">person</span>
-                    <h3 class="font-black font-headline text-xl uppercase tracking-widest text-on-surface">Personal Intelligence</h3>
-                </div>
+            <div class="card bg-base-100 shadow-sm border border-base-200">
+                <div class="card-body">
+                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+                        <span class="material-symbols-outlined text-primary">person</span>
+                        Personal Information
+                    </h3>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-2">
-                        <x-input-label for="first_name" :value="__('First Name')" />
-                        <x-text-input id="first_name" name="first_name" class="block w-full" type="text" required placeholder="Julian" />
-                        <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
-                    </div>
-                    <div class="space-y-2">
-                        <x-input-label for="last_name" :value="__('Last Name')" />
-                        <x-text-input id="last_name" name="last_name" class="block w-full" type="text" required placeholder="Sterling" />
-                        <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
-                    </div>
-                </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">First Name <span class="text-error">*</span></span></div>
+                            <input type="text" name="first_name" required value="{{ old('first_name') }}" class="input input-bordered w-full" placeholder="John" />
+                            @error('first_name') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-2">
-                        <x-input-label for="email" :value="__('Professional Email')" />
-                        <x-text-input id="email" name="email" class="block w-full" type="email" required placeholder="julian@company.com" />
-                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Last Name <span class="text-error">*</span></span></div>
+                            <input type="text" name="last_name" required value="{{ old('last_name') }}" class="input input-bordered w-full" placeholder="Doe" />
+                            @error('last_name') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
                     </div>
-                    <div class="space-y-2">
-                        <x-input-label for="employee_id" :value="__('Unique Identifier (ID)')" />
-                        <x-text-input id="employee_id" name="employee_id" class="block w-full uppercase" type="text" required placeholder="EMP-001" />
-                        <x-input-error :messages="$errors->get('employee_id')" class="mt-2" />
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Email Address <span class="text-error">*</span></span></div>
+                            <input type="email" name="email" required value="{{ old('email') }}" class="input input-bordered w-full" placeholder="john@company.com" />
+                            @error('email') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Employee ID <span class="text-error">*</span></span></div>
+                            <input type="text" name="employee_id" required value="{{ old('employee_id') }}" class="input input-bordered w-full uppercase" placeholder="EMP-001" />
+                            @error('employee_id') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
                     </div>
                 </div>
             </div>
 
             <!-- Employment Section -->
-            <div class="bg-surface-container-low p-8 md:p-12 rounded-[3rem] premium-shadow border border-outline-variant/10 space-y-10">
-                <div class="flex items-center gap-4 border-b border-outline-variant/10 pb-6">
-                    <span class="material-symbols-outlined text-secondary text-3xl">work</span>
-                    <h3 class="font-black font-headline text-xl uppercase tracking-widest text-on-surface">Structural Role</h3>
-                </div>
+            <div class="card bg-base-100 shadow-sm border border-base-200">
+                <div class="card-body">
+                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+                        <span class="material-symbols-outlined text-secondary">work</span>
+                        Employment Details
+                    </h3>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-2">
-                        <x-input-label for="date_of_joining" :value="__('Curation Date (Joining)')" />
-                        <x-text-input id="date_of_joining" name="date_of_joining" class="block w-full" type="date" required />
-                        <x-input-error :messages="$errors->get('date_of_joining')" class="mt-2" />
-                    </div>
-                    <div class="space-y-2">
-                        <x-input-label for="employment_type" :value="__('Contract Type')" />
-                        <select id="employment_type" name="employment_type" class="w-full bg-surface-container-lowest border-transparent focus:border-primary focus:ring-0 rounded-xl p-3 text-on-surface transition-all font-medium">
-                            <option value="full_time">Full Time Sanctuary</option>
-                            <option value="part_time">Part Time Engagement</option>
-                            <option value="contract">Project Contractor</option>
-                            <option value="intern">Apprentice / Intern</option>
-                        </select>
-                    </div>
-                </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Joining Date <span class="text-error">*</span></span></div>
+                            <input type="date" name="date_of_joining" required value="{{ old('date_of_joining') }}" class="input input-bordered w-full" />
+                            @error('date_of_joining') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-2">
-                        <x-input-label for="status" :value="__('Initial Status')" />
-                        <select id="status" name="status" class="w-full bg-surface-container-lowest border-transparent focus:border-primary focus:ring-0 rounded-xl p-3 text-on-surface transition-all font-medium">
-                            <option value="active">Active Presence</option>
-                            <option value="on_leave">Sanctuary Absence</option>
-                            <option value="inactive">Inactive Record</option>
-                        </select>
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Department</span></div>
+                            <select name="department_id" class="select select-bordered w-full">
+                                <option disabled selected>Select Department</option>
+                                @foreach($departments as $dept)
+                                    <option value="{{ $dept->id }}" {{ old('department_id') == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('department_id') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Employment Type</span></div>
+                            <select name="employment_type" class="select select-bordered w-full">
+                                <option value="full_time" {{ old('employment_type') == 'full_time' ? 'selected' : '' }}>Full Time</option>
+                                <option value="part_time" {{ old('employment_type') == 'part_time' ? 'selected' : '' }}>Part Time</option>
+                                <option value="contract" {{ old('employment_type') == 'contract' ? 'selected' : '' }}>Contract</option>
+                                <option value="intern" {{ old('employment_type') == 'intern' ? 'selected' : '' }}>Intern</option>
+                            </select>
+                        </label>
                     </div>
-                    <div class="space-y-2">
-                        <x-input-label for="basic_salary" :value="__('Architectural Value (Salary)')" />
-                        <div class="flex items-center">
-                            <span class="bg-surface-container-lowest border-r-0 border border-transparent p-3 rounded-l-xl font-bold text-on-surface-variant">₹</span>
-                            <x-text-input id="basic_salary" name="basic_salary" class="block w-full rounded-l-none" type="number" step="0.01" required placeholder="0.00" />
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Status</span></div>
+                            <select name="status" class="select select-bordered w-full">
+                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                <option value="on_leave" {{ old('status') == 'on_leave' ? 'selected' : '' }}>On Leave</option>
+                                <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                            </select>
+                        </label>
+
+                        <div class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Monthly Basic Salary <span class="text-error">*</span></span></div>
+                            <label class="input input-bordered flex items-center gap-2 w-full">
+                                <span class="opacity-50 font-bold">₹</span>
+                                <input type="number" step="0.01" name="basic_salary" required value="{{ old('basic_salary') }}" class="w-full" placeholder="0.00" />
+                            </label>
+                            @error('basic_salary') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
                         </div>
-                        <x-input-error :messages="$errors->get('basic_salary')" class="mt-2" />
                     </div>
                 </div>
             </div>
 
             <!-- Submit -->
-            <div class="flex justify-end gap-4 pt-6">
-                <a href="{{ route('hr.employees.index') }}" class="btn btn-ghost rounded-2xl font-black uppercase tracking-widest text-xs px-10">Cancel</a>
-                <button type="submit" class="btn btn-primary primary-gradient border-none rounded-2xl font-black uppercase tracking-[0.2em] text-xs h-auto py-5 px-12 shadow-xl hover:scale-105 transition-transform">
-                    Confirm Onboarding
+            <div class="flex justify-end gap-2 mt-8">
+                <a href="{{ route('hr.employees.index') }}" class="btn btn-ghost">Cancel</a>
+                <button type="submit" class="btn btn-primary">
+                    <span class="material-symbols-outlined">save</span> Save Employee
                 </button>
             </div>
         </form>

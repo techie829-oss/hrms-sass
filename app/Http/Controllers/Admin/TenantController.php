@@ -38,6 +38,7 @@ class TenantController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
+            'contact_no' => ['required', 'string', 'max:20'],
             'subdomain' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:tenants,slug'],
             'mode' => ['required', Rule::in(['shared', 'dedicated'])],
             'plan_id' => ['required', 'string'],
@@ -53,6 +54,7 @@ class TenantController extends Controller
             'domain' => $domain,
             'mode' => $validated['mode'],
             'plan_id' => $validated['plan_id'],
+            'contact_no' => $validated['contact_no'],
         ]);
 
         return redirect()->route('admin.tenants.index')

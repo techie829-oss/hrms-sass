@@ -72,7 +72,6 @@ class ModuleServiceProvider extends ServiceProvider
 
         foreach ($modules as $module) {
             $name = basename($module);
-            $this->registerModuleRoutes($name, $module);
             $this->registerModuleViews($name, $module);
         }
     }

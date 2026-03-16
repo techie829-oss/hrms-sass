@@ -14,7 +14,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-body text-on-surface antialiased bg-hero-gradient">
+    <body class="font-body text-on-surface antialiased bg-gradient-to-br from-surface-container-low to-surface">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
             <div class="mb-8">
                 <a href="/" class="text-3xl font-black tracking-tight font-headline text-primary">
@@ -22,7 +22,7 @@
                 </a>
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-10 py-12 bg-surface-container-lowest premium-shadow overflow-hidden rounded-[2rem] border border-outline-variant/15">
+            <div class="w-full sm:max-w-md mt-6 px-10 py-12 bg-surface-container-lowest shadow-xl overflow-hidden rounded-[2rem] border border-outline-variant/15">
                 {{ $slot }}
             </div>
         </div>

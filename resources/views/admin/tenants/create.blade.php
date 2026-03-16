@@ -16,7 +16,7 @@
             @csrf
             
             <!-- Company Intel -->
-            <div class="bg-surface-container-lowest p-8 md:p-12 rounded-[3rem] premium-shadow border border-outline-variant/15 space-y-10">
+            <div class="bg-surface-container-lowest p-8 md:p-12 rounded-[3rem] shadow-xl border border-outline-variant/15 space-y-10">
                 <div class="flex items-center gap-4 border-b border-outline-variant/10 pb-6">
                     <span class="material-symbols-outlined text-primary text-3xl">corporate_fare</span>
                     <h3 class="font-black font-headline text-xl uppercase tracking-widest text-on-surface">Company Intel</h3>
@@ -33,6 +33,11 @@
                         <x-text-input id="email" name="email" class="block w-full" type="email" required placeholder="admin@lumina.com" />
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
+                    <div class="space-y-2">
+                        <x-input-label for="contact_no" :value="__('Contact Number')" />
+                        <x-text-input id="contact_no" name="contact_no" class="block w-full" type="text" required placeholder="+91 98765-43210" />
+                        <x-input-error :messages="$errors->get('contact_no')" class="mt-2" />
+                    </div>
                 </div>
 
                 <div class="space-y-2">
@@ -47,7 +52,7 @@
             </div>
 
             <!-- Infrastructure & Licensing -->
-            <div class="bg-surface-container-low p-8 md:p-12 rounded-[3rem] premium-shadow border border-outline-variant/10 space-y-10">
+            <div class="bg-surface-container-low p-8 md:p-12 rounded-[3rem] shadow-xl border border-outline-variant/10 space-y-10">
                 <div class="flex items-center gap-4 border-b border-outline-variant/10 pb-6">
                     <span class="material-symbols-outlined text-secondary text-3xl">storage</span>
                     <h3 class="font-black font-headline text-xl uppercase tracking-widest text-on-surface">Infrastructure</h3>
@@ -76,7 +81,7 @@
             <!-- Submit -->
             <div class="flex justify-end gap-4 pt-6">
                 <a href="{{ route('admin.tenants.index') }}" class="btn btn-ghost rounded-2xl font-black uppercase tracking-widest text-xs px-10">Cancel</a>
-                <button type="submit" class="btn btn-primary primary-gradient border-none rounded-2xl font-black uppercase tracking-[0.2em] text-xs h-auto py-5 px-12 shadow-xl hover:scale-105 transition-transform">
+                <button type="submit" class="btn btn-primary bg-gradient-to-br from-primary to-tertiary border-none rounded-2xl font-black uppercase tracking-[0.2em] text-xs h-auto py-5 px-12 shadow-xl hover:scale-105 transition-transform">
                     Initialize Provisioning
                 </button>
             </div>

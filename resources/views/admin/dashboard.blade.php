@@ -44,7 +44,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Tenant Management Area -->
             <div class="lg:col-span-2 space-y-8">
-                <div class="bg-surface-container-lowest p-8 md:p-10 rounded-[2.5rem] premium-shadow border border-outline-variant/15">
+                <div class="bg-surface-container-lowest p-8 md:p-10 rounded-[2.5rem] shadow-xl border border-outline-variant/15">
                     <div class="flex justify-between items-center mb-8">
                         <h3 class="text-2xl font-black font-headline tracking-tight text-on-surface">Recent Subscriptions</h3>
                         <a href="{{ route('admin.tenants.index') }}" class="btn btn-sm btn-ghost rounded-xl font-bold uppercase tracking-widest text-[10px]">View All Tenants</a>
@@ -81,7 +81,7 @@
 
             <!-- Admin Quick Actions -->
             <div class="space-y-8">
-                <div class="bg-surface-container-lowest p-8 md:p-10 rounded-[2.5rem] premium-shadow border border-outline-variant/15 h-full">
+                <div class="bg-surface-container-lowest p-8 md:p-10 rounded-[2.5rem] shadow-xl border border-outline-variant/15 flex flex-col h-fit">
                     <div class="flex items-center gap-3 mb-8">
                         <div class="w-2 h-6 bg-primary rounded-full"></div>
                         <h4 class="text-xs font-black font-headline text-outline uppercase tracking-[0.2em] leading-none">System Control</h4>
@@ -124,7 +124,7 @@
                     </ul>
                 </div>
 
-                <div class="bg-inverse-surface p-8 rounded-[2.5rem] premium-shadow text-on-primary primary-gradient relative overflow-hidden">
+                <div class="bg-inverse-surface p-8 rounded-[2.5rem] shadow-xl text-on-primary bg-gradient-to-br from-primary to-tertiary relative overflow-hidden">
                     <div class="relative z-10">
                         <h4 class="text-lg font-black font-headline mb-4 uppercase tracking-widest text-xs">Infrastructure</h4>
                         <div class="space-y-4">

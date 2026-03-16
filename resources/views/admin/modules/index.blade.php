@@ -16,9 +16,9 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($availableModules as $slug => $module)
-            <div class="bg-surface-container-lowest p-8 rounded-[2.5rem] border border-outline-variant/15 premium-shadow group hover:bg-surface-bright transition-all">
+            <div class="bg-surface-container-lowest p-8 rounded-[2.5rem] border border-outline-variant/15 shadow-xl group hover:bg-surface-bright transition-all">
                 <div class="flex items-center justify-between mb-6">
-                    <div class="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-black text-xs premium-shadow border border-primary/5 group-hover:scale-110 transition-transform">
+                    <div class="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-black text-xs shadow-xl border border-primary/5 group-hover:scale-110 transition-transform">
                         <span class="material-symbols-outlined text-3xl">widgets</span>
                     </div>
                     <div class="flex flex-col items-end">
