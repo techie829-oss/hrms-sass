@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\TenantController;
+use App\Http\Controllers\SaaS\RazorpayController;
+use App\Http\Controllers\SaaS\WebhookController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +31,8 @@ Route::domain($centralHost)->group(function () {
         return view('contact');
     });
 
+    Route::post('/webhooks/razorpay', [WebhookController::class, 'handle']);
+
     // 3. Fallback for Central Dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -54,6 +58,10 @@ Route::domain('app.' . $centralHost)->group(function () {
         Route::patch('tenants/{tenant}/toggle-status', [TenantController::class, 'toggleStatus'])->name('admin.tenants.toggle-status');
         Route::patch('tenants/{tenant}/update-plan', [TenantController::class, 'updatePlan'])->name('admin.tenants.update-plan');
         Route::patch('tenants/{tenant}/toggle-module', [TenantController::class, 'toggleModule'])->name('admin.tenants.toggle-module');
+
+        // Razorpay Billing
+        Route::get('tenants/{tenant}/checkout/{plan}', [RazorpayController::class, 'checkout'])->name('admin.tenants.checkout');
+        Route::post('tenants/{tenant}/verify/{plan}', [RazorpayController::class, 'verify'])->name('admin.tenants.verify');
 
         Route::resource('plans', \App\Http\Controllers\Admin\PlanController::class)->only(['index', 'edit', 'update'])->names('admin.plans');
 

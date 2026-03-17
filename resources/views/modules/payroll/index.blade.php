@@ -6,12 +6,14 @@
                 <p class="text-xs font-medium mt-1 opacity-70">Manage payroll cycles and salary distributions.</p>
             </div>
             <div class="flex gap-2">
+                @can('manage-payroll')
                 <a href="{{ route('payroll.components.index') }}" class="btn btn-ghost btn-sm btn-outline">
                     <span class="material-symbols-outlined text-base">settings</span> Components
                 </a>
                 <a href="{{ route('payroll.create') }}" class="btn btn-primary btn-sm">
                     <span class="material-symbols-outlined text-base">add</span> New Payroll Run
                 </a>
+                @endcan
             </div>
         </div>
     </x-slot>
@@ -71,9 +73,11 @@
                         <div class="text-sm font-bold text-primary">₹{{ number_format($run->total_net, 2) }}</div>
                     </td>
                     <td class="text-right px-8">
+                        @can('view', $run)
                         <a href="{{ route('payroll.show', $run->id) }}" class="btn btn-ghost btn-sm font-bold text-[10px] uppercase tracking-widest text-primary hover:bg-primary/10">
                             Review Details <span class="material-symbols-outlined text-lg">arrow_forward</span>
                         </a>
+                        @endcan
                     </td>
                 </tr>
             @empty

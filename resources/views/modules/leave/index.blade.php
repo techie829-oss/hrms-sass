@@ -6,12 +6,16 @@
                 <p class="text-xs font-medium mt-1 opacity-70">Manage employee leave requests and balances.</p>
             </div>
             <div class="flex gap-2">
+                @can('manage-settings') {{-- Custom gate for leave policies --}}
                 <a href="{{ route('leave.types.index') }}" class="btn btn-ghost btn-sm btn-outline">
                     <span class="material-symbols-outlined text-base">settings</span> Policies
                 </a>
+                @endcan
+                @can('create', App\Modules\Leave\Models\LeaveRequest::class)
                 <a href="{{ route('leave.requests.create') }}" class="btn btn-primary btn-sm">
                     <span class="material-symbols-outlined text-base">add</span> New Request
                 </a>
+                @endcan
             </div>
         </div>
     </x-slot>
@@ -58,10 +62,14 @@
                     </td>
                     <td class="text-right px-6">
                         <div class="flex justify-end gap-2">
+                            @can('view', $request)
                             <a href="{{ route('leave.requests.show', $request->id) }}" class="btn btn-ghost btn-xs btn-square text-primary hover:bg-primary/10" title="View Details">
                                 <span class="material-symbols-outlined text-sm">visibility</span>
                             </a>
+                            @endcan
+                            
                             @if($request->status === 'pending')
+                                @can('approve', $request)
                                 <form action="{{ route('leave.requests.status', $request->id) }}" method="POST" class="inline">
                                     @csrf
                                     <input type="hidden" name="status" value="approved">
@@ -93,6 +101,18 @@
                                         <button>close</button>
                                     </form>
                                 </dialog>
+                                @endcan
+                                
+                                @can('cancel', $request)
+                                {{-- tstaff can cancel their own pending requests --}}
+                                <form action="{{ route('leave.requests.status', $request->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <input type="hidden" name="status" value="cancelled">
+                                    <button type="submit" class="btn btn-ghost btn-xs btn-square text-neutral hover:bg-neutral/10" title="Cancel Request">
+                                        <span class="material-symbols-outlined text-sm">close</span>
+                                    </button>
+                                </form>
+                                @endcan
                             @endif
                         </div>
                     </td>

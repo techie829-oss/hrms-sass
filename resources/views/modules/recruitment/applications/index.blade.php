@@ -79,9 +79,11 @@
                             </span>
                         </td>
                         <td class="text-right px-6">
-                            <a href="{{ route('recruitment.applications.show', $app->id) }}" class="btn btn-ghost btn-xs btn-square text-primary hover:bg-primary/10" title="View">
-                                <span class="material-symbols-outlined text-sm">visibility</span>
-                            </a>
+                            @can('view', $app)
+                                <a href="{{ route('recruitment.applications.show', $app->id) }}" class="btn btn-ghost btn-xs btn-square text-primary hover:bg-primary/10" title="View">
+                                    <span class="material-symbols-outlined text-sm">visibility</span>
+                                </a>
+                            @endcan
                         </td>
                     </tr>
                 @empty

@@ -9,6 +9,7 @@ class Plan extends Model
     protected $fillable = [
         'name',
         'slug',
+        'razorpay_plan_id',
         'description',
         'price_monthly',
         'price_yearly',

@@ -6,9 +6,11 @@
                 <p class="text-sm opacity-70 mt-1">Manage job postings and track candidates.</p>
             </div>
             <div class="flex gap-3">
-                <a href="{{ route('recruitment.job_postings.create') }}" class="btn btn-primary">
-                    <span class="material-symbols-outlined text-base">work</span> New Job Posting
-                </a>
+                @can('create', \App\Modules\Recruitment\Models\JobPosting::class)
+                    <a href="{{ route('recruitment.job_postings.create') }}" class="btn btn-primary">
+                        <span class="material-symbols-outlined text-base">work</span> New Job Posting
+                    </a>
+                @endcan
             </div>
         </div>
     </x-slot>
@@ -106,19 +108,25 @@
                                                     <span class="material-symbols-outlined text-base">link</span>
                                                 </button>
                                             @endif
-                                            <a href="{{ route('recruitment.job_postings.show', $posting->id) }}" class="btn btn-ghost btn-sm btn-square rounded-xl text-primary hover:bg-primary/10 transition-colors tooltip tooltip-left" data-tip="View Details">
-                                                <span class="material-symbols-outlined text-base">visibility</span>
-                                            </a>
-                                            <a href="{{ route('recruitment.job_postings.edit', $posting->id) }}" class="btn btn-ghost btn-sm btn-square rounded-xl text-secondary hover:bg-secondary/10 transition-colors tooltip tooltip-left" data-tip="Edit Posting">
-                                                <span class="material-symbols-outlined text-base">edit</span>
-                                            </a>
-                                            <form action="{{ route('recruitment.job_postings.destroy', $posting->id) }}" method="POST" class="inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-ghost btn-sm btn-square rounded-xl text-error hover:bg-error/10 transition-colors tooltip tooltip-left" data-tip="Delete" onclick="return confirm('Are you sure you want to delete this job posting?')">
-                                                    <span class="material-symbols-outlined text-base">delete</span>
-                                                </button>
-                                            </form>
+                                            @can('view', $posting)
+                                                <a href="{{ route('recruitment.job_postings.show', $posting->id) }}" class="btn btn-ghost btn-sm btn-square rounded-xl text-primary hover:bg-primary/10 transition-colors tooltip tooltip-left" data-tip="View Details">
+                                                    <span class="material-symbols-outlined text-base">visibility</span>
+                                                </a>
+                                            @endcan
+                                            @can('update', $posting)
+                                                <a href="{{ route('recruitment.job_postings.edit', $posting->id) }}" class="btn btn-ghost btn-sm btn-square rounded-xl text-secondary hover:bg-secondary/10 transition-colors tooltip tooltip-left" data-tip="Edit Posting">
+                                                    <span class="material-symbols-outlined text-base">edit</span>
+                                                </a>
+                                            @endcan
+                                            @can('delete', $posting)
+                                                <form action="{{ route('recruitment.job_postings.destroy', $posting->id) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-ghost btn-sm btn-square rounded-xl text-error hover:bg-error/10 transition-colors tooltip tooltip-left" data-tip="Delete" onclick="return confirm('Are you sure you want to delete this job posting?')">
+                                                        <span class="material-symbols-outlined text-base">delete</span>
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

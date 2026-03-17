@@ -3,12 +3,16 @@
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-bold text-on-surface">Performance Analytics</h2>
             <div class="flex gap-2">
-                <a href="{{ route('performance.goals.index') }}" class="btn btn-sm btn-ghost border-outline-variant/10 rounded-lg font-bold text-[10px] uppercase tracking-wider">
-                    <span class="material-symbols-outlined text-sm">flag</span> Manage Goals
-                </a>
-                <a href="{{ route('performance.appraisals.index') }}" class="btn btn-sm btn-primary border-none rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">
-                    <span class="material-symbols-outlined text-sm">add_circle</span> New Appraisal
-                </a>
+                @can('viewAny', \App\Modules\Performance\Models\Goal::class)
+                    <a href="{{ route('performance.goals.index') }}" class="btn btn-sm btn-ghost border-outline-variant/10 rounded-lg font-bold text-[10px] uppercase tracking-wider">
+                        <span class="material-symbols-outlined text-sm">flag</span> Manage Goals
+                    </a>
+                @endcan
+                @can('create', \App\Modules\Performance\Models\Appraisal::class)
+                    <a href="{{ route('performance.appraisals.index') }}" class="btn btn-sm btn-primary border-none rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">
+                        <span class="material-symbols-outlined text-sm">add_circle</span> New Appraisal
+                    </a>
+                @endcan
             </div>
         </div>
     </x-slot>
@@ -72,7 +76,9 @@
                 <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm overflow-hidden">
                     <div class="p-4 border-b border-outline-variant/5 flex items-center justify-between">
                         <h3 class="font-bold text-xs uppercase tracking-wider text-on-surface">Recent Appraisals</h3>
-                        <a href="{{ route('performance.appraisals.index') }}" class="text-[9px] font-bold text-primary hover:underline uppercase tracking-wider">View History</a>
+                        @can('viewAny', \App\Modules\Performance\Models\Appraisal::class)
+                            <a href="{{ route('performance.appraisals.index') }}" class="text-[9px] font-bold text-primary hover:underline uppercase tracking-wider">View History</a>
+                        @endcan
                     </div>
                     <div class="overflow-x-auto">
                         <table class="table table-xs table-zebra w-full text-[11px]">
@@ -121,9 +127,11 @@
                                         @endif
                                     </td>
                                     <td class="text-right pr-5">
-                                        <a href="{{ route('performance.appraisals.show', $appraisal->id) }}" class="btn btn-ghost btn-xs rounded-md">
-                                            <span class="material-symbols-outlined text-sm">visibility</span>
-                                        </a>
+                                        @can('view', $appraisal)
+                                            <a href="{{ route('performance.appraisals.show', $appraisal->id) }}" class="btn btn-ghost btn-xs rounded-md">
+                                                <span class="material-symbols-outlined text-sm">visibility</span>
+                                            </a>
+                                        @endcan
                                     </td>
                                 </tr>
                                 @empty

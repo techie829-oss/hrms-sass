@@ -73,7 +73,7 @@ class TenantController extends Controller
      */
     public function show(Tenant $tenant)
     {
-        $tenant->load('domains');
+        $tenant->load(['domains', 'subscription']);
         $plans = Plan::all();
         $availableModules = DB::table('modules')->get();
         $enabledModules = DB::table('tenant_modules')

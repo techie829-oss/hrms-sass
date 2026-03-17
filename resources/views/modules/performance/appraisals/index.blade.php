@@ -3,9 +3,11 @@
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-bold text-on-surface">Performance Appraisals</h2>
             <div class="flex gap-2">
-                <button onclick="appraisal_modal.showModal()" class="btn btn-sm btn-primary border-none rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">
-                    <span class="material-symbols-outlined text-sm">add_circle</span> Initiate Appraisal
-                </button>
+                @can('create', \App\Modules\Performance\Models\Appraisal::class)
+                    <button onclick="appraisal_modal.showModal()" class="btn btn-sm btn-primary border-none rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">
+                        <span class="material-symbols-outlined text-sm">add_circle</span> Initiate Appraisal
+                    </button>
+                @endcan
             </div>
         </div>
     </x-slot>
@@ -66,9 +68,11 @@
                                 @endif
                             </td>
                             <td class="text-right pr-5">
-                                <button onclick="document.getElementById('review_appraisal_{{ $appraisal->id }}').showModal()" class="btn btn-ghost btn-xs rounded-md text-primary font-bold italic">
-                                    Review →
-                                </button>
+                                @can('update', $appraisal)
+                                    <button onclick="document.getElementById('review_appraisal_{{ $appraisal->id }}').showModal()" class="btn btn-ghost btn-xs rounded-md text-primary font-bold italic">
+                                        Review →
+                                    </button>
+                                @endcan
                             </td>
                         </tr>
 

@@ -9,9 +9,11 @@
                 <button class="btn btn-ghost btn-sm btn-outline">
                     <span class="material-symbols-outlined text-base">filter_list</span> Filters
                 </button>
+                @can('create', App\Modules\Attendance\Models\AttendanceLog::class)
                 <a href="{{ route('attendance.create') }}" class="btn btn-primary btn-sm">
                     <span class="material-symbols-outlined text-base">add</span> Manual Log
                 </a>
+                @endcan
             </div>
         </div>
     </x-slot>
@@ -75,9 +77,16 @@
                     </td>
                     <td class="text-right px-4">
                         <div class="flex justify-end gap-1">
+                            @can('view', $log)
                             <a href="{{ route('attendance.show', $log->id) }}" class="btn btn-ghost btn-xs btn-square text-primary hover:bg-primary/10">
                                 <span class="material-symbols-outlined text-base">visibility</span>
                             </a>
+                            @endcan
+                            @can('update', $log)
+                            <a href="{{ route('attendance.edit', $log->id) }}" class="btn btn-ghost btn-xs btn-square text-secondary hover:bg-secondary/10">
+                                <span class="material-symbols-outlined text-base">edit</span>
+                            </a>
+                            @endcan
                         </div>
                     </td>
                 </tr>

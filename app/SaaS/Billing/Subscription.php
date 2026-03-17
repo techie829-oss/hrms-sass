@@ -9,11 +9,15 @@ class Subscription extends Model
     protected $fillable = [
         'tenant_id',
         'plan_id',
+        'razorpay_id',
+        'razorpay_payment_id',
+        'razorpay_signature',
         'status',
         'trial_ends_at',
         'starts_at',
         'ends_at',
         'cancelled_at',
+        'meta',
     ];
 
     protected $casts = [
@@ -21,6 +25,7 @@ class Subscription extends Model
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',
         'cancelled_at' => 'datetime',
+        'meta' => 'array',
     ];
 
     /**

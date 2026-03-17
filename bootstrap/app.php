@@ -23,6 +23,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'scope.roles' => \App\Http\Middleware\SetPermissionsTeamId::class,
         ]);
 
+        $middleware->validateCsrfTokens(except: [
+            '/webhooks/razorpay',
+        ]);
+
         $middleware->redirectGuestsTo(function ($request) {
             if (tenant()) {
                 return route('tenant.login');

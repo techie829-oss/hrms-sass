@@ -3,9 +3,11 @@
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-bold text-on-surface">Key Performance Indicators</h2>
             <div class="flex gap-2">
-                <button onclick="kpi_modal.showModal()" class="btn btn-sm btn-primary border-none rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">
-                    <span class="material-symbols-outlined text-sm">add_circle</span> Define KPI
-                </button>
+                @can('create', \App\Modules\Performance\Models\KPI::class)
+                    <button onclick="kpi_modal.showModal()" class="btn btn-sm btn-primary border-none rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">
+                        <span class="material-symbols-outlined text-sm">add_circle</span> Define KPI
+                    </button>
+                @endcan
             </div>
         </div>
     </x-slot>
@@ -45,7 +47,9 @@
                             <td class="text-center py-3 font-black text-on-surface">{{ number_format($kpi->target_value, 2) }}</td>
                             <td class="text-center py-3 font-bold uppercase tracking-tight opacity-60">{{ $kpi->unit }}</td>
                             <td class="text-right pr-5">
-                                <button class="btn btn-ghost btn-xs rounded-md text-primary font-bold italic">Edit →</button>
+                                @can('update', $kpi)
+                                    <button class="btn btn-ghost btn-xs rounded-md text-primary font-bold italic">Edit →</button>
+                                @endcan
                             </td>
                         </tr>
                         @empty

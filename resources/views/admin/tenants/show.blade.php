@@ -119,9 +119,56 @@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary w-full gap-2">
-                            <span class="material-symbols-outlined text-base">sync</span> Update Plan
+                            <span class="material-symbols-outlined text-base">sync</span> Update Plan Selection
                         </button>
                     </form>
+
+                    <div class="divider my-1"></div>
+
+                    {{-- Razorpay Activation --}}
+                    @php
+                        $subscription = $tenant->subscription;
+                        $planMismatch = $subscription && $subscription->plan_id !== $tenant->plan_id;
+                        $activePlan = $plans->where('slug', $tenant->plan_id)->first();
+                    @endphp
+
+                    @if(!$subscription || $subscription->status !== 'active' || $planMismatch)
+                        <div class="bg-primary/5 border border-primary/10 rounded-xl p-4 text-center">
+                            <p class="text-[10px] font-bold text-primary uppercase tracking-widest mb-3">Action Required</p>
+                            <h4 class="text-sm font-bold text-on-surface mb-1">
+                                @if($planMismatch)
+                                    Plan Mismatch Detected
+                                @else
+                                    Subscription Inactive
+                                @endif
+                            </h4>
+                            <p class="text-[10px] text-on-surface-variant font-medium mb-4 leading-relaxed">
+                                To activate the <strong>{{ $activePlan->name }}</strong> features, please complete the payment.
+                            </p>
+                            <a href="{{ route('admin.tenants.checkout', [$tenant->id, $activePlan->slug]) }}" 
+                               class="btn btn-primary btn-sm w-full gap-2 shadow-sm shadow-primary/30">
+                                <span class="material-symbols-outlined text-sm">payments</span>
+                                Pay & Activate (₹{{ number_format($activePlan->price_monthly) }})
+                            </a>
+                        </div>
+                    @else
+                        <div class="bg-success/5 border border-success/10 rounded-xl p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[9px] font-bold text-success uppercase tracking-widest">Active Subscription</span>
+                                <span class="material-symbols-outlined text-success text-sm">verified</span>
+                            </div>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div class="flex justify-between">
+                                    <span class="opacity-60">Payment ID:</span>
+                                    <span class="font-mono font-bold">{{ substr($subscription->razorpay_payment_id, -8) }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="opacity-60">Expires On:</span>
+                                    <span class="font-bold">{{ $subscription->ends_at->format('M d, Y') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
 

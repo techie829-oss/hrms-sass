@@ -3,9 +3,11 @@
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-bold text-on-surface">Employee Goals</h2>
             <div class="flex gap-2">
-                <button onclick="goal_modal.showModal()" class="btn btn-sm btn-primary border-none rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">
-                    <span class="material-symbols-outlined text-sm">add_circle</span> Assign Goal
-                </button>
+                @can('create', \App\Modules\Performance\Models\Goal::class)
+                    <button onclick="goal_modal.showModal()" class="btn btn-sm btn-primary border-none rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">
+                        <span class="material-symbols-outlined text-sm">add_circle</span> Assign Goal
+                    </button>
+                @endcan
             </div>
         </div>
     </x-slot>
@@ -58,7 +60,9 @@
                                 {{ $goal->end_date->format('M d') }}
                             </div>
                         </div>
-                        <button onclick="document.getElementById('update_goal_{{ $goal->id }}').showModal()" class="text-[9px] font-bold text-primary uppercase tracking-widest hover:underline italic">Update →</button>
+                        @can('update', $goal)
+                            <button onclick="document.getElementById('update_goal_{{ $goal->id }}').showModal()" class="text-[9px] font-bold text-primary uppercase tracking-widest hover:underline italic">Update →</button>
+                        @endcan
                     </div>
 
                     {{-- Update Goal Modal (Dense Layout) --}}
