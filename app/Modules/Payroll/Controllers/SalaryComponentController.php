@@ -22,11 +22,17 @@ class SalaryComponentController extends BaseController
             'type' => ['required', 'in:earning,deduction'],
             'calculation_type' => ['required', 'in:fixed,percentage'],
             'default_amount' => ['required', 'numeric', 'min:0'],
+            'percentage_base' => ['nullable', 'string', 'max:20'],
             'is_taxable' => ['boolean'],
+            'is_mandatory' => ['boolean'],
             'display_order' => ['integer'],
         ]);
 
-        SalaryComponent::create($validated);
+        SalaryComponent::create(array_merge($validated, [
+            'tenant_id' => tenant('id'),
+            'is_taxable' => $request->has('is_taxable'),
+            'is_mandatory' => $request->has('is_mandatory'),
+        ]));
 
         return redirect()->route('payroll.components.index')
             ->with('success', 'Salary component created successfully.');

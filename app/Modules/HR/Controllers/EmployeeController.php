@@ -28,10 +28,10 @@ class EmployeeController extends BaseController
     /**
      * Show create employee form.
      */
-    public function create()
+    public function create(Request $request)
     {
         $departments = Department::all();
-        return view('modules.hr.employees.create', compact('departments'));
+        return view('modules.hr.employees.create', compact('departments'))->with($request->all());
     }
 
     /**

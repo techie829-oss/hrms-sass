@@ -24,6 +24,11 @@
             </div>
             
             <div class="ml-auto flex items-center gap-3">
+                @if($posting->status === 'open')
+                    <button onclick="let t=document.createElement('textarea');t.value='{{ url("/careers/" . $posting->share_key) }}';document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t); this.innerText = 'Copied!'; setTimeout(() => this.innerText = 'Copy Public Link', 2000);" class="btn btn-outline btn-primary">
+                        <span class="material-symbols-outlined text-base">link</span> Copy Public Link
+                    </button>
+                @endif
                 <a href="{{ route('recruitment.job_postings.edit', $posting->id) }}" class="btn btn-secondary">
                     <span class="material-symbols-outlined text-base">edit</span> Edit Posting
                 </a>

@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'tenant.active' => EnsureTenantIsActive::class,
             'module.access' => CheckModuleAccess::class,
             'super_admin' => CheckSuperAdmin::class,
+            'scope.roles' => \App\Http\Middleware\SetPermissionsTeamId::class,
         ]);
 
         $middleware->redirectGuestsTo(function ($request) {

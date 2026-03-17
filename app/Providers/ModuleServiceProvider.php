@@ -73,6 +73,7 @@ class ModuleServiceProvider extends ServiceProvider
         foreach ($modules as $module) {
             $name = basename($module);
             $this->registerModuleViews($name, $module);
+            $this->registerModuleMigrations($name, $module);
         }
     }
 
@@ -99,6 +100,18 @@ class ModuleServiceProvider extends ServiceProvider
 
         if (File::isDirectory($viewPath)) {
             $this->loadViewsFrom($viewPath, strtolower($name));
+        }
+    }
+
+    /**
+     * Register migrations for the module.
+     */
+    protected function registerModuleMigrations(string $name, string $path): void
+    {
+        $migrationPath = $path.'/database/migrations';
+
+        if (File::isDirectory($migrationPath)) {
+            $this->loadMigrationsFrom($migrationPath);
         }
     }
 }

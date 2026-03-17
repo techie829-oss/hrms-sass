@@ -17,19 +17,36 @@ class RoleSeeder extends Seeder
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // 1. Define Roles
-        $roles = [
-            'super_admin' => 'Full System Access',
-            'hr_manager' => 'HR Management Access',
-            'manager' => 'Team Management Access',
-            'employee' => 'Self-Service Access',
+        // --- 1. SAAS INTERNAL ROLES (tenant_id = null) ---
+        // These roles are for managing the platform itself.
+        setPermissionsTeamId(null);
+
+        $saasRoles = [
+            'super_admin' => 'Full SaaS System Access',
+            'sadmin' => 'SaaS Administrator',
+            'smanager' => 'Sales & Marketing Manager',
+            'sstaff' => 'Sales & Marketing Staff',
         ];
 
-        foreach ($roles as $name => $description) {
-            Role::firstOrCreate(['name' => $name, 'guard_name' => 'web']);
+        foreach ($saasRoles as $name => $description) {
+            Role::firstOrCreate([
+                'name' => $name, 
+                'guard_name' => 'web',
+                'tenant_id' => null
+            ]);
         }
 
-        // 2. Define Permissions (Core)
+        // --- 2. TENANT BASELINE ROLES (Used as templates or seeded per tenant) ---
+        // For existing tenants or demo purposes, we can seed them with a specific tenant_id if needed,
+        // but typically these are created during Tenant Creation/Onboarding.
+        
+        $tenantRoles = [
+            'tadmin' => 'Tenant Administrator',
+            'tmanager' => 'HR/Payroll Manager',
+            'tstaff' => 'Employee',
+        ];
+
+        // Permissions for Tenants
         $permissions = [
             'view dashboard',
             'view employees',
@@ -44,21 +61,10 @@ class RoleSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
+            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web', 'tenant_id' => null]);
         }
 
-        // 3. Assign Permissions to Roles
-        Role::findByName('hr_manager')->givePermissionTo([
-            'view dashboard', 'view employees', 'create employees', 'edit employees',
-            'view departments', 'manage attendance', 'approve leave', 'generate payroll', 'view reports',
-        ]);
-
-        Role::findByName('manager')->givePermissionTo([
-            'view dashboard', 'view employees', 'manage attendance', 'approve leave', 'view reports',
-        ]);
-
-        Role::findByName('employee')->givePermissionTo([
-            'view dashboard',
-        ]);
+        // Note: For now, we seed the global SaaS roles. 
+        // Tenant roles should be seeded when a tenant is created in the TenantService/ModuleManager.
     }
 }

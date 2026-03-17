@@ -83,9 +83,9 @@
                         <span class="badge {{ $payslip->status === 'paid' ? 'badge-success' : 'badge-ghost' }} badge-sm font-bold text-[10px] uppercase">{{ $payslip->status }}</span>
                     </td>
                     <td class="text-right px-6">
-                        <button class="btn btn-ghost btn-xs btn-square text-primary hover:bg-primary/10" title="View PDF">
+                        <a href="{{ route('payroll.payslip.download', $payslip->id) }}" target="_blank" class="btn btn-ghost btn-xs btn-square text-primary hover:bg-primary/10" title="View/Print">
                             <span class="material-symbols-outlined text-base">picture_as_pdf</span>
-                        </button>
+                        </a>
                     </td>
                 </tr>
             @empty

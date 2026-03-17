@@ -198,10 +198,9 @@
                             <span class="material-symbols-outlined text-base">person_off</span> Reject
                         </button>
                     </form>
-                    <form action="{{ route('recruitment.applications.status', $application->id) }}" method="POST" class="flex gap-2 mt-2">
+                    <form action="{{ route('recruitment.applications.hire', $application->id) }}" method="POST" class="flex gap-2 mt-2">
                         @csrf
-                        <input type="hidden" name="status" value="hired">
-                        <button type="submit" class="btn btn-success btn-sm w-full" onclick="return confirm('Mark this candidate as Hired?')">
+                        <button type="submit" class="btn btn-success btn-sm w-full" onclick="return confirm('Mark this candidate as Hired and start onboarding?')">
                             <span class="material-symbols-outlined text-base">how_to_reg</span> Mark as Hired
                         </button>
                     </form>

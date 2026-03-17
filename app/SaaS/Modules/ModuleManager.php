@@ -104,4 +104,25 @@ class ModuleManager
         // 3. Use ModuleInstaller to run migrations in tenant context
         return ModuleInstaller::install($slug, $tenant);
     }
+
+    /**
+     * Disable a module for a tenant.
+     */
+    public function disableModule(string $module, Tenant $tenant): bool
+    {
+        $slug = strtolower($module);
+
+        $moduleRecord = DB::table('modules')->where('slug', $slug)->first();
+
+        if (! $moduleRecord) {
+            return false;
+        }
+
+        DB::table('tenant_modules')->updateOrInsert(
+            ['tenant_id' => $tenant->id, 'module_id' => $moduleRecord->id],
+            ['enabled' => false, 'updated_at' => now()]
+        );
+
+        return true;
+    }
 }

@@ -41,7 +41,7 @@ Route::domain('app.' . $centralHost)->group(function () {
         return redirect('/login');
     });
 
-    Route::middleware(['auth', 'super_admin'])->group(function () {
+    Route::middleware(['auth', 'super_admin', 'scope.roles'])->group(function () {
         Route::get('/', function () {
             return view('admin.dashboard');
         })->name('super-admin.dashboard');
@@ -52,6 +52,8 @@ Route::domain('app.' . $centralHost)->group(function () {
 
         Route::resource('tenants', TenantController::class)->names('admin.tenants');
         Route::patch('tenants/{tenant}/toggle-status', [TenantController::class, 'toggleStatus'])->name('admin.tenants.toggle-status');
+        Route::patch('tenants/{tenant}/update-plan', [TenantController::class, 'updatePlan'])->name('admin.tenants.update-plan');
+        Route::patch('tenants/{tenant}/toggle-module', [TenantController::class, 'toggleModule'])->name('admin.tenants.toggle-module');
 
         Route::resource('plans', \App\Http\Controllers\Admin\PlanController::class)->only(['index', 'edit', 'update'])->names('admin.plans');
 

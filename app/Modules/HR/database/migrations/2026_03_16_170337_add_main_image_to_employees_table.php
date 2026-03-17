@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('employees', function (Blueprint $table) {
+            if (!Schema::hasColumn('employees', 'main_image')) {
+                $table->string('main_image')->nullable()->after('profile_photo');
+            }
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('employees', function (Blueprint $table) {
+            $table->dropColumn('main_image');
+        });
+    }
+};

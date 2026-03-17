@@ -33,7 +33,7 @@ class JobApplicationController extends BaseController
     public function show(JobApplication $application)
     {
         $application->load('jobPosting', 'interviews.interviewer');
-        $employees = Employee::where('status', 'active')->orderBy('first_name')->get();
+        $employees = Employee::active()->orderBy('first_name')->get();
 
         return view('modules.recruitment.applications.show', compact('application', 'employees'));
     }
@@ -87,9 +87,26 @@ class JobApplicationController extends BaseController
             'status'   => 'required|in:scheduled,completed,cancelled,no_show',
             'feedback' => 'nullable|string',
         ]);
-
         $interview->update($request->only('status', 'feedback'));
 
         return back()->with('success', 'Interview updated.');
+    }
+
+    /**
+     * Redirect to Employee Create form with candidate data.
+     */
+    public function hire(JobApplication $application)
+    {
+        // Update status to hired first
+        $application->update(['status' => 'hired']);
+
+        return redirect()->route('hr.employees.create', [
+            'first_name'      => $application->first_name,
+            'last_name'       => $application->last_name,
+            'email'           => $application->email,
+            'phone'           => $application->phone,
+            'employment_type' => $application->jobPosting->employment_type ?? 'full_time',
+            'department_id'   => $application->jobPosting->department_id ?? null,
+        ])->with('success', 'Candidate marked as Hired! Please complete the employee profile.');
     }
 }

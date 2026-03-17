@@ -30,7 +30,7 @@ class JobPostingSeeder extends Seeder
                 'location' => 'Remote (India)',
                 'employment_type' => 'full_time',
                 'salary_range' => '₹18,00,000 - ₹25,00,000',
-                'status' => 'published',
+                'status' => 'open',
                 'closing_date' => now()->addDays(30),
             ],
             [
@@ -40,7 +40,7 @@ class JobPostingSeeder extends Seeder
                 'location' => 'Bangalore, India (Hybrid)',
                 'employment_type' => 'full_time',
                 'salary_range' => '₹15,00,000 - ₹22,00,000',
-                'status' => 'published',
+                'status' => 'open',
                 'closing_date' => now()->addDays(15),
             ],
             [
@@ -60,7 +60,7 @@ class JobPostingSeeder extends Seeder
                 'location' => 'Remote',
                 'employment_type' => 'internship',
                 'salary_range' => '₹25,000/month',
-                'status' => 'published',
+                'status' => 'open',
                 'closing_date' => now()->addDays(7),
             ],
         ];

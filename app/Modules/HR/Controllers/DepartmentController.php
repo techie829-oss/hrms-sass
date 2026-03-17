@@ -20,6 +20,12 @@ class DepartmentController extends BaseController
         return view('modules.hr.departments.index', compact('departments'));
     }
 
+    public function show(int $id)
+    {
+        $department = $this->departmentService->findWithEmployees($id);
+        return view('modules.hr.departments.show', compact('department'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

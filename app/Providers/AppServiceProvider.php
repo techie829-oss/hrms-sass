@@ -2,6 +2,16 @@
 
 namespace App\Providers;
 
+use App\Modules\Attendance\Models\AttendanceLog;
+use App\Modules\HR\Models\Employee;
+use App\Modules\Leave\Models\LeaveRequest;
+use App\Modules\Payroll\Models\PayrollRun;
+use App\Modules\Payroll\Models\Payslip;
+use App\Policies\AttendanceLogPolicy;
+use App\Policies\EmployeePolicy;
+use App\Policies\LeavePolicy;
+use App\Policies\PayrollPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +29,69 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // ── Register Eloquent Policies ────────────────────────────────────
+        Gate::policy(Employee::class, EmployeePolicy::class);
+        Gate::policy(LeaveRequest::class, LeavePolicy::class);
+        Gate::policy(AttendanceLog::class, AttendanceLogPolicy::class);
+        Gate::policy(PayrollRun::class, PayrollPolicy::class);
+        Gate::policy(Payslip::class, PayrollPolicy::class);
+        // ── SaaS Internal Gates ────────────────────────────────────────────
+        // Superadmin bypasses all gates (Spatie hasSuperAdminRole checks)
+        Gate::before(function ($user) {
+            if ($user->hasRole('superadmin')) {
+                return true;
+            }
+        });
+
+        // SaaS-level access
+        Gate::define('access-saas-admin', fn($user) =>
+            $user->hasAnyRole(['superadmin', 'sadmin'])
+        );
+
+        Gate::define('manage-tenants', fn($user) =>
+            $user->hasAnyRole(['superadmin', 'sadmin'])
+        );
+
+        Gate::define('manage-plans', fn($user) =>
+            $user->hasAnyRole(['superadmin', 'sadmin'])
+        );
+
+        Gate::define('manage-billing', fn($user) =>
+            $user->hasAnyRole(['superadmin', 'sadmin'])
+        );
+
+        Gate::define('view-saas-analytics', fn($user) =>
+            $user->hasAnyRole(['superadmin', 'sadmin', 'smanager'])
+        );
+
+        // ── Tenant-level Gates ────────────────────────────────────────────
+        Gate::define('manage-employees', fn($user) =>
+            $user->hasAnyRole(['tadmin', 'tmanager'])
+        );
+
+        Gate::define('manage-payroll', fn($user) =>
+            $user->hasAnyRole(['tadmin', 'tmanager'])
+        );
+
+        Gate::define('manage-leave', fn($user) =>
+            $user->hasAnyRole(['tadmin', 'tmanager'])
+        );
+
+        Gate::define('view-reports', fn($user) =>
+            $user->hasAnyRole(['tadmin', 'tmanager'])
+        );
+
+        Gate::define('manage-settings', fn($user) =>
+            $user->hasRole('tadmin')
+        );
+
+        Gate::define('manage-recruitment', fn($user) =>
+            $user->hasAnyRole(['tadmin', 'tmanager'])
+        );
+
+        // Staff can only view their own space (My Space / Profile)
+        Gate::define('access-tenant', fn($user) =>
+            $user->hasAnyRole(['tadmin', 'tmanager', 'tstaff'])
+        );
     }
 }

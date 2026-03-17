@@ -19,4 +19,12 @@ class DepartmentService extends BaseService
     {
         return $this->repository->getAllWithMemberCount();
     }
+
+    /**
+     * Get a department with its employees.
+     */
+    public function findWithEmployees(int $id)
+    {
+        return $this->repository->findOrFail($id)->load('employees.designation');
+    }
 }

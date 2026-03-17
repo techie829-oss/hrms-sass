@@ -95,15 +95,29 @@
                     </div>
                 </div>
 
-                <div class="space-y-2">
-                    <x-input-label for="default_amount" :value="__('Default Value')" />
-                    <x-text-input id="default_amount" name="default_amount" type="number" step="0.01" class="block w-full" required />
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <x-input-label for="default_amount" :value="__('Default Value / %')" />
+                        <x-text-input id="default_amount" name="default_amount" type="number" step="0.01" class="block w-full" required />
+                    </div>
+                    <div class="space-y-2">
+                        <x-input-label for="percentage_base" :value="__('% Calculated On')" />
+                        <select name="percentage_base" class="w-full bg-surface-container-low border-transparent focus:border-primary focus:ring-0 rounded-2xl p-4 text-on-surface font-bold uppercase tracking-widest text-xs">
+                            <option value="">None (Fixed)</option>
+                            <option value="BASIC">Basic Salary</option>
+                            <option value="GROSS">Gross Salary</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-6 bg-surface-container-low p-6 rounded-2xl">
                     <div class="flex items-center gap-3">
                         <input type="checkbox" name="is_taxable" value="1" class="checkbox checkbox-primary rounded-lg" checked>
                         <span class="text-xs font-black uppercase tracking-widest">Subject to Taxation</span>
+                    </div>
+                    <div class="flex items-center gap-3 border-l border-outline-variant/20 pl-6">
+                        <input type="checkbox" name="is_mandatory" value="1" class="checkbox checkbox-primary rounded-lg">
+                        <span class="text-xs font-black uppercase tracking-widest">Mandatory</span>
                     </div>
                 </div>
 

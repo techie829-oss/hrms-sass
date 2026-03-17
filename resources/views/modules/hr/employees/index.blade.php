@@ -9,9 +9,11 @@
                 <button class="btn btn-ghost btn-sm">
                     <span class="material-symbols-outlined text-base">filter_list</span> Filters
                 </button>
+                @can('create', App\Modules\HR\Models\Employee::class)
                 <a href="{{ route('hr.employees.create') }}" class="btn btn-primary btn-sm">
                     <span class="material-symbols-outlined text-base">person_add</span> Add Employee
                 </a>
+                @endcan
             </div>
         </div>
     </x-slot>
@@ -72,12 +74,17 @@
                             </td>
                             <td class="text-right">
                                 <div class="flex justify-end gap-1">
+                                    @can('view', $employee)
                                     <a href="{{ route('hr.employees.show', $employee->id) }}" class="btn btn-ghost btn-xs btn-square">
                                         <span class="material-symbols-outlined text-base">visibility</span>
                                     </a>
+                                    @endcan
+                                    @can('update', $employee)
                                     <a href="{{ route('hr.employees.edit', $employee->id) }}" class="btn btn-ghost btn-xs btn-square text-secondary">
                                         <span class="material-symbols-outlined text-base">edit</span>
                                     </a>
+                                    @endcan
+                                    @can('delete', $employee)
                                     <form action="{{ route('hr.employees.destroy', $employee->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to archive this employee?')">
                                         @csrf
                                         @method('DELETE')
@@ -85,6 +92,7 @@
                                             <span class="material-symbols-outlined text-base">archive</span>
                                         </button>
                                     </form>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>

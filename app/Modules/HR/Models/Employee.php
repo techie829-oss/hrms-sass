@@ -18,6 +18,7 @@ class Employee extends Model
         'employee_id',
         'department_id',
         'designation_id',
+        'attendance_shift_id',
         'first_name',
         'last_name',
         'email',
@@ -27,6 +28,9 @@ class Employee extends Model
         'status',
         'employment_type',
         'salary',
+        'profile_photo',
+        'cover_photo',
+        'main_image',
     ];
 
     protected $casts = [
@@ -46,14 +50,39 @@ class Employee extends Model
         return $this->belongsTo(Department::class);
     }
 
+    public function designation()
+    {
+        return $this->belongsTo(Designation::class);
+    }
+
+    public function attendanceShift()
+    {
+        return $this->belongsTo(\App\Modules\Attendance\Models\AttendanceShift::class);
+    }
+
+    public function reportingTo()
+    {
+        return $this->belongsTo(Employee::class, 'reporting_to');
+    }
+
     public function appraisals()
     {
         return $this->hasMany(\App\Modules\Performance\Models\Appraisal::class);
     }
 
+    public function attendanceLogs()
+    {
+        return $this->hasMany(\App\Modules\Attendance\Models\AttendanceLog::class);
+    }
+
     public function goals()
     {
         return $this->hasMany(\App\Modules\Performance\Models\Goal::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
     }
 
     public function getFullNameAttribute(): string

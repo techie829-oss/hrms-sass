@@ -101,6 +101,11 @@
                                     </td>
                                     <td class="text-right">
                                         <div class="flex items-center justify-end gap-2">
+                                            @if($posting->status === 'open')
+                                                <button onclick="let t=document.createElement('textarea');t.value='{{ url("/careers/" . $posting->share_key) }}';document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t); alert('Public link copied to clipboard!');" class="btn btn-ghost btn-sm btn-square rounded-xl text-info hover:bg-info/10 transition-colors tooltip tooltip-left" data-tip="Copy Public Link">
+                                                    <span class="material-symbols-outlined text-base">link</span>
+                                                </button>
+                                            @endif
                                             <a href="{{ route('recruitment.job_postings.show', $posting->id) }}" class="btn btn-ghost btn-sm btn-square rounded-xl text-primary hover:bg-primary/10 transition-colors tooltip tooltip-left" data-tip="View Details">
                                                 <span class="material-symbols-outlined text-base">visibility</span>
                                             </a>

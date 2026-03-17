@@ -17,6 +17,7 @@ class JobPosting extends Model
         'location',
         'employment_type',
         'salary_range',
+        'share_key',
         'status',
         'closing_date',
     ];
@@ -24,6 +25,17 @@ class JobPosting extends Model
     protected $casts = [
         'closing_date' => 'date',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($jobPosting) {
+            if (empty($jobPosting->share_key)) {
+                $jobPosting->share_key = \Illuminate\Support\Str::random(32);
+            }
+        });
+    }
 
     public function applications()
     {

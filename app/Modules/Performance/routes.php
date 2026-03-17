@@ -6,7 +6,7 @@ use App\Modules\Performance\Controllers\AppraisalController;
 use App\Modules\Performance\Controllers\GoalController;
 use Illuminate\Support\Facades\Route;
 
-Route::name('performance.')->middleware(['auth'])->group(function () {
+Route::name('performance.')->middleware(['auth', 'role:tadmin|tmanager'])->group(function () {
     Route::get('/', [PerformanceController::class, 'index'])->name('dashboard');
     
     Route::resource('kpis', KPIController::class);

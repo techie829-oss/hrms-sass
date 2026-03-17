@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('employment_type')->default('full_time'); // full_time, part_time, contract, intern
             $table->string('salary_range')->nullable();
             $table->string('status')->default('draft'); // draft, open, closed
+            $table->string('share_key', 32)->nullable()->unique();
             $table->date('closing_date')->nullable();
             $table->timestamps();
         });

@@ -38,6 +38,8 @@ class DashboardController extends Controller
             'hasAttendance' => $this->moduleManager->tenantHasAccess('attendance', $tenantId),
             'hasLeave' => $this->moduleManager->tenantHasAccess('leave', $tenantId),
             'hasPayroll' => $this->moduleManager->tenantHasAccess('payroll', $tenantId),
+            'currentUserAttendance' => null,
+            'assignedShift' => null,
         ];
 
         if ($data['hasHr']) {
@@ -63,6 +65,15 @@ class DashboardController extends Controller
                                          ->distinct('employee_id')
                                          ->count('employee_id');
             $data['attendanceRate'] = round(($presentCount / $data['totalEmployees']) * 100, 1);
+
+            // Fetch current user's attendance for the clocking widget
+            if (auth()->user()->employee) {
+                $employee = auth()->user()->employee;
+                $data['currentUserAttendance'] = AttendanceLog::with('shift')->where('employee_id', $employee->id)
+                    ->whereDate('date', $today)
+                    ->first();
+                $data['assignedShift'] = $employee->attendanceShift;
+            }
         }
 
         $data['pendingTasks'] = collect([]);
@@ -85,7 +96,7 @@ class DashboardController extends Controller
         if ($data['hasPayroll']) {
             $data['payrollDisbursed'] = PayrollRun::where('status', 'completed')
                 ->whereMonth('created_at', Carbon::now()->month)
-                ->sum('total_net_pay');
+                ->sum('total_net');
         }
 
         return view('dashboard', $data);

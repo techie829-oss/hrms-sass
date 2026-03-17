@@ -16,6 +16,15 @@ class User extends Authenticatable
     use BelongsToTenant, HasFactory, HasRoles, Notifiable;
 
     /**
+     * Always use the central connection for Users, 
+     * even when a tenant context is active.
+     */
+    public function getConnectionName()
+    {
+        return config('tenancy.database.central_connection') ?: config('database.default');
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -48,5 +57,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function employee()
+    {
+        return $this->hasOne(\App\Modules\HR\Models\Employee::class);
     }
 }

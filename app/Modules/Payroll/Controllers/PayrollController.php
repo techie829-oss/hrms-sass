@@ -8,12 +8,17 @@ use App\Modules\Payroll\Models\Payslip;
 use App\Modules\Payroll\Models\SalaryComponent;
 use App\Modules\Payroll\Models\SalaryStructure;
 use App\Modules\HR\Models\Employee;
+use App\Modules\Payroll\Services\PayrollService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PayrollController extends BaseController
 {
+    public function __construct(
+        protected PayrollService $payrollService
+    ) {}
+
     public function index()
     {
         $runs = PayrollRun::latest()->paginate(10);
@@ -57,52 +62,17 @@ class PayrollController extends BaseController
             return back()->with('error', 'Completed payroll runs cannot be re-generated.');
         }
 
-        // This is a simplified generation logic
-        $employees = Employee::where('status', 'active')->get();
-        
-        DB::beginTransaction();
         try {
-            foreach ($employees as $employee) {
-                $structure = SalaryStructure::where('employee_id', $employee->id)
-                    ->where('is_active', true)
-                    ->first();
-                
-                if (!$structure) continue;
-
-                Payslip::updateOrCreate(
-                    [
-                        'payroll_run_id' => $run->id,
-                        'employee_id' => $employee->id,
-                        'tenant_id' => tenant('id'),
-                    ],
-                    [
-                        'payslip_number' => 'PS-' . $run->year . $run->month . '-' . $employee->id,
-                        'month' => $run->month,
-                        'year' => $run->year,
-                        'basic_salary' => $structure->gross_salary * 0.5, // Example logic
-                        'gross_earnings' => $structure->gross_salary,
-                        'total_deductions' => $structure->gross_salary - $structure->net_salary,
-                        'net_salary' => $structure->net_salary,
-                        'earnings_breakdown' => $structure->earnings,
-                        'deductions_breakdown' => $structure->deductions,
-                        'status' => 'generated',
-                    ]
-                );
-            }
-
-            $run->update([
-                'status' => 'processing',
-                'total_employees' => $run->payslips()->count(),
-                'total_gross' => $run->payslips()->sum('gross_earnings'),
-                'total_deductions' => $run->payslips()->sum('total_deductions'),
-                'total_net' => $run->payslips()->sum('net_salary'),
-            ]);
-
-            DB::commit();
-            return back()->with('success', 'Payslips generated successfully.');
+            $processed = $this->payrollService->generatePayslips($run);
+            return back()->with('success', "Payslips for $processed employees generated successfully.");
         } catch (\Exception $e) {
-            DB::rollBack();
             return back()->with('error', 'Failed to generate payslips: ' . $e->getMessage());
         }
+    }
+
+    public function download(Payslip $payslip)
+    {
+        $payslip->load('employee', 'payrollRun');
+        return view('modules.payroll.payslip_print', compact('payslip'));
     }
 }

@@ -26,7 +26,7 @@ class JobApplicationSeeder extends Seeder
             return;
         }
 
-        $postings = JobPosting::where('tenant_id', $tenantId)->where('status', 'published')->get();
+        $postings = JobPosting::where('tenant_id', $tenantId)>where('status', 'open')->get();
         if ($postings->isEmpty()) {
             return;
         }

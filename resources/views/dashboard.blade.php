@@ -161,6 +161,84 @@
 
             <!-- Right Side: Activity and Tasks (Dense Sidebar) -->
             <div class="lg:col-span-4 space-y-6">
+                @if($hasAttendance)
+                <!-- Time Tracking Widget -->
+                <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm">
+                    <div class="flex items-center justify-between mb-6">
+                        <h4 class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Time Tracking</h4>
+                        <span class="badge badge-primary badge-outline text-[8px] font-bold uppercase py-0">{{ now()->format('D, d M') }}</span>
+                    </div>
+
+                    @if(!$currentUserAttendance)
+                    <div class="text-center py-4">
+                        <div class="text-3xl font-bold text-on-surface tabular-nums mb-1" id="clock-display">{{ now()->format('H:i:s') }}</div>
+                        <div class="flex flex-col items-center gap-1 mb-6">
+                            <p class="text-[9px] text-on-surface-variant font-medium uppercase tracking-widest">Not Clocked In</p>
+                            @if($assignedShift)
+                                <span class="badge badge-ghost text-[8px] font-black uppercase opacity-60">Shift: {{ $assignedShift->name }} ({{ Carbon\Carbon::parse($assignedShift->start_time)->format('H:i') }})</span>
+                            @endif
+                        </div>
+                        
+                        <form action="{{ route('attendance.clock-in') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary w-full gap-2 rounded-xl border-none shadow-md shadow-primary/20">
+                                <span class="material-symbols-outlined text-sm">login</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest">Clock In</span>
+                            </button>
+                        </form>
+                    </div>
+                    @elseif($currentUserAttendance && !$currentUserAttendance->check_out)
+                    <div class="text-center py-4">
+                        <div class="text-3xl font-bold text-primary tabular-nums mb-1" id="clock-display">{{ now()->format('H:i:s') }}</div>
+                        <div class="flex flex-col items-center gap-2 mb-6 uppercase tracking-widest">
+                            <p class="text-[9px] text-primary font-bold flex items-center justify-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                                Clocked In at {{ \Carbon\Carbon::parse($currentUserAttendance->check_in)->format('H:i') }}
+                            </p>
+                            @if($currentUserAttendance->is_late)
+                                <span class="badge badge-error text-white font-black text-[8px] px-2 py-0.5">LATE BY {{ $currentUserAttendance->late_minutes }} MINS</span>
+                            @endif
+                        </div>
+                        
+                        <form action="{{ route('attendance.clock-out') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-error btn-outline w-full gap-2 rounded-xl transition-all hover:bg-error/10">
+                                <span class="material-symbols-outlined text-sm">logout</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-error">Clock Out</span>
+                            </button>
+                        </form>
+                    </div>
+                    @else
+                    <div class="text-center py-4">
+                        <div class="text-3xl font-bold text-on-surface-variant/40 tabular-nums mb-1">{{ \Carbon\Carbon::parse($currentUserAttendance->check_out)->diff(\Carbon\Carbon::parse($currentUserAttendance->check_in))->format('%H:%I') }}</div>
+                        <div class="flex flex-col items-center gap-2 mb-3 uppercase tracking-widest">
+                            <p class="text-[9px] text-success font-bold">Shift Completed</p>
+                            @if($currentUserAttendance->is_late)
+                                <span class="badge badge-neutral text-[8px] font-black opacity-40">Recorded as Late</span>
+                            @endif
+                        </div>
+                        <div class="bg-surface-container-low p-3 rounded-lg flex justify-between items-center text-[10px] font-bold mb-2">
+                            <span class="opacity-50">IN: {{ \Carbon\Carbon::parse($currentUserAttendance->check_in)->format('H:i') }}</span>
+                            <span class="opacity-50">OUT: {{ \Carbon\Carbon::parse($currentUserAttendance->check_out)->format('H:i') }}</span>
+                        </div>
+                        <button disabled class="btn btn-ghost btn-sm w-full opacity-50 text-[9px] uppercase tracking-widest">Done for today</button>
+                    </div>
+                    @endif
+
+                    <script>
+                        function updateClock() {
+                            const now = new Date();
+                            const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                                             now.getMinutes().toString().padStart(2, '0') + ':' + 
+                                             now.getSeconds().toString().padStart(2, '0');
+                            const display = document.getElementById('clock-display');
+                            if (display) display.textContent = timeString;
+                        }
+                        setInterval(updateClock, 1000);
+                    </script>
+                </div>
+                @endif
+
                 <!-- Task List -->
                 <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm">
                     <div class="flex justify-between items-center mb-6">

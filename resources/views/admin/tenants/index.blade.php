@@ -49,6 +49,9 @@
                     </td>
                     <td class="text-right px-8 py-6">
                         <div class="flex justify-end gap-2">
+                            <a href="{{ route('admin.tenants.show', $tenant->id) }}" class="btn btn-ghost btn-sm btn-square rounded-xl hover:bg-primary/10 hover:text-primary group-hover:scale-110 transition-transform" title="Manage Tenant">
+                                <span class="material-symbols-outlined text-xl">settings</span>
+                            </a>
                             <form action="{{ route('admin.tenants.toggle-status', $tenant->id) }}" method="POST" class="inline">
                                 @csrf
                                 @method('PATCH')

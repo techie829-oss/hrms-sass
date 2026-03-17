@@ -17,6 +17,7 @@ Route::middleware([
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
     'tenant.active',
+    'scope.roles',
 ])->group(function () {
     
     Route::middleware('auth')->group(function () {
@@ -51,13 +52,31 @@ Route::middleware([
             require app_path('Modules/Performance/routes.php');
         });
 
-        Route::middleware('module.access:recruitment')->prefix('recruitment')->group(function () {
-            require app_path('Modules/Recruitment/routes.php');
+        Route::middleware('module.access:recruitment')->group(function () {
+            Route::prefix('recruitment')->group(function () {
+                require app_path('Modules/Recruitment/routes.php');
+            });
+        });
+
+        Route::middleware('module.access:reports')->prefix('reports')->group(function () {
+            require app_path('Modules/Reports/routes.php');
         });
         // Profile Routes (Tenant)
         Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('tenant.profile.edit');
         Route::patch('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('tenant.profile.update');
         Route::delete('/profile', [\App\Http\Controllers\ProfileController::class, 'destroy'])->name('tenant.profile.destroy');
+
+        // Independent Media Uploads
+        Route::post('/profile/photo', [\App\Http\Controllers\ProfileController::class, 'updatePhoto'])->name('tenant.profile.update-photo');
+        Route::post('/profile/cover', [\App\Http\Controllers\ProfileController::class, 'updateCover'])->name('tenant.profile.update-cover');
+        Route::post('/profile/main-image', [\App\Http\Controllers\ProfileController::class, 'updateMainImage'])->name('tenant.profile.update-main-image');
+    });
+
+    // Public Routes (No Auth Required)
+    Route::middleware('module.access:recruitment')->group(function () {
+        Route::get('/careers', [\App\Modules\Recruitment\Controllers\Public\PublicCareerController::class, 'index'])->name('tenant.careers.index');
+        Route::get('/careers/{job_posting}', [\App\Modules\Recruitment\Controllers\Public\PublicCareerController::class, 'show'])->name('tenant.careers.show');
+        Route::post('/careers/{job_posting}/apply', [\App\Modules\Recruitment\Controllers\Public\PublicCareerController::class, 'store'])->name('tenant.careers.store');
     });
 
     Route::name('tenant.')->group(function () {

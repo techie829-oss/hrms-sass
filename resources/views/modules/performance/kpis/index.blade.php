@@ -1,106 +1,114 @@
 <x-app-layout>
-    <div class="py-8 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-            <!-- Header -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
-                <div>
-                    <h1 class="text-3xl font-bold tracking-tight">Key Performance Indicators</h1>
-                    <p class="opacity-70 mt-1.5 font-medium">Define and track department-level metrics.</p>
-                </div>
-                <button onclick="kpi_modal.showModal()" class="btn btn-primary btn-sm flex items-center gap-2 px-5">
-                    <span class="material-symbols-outlined text-[18px]">add_circle</span>
-                    Define KPI
+    <x-slot name="header">
+        <div class="flex items-center justify-between">
+            <h2 class="text-xl font-bold text-on-surface">Key Performance Indicators</h2>
+            <div class="flex gap-2">
+                <button onclick="kpi_modal.showModal()" class="btn btn-sm btn-primary border-none rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">
+                    <span class="material-symbols-outlined text-sm">add_circle</span> Define KPI
                 </button>
             </div>
+        </div>
+    </x-slot>
 
-            <!-- KPIs Table -->
-            <div class="card bg-base-100 border border-base-200 shadow-sm overflow-hidden min-h-[400px]">
-                <div class="overflow-x-auto">
-                    <table class="table table-md">
-                        <thead class="bg-base-200/50">
-                            <tr>
-                                <th class="font-bold text-[11px] uppercase tracking-wider py-4 opacity-70">KPI Name</th>
-                                <th class="font-bold text-[11px] uppercase tracking-wider py-4 opacity-70">Department</th>
-                                <th class="font-bold text-[11px] uppercase tracking-wider py-4 text-center opacity-70">Target</th>
-                                <th class="font-bold text-[11px] uppercase tracking-wider py-4 text-center opacity-70">Unit</th>
-                                <th class="font-bold text-[11px] uppercase tracking-wider py-4 text-right opacity-70">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($kpis as $kpi)
-                                <tr class="hover:bg-base-200/50 transition-colors border-b border-base-200">
-                                    <td class="py-4">
-                                        <div class="font-semibold">{{ $kpi->name }}</div>
-                                        <div class="text-xs mt-0.5 max-w-xs truncate opacity-70">{{ $kpi->description }}</div>
-                                    </td>
-                                    <td class="py-4">
-                                        <span class="badge badge-sm font-bold badge-secondary">
-                                            {{ $kpi->department->name ?? 'All Departments' }}
-                                        </span>
-                                    </td>
-                                    <td class="text-center py-4 font-bold">{{ number_format($kpi->target_value, 2) }}</td>
-                                    <td class="text-center py-4 font-medium capitalize opacity-70">{{ $kpi->unit }}</td>
-                                    <td class="text-right py-4">
-                                        <button class="btn btn-ghost btn-xs text-primary font-bold">Edit</button>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="py-12 text-center italic font-medium opacity-50">No KPIs defined yet.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-                <!-- Pagination -->
-                <div class="p-4 border-t border-base-200 bg-base-200/30">
-                    {{ $kpis->links() }}
+    <div class="space-y-6">
+        <!-- KPIs Table (Matches Refined Design) -->
+        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm overflow-hidden">
+            <div class="p-4 border-b border-outline-variant/5 flex items-center justify-between">
+                <h3 class="font-bold text-xs uppercase tracking-wider text-on-surface">Metric Definitions</h3>
+                <div class="flex items-center gap-2">
+                    <span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-wider italic">Strategic Trackers</span>
                 </div>
             </div>
+            <div class="overflow-x-auto">
+                <table class="table table-xs table-zebra w-full text-[11px]">
+                    <thead>
+                        <tr class="text-on-surface-variant/70 border-b border-outline-variant/5">
+                            <th class="py-3 px-5">KPI Name</th>
+                            <th>Department Scope</th>
+                            <th class="text-center">Target Value</th>
+                            <th class="text-center">Tracking Unit</th>
+                            <th class="text-right pr-5">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="font-medium">
+                        @forelse($kpis as $kpi)
+                        <tr class="hover:bg-primary/5 transition-colors border-b border-outline-variant/5">
+                            <td class="py-3 px-5">
+                                <div class="font-bold text-on-surface">{{ $kpi->name }}</div>
+                                <div class="text-[9px] mt-0.5 max-w-xs truncate opacity-60">{{ $kpi->description }}</div>
+                            </td>
+                            <td>
+                                <span class="badge badge-primary badge-outline text-[8px] font-bold h-4 py-0 uppercase">
+                                    {{ $kpi->department->name ?? 'Global/All' }}
+                                </span>
+                            </td>
+                            <td class="text-center py-3 font-black text-on-surface">{{ number_format($kpi->target_value, 2) }}</td>
+                            <td class="text-center py-3 font-bold uppercase tracking-tight opacity-60">{{ $kpi->unit }}</td>
+                            <td class="text-right pr-5">
+                                <button class="btn btn-ghost btn-xs rounded-md text-primary font-bold italic">Edit →</button>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="py-12 text-center text-on-surface-variant opacity-70 italic">No KPI metrics defined.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            @if($kpis->hasPages())
+            <div class="p-4 border-t border-outline-variant/5 bg-surface-container-low/20">
+                {{ $kpis->links() }}
+            </div>
+            @endif
         </div>
     </div>
 
-    <!-- Modal -->
-    <dialog id="kpi_modal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box bg-base-100 border border-base-200 max-w-lg">
-            <h3 class="font-bold text-lg mb-6">Define New KPI</h3>
-            <form action="{{ route('performance.kpis.store') }}" method="POST" class="space-y-5">
-                @csrf
-                <div class="form-control w-full">
-                    <label class="label"><span class="label-text font-bold text-xs uppercase tracking-widest">KPI Name</span></label>
-                    <input type="text" name="name" required class="input input-bordered w-full" placeholder="e.g., Sales Target">
+    {{-- Define KPI Modal (Matches Refined Style) --}}
+    <dialog id="kpi_modal" class="modal">
+        <div class="modal-box max-w-xl bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-2xl p-0 overflow-hidden text-left font-sans">
+            <div class="p-5 border-b border-outline-variant/5 flex items-center justify-between bg-surface-container-low/30">
+                <div>
+                    <h3 class="font-bold text-xs uppercase tracking-wider text-on-surface">Define New metric</h3>
+                    <p class="text-[9px] font-bold opacity-50 uppercase tracking-widest mt-0.5">Key Performance Indicator Setup</p>
                 </div>
-                <div class="form-control w-full">
-                    <label class="label"><span class="label-text font-bold text-xs uppercase tracking-widest">Description</span></label>
-                    <textarea name="description" class="textarea textarea-bordered w-full" rows="3" placeholder="Describe the goal..."></textarea>
+                <form method="dialog"><button class="btn btn-sm btn-circle btn-ghost">✕</button></form>
+            </div>
+            
+            <form action="{{ route('performance.kpis.store') }}" method="POST" class="p-6 space-y-5 text-left">
+                @csrf
+                <div class="form-control">
+                    <label class="label py-1"><span class="label-text text-[10px] font-bold uppercase tracking-wider opacity-60">KPI Identifier</span></label>
+                    <input type="text" name="name" required class="input input-sm input-bordered focus:input-primary rounded-lg text-xs" placeholder="e.g. Sales Growth, NPS Score" />
+                </div>
+                <div class="form-control">
+                    <label class="label py-1"><span class="label-text text-[10px] font-bold uppercase tracking-wider opacity-60">Definition / Scope</span></label>
+                    <textarea name="description" class="textarea textarea-bordered focus:textarea-primary rounded-lg text-xs" rows="3" placeholder="Explain how this metric is measured..."></textarea>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="form-control w-full">
-                        <label class="label"><span class="label-text font-bold text-xs uppercase tracking-widest">Department</span></label>
-                        <select name="department_id" class="select select-bordered w-full">
-                            <option value="">All Departments</option>
+                    <div class="form-control">
+                        <label class="label py-1"><span class="label-text text-[10px] font-bold uppercase tracking-wider opacity-60">Dept. Alignment</span></label>
+                        <select name="department_id" class="select select-sm select-bordered focus:select-primary rounded-lg text-xs font-bold">
+                            <option value="">Global (All Departments)</option>
                             @foreach($departments as $dept)
                                 <option value="{{ $dept->id }}">{{ $dept->name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-control w-full">
-                        <label class="label"><span class="label-text font-bold text-xs uppercase tracking-widest">Target Value</span></label>
-                        <input type="number" name="target_value" required step="0.01" class="input input-bordered w-full" placeholder="0.00">
+                    <div class="form-control">
+                        <label class="label py-1"><span class="label-text text-[10px] font-bold uppercase tracking-wider opacity-60">Target Value</span></label>
+                        <input type="number" name="target_value" required step="0.01" class="input input-sm input-bordered focus:input-primary rounded-lg text-xs font-bold" placeholder="0.00" />
                     </div>
                 </div>
-                <div class="form-control w-full">
-                    <label class="label"><span class="label-text font-bold text-xs uppercase tracking-widest">Unit</span></label>
-                    <input type="text" name="unit" required class="input input-bordered w-full" placeholder="e.g., %, currency, count">
+                <div class="form-control">
+                    <label class="label py-1"><span class="label-text text-[10px] font-bold uppercase tracking-wider opacity-60">Measurement Unit</span></label>
+                    <input type="text" name="unit" required class="input input-sm input-bordered focus:input-primary rounded-lg text-xs" placeholder="e.g. Percentage, Currency, Count" />
                 </div>
-                <div class="modal-action mt-8 pt-6 border-t border-base-200">
-                    <button type="button" onclick="kpi_modal.close()" class="btn btn-ghost btn-sm font-bold uppercase tracking-widest">Cancel</button>
-                    <button type="submit" class="btn btn-primary btn-sm px-8 font-bold uppercase tracking-widest">Create KPI</button>
+                <div class="pt-2">
+                    <button type="submit" class="btn btn-primary btn-sm w-full rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">Initialize Performance KPI</button>
                 </div>
             </form>
         </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
+        <form method="dialog" class="modal-backdrop bg-on-surface/20 backdrop-blur-[2px]"><button>close</button></form>
     </dialog>
 </x-app-layout>

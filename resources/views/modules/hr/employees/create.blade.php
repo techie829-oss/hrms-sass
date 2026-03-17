@@ -26,13 +26,13 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <label class="form-control w-full">
                             <div class="label"><span class="label-text font-bold">First Name <span class="text-error">*</span></span></div>
-                            <input type="text" name="first_name" required value="{{ old('first_name') }}" class="input input-bordered w-full" placeholder="John" />
+                            <input type="text" name="first_name" required value="{{ old('first_name', $first_name ?? '') }}" class="input input-bordered w-full" placeholder="John" />
                             @error('first_name') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
                         </label>
 
                         <label class="form-control w-full">
                             <div class="label"><span class="label-text font-bold">Last Name <span class="text-error">*</span></span></div>
-                            <input type="text" name="last_name" required value="{{ old('last_name') }}" class="input input-bordered w-full" placeholder="Doe" />
+                            <input type="text" name="last_name" required value="{{ old('last_name', $last_name ?? '') }}" class="input input-bordered w-full" placeholder="Doe" />
                             @error('last_name') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
                         </label>
                     </div>
@@ -40,7 +40,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                         <label class="form-control w-full">
                             <div class="label"><span class="label-text font-bold">Email Address <span class="text-error">*</span></span></div>
-                            <input type="email" name="email" required value="{{ old('email') }}" class="input input-bordered w-full" placeholder="john@company.com" />
+                            <input type="email" name="email" required value="{{ old('email', $email ?? '') }}" class="input input-bordered w-full" placeholder="john@company.com" />
                             @error('email') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
                         </label>
 
@@ -73,7 +73,7 @@
                             <select name="department_id" class="select select-bordered w-full">
                                 <option disabled selected>Select Department</option>
                                 @foreach($departments as $dept)
-                                    <option value="{{ $dept->id }}" {{ old('department_id') == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
+                                    <option value="{{ $dept->id }}" {{ old('department_id', $department_id ?? '') == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
                                 @endforeach
                             </select>
                             @error('department_id') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
@@ -82,10 +82,10 @@
                         <label class="form-control w-full">
                             <div class="label"><span class="label-text font-bold">Employment Type</span></div>
                             <select name="employment_type" class="select select-bordered w-full">
-                                <option value="full_time" {{ old('employment_type') == 'full_time' ? 'selected' : '' }}>Full Time</option>
-                                <option value="part_time" {{ old('employment_type') == 'part_time' ? 'selected' : '' }}>Part Time</option>
-                                <option value="contract" {{ old('employment_type') == 'contract' ? 'selected' : '' }}>Contract</option>
-                                <option value="intern" {{ old('employment_type') == 'intern' ? 'selected' : '' }}>Intern</option>
+                                <option value="full_time" {{ old('employment_type', $employment_type ?? '') == 'full_time' ? 'selected' : '' }}>Full Time</option>
+                                <option value="part_time" {{ old('employment_type', $employment_type ?? '') == 'part_time' ? 'selected' : '' }}>Part Time</option>
+                                <option value="contract" {{ old('employment_type', $employment_type ?? '') == 'contract' ? 'selected' : '' }}>Contract</option>
+                                <option value="intern" {{ old('employment_type', $employment_type ?? '') == 'intern' ? 'selected' : '' }}>Intern</option>
                             </select>
                         </label>
                     </div>

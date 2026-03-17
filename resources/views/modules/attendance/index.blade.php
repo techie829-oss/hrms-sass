@@ -50,7 +50,15 @@
                         <div class="text-xs font-medium text-error">{{ $log->check_out ? $log->check_out->format('H:i') : '--:--' }}</div>
                     </td>
                     <td>
-                        <div class="text-xs font-bold">{{ $log->worked_hours ?? '0.00' }}h</div>
+                        <div class="flex flex-col">
+                            <div class="text-xs font-bold">{{ $log->worked_hours ?? '0.00' }}h</div>
+                            @if($log->is_late)
+                                <div class="text-[8px] font-bold text-info uppercase">Late: {{ $log->late_minutes }}m</div>
+                            @endif
+                            @if($log->overtime_minutes > 0)
+                                <div class="text-[8px] font-bold text-success uppercase">OT: {{ $log->overtime_minutes }}m</div>
+                            @endif
+                        </div>
                     </td>
                     <td>
                         @php

@@ -24,12 +24,22 @@ class AttendancePolicy extends Model
         'max_late_allowed_per_month',
         'is_default',
         'is_active',
+        'is_kiosk_enabled',
+        'kiosk_require_photo',
+        'kiosk_require_location',
+        'is_mobile_enabled',
+        'is_manual_enabled',
     ];
 
     protected $casts = [
         'auto_deduct_leave' => 'boolean',
         'is_default' => 'boolean',
         'is_active' => 'boolean',
+        'is_kiosk_enabled' => 'boolean',
+        'kiosk_require_photo' => 'boolean',
+        'kiosk_require_location' => 'boolean',
+        'is_mobile_enabled' => 'boolean',
+        'is_manual_enabled' => 'boolean',
     ];
 
     public function getActivitylogOptions(): LogOptions
