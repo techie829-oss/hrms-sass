@@ -56,4 +56,14 @@
     .input-crm {
         @apply input input-sm rounded-lg w-full bg-surface-container-lowest/50 focus:bg-white;
     }
+
+    /* Trix Content Display Styles */
+    .trix-content h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
+    .trix-content h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .trix-content h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .trix-content ul { list-style-type: disc; margin-left: 1.25rem; margin-bottom: 1rem; }
+    .trix-content ol { list-style-type: decimal; margin-left: 1.25rem; margin-bottom: 1rem; }
+    .trix-content blockquote { border-left-width: 4px; border-color: #3b82f64d; padding-left: 1rem; font-style: italic; margin: 1rem 0; }
+    .trix-content pre { background-color: #f3f4f6; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 1rem 0; font-family: monospace; font-size: 0.875rem; }
+    .trix-content a { color: #2563eb; text-decoration: underline; }
 }

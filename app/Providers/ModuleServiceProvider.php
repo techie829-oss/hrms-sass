@@ -74,6 +74,7 @@ class ModuleServiceProvider extends ServiceProvider
             $name = basename($module);
             $this->registerModuleViews($name, $module);
             $this->registerModuleMigrations($name, $module);
+            $this->registerModuleRoutes($name, $module);
         }
     }
 

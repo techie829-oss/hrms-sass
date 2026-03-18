@@ -36,6 +36,7 @@
                             $hasPerformance = $moduleManager->tenantHasAccess('performance', $tenantId);
                             $hasReports = $moduleManager->tenantHasAccess('reports', $tenantId);
                             $hasRecruitment = $moduleManager->tenantHasAccess('recruitment', $tenantId);
+                            $hasOperations = $moduleManager->tenantHasAccess('operations', $tenantId);
                         @endphp
 
                         {{-- Workforce Group --}}
@@ -77,6 +78,15 @@
                                 @if($hasAttendance)<x-dropdown-link :href="route('attendance.index')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('Attendance') }}</x-dropdown-link>@endif
                                 @if($hasLeave)<x-dropdown-link :href="route('leave.requests.index')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('Leaves') }}</x-dropdown-link>@endif
                                 @if($hasPayroll)<x-dropdown-link :href="route('payroll.index')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('Payroll') }}</x-dropdown-link>@endif
+                                @if($hasOperations)
+                                    <div class="border-t border-outline-variant/10 my-1"></div>
+                                    <x-dropdown-link :href="route('operations.leads.index')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('Leads') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('operations.contacts.index')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('Contacts') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('operations.clients.index')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('Clients') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('operations.projects.index')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('Projects') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('operations.tasks.index')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('Tasks') }}</x-dropdown-link>
+                                    <x-dropdown-link :href="route('operations.timesheets.index')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('Timesheets') }}</x-dropdown-link>
+                                @endif
                             </x-slot>
                         </x-dropdown>
                         @endif

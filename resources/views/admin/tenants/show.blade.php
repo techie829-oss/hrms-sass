@@ -206,11 +206,14 @@
                                         {{ $isEnabled ? 'bg-success/5 border-success/20' : 'bg-base-50' }}
                                         hover:border-primary/30 transition-colors">
                                 <div>
-                                    <div class="font-semibold">{{ $module->name }}</div>
-                                    <div class="font-mono text-xs text-base-content/50 mt-0.5">{{ $module->slug }}</div>
-                                    @if($module->is_free)
-                                        <div class="badge badge-ghost badge-sm mt-1">Free</div>
-                                    @endif
+                                    <div class="font-semibold">{{ $module->name }} @if($isEnabled)<span class="text-success text-[10px] ml-1">● Enabled</span>@endif</div>
+                                    <div class="text-[10px] text-base-content/60 mt-1 max-w-[200px] leading-tight">{{ $module->description }}</div>
+                                    <div class="flex items-center gap-2 mt-2">
+                                        <div class="font-mono text-[9px] text-base-content/40">{{ $module->slug }}</div>
+                                        @if($module->is_free)
+                                            <div class="badge badge-ghost badge-xs text-[9px]">Free</div>
+                                        @endif
+                                    </div>
                                 </div>
                                 <form action="{{ route('admin.tenants.toggle-module', $tenant) }}" method="POST">
                                     @csrf @method('PATCH')

@@ -43,4 +43,12 @@ class Plan extends Model
     {
         return $this->price_monthly == 0;
     }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

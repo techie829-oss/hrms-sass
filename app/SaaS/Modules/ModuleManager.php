@@ -36,8 +36,27 @@ class ModuleManager
                 'name' => $name,
                 'path' => $directory,
                 'free' => in_array(strtolower($name), ['hr', 'attendance', 'leave']),
+                'icon' => $this->getModuleIcon(strtolower($name)),
             ];
         }
+    }
+
+    /**
+     * Get default icon for a module.
+     */
+    protected function getModuleIcon(string $slug): string
+    {
+        return match ($slug) {
+            'hr' => 'group',
+            'attendance' => 'calendar_today',
+            'leave' => 'event_busy',
+            'payroll' => 'payments',
+            'performance' => 'trending_up',
+            'recruitment' => 'work',
+            'reports' => 'insert_chart',
+            'operations' => 'account_tree',
+            default => 'extension',
+        };
     }
 
     /**

@@ -30,4 +30,12 @@ class Tenant extends BaseTenant implements TenantWithDatabase
             'contact_no',
         ];
     }
+
+    /**
+     * Get the subscription for this tenant.
+     */
+    public function subscription()
+    {
+        return $this->hasOne(\App\SaaS\Billing\Subscription::class, 'tenant_id');
+    }
 }

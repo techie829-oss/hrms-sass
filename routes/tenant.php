@@ -61,6 +61,10 @@ Route::middleware([
         Route::middleware('module.access:reports')->prefix('reports')->group(function () {
             require app_path('Modules/Reports/routes.php');
         });
+
+        Route::middleware(['module.access:operations', 'role:tadmin|tmanager'])->prefix('operations')->name('operations.')->group(function () {
+            require app_path('Modules/Operations/routes.php');
+        });
         // Profile Routes (Tenant)
         Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('tenant.profile.edit');
         Route::patch('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('tenant.profile.update');

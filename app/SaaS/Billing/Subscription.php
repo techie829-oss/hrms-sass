@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
 {
+    protected $table = 'tenant_subscriptions';
+
     protected $fillable = [
         'tenant_id',
         'plan_id',
@@ -33,7 +35,15 @@ class Subscription extends Model
      */
     public function plan()
     {
-        return $this->belongsTo(Plan::class);
+        return $this->belongsTo(Plan::class, 'plan_id', 'slug');
+    }
+
+    /**
+     * Get the tenant for this subscription.
+     */
+    public function tenant()
+    {
+        return $this->belongsTo(\App\Models\Tenant::class);
     }
 
     /**
