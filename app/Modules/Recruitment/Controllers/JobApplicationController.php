@@ -24,7 +24,7 @@ class JobApplicationController extends BaseController
         $applications = $query->paginate(20)->withQueryString();
         $postings = JobPosting::orderBy('title')->get();
 
-        return view('modules.recruitment.applications.index', compact('applications', 'postings'));
+        return view('recruitment::applications.index', compact('applications', 'postings'));
     }
 
     /**
@@ -35,7 +35,7 @@ class JobApplicationController extends BaseController
         $application->load('jobPosting', 'interviews.interviewer');
         $employees = Employee::active()->orderBy('first_name')->get();
 
-        return view('modules.recruitment.applications.show', compact('application', 'employees'));
+        return view('recruitment::applications.show', compact('application', 'employees'));
     }
 
     /**

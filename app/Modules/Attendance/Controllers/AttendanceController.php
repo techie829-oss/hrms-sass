@@ -20,7 +20,7 @@ class AttendanceController extends BaseController
         $filters = $request->only(['employee_id', 'date', 'status']);
         $logs = $this->attendanceService->paginate(15, $filters);
 
-        return view('modules.attendance.index', compact('logs'));
+        return view('attendance::index', compact('logs'));
     }
 
     /**
@@ -28,7 +28,7 @@ class AttendanceController extends BaseController
      */
     public function create()
     {
-        return view('modules.attendance.create');
+        return view('attendance::create');
     }
 
     /**
@@ -56,6 +56,6 @@ class AttendanceController extends BaseController
     {
         $log = \App\Modules\Attendance\Models\AttendanceLog::with('employee')->findOrFail($id);
 
-        return view('modules.attendance.show', compact('log'));
+        return view('attendance::show', compact('log'));
     }
 }

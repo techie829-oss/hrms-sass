@@ -21,7 +21,7 @@ class PublicCareerController extends BaseController
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('modules.recruitment.public.index', compact('postings', 'tenant'));
+        return view('recruitment::public.index', compact('postings', 'tenant'));
     }
 
     /**
@@ -37,7 +37,7 @@ class PublicCareerController extends BaseController
 
         $tenant = tenant();
 
-        return view('modules.recruitment.public.show', compact('job_posting', 'tenant', 'hash'));
+        return view('recruitment::public.show', compact('job_posting', 'tenant', 'hash'));
     }
 
     /**

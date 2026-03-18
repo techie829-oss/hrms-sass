@@ -13,7 +13,7 @@ class GoalController extends BaseController
     {
         $goals = Goal::with('employee')->paginate(15);
         $employees = Employee::active()->get();
-        return view('modules.performance.goals.index', compact('goals', 'employees'));
+        return view('performance::goals.index', compact('goals', 'employees'));
     }
 
     public function store(Request $request)

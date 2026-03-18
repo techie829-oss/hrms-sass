@@ -17,13 +17,13 @@ class DepartmentController extends BaseController
     {
         $departments = $this->departmentService->getAllWithCounts();
 
-        return view('modules.hr.departments.index', compact('departments'));
+        return view('hr::departments.index', compact('departments'));
     }
 
     public function show(int $id)
     {
         $department = $this->departmentService->findWithEmployees($id);
-        return view('modules.hr.departments.show', compact('department'));
+        return view('hr::departments.show', compact('department'));
     }
 
     public function store(Request $request)

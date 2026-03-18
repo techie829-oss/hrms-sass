@@ -21,7 +21,7 @@ class PerformanceController extends BaseController
             ->take(5)
             ->get();
 
-        return view('modules.performance.dashboard', compact(
+        return view('performance::dashboard', compact(
             'kpiCount', 
             'pendingAppraisals', 
             'activeGoals',

@@ -13,7 +13,7 @@ class ShiftAssignmentController extends BaseController
     {
         $employees = Employee::with('attendanceShift')->active()->get();
         $shifts = AttendanceShift::where('is_active', true)->get();
-        return view('modules.attendance.shifts.assignments', compact('employees', 'shifts'));
+        return view('attendance::shifts.assignments', compact('employees', 'shifts'));
     }
 
     public function update(Request $request)

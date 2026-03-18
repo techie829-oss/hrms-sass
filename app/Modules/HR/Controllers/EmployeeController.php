@@ -22,7 +22,7 @@ class EmployeeController extends BaseController
         $filters = $request->only(['department_id', 'status', 'employment_type']);
         $employees = $this->employeeService->all($filters);
 
-        return view('modules.hr.employees.index', compact('employees'));
+        return view('hr::employees.index', compact('employees'));
     }
 
     /**
@@ -31,7 +31,7 @@ class EmployeeController extends BaseController
     public function create(Request $request)
     {
         $departments = Department::all();
-        return view('modules.hr.employees.create', compact('departments'))->with($request->all());
+        return view('hr::employees.create', compact('departments'))->with($request->all());
     }
 
     /**
@@ -68,7 +68,7 @@ class EmployeeController extends BaseController
         // Eager load relationships if needed, or fetch related data
         $employee->load(['department', 'appraisals', 'goals']);
 
-        return view('modules.hr.employees.show', compact('employee'));
+        return view('hr::employees.show', compact('employee'));
     }
 
     /**
@@ -79,7 +79,7 @@ class EmployeeController extends BaseController
         $employee = $this->employeeService->findOrFail($id);
         $departments = Department::all();
 
-        return view('modules.hr.employees.edit', compact('employee', 'departments'));
+        return view('hr::employees.edit', compact('employee', 'departments'));
     }
 
     /**

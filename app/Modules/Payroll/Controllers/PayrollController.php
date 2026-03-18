@@ -22,12 +22,12 @@ class PayrollController extends BaseController
     public function index()
     {
         $runs = PayrollRun::latest()->paginate(10);
-        return view('modules.payroll.index', compact('runs'));
+        return view('payroll::index', compact('runs'));
     }
 
     public function create()
     {
-        return view('modules.payroll.create');
+        return view('payroll::create');
     }
 
     public function store(Request $request)
@@ -53,7 +53,7 @@ class PayrollController extends BaseController
     public function show(PayrollRun $run)
     {
         $payslips = $run->payslips()->with('employee')->paginate(20);
-        return view('modules.payroll.show', compact('run', 'payslips'));
+        return view('payroll::show', compact('run', 'payslips'));
     }
 
     public function generate(PayrollRun $run)
@@ -73,6 +73,6 @@ class PayrollController extends BaseController
     public function download(Payslip $payslip)
     {
         $payslip->load('employee', 'payrollRun');
-        return view('modules.payroll.payslip_print', compact('payslip'));
+        return view('payroll::payslip_print', compact('payslip'));
     }
 }

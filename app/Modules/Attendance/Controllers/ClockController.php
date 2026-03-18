@@ -51,7 +51,7 @@ class ClockController extends BaseController
             return redirect()->route('attendance.index')->with('error', 'Kiosk attendance is currently disabled by admin.');
         }
 
-        return view('modules.attendance.kiosk', compact('user', 'employee', 'todayLog', 'shift', 'recentLogs', 'policy'));
+        return view('attendance::kiosk', compact('user', 'employee', 'todayLog', 'shift', 'recentLogs', 'policy'));
     }
 
     /**

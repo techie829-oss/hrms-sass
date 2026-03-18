@@ -17,7 +17,7 @@ class ReportController extends BaseController
 {
     public function index()
     {
-        return view('modules.reports.index');
+        return view('reports::index');
     }
 
     public function workforce()
@@ -35,7 +35,7 @@ class ReportController extends BaseController
             ->groupBy('employment_type')
             ->get();
 
-        return view('modules.reports.workforce', compact(
+        return view('reports::workforce', compact(
             'totalEmployees',
             'departments',
             'genderDistribution',
@@ -117,7 +117,7 @@ class ReportController extends BaseController
                   ->orWhereBetween('end_date', [$startDate, $endDate]);
             })->count();
 
-        return view('modules.reports.attendance', compact(
+        return view('reports::attendance', compact(
             'month', 'year', 'workingDaysInMonth',
             'totalLogs', 'presentCount', 'absentCount', 'lateCount',
             'avgWorkedHours', 'totalOvertimeMinutes', 'totalLateMinutes',
@@ -172,7 +172,7 @@ class ReportController extends BaseController
         $totalEmployeesPaid = $payrollRun?->total_employees ?? 0;
         $avgSalary = $totalEmployeesPaid > 0 ? round($totalNet / $totalEmployeesPaid, 2) : 0;
 
-        return view('modules.reports.payroll', compact(
+        return view('reports::payroll', compact(
             'month', 'year', 'payrollRun', 'recentRuns',
             'payslips', 'departmentPayroll',
             'totalGross', 'totalDeductions', 'totalNet',

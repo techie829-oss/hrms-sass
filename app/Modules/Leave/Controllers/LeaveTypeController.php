@@ -11,7 +11,7 @@ class LeaveTypeController extends BaseController
     public function index()
     {
         $leaveTypes = LeaveType::all();
-        return view('modules.leave.types.index', compact('leaveTypes'));
+        return view('leave::types.index', compact('leaveTypes'));
     }
 
     public function store(Request $request)

@@ -15,12 +15,12 @@ class JobPostingController extends BaseController
     public function index()
     {
         $postings = $this->jobPostingService->all();
-        return view('modules.recruitment.job_postings.index', compact('postings'));
+        return view('recruitment::job_postings.index', compact('postings'));
     }
 
     public function create()
     {
-        return view('modules.recruitment.job_postings.create');
+        return view('recruitment::job_postings.create');
     }
 
     public function store(Request $request)
@@ -45,13 +45,13 @@ class JobPostingController extends BaseController
     {
         $posting = $this->jobPostingService->findOrFail($id);
         $posting->load('applications');
-        return view('modules.recruitment.job_postings.show', compact('posting'));
+        return view('recruitment::job_postings.show', compact('posting'));
     }
 
     public function edit($id)
     {
         $posting = $this->jobPostingService->findOrFail($id);
-        return view('modules.recruitment.job_postings.edit', compact('posting'));
+        return view('recruitment::job_postings.edit', compact('posting'));
     }
 
     public function update(Request $request, $id)

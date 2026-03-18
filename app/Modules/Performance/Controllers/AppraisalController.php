@@ -14,7 +14,7 @@ class AppraisalController extends BaseController
     {
         $appraisals = Appraisal::with(['employee', 'evaluator'])->paginate(15);
         $employees = Employee::active()->get();
-        return view('modules.performance.appraisals.index', compact('appraisals', 'employees'));
+        return view('performance::appraisals.index', compact('appraisals', 'employees'));
     }
 
     public function store(Request $request)

@@ -13,7 +13,7 @@ class KPIController extends BaseController
     {
         $kpis = KPI::with('department')->paginate(15);
         $departments = Department::all();
-        return view('modules.performance.kpis.index', compact('kpis', 'departments'));
+        return view('performance::kpis.index', compact('kpis', 'departments'));
     }
 
     public function store(Request $request)

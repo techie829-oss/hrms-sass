@@ -11,7 +11,7 @@ class SalaryComponentController extends BaseController
     public function index()
     {
         $components = SalaryComponent::orderBy('display_order')->get();
-        return view('modules.payroll.components.index', compact('components'));
+        return view('payroll::components.index', compact('components'));
     }
 
     public function store(Request $request)

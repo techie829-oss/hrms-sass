@@ -20,7 +20,7 @@ class LeaveRequestController extends BaseController
             ->latest()
             ->paginate(15);
 
-        return view('modules.leave.index', compact('requests'));
+        return view('leave::index', compact('requests'));
     }
 
     /**
@@ -31,7 +31,7 @@ class LeaveRequestController extends BaseController
         $leaveTypes = LeaveType::where('is_active', true)->get();
         $employees = Employee::where('status', 'active')->get(); // For admin view
 
-        return view('modules.leave.create', compact('leaveTypes', 'employees'));
+        return view('leave::create', compact('leaveTypes', 'employees'));
     }
 
     /**
@@ -135,6 +135,6 @@ class LeaveRequestController extends BaseController
     {
         $leaveRequest->load(['employee', 'leaveType']);
 
-        return view('modules.leave.show', compact('leaveRequest'));
+        return view('leave::show', compact('leaveRequest'));
     }
 }

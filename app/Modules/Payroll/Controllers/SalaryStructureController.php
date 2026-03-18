@@ -14,7 +14,7 @@ class SalaryStructureController extends BaseController
     public function index()
     {
         $structures = SalaryStructure::with('employee')->get();
-        return view('modules.payroll.salary_structures.index', compact('structures'));
+        return view('payroll::salary_structures.index', compact('structures'));
     }
 
     public function create(Request $request)
@@ -23,7 +23,7 @@ class SalaryStructureController extends BaseController
         $employees = Employee::active()->get();
         $components = SalaryComponent::where('is_active', true)->orderBy('display_order')->get();
 
-        return view('modules.payroll.salary_structures.create', compact('employees', 'components', 'employeeId'));
+        return view('payroll::salary_structures.create', compact('employees', 'components', 'employeeId'));
     }
 
     public function store(Request $request)
@@ -65,6 +65,6 @@ class SalaryStructureController extends BaseController
     {
         $salary_structure->load('employee');
         $components = SalaryComponent::all()->keyBy('code');
-        return view('modules.payroll.salary_structures.show', compact('salary_structure', 'components'));
+        return view('payroll::salary_structures.show', compact('salary_structure', 'components'));
     }
 }
