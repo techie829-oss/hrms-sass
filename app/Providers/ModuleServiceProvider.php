@@ -105,14 +105,30 @@ class ModuleServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register migrations for the module.
+     * Get migration paths for all modules.
      */
+    public static function getModuleMigrationPaths(): array
+    {
+        $modulePath = base_path('app/Modules');
+        $paths = [];
+
+        if (is_dir($modulePath)) {
+            $modules = glob($modulePath . '/*', GLOB_ONLYDIR);
+            foreach ($modules as $module) {
+                $migrationPath = $module.'/database/migrations';
+                if (is_dir($migrationPath)) {
+                    $paths[] = $migrationPath;
+                }
+            }
+        }
+
+        return $paths;
+    }
+
     protected function registerModuleMigrations(string $name, string $path): void
     {
-        $migrationPath = $path.'/database/migrations';
-
-        if (File::isDirectory($migrationPath)) {
-            $this->loadMigrationsFrom($migrationPath);
-        }
+        // NOOP: We only want to run module migrations within the tenant context.
+        // If we call $this->loadMigrationsFrom($path.'/database/migrations'),
+        // they get registered for the central 'migrate' command, which is WRONG for multi-tenancy.
     }
 }
