@@ -56,6 +56,7 @@
                             <x-slot name="content">
                                 <x-dropdown-link :href="route('hr.employees.index')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('Employees') }}</x-dropdown-link>
                                 <x-dropdown-link :href="route('hr.departments.index')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('Departments') }}</x-dropdown-link>
+                                <x-dropdown-link :href="route('hr.designations.index')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('Designations') }}</x-dropdown-link>
                             </x-slot>
                         </x-dropdown>
                         @endif
@@ -228,6 +229,10 @@
                     <x-responsive-nav-link :href="route('hr.departments.index')" :active="request()->routeIs('hr.departments.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
                         <span class="material-symbols-outlined text-[18px]">hub</span>
                         {{ __('Departments') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('hr.designations.index')" :active="request()->routeIs('hr.designations.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">work</span>
+                        {{ __('Designations') }}
                     </x-responsive-nav-link>
                     @if(app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('attendance', tenant('id')))
                         <x-responsive-nav-link :href="route('attendance.index')" :active="request()->routeIs('attendance.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
