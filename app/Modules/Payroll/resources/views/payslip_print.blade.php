@@ -49,7 +49,7 @@
     <div class="container">
         <div class="header">
             <div class="company-info">
-                <h1>{{ tenant('name') ?? 'HRMS SaaS' }}</h1>
+                <h1>{{ saas_tenant('name') ?? 'HRMS SaaS' }}</h1>
                 <p>Corporate Office Address</p>
                 <p>support@hrms.com | +91 1234567890</p>
             </div>

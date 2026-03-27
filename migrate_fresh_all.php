@@ -1,7 +1,8 @@
 <?php
 /**
  * migrate_fresh_all.php
- * A utility script to perform a complete "fresh" migration for both Central and Tenant schemas.
+ * A utility script to perform a complete "fresh" migration for Central and Shared schemas.
+ * Dedicated schemas are migrated on-demand (JIT).
  * 
  * Usage: php migrate_fresh_all.php
  */
@@ -12,20 +13,28 @@ $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use App\Models\Tenant;
 
 function log_msg($msg) {
     echo "[" . date('H:i:s') . "] " . $msg . "\n";
 }
 
-log_msg("Starting Fresh Migration Process...");
+log_msg("Starting Fresh Migration Process (Central + Shared Mode)...");
 
 // 1. Reset Central Database (Public Schema)
 log_msg("Resetting Central (Public) Schema...");
-passthru('php artisan migrate:fresh --path=database/migrations/system --force');
+// User requested standard php artisan migrate
+passthru('php artisan migrate:fresh --force');
 
-// 2. Drop Required Auxiliary Schemas
+// 2. Seed Central System Data (Super Admin)
+log_msg("Seeding System Data (Super Admin)...");
+passthru('php artisan db:seed --class=Database\\Seeders\\DatabaseSeeder');
+
+// 3. Seed Tenant Accounts in Central Table (Public Schema)
+log_msg("Seeding Tenant Accounts (admin@rkservices.com, etc.)...");
+passthru('php artisan db:seed --class=Database\\Seeders\\CentralTenantSeeder');
+
+// 4. Drop/Cleanup Auxiliary Schemas
 log_msg("Cleaning up extra schemas (shared, tenantrkservices, etc.)...");
 $schemas = ['shared', 'tenantrkservices', 'tenantdedicated-corp'];
 foreach ($schemas as $schema) {
@@ -33,7 +42,7 @@ foreach ($schemas as $schema) {
     DB::statement("DROP SCHEMA IF EXISTS \"$schema\" CASCADE");
 }
 
-// 3. Setup Tenants in Central Database
+// 5. Setup Tenants in Central Database
 log_msg("Setting up test tenants (rkservices, dedicated-corp)...");
 Tenant::create([
     'id' => 'rkservices',
@@ -41,7 +50,7 @@ Tenant::create([
     'slug' => 'rkservices',
     'mode' => 'shared',
     'schema' => 'shared',
-    'tenancy_db_name' => 'shared', // Force it to use the 'shared' schema
+    'tenancy_db_name' => 'shared', 
     'plan_id' => 'enterprise',
     'status' => 'active',
     'email' => 'admin@rkservices.test'
@@ -53,18 +62,21 @@ Tenant::create([
     'slug' => 'dedicated-corp',
     'mode' => 'dedicated',
     'schema' => 'tenantdedicated-corp',
-    'tenancy_db_name' => 'tenantdedicated-corp', // Isolate it to its own schema
+    'tenancy_db_name' => 'tenantdedicated-corp', 
     'plan_id' => 'enterprise',
     'status' => 'active',
     'email' => 'admin@dedicated.test'
 ]);
 
-// 4. Run Tenant Migrations
-log_msg("Running migrations for all tenants...");
-// This will automatically pick up paths from config/tenancy.php (including modules)
-passthru('php artisan tenants:migrate --force');
+// 6. Create Shared Schema manually (since we dropped it above)
+log_msg("Creating Shared Schema...");
+DB::statement("CREATE SCHEMA IF NOT EXISTS shared");
 
-log_msg("Fresh Migration Complete!");
-log_msg("Ready for Testing:");
-log_msg("- Shared Mode: http://rkservices.hrms.test/operations/leads");
-log_msg("- Dedicated Mode: http://dedicated-corp.hrms.test/operations/leads");
+// 7. Run Shared Tenant Migration (Upfront)
+log_msg("Migrating Shared Schema...");
+passthru('php artisan tenants:migrate --tenants=rkservices --force');
+
+log_msg("Process Complete!");
+log_msg("- Shared Mode: http://rkservices.hrms.test/operations/leads (Ready)");
+log_msg("- Dedicated Mode: http://dedicated-corp.hrms.test/operations/leads (Will migrate JIT on first access)");
+log_msg("Accounts Seeded: admin@hrms.com, admin@rkservices.com, admin@dedicated-corp.com (password: password)");

@@ -17,8 +17,7 @@
         "maatwebsite/excel": "^3.1",
         "spatie/laravel-activitylog": "^4.12",
         "spatie/laravel-medialibrary": "^11.21",
-        "spatie/laravel-permission": "^7.2",
-        "stancl/tenancy": "^3.9"
+        "spatie/laravel-permission": "^7.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -83,7 +82,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "stancl/tenancy"
+            ]
         }
     },
     "config": {

@@ -143,12 +143,12 @@
                                 @endif
                             </h4>
                             <p class="text-[10px] text-on-surface-variant font-medium mb-4 leading-relaxed">
-                                To activate the <strong>{{ $activePlan->name }}</strong> features, please complete the payment.
+                                To activate the <strong>{{ $activePlan->name ?? 'selected' }}</strong> features, please complete the payment.
                             </p>
-                            <a href="{{ route('admin.tenants.checkout', [$tenant->id, $activePlan->slug]) }}" 
+                            <a href="{{ route('admin.tenants.checkout', [$tenant->id, $activePlan->slug ?? 'basic']) }}" 
                                class="btn btn-primary btn-sm w-full gap-2 shadow-sm shadow-primary/30">
                                 <span class="material-symbols-outlined text-sm">payments</span>
-                                Pay & Activate (₹{{ number_format($activePlan->price_monthly) }})
+                                Pay & Activate (₹{{ number_format($activePlan->price_monthly ?? 0) }})
                             </a>
                         </div>
                     @else

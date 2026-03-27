@@ -15,15 +15,8 @@ class TenantResolver
         $host = $request->getHost();
 
         // 1. Check central domains (skip if it matches central)
-        $centralDomains = config('tenancy.central_domains', []);
-
-        foreach ($centralDomains as $domain) {
-            if ($host === $domain || str_ends_with($host, '.'.$domain)) {
-                if (str_starts_with($host, 'app.')) {
-                    return null;
-                }
-            }
-        }
+        $centralHost = parse_url(config('app.url'), PHP_URL_HOST);
+        $centralDomains = [$centralHost, 'app.' . $centralHost, 'localhost', '127.0.0.1'];
 
         if (in_array($host, $centralDomains)) {
             return null;
@@ -35,13 +28,7 @@ class TenantResolver
             return $tenant;
         }
 
-        // 3. Resolve by Stancl Domains Table
-        $domainRecord = \Stancl\Tenancy\Database\Models\Domain::where('domain', $host)->first();
-        if ($domainRecord) {
-            return $domainRecord->tenant;
-        }
-
-        // 4. Resolve by Subdomain (Slug)
+        // 3. Resolve by Subdomain (Slug)
         $parts = explode('.', $host);
         if (count($parts) >= 2) {
             $subdomain = $parts[0];

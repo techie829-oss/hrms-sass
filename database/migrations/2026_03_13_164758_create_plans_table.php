@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->string('razorpay_plan_id')->nullable();
             $table->text('description')->nullable();
             $table->decimal('price_monthly', 10, 2)->default(0);
             $table->decimal('price_yearly', 10, 2)->default(0);

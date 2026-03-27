@@ -32,7 +32,14 @@ class ModuleManager
 
         foreach ($directories as $directory) {
             $name = basename($directory);
-            $this->modules[strtolower($name)] = [
+            $slug = strtolower($name);
+
+            // Skip internal system-only directories
+            if (in_array($slug, ['internal', 'core', 'base'])) {
+                continue;
+            }
+
+            $this->modules[$slug] = [
                 'name' => $name,
                 'path' => $directory,
                 'free' => in_array(strtolower($name), ['hr', 'attendance', 'leave']),

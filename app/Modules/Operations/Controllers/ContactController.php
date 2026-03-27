@@ -12,7 +12,7 @@ class ContactController extends Controller
     public function index()
     {
         $contacts = Contact::with('clients')
-            ->where('tenant_id', tenant('id'))
+            ->where('tenant_id', saas_tenant('id'))
             ->latest()
             ->paginate(10);
         return view('operations::contacts.index', compact('contacts'));
@@ -20,7 +20,7 @@ class ContactController extends Controller
 
     public function create()
     {
-        $clients = Client::where('tenant_id', tenant('id'))->get();
+        $clients = Client::where('tenant_id', saas_tenant('id'))->get();
         return view('operations::contacts.create', compact('clients'));
     }
 
@@ -35,7 +35,7 @@ class ContactController extends Controller
             'client_ids.*' => 'exists:clients,id',
         ]);
 
-        $validated['tenant_id'] = tenant('id');
+        $validated['tenant_id'] = saas_tenant('id');
         $contact = Contact::create($validated);
 
         if ($request->has('client_ids')) {
@@ -47,7 +47,7 @@ class ContactController extends Controller
 
     public function edit(Contact $contact)
     {
-        $clients = Client::where('tenant_id', tenant('id'))->get();
+        $clients = Client::where('tenant_id', saas_tenant('id'))->get();
         $contact->load('clients');
         return view('operations::contacts.edit', compact('contact', 'clients'));
     }

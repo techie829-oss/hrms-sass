@@ -45,7 +45,7 @@ class PayrollService
                 $totalNet += $payableNet;
 
                 Payslip::create([
-                    'tenant_id' => tenant('id'),
+                    'tenant_id' => saas_tenant('id'),
                     'payroll_run_id' => $run->id,
                     'employee_id' => $employee->id,
                     'salary_structure_id' => $structure->id,

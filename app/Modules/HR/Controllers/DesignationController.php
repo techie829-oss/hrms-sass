@@ -26,7 +26,7 @@ class DesignationController extends BaseController
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:50', Rule::unique('designations')->where('tenant_id', tenant('id'))],
+            'code' => ['required', 'string', 'max:50', Rule::unique('designations')->where('tenant_id', saas_tenant('id'))],
             'department_id' => ['required', 'exists:departments,id'],
             'description' => ['nullable', 'string'],
             'min_salary' => ['nullable', 'numeric', 'min:0'],
@@ -44,7 +44,7 @@ class DesignationController extends BaseController
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:50', Rule::unique('designations')->where('tenant_id', tenant('id'))->ignore($id)],
+            'code' => ['required', 'string', 'max:50', Rule::unique('designations')->where('tenant_id', saas_tenant('id'))->ignore($id)],
             'department_id' => ['required', 'exists:departments,id'],
             'description' => ['nullable', 'string'],
             'min_salary' => ['nullable', 'numeric', 'min:0'],

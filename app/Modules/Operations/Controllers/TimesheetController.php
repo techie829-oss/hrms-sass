@@ -12,12 +12,12 @@ class TimesheetController extends Controller
 {
     public function index()
     {
-        $timesheets = Timesheet::where('tenant_id', tenant('id'))
+        $timesheets = Timesheet::where('tenant_id', saas_tenant('id'))
             ->with(['employee', 'project', 'task'])
             ->latest()
             ->paginate(15);
 
-        $projects = Project::where('tenant_id', tenant('id'))->get();
+        $projects = Project::where('tenant_id', saas_tenant('id'))->get();
 
         return view('operations::timesheets.index', compact('timesheets', 'projects'));
     }
@@ -34,7 +34,7 @@ class TimesheetController extends Controller
             'description' => 'required|string',
         ]);
 
-        $validated['tenant_id'] = tenant('id');
+        $validated['tenant_id'] = saas_tenant('id');
         $validated['employee_id'] = auth()->user()->employee->id ?? null;
 
         if (!$validated['employee_id']) {

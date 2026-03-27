@@ -129,7 +129,7 @@
                                     </div>
                                 @endif
 
-                                @if(auth()->user()->hasRole('super_admin') || auth()->user()->can('manage employees'))
+                                @if(auth()->user()->hasRole('superadmin') || auth()->user()->can('manage employees'))
                                 <div class="absolute inset-0 bg-primary/80 opacity-0 group-hover/official:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer gap-2" onclick="document.getElementById('main_image_input').click()">
                                     <span class="material-symbols-outlined text-white text-2xl">upload_file</span>
                                     <span class="text-[8px] font-black text-white uppercase tracking-widest text-center px-4">Upload Official ID<br>(HR Only)</span>

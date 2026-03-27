@@ -46,7 +46,7 @@ class SalaryStructureController extends BaseController
             ->update(['is_active' => false, 'effective_to' => Carbon::parse($validated['effective_from'])->subDay()]);
 
         SalaryStructure::create([
-            'tenant_id' => tenant('id'),
+            'tenant_id' => saas_tenant('id'),
             'employee_id' => $validated['employee_id'],
             'ctc' => $validated['ctc'],
             'gross_salary' => $grossSalary,

@@ -2,33 +2,51 @@
 
 namespace App\Models;
 
-use Stancl\Tenancy\Contracts\TenantWithDatabase;
-use Stancl\Tenancy\Database\Concerns\HasDatabase;
-use Stancl\Tenancy\Database\Concerns\HasDomains;
-use Stancl\Tenancy\Database\Models\Tenant as BaseTenant;
+use App\Core\Traits\UsesPublicSchema;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
-class Tenant extends BaseTenant implements TenantWithDatabase
+class Tenant extends Model
 {
-    use HasDatabase, HasDomains;
+    use UsesPublicSchema;
+
+    protected $keyType = 'string';
+    public $incrementing = false;
+
+    protected $fillable = [
+        'id',
+        'name',
+        'slug',
+        'domain',
+        'schema',
+        'mode',
+        'plan_id',
+        'status',
+        'email',
+        'contact_no',
+    ];
+
+    protected static function booted(): void
+    {
+        static::creating(function ($tenant) {
+            if (!$tenant->id) {
+                $tenant->id = (string) Str::uuid();
+            }
+            
+            if (!$tenant->schema) {
+                $tenant->schema = ($tenant->mode === 'dedicated') 
+                    ? 'tenant_' . ($tenant->id) 
+                    : 'shared';
+            }
+        });
+    }
 
     /**
-     * Custom columns on the tenants table.
-     * These will be stored directly in the tenants table.
+     * Get the domains for this tenant.
      */
-    public static function getCustomColumns(): array
+    public function domains()
     {
-        return [
-            'id',
-            'name',
-            'slug',
-            'domain',
-            'schema',
-            'mode',
-            'plan_id',
-            'status',
-            'email',
-            'contact_no',
-        ];
+        return $this->hasMany(Domain::class, 'tenant_id');
     }
 
     /**

@@ -11,7 +11,7 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::where('tenant_id', tenant('id'))
+        $projects = Project::where('tenant_id', saas_tenant('id'))
             ->with(['client', 'tasks'])
             ->latest()
             ->paginate(10);
@@ -21,7 +21,7 @@ class ProjectController extends Controller
 
     public function create()
     {
-        $clients = Client::where('tenant_id', tenant('id'))->get();
+        $clients = Client::where('tenant_id', saas_tenant('id'))->get();
         return view('operations::projects.create', compact('clients'));
     }
 
@@ -36,7 +36,7 @@ class ProjectController extends Controller
             'budget' => 'nullable|numeric',
         ]);
 
-        $validated['tenant_id'] = tenant('id');
+        $validated['tenant_id'] = saas_tenant('id');
         $project = Project::create($validated);
 
         return redirect()->route('operations.projects.show', $project)

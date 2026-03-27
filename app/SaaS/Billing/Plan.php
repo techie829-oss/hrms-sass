@@ -2,10 +2,12 @@
 
 namespace App\SaaS\Billing;
 
+use App\Core\Traits\UsesPublicSchema;
 use Illuminate\Database\Eloquent\Model;
 
 class Plan extends Model
 {
+    use UsesPublicSchema;
     protected $fillable = [
         'name',
         'slug',

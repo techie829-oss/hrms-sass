@@ -1,6 +1,7 @@
 @php
+    use App\Core\Constants\RoleConstants;
     $dashboardRoute = 'dashboard';
-    if (tenant()) {
+    if (saas_tenant()) {
         $dashboardRoute = 'tenant.dashboard';
     } else {
         $dashboardRoute = 'super-admin.dashboard';
@@ -25,10 +26,10 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    @if(tenant())
+                    @if(saas_tenant())
                         @php
                             $moduleManager = app(\App\SaaS\Modules\ModuleManager::class);
-                            $tenantId = tenant('id');
+                            $tenantId = saas_tenant('id');
                             $hasHr = $moduleManager->tenantHasAccess('hr', $tenantId);
                             $hasAttendance = $moduleManager->tenantHasAccess('attendance', $tenantId);
                             $hasLeave = $moduleManager->tenantHasAccess('leave', $tenantId);
@@ -40,7 +41,7 @@
                         @endphp
 
                         {{-- Workforce Group --}}
-                        @if($hasHr && Auth::user()->hasAnyRole(['tadmin', 'tmanager']))
+                        @if($hasHr && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
                         <x-dropdown align="left" width="48">
                             <x-slot name="trigger">
                                 <button class="inline-flex items-center px-3 py-2 border-none text-[11px] font-bold uppercase tracking-wider text-on-surface-variant/70 hover:text-primary transition ease-in-out duration-150">
@@ -62,7 +63,7 @@
                         @endif
 
                         {{-- Operations Group --}}
-                        @if(($hasAttendance || $hasLeave || $hasPayroll) && Auth::user()->hasAnyRole(['tadmin', 'tmanager']))
+                        @if(($hasAttendance || $hasLeave || $hasPayroll) && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
                         <x-dropdown align="left" width="48">
                             <x-slot name="trigger">
                                 <button class="inline-flex items-center px-3 py-2 border-none text-[11px] font-bold uppercase tracking-wider text-on-surface-variant/70 hover:text-primary transition ease-in-out duration-150">
@@ -93,7 +94,7 @@
                         @endif
 
                         {{-- Performance & Jobs Group --}}
-                        @if(($hasPerformance || $hasRecruitment) && Auth::user()->hasAnyRole(['tadmin', 'tmanager']))
+                        @if(($hasPerformance || $hasRecruitment) && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
                         <x-dropdown align="left" width="48">
                             <x-slot name="trigger">
                                 <button class="inline-flex items-center px-3 py-2 border-none text-[11px] font-bold uppercase tracking-wider text-on-surface-variant/70 hover:text-primary transition ease-in-out duration-150">
@@ -116,7 +117,7 @@
                         </x-dropdown>
                         @endif
 
-                        @if($hasReports && Auth::user()->hasAnyRole(['tadmin', 'tmanager']))
+                        @if($hasReports && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
                         <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')" class="text-[11px] font-bold uppercase tracking-wider px-3">
                             {{ __('Reports') }}
                         </x-nav-link>
@@ -138,13 +139,13 @@
                             <x-slot name="content">
                                 <x-dropdown-link :href="route('attendance.kiosk')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('Daily Attendance') }}</x-dropdown-link>
                                 <x-dropdown-link :href="route('leave.requests.index')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('My Leaves') }}</x-dropdown-link>
-                                <x-dropdown-link :href="route('tenant.profile.edit')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('My Profile') }}</x-dropdown-link>
+                                <x-dropdown-link :href="route('profile.edit')" class="text-[10px] font-bold uppercase tracking-wider">{{ __('My Profile') }}</x-dropdown-link>
                             </x-slot>
                         </x-dropdown>
                     @endif
 
-                    @if(!tenant() && Auth::user()->hasAnyRole(['super_admin', 'sadmin', 'smanager', 'sstaff']))
-                        @if(Auth::user()->hasAnyRole(['super_admin', 'sadmin']))
+                    @if(!saas_tenant() && Auth::user()->hasAnyRole([RoleConstants::SADMIN, RoleConstants::SMANAGER, RoleConstants::SSTAFF]))
+                        @if(Auth::user()->hasAnyRole([RoleConstants::SADMIN, RoleConstants::SMANAGER]))
                         <x-nav-link :href="route('admin.tenants.index')" :active="request()->routeIs('admin.tenants.*')" class="text-[11px] font-bold uppercase tracking-wider px-3">
                             {{ __('Tenants') }}
                         </x-nav-link>
@@ -177,15 +178,15 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route((tenant() ? 'tenant.' : '') . 'profile.edit')" class="font-bold text-xs uppercase tracking-widest font-label">
+                        <x-dropdown-link :href="route('profile.edit')" class="font-bold text-xs uppercase tracking-widest font-label">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
-                        <form method="POST" action="{{ route((tenant() ? 'tenant.' : '') . 'logout') }}">
+                        <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route((tenant() ? 'tenant.' : '') . 'logout')"
+                            <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();" class="font-bold text-xs uppercase tracking-widest font-label text-error">
                                 {{ __('Log Out') }}
@@ -220,7 +221,7 @@
                 {{ __('Contact') }}
             </x-responsive-nav-link>
 
-            @if(tenant() && app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('hr', tenant('id')))
+            @if(saas_tenant() && app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('hr', saas_tenant('id')))
                 <div class="border-t border-outline-variant/5 mt-2 pt-2">
                     <x-responsive-nav-link :href="route('hr.employees.index')" :active="request()->routeIs('hr.employees.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
                         <span class="material-symbols-outlined text-[18px]">group</span>
@@ -234,42 +235,42 @@
                         <span class="material-symbols-outlined text-[18px]">work</span>
                         {{ __('Designations') }}
                     </x-responsive-nav-link>
-                    @if(app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('attendance', tenant('id')))
+                    @if(app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('attendance', saas_tenant('id')))
                         <x-responsive-nav-link :href="route('attendance.index')" :active="request()->routeIs('attendance.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
                             <span class="material-symbols-outlined text-[18px]">event_available</span>
                             {{ __('Attendance') }}
                         </x-responsive-nav-link>
                     @endif
 
-                    @if(app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('leave', tenant('id')))
+                    @if(app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('leave', saas_tenant('id')))
                         <x-responsive-nav-link :href="route('leave.requests.index')" :active="request()->routeIs('leave.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
                             <span class="material-symbols-outlined text-[18px]">event_busy</span>
                             {{ __('Leaves') }}
                         </x-responsive-nav-link>
                     @endif
 
-                    @if(app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('payroll', tenant('id')))
+                    @if(app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('payroll', saas_tenant('id')))
                         <x-responsive-nav-link :href="route('payroll.index')" :active="request()->routeIs('payroll.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
                             <span class="material-symbols-outlined text-[18px]">payments</span>
                             {{ __('Payroll') }}
                         </x-responsive-nav-link>
                     @endif
 
-                    @if(app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('performance', tenant('id')))
+                    @if(app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('performance', saas_tenant('id')))
                         <x-responsive-nav-link :href="route('performance.dashboard')" :active="request()->routeIs('performance.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
                             <span class="material-symbols-outlined text-[18px]">trending_up</span>
                             {{ __('Performance') }}
                         </x-responsive-nav-link>
                     @endif
 
-                    @if(app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('reports', tenant('id')))
+                    @if(app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('reports', saas_tenant('id')))
                         <x-responsive-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
                             <span class="material-symbols-outlined text-[18px]">insert_chart</span>
                             {{ __('Reports') }}
                         </x-responsive-nav-link>
                     @endif
 
-                    @if(app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('recruitment', tenant('id')))
+                    @if(app(\App\SaaS\Modules\ModuleManager::class)->tenantHasAccess('recruitment', saas_tenant('id')))
                         <x-responsive-nav-link :href="route('recruitment.dashboard')" :active="request()->routeIs('recruitment.dashboard', 'recruitment.job_postings.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
                             <span class="material-symbols-outlined text-[18px]">work</span>
                             {{ __('Jobs') }}
@@ -282,7 +283,7 @@
                 </div>
 @endif
 
-            @if(!tenant() && Auth::user()->hasRole('super_admin'))
+            @if(!saas_tenant() && Auth::user()->hasRole(RoleConstants::SADMIN))
                 <x-responsive-nav-link :href="route('admin.tenants.index')" :active="request()->routeIs('admin.tenants.*')" class="font-bold uppercase tracking-widest font-label flex items-center gap-2">
                     <span class="material-symbols-outlined text-[18px]">domain</span>
                     {{ __('Tenants') }}
@@ -310,15 +311,15 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route((tenant() ? 'tenant.' : '') . 'profile.edit')" class="font-bold uppercase tracking-widest font-label">
+                <x-responsive-nav-link :href="route('profile.edit')" class="font-bold uppercase tracking-widest font-label">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
-                <form method="POST" action="{{ route((tenant() ? 'tenant.' : '') . 'logout') }}">
+                <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <x-responsive-nav-link :href="route((tenant() ? 'tenant.' : '') . 'logout')"
+                    <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();" class="font-bold uppercase tracking-widest font-label text-error">
                         {{ __('Log Out') }}

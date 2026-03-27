@@ -29,7 +29,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Custom SaaS Tenancy Context Singleton
+        $this->app->singleton(\App\SaaS\Tenancy\TenantContext::class, function ($app) {
+            return new \App\SaaS\Tenancy\TenantContext();
+        });
     }
 
     /**

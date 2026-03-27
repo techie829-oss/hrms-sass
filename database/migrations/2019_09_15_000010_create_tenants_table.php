@@ -16,8 +16,15 @@ class CreateTenantsTable extends Migration
         Schema::create('tenants', function (Blueprint $table) {
             $table->string('id')->primary();
 
-            // your custom columns may go here
-
+            $table->string('name')->nullable();
+            $table->string('slug')->unique()->nullable();
+            $table->string('domain')->unique()->nullable();
+            $table->string('schema')->nullable(); // PostgreSQL schema name
+            $table->enum('mode', ['shared', 'dedicated'])->default('shared');
+            $table->string('plan_id')->nullable();
+            $table->string('status')->default('active');
+            $table->string('email')->nullable();
+            $table->string('contact_no')->nullable();
             $table->timestamps();
             $table->json('data')->nullable();
         });

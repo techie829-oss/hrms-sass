@@ -109,7 +109,7 @@ class ProfileController extends Controller
     public function updateMainImage(Request $request): RedirectResponse
     {
         // Simple permission check (can be replaced with Spatie middleware)
-        if (!$request->user()->hasRole('super_admin') && !$request->user()->can('manage employees')) {
+        if (!$request->user()->hasRole('superadmin') && !$request->user()->can('manage employees')) {
             abort(403);
         }
 

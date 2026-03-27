@@ -1,9 +1,9 @@
 <x-guest-layout>
     <div class="mb-10 text-center">
         <h2 class="text-3xl font-extrabold font-headline text-on-surface tracking-tight">Welcome Back</h2>
-        @if(tenant())
+        @if(isset($activeTenant) && $activeTenant)
             <div class="mt-2 inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest">
-                {{ tenant('name') ?: 'Tenant Portal' }}
+                {{ $activeTenant->name ?? 'Tenant Portal' }}
             </div>
         @else
             <div class="mt-2 inline-flex items-center px-3 py-1 rounded-full bg-tertiary/10 text-tertiary text-xs font-bold uppercase tracking-widest">
@@ -16,7 +16,7 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route((tenant() ? 'tenant.' : '') . 'login') }}" class="space-y-6">
+    <form method="POST" action="{{ route('login') }}" class="space-y-6">
         @csrf
 
         <!-- Email Address -->
@@ -40,8 +40,8 @@
                 <span class="ms-2 text-sm font-bold text-on-surface-variant uppercase tracking-widest font-label">{{ __('Remember me') }}</span>
             </label>
 
-            @if (Route::has((tenant() ? 'tenant.' : '') . 'password.request'))
-                <a class="text-sm font-bold text-primary hover:underline font-label uppercase tracking-widest" href="{{ route((tenant() ? 'tenant.' : '') . 'password.request') }}">
+            @if (Route::has('password.request'))
+                <a class="text-sm font-bold text-primary hover:underline font-label uppercase tracking-widest" href="{{ route('password.request') }}">
                     {{ __('Forgot password?') }}
                 </a>
             @endif

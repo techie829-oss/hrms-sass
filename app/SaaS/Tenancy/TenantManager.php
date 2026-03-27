@@ -5,6 +5,7 @@ namespace App\SaaS\Tenancy;
 use App\Models\Tenant;
 use App\SaaS\Modules\ModuleInstaller;
 use App\SaaS\Modules\ModuleManager;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -24,36 +25,49 @@ class TenantManager
      */
     public function provision(array $data): Tenant
     {
-        // 1. Create Tenant Record
+        // 0. Pre-determine Schema and Mode
+        $id = $data['id'] ?? Str::slug($data['name']);
+        $mode = $data['mode'] ?? 'shared';
+        $schema = ($mode === 'dedicated') ? "tenant_{$id}" : 'shared';
+
+        // 1. Ensure Schema Exists BEFORE Tenant Record (to prevent migration errors during create)
+        // Purge to ensure we start fresh
+        DB::purge('pgsql');
+        DB::statement("CREATE SCHEMA IF NOT EXISTS \"{$schema}\"");
+        DB::purge('pgsql');
+
+        // 2. Create Tenant Record
         $tenant = Tenant::create([
-            'id' => $data['id'] ?? Str::slug($data['name']),
+            'id' => $id,
             'name' => $data['name'],
             'email' => $data['email'],
             'contact_no' => $data['contact_no'] ?? null,
-            'slug' => $data['id'] ?? Str::slug($data['name']),
-            'mode' => $data['mode'] ?? 'shared',
-            'schema' => ($data['mode'] === 'dedicated') ? 'tenant_'.($data['id'] ?? Str::slug($data['name'])) : 'shared',
+            'slug' => $id,
+            'mode' => $mode,
+            'schema' => $schema,
             'plan_id' => $data['plan_id'] ?? 'basic',
             'status' => 'active',
         ]);
 
-        // 2. Create Domain
+        // 3. Create Domain
         $tenant->domains()->create([
             'domain' => $data['domain'],
         ]);
 
-        // 3. Initialize and Setup Schema if Dedicated
-        if ($tenant->mode === 'dedicated') {
-            DB::statement('CREATE SCHEMA IF NOT EXISTS '.$tenant->schema);
-        }
+        // 4. Manually Run Migrations (Since automated jobs are disabled)
+            // 4. Run Migrations for this specific tenant using our custom runner
+            Artisan::call('saas:migrate', [
+                '--tenants' => $tenant->id,
+                '--force' => true,
+            ]);
 
-        // 4. Auto-enable Core Modules
+        // 5. Auto-enable Core Modules
         $coreModules = ['hr', 'attendance', 'leave'];
         foreach ($coreModules as $module) {
             $this->moduleManager->enableModule($module, $tenant);
         }
 
-        // 5. Dispatch Provisioned Event for Blueprinting
+        // 6. Dispatch Provisioned Event for Blueprinting
         event(new \App\Events\TenantProvisioned($tenant));
 
         return $tenant;

@@ -15,8 +15,8 @@ class SetPermissionsTeamId
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (tenant()) {
-            setPermissionsTeamId(tenant('id'));
+        if (saas_tenant()) {
+            setPermissionsTeamId(saas_tenant('id'));
         } else {
             // For SaaS Internal context, we use null team ID
             setPermissionsTeamId(null);

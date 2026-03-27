@@ -20,7 +20,7 @@ class EmployeeService extends BaseService
         return \Illuminate\Support\Facades\DB::transaction(function () use ($data) {
             // 1. Create User
             $user = \App\Models\User::create([
-                'tenant_id' => tenant('id'),
+                'tenant_id' => saas_tenant('id'),
                 'name' => $data['first_name'] . ' ' . $data['last_name'],
                 'email' => $data['email'],
                 'password' => \Illuminate\Support\Facades\Hash::make('password'), // Default password
@@ -32,7 +32,7 @@ class EmployeeService extends BaseService
 
             // 3. Create Employee linked to User
             $data['user_id'] = $user->id;
-            $data['tenant_id'] = tenant('id');
+            $data['tenant_id'] = saas_tenant('id');
 
             return $this->repository->create($data);
         });

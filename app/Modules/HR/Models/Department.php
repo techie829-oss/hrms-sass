@@ -3,12 +3,13 @@
 namespace App\Modules\HR\Models;
 
 use App\Core\Traits\BelongsToTenant;
+use App\Core\Traits\HasDynamicSchema;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Department extends Model
 {
-    use BelongsToTenant, HasFactory;
+    use BelongsToTenant, HasDynamicSchema, HasFactory;
 
     protected $fillable = [
         'tenant_id',

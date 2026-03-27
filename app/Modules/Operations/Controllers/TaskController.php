@@ -12,7 +12,7 @@ class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Task::where('tenant_id', tenant('id'))
+        $query = Task::where('tenant_id', saas_tenant('id'))
             ->with(['project', 'assignee']);
 
         // Filtering
@@ -41,16 +41,16 @@ class TaskController extends Controller
         }
 
         $tasks = $query->latest()->paginate(20);
-        $employees = Employee::where('tenant_id', tenant('id'))->get();
-        $projects = Project::where('tenant_id', tenant('id'))->get();
+        $employees = Employee::where('tenant_id', saas_tenant('id'))->get();
+        $projects = Project::where('tenant_id', saas_tenant('id'))->get();
 
         return view('operations::tasks.index', compact('tasks', 'employees', 'projects'));
     }
 
     public function create()
     {
-        $employees = Employee::where('tenant_id', tenant('id'))->get();
-        $projects = Project::where('tenant_id', tenant('id'))->get();
+        $employees = Employee::where('tenant_id', saas_tenant('id'))->get();
+        $projects = Project::where('tenant_id', saas_tenant('id'))->get();
         return view('operations::tasks.create', compact('employees', 'projects'));
     }
 
@@ -65,7 +65,7 @@ class TaskController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $validated['tenant_id'] = tenant('id');
+        $validated['tenant_id'] = saas_tenant('id');
         if ($project) {
             $validated['project_id'] = $project->id;
         }
@@ -82,8 +82,8 @@ class TaskController extends Controller
 
     public function edit(Task $task)
     {
-        $employees = Employee::where('tenant_id', tenant('id'))->get();
-        $projects = Project::where('tenant_id', tenant('id'))->get();
+        $employees = Employee::where('tenant_id', saas_tenant('id'))->get();
+        $projects = Project::where('tenant_id', saas_tenant('id'))->get();
         return view('operations::tasks.edit', compact('task', 'employees', 'projects'));
     }
 

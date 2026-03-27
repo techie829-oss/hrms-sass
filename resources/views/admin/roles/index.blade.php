@@ -15,7 +15,7 @@
 
     @php
         $roleIconMap = [
-            'super_admin' => 'verified_user',
+            'superadmin' => 'verified_user',
             'admin' => 'admin_panel_settings',
             'hr_manager' => 'badge',
             'manager' => 'manage_accounts',

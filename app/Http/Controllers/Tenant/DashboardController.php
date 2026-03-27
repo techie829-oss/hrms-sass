@@ -22,7 +22,7 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $tenantId = tenant('id');
+        $tenantId = saas_tenant('id');
         $recentActivities = $this->activityService->getRecentActivities(5);
 
         $data = [

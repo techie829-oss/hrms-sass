@@ -3,13 +3,17 @@
 namespace App\Modules\Operations\Models;
 
 use App\Core\Traits\BelongsToTenant;
+use App\Core\Traits\HasDynamicSchema;
 use App\Modules\HR\Models\Employee;
+use App\Modules\Operations\Models\Project;
+use App\Modules\Operations\Models\Task;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Timesheet extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasDynamicSchema, HasFactory;
 
     protected $fillable = [
         'tenant_id',

@@ -12,7 +12,7 @@ class LeadController extends Controller
     public function index()
     {
         $leads = Lead::with('assignee')
-            ->where('tenant_id', tenant('id'))
+            ->where('tenant_id', saas_tenant('id'))
             ->latest()
             ->paginate(10);
         return view('operations::leads.index', compact('leads'));
@@ -20,7 +20,7 @@ class LeadController extends Controller
 
     public function create()
     {
-        $employees = Employee::where('tenant_id', tenant('id'))->get();
+        $employees = Employee::where('tenant_id', saas_tenant('id'))->get();
         return view('operations::leads.create', compact('employees'));
     }
 
@@ -37,7 +37,7 @@ class LeadController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $validated['tenant_id'] = tenant('id');
+        $validated['tenant_id'] = saas_tenant('id');
         Lead::create($validated);
 
         return redirect()->route('operations.leads.index')->with('success', 'Lead created successfully.');
@@ -51,7 +51,7 @@ class LeadController extends Controller
 
     public function edit(Lead $lead)
     {
-        $employees = Employee::where('tenant_id', tenant('id'))->get();
+        $employees = Employee::where('tenant_id', saas_tenant('id'))->get();
         return view('operations::leads.edit', compact('lead', 'employees'));
     }
 

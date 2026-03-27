@@ -29,7 +29,7 @@ class SalaryComponentController extends BaseController
         ]);
 
         SalaryComponent::create(array_merge($validated, [
-            'tenant_id' => tenant('id'),
+            'tenant_id' => saas_tenant('id'),
             'is_taxable' => $request->has('is_taxable'),
             'is_mandatory' => $request->has('is_mandatory'),
         ]));

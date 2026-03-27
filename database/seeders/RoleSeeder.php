@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Models\Permission;
+use App\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
 class RoleSeeder extends Seeder
@@ -22,7 +22,7 @@ class RoleSeeder extends Seeder
         setPermissionsTeamId(null);
 
         $saasRoles = [
-            'super_admin' => 'Full SaaS System Access',
+            'superadmin' => 'Full SaaS System Access',
             'sadmin' => 'SaaS Administrator',
             'smanager' => 'Sales & Marketing Manager',
             'sstaff' => 'Sales & Marketing Staff',
@@ -32,7 +32,6 @@ class RoleSeeder extends Seeder
             Role::firstOrCreate([
                 'name' => $name, 
                 'guard_name' => 'web',
-                'tenant_id' => null
             ]);
         }
 
@@ -61,7 +60,7 @@ class RoleSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web', 'tenant_id' => null]);
+            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
         }
 
         // Note: For now, we seed the global SaaS roles. 

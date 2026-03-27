@@ -40,10 +40,10 @@ class EmployeeController extends BaseController
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'employee_id' => ['required', 'string', 'max:20', Rule::unique('employees')->where('tenant_id', tenant('id'))],
+            'employee_id' => ['required', 'string', 'max:20', Rule::unique('employees')->where('tenant_id', saas_tenant('id'))],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('employees')->where('tenant_id', tenant('id'))],
+            'email' => ['required', 'email', Rule::unique('employees')->where('tenant_id', saas_tenant('id'))],
             'department_id' => ['nullable', 'exists:departments,id'],
             'designation_id' => ['nullable', 'exists:designations,id'],
             'date_of_joining' => ['required', 'date'],
@@ -88,10 +88,10 @@ class EmployeeController extends BaseController
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'employee_id' => ['required', 'string', 'max:20', Rule::unique('employees')->where('tenant_id', tenant('id'))->ignore($id)],
+            'employee_id' => ['required', 'string', 'max:20', Rule::unique('employees')->where('tenant_id', saas_tenant('id'))->ignore($id)],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('employees')->where('tenant_id', tenant('id'))->ignore($id)],
+            'email' => ['required', 'email', Rule::unique('employees')->where('tenant_id', saas_tenant('id'))->ignore($id)],
             'department_id' => ['nullable', 'exists:departments,id'],
             'date_of_joining' => ['required', 'date'],
             'employment_type' => ['required', Rule::in(['full_time', 'part_time', 'contract', 'intern'])],

@@ -3,13 +3,15 @@
 namespace App\Modules\Operations\Models;
 
 use App\Core\Traits\BelongsToTenant;
+use App\Core\Traits\HasDynamicSchema;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasDynamicSchema;
 
     protected $fillable = [
         'tenant_id',

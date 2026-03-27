@@ -114,7 +114,7 @@ class ClockController extends BaseController
         $photoPath = $this->savePhoto($request->input('photo'), $employee->id, 'checkin');
 
         AttendanceLog::create([
-            'tenant_id' => tenant('id'),
+            'tenant_id' => saas_tenant('id'),
             'employee_id' => $employee->id,
             'attendance_shift_id' => $shift?->id,
             'date' => $today,

@@ -29,8 +29,8 @@ class DepartmentController extends BaseController
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('departments')->where('tenant_id', tenant('id'))],
-            'code' => ['required', 'string', 'max:20', Rule::unique('departments')->where('tenant_id', tenant('id'))],
+            'name' => ['required', 'string', 'max:255', Rule::unique('departments')->where('tenant_id', saas_tenant('id'))],
+            'code' => ['required', 'string', 'max:20', Rule::unique('departments')->where('tenant_id', saas_tenant('id'))],
             'description' => ['nullable', 'string'],
         ]);
 
@@ -43,8 +43,8 @@ class DepartmentController extends BaseController
     public function update(Request $request, int $id)
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('departments')->where('tenant_id', tenant('id'))->ignore($id)],
-            'code' => ['required', 'string', 'max:20', Rule::unique('departments')->where('tenant_id', tenant('id'))->ignore($id)],
+            'name' => ['required', 'string', 'max:255', Rule::unique('departments')->where('tenant_id', saas_tenant('id'))->ignore($id)],
+            'code' => ['required', 'string', 'max:20', Rule::unique('departments')->where('tenant_id', saas_tenant('id'))->ignore($id)],
             'description' => ['nullable', 'string'],
         ]);
 

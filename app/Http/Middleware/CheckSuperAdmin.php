@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Core\Constants\RoleConstants;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,8 +14,8 @@ class CheckSuperAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user() || ! $request->user()->hasRole('super_admin')) {
-            abort(403, 'Unauthorized access to Super Admin context.');
+        if (! $request->user() || ! $request->user()->hasRole(RoleConstants::SADMIN)) {
+            abort(403, 'Unauthorized access to SaaS Administration context.');
         }
 
         return $next($request);

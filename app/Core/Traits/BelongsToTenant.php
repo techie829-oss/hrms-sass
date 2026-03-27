@@ -9,14 +9,16 @@ trait BelongsToTenant
     public static function bootBelongsToTenant(): void
     {
         static::creating(function ($model) {
-            if (tenant('id') && ! $model->tenant_id) {
-                $model->tenant_id = tenant('id');
+            $tenant = function_exists('saas_tenant') ? saas_tenant() : null;
+            if ($tenant && !$model->tenant_id) {
+                $model->tenant_id = $tenant->id;
             }
         });
 
         static::addGlobalScope('tenant', function (Builder $builder) {
-            if (tenant('id')) {
-                $builder->where($builder->getModel()->getTable() . '.tenant_id', tenant('id'));
+            $tenant = function_exists('saas_tenant') ? saas_tenant() : null;
+            if ($tenant) {
+                $builder->where($builder->getModel()->getTable() . '.tenant_id', $tenant->id);
             }
         });
     }

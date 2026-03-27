@@ -13,7 +13,7 @@ class EnsureTenantIsActive
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $tenant = tenant();
+        $tenant = saas_tenant();
 
         if (! $tenant) {
             return $next($request);

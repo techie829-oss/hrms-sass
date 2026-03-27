@@ -1,9 +1,11 @@
 <?php
 
+// Load Custom multi-tenancy helpers early
+require_once __DIR__.'/../app/SaaS/helpers.php';
+
 use App\Http\Middleware\CheckModuleAccess;
 use App\Http\Middleware\CheckSuperAdmin;
 use App\Http\Middleware\EnsureTenantIsActive;
-use App\Http\Middleware\ResolveTenantSchema;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,11 +17,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->append(ResolveTenantSchema::class);
+        // Use our custom, trait-based schema isolation middleware (Prepend for early identification)
+        $middleware->prepend(\App\Http\Middleware\CustomIdentifyTenant::class);
         $middleware->alias([
             'tenant.active' => EnsureTenantIsActive::class,
+            'tenant.employee' => \App\Http\Middleware\EnsureEmployeeProfile::class,
             'module.access' => CheckModuleAccess::class,
-            'super_admin' => CheckSuperAdmin::class,
+            'superadmin' => CheckSuperAdmin::class,
             'scope.roles' => \App\Http\Middleware\SetPermissionsTeamId::class,
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
@@ -31,10 +35,18 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->redirectGuestsTo(function ($request) {
-            if (tenant()) {
-                return route('tenant.login');
-            }
             return route('login');
+        });
+
+        $middleware->redirectUsersTo(function ($request) {
+            $user = $request->user();
+            if ($user && $user->hasRole(\App\Core\Constants\RoleConstants::SADMIN)) {
+                return route('super-admin.dashboard');
+            }
+            if (function_exists('saas_tenant') && saas_tenant()) {
+                return route('tenant.dashboard');
+            }
+            return route('saas.hub'); // Redirect to Tenant Hub on central domain
         });
     })
     ->withExceptions(function (Exceptions $exceptions): void {

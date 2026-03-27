@@ -10,7 +10,7 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $clients = Client::where('tenant_id', tenant('id'))
+        $clients = Client::where('tenant_id', saas_tenant('id'))
             ->with(['contacts'])
             ->withCount('projects')
             ->latest()
@@ -29,7 +29,7 @@ class ClientController extends Controller
             'address' => 'nullable|string',
         ]);
 
-        $validated['tenant_id'] = tenant('id');
+        $validated['tenant_id'] = saas_tenant('id');
         Client::create($validated);
 
         return back()->with('success', 'Client added successfully.');

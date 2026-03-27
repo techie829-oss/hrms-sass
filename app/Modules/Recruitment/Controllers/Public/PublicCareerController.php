@@ -15,7 +15,7 @@ class PublicCareerController extends BaseController
      */
     public function index()
     {
-        $tenant = tenant();
+        $tenant = saas_tenant();
         
         $postings = JobPosting::where('status', 'open')
             ->orderBy('created_at', 'desc')
@@ -35,7 +35,7 @@ class PublicCareerController extends BaseController
             abort(404);
         }
 
-        $tenant = tenant();
+        $tenant = saas_tenant();
 
         return view('recruitment::public.show', compact('job_posting', 'tenant', 'hash'));
     }
@@ -62,7 +62,7 @@ class PublicCareerController extends BaseController
 
         $resumePath = null;
         if ($request->hasFile('resume')) {
-            $resumePath = $request->file('resume')->store('resumes/' . tenant('id'), 'public');
+            $resumePath = $request->file('resume')->store('resumes/' . saas_tenant('id'), 'public');
         }
 
         $application = new JobApplication([
@@ -77,7 +77,7 @@ class PublicCareerController extends BaseController
             'applied_at'     => Carbon::now(),
         ]);
         
-        $application->tenant_id = tenant('id');
+        $application->tenant_id = saas_tenant('id');
         $application->save();
 
         return redirect()->route('tenant.careers.show', ['job_posting' => $hash])

@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Core\Traits\BelongsToTenant;
 use Database\Factories\UserFactory;
+use App\Core\Traits\UsesPublicSchema;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,7 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use BelongsToTenant, HasFactory, HasRoles, Notifiable;
+    use BelongsToTenant, HasFactory, HasRoles, Notifiable, UsesPublicSchema;
 
     /**
      * Always use the central connection for Users, 

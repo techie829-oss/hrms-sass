@@ -3,7 +3,10 @@
 namespace App\Listeners;
 
 use App\Events\TenantProvisioned;
+use App\Core\Constants\RoleConstants;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 
 class SetupTenantBlueprint
@@ -15,16 +18,21 @@ class SetupTenantBlueprint
     {
         $tenant = $event->tenant;
 
+        // Activate the tenant context for this process
+        app(\App\SaaS\Tenancy\TenantContext::class)->setTenant($tenant);
+
         // 1. Set the team ID for Spatie Permission so roles are created for this tenant
-        setPermissionsTeamId($tenant->id);
+        if (function_exists('setPermissionsTeamId')) {
+            setPermissionsTeamId($tenant->id);
+        }
 
         // 2. Create standard roles for the tenant
-        $adminRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'tadmin', 'guard_name' => 'web', 'tenant_id' => $tenant->id]);
-        $managerRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'tmanager', 'guard_name' => 'web', 'tenant_id' => $tenant->id]);
-        $staffRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'tstaff', 'guard_name' => 'web', 'tenant_id' => $tenant->id]);
+        $adminRole = Role::firstOrCreate(['name' => RoleConstants::TADMIN, 'guard_name' => 'web', 'tenant_id' => $tenant->id]);
+        $managerRole = Role::firstOrCreate(['name' => RoleConstants::TMANAGER, 'guard_name' => 'web', 'tenant_id' => $tenant->id]);
+        $staffRole = Role::firstOrCreate(['name' => RoleConstants::TSTAFF, 'guard_name' => 'web', 'tenant_id' => $tenant->id]);
 
-        // Note: Global permissions are assigned here, though tenant-specific custom permissions could also be added.
-        $adminRole->givePermissionTo(\Spatie\Permission\Models\Permission::all());
+        // Note: Global permissions are inherited, but assigned to tenant roles here.
+        $adminRole->givePermissionTo(Permission::all());
 
         $managerRole->givePermissionTo([
             'view dashboard', 'view employees', 'manage attendance', 'approve leave', 'view reports',
@@ -42,14 +50,14 @@ class SetupTenantBlueprint
             [
                 'tenant_id' => $tenant->id,
                 'name' => $tenant->name . ' Admin',
-                'password' => Hash::make('password'), // Ideally, trigger a password reset email
+                'password' => Hash::make('password'),
                 'email_verified_at' => now(),
             ]
         );
 
         // 4. Assign the Tenant Admin role
-        if (!$user->hasRole('super_admin')) {
-            $user->syncRoles(['tadmin']);
+        if (!$user->hasRole(RoleConstants::SADMIN)) {
+            $user->syncRoles([RoleConstants::TADMIN]);
         }
 
         // 5. Create a skeleton employee record for the initial admin

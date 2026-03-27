@@ -16,7 +16,7 @@ class CheckModuleAccess
      */
     public function handle(Request $request, Closure $next, string $module): Response
     {
-        $tenantId = tenant('id');
+        $tenantId = saas_tenant('id');
 
         if (! $tenantId) {
             return $next($request);

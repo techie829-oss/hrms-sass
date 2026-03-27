@@ -33,6 +33,20 @@
             <!-- Page Content -->
             <main class="py-12">
                 <div class="max-w-7xl mx-auto px-6">
+                    @if (session('success'))
+                        <div class="alert alert-success shadow-sm mb-6 rounded-xl border-none font-bold text-sm">
+                            <span class="material-symbols-outlined">check_circle</span>
+                            <span>{{ session('success') }}</span>
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-error shadow-sm mb-6 rounded-xl border-none font-bold text-sm">
+                            <span class="material-symbols-outlined">error</span>
+                            <span>{{ session('error') }}</span>
+                        </div>
+                    @endif
+
                     {{ $slot }}
                 </div>
             </main>

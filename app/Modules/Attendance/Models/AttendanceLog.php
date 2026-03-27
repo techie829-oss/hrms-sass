@@ -3,16 +3,18 @@
 namespace App\Modules\Attendance\Models;
 
 use App\Core\Traits\BelongsToTenant;
+use App\Core\Traits\HasDynamicSchema;
 use App\Modules\HR\Models\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Modules\Attendance\Models\AttendanceShift;
 
 class AttendanceLog extends Model
 {
-    use BelongsToTenant, HasFactory, LogsActivity;
+    use BelongsToTenant, HasDynamicSchema, HasFactory, LogsActivity;
 
     protected $fillable = [
         'tenant_id',

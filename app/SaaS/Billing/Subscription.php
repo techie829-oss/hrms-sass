@@ -2,10 +2,12 @@
 
 namespace App\SaaS\Billing;
 
+use App\Core\Traits\UsesPublicSchema;
 use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
 {
+    use UsesPublicSchema;
     protected $table = 'tenant_subscriptions';
 
     protected $fillable = [
@@ -41,7 +43,7 @@ class Subscription extends Model
     /**
      * Get the tenant for this subscription.
      */
-    public function tenant()
+    public function saas_tenant()
     {
         return $this->belongsTo(\App\Models\Tenant::class);
     }

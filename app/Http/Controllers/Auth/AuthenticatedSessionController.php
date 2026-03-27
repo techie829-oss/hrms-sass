@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+use App\Core\Constants\RoleConstants;
+
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -29,11 +31,13 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
-        $dashboardRoute = 'dashboard';
+        
+        // Default fallback if no specific dashboard is found
+        $dashboardRoute = 'tenant.dashboard'; 
 
-        if ($user->hasRole('super_admin')) {
+        if ($user->hasRole(RoleConstants::SADMIN)) {
             $dashboardRoute = 'super-admin.dashboard';
-        } elseif (tenant()) {
+        } elseif (function_exists('saas_tenant') && saas_tenant()) {
             $dashboardRoute = 'tenant.dashboard';
         }
 

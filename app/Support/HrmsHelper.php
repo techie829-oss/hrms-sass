@@ -41,7 +41,7 @@ class HrmsHelper
      */
     public static function hasModuleAccess(string $module): bool
     {
-        $tenant = tenant();
+        $tenant = saas_tenant();
         if (! $tenant) {
             return false;
         }
