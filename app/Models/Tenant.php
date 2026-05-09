@@ -4,11 +4,12 @@ namespace App\Models;
 
 use App\Core\Traits\UsesPublicSchema;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Tenant extends Model
 {
-    use UsesPublicSchema;
+    use UsesPublicSchema, SoftDeletes;
 
     protected $keyType = 'string';
     public $incrementing = false;
