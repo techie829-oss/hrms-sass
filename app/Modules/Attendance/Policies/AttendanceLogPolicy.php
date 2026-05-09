@@ -36,11 +36,11 @@ class AttendanceLogPolicy
     }
 
     /**
-     * Create / log attendance.
+     * Create / log attendance (Manual Log).
      */
     public function create(User $user): bool
     {
-        return $user->can('manage_attendance') || $user->employee !== null;
+        return $user->can('manage_attendance');
     }
 
     /**

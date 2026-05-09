@@ -6,10 +6,7 @@
                 <p class="text-xs font-medium mt-1 opacity-70">Track and manage employee daily presence.</p>
             </div>
             <div class="flex gap-2">
-                <button class="btn btn-ghost btn-sm btn-outline">
-                    <span class="material-symbols-outlined text-base">filter_list</span> Filters
-                </button>
-                @can('create', App\Modules\Attendance\Models\AttendanceLog::class)
+                @can('manage_attendance')
                 <a href="{{ route('attendance.settings') }}" class="btn btn-ghost btn-sm btn-outline border-base-300">
                     <span class="material-symbols-outlined text-base">settings</span> Settings
                 </a>
