@@ -112,6 +112,49 @@
                 </div>
             </div>
 
+            <!-- System Access Section -->
+            <div class="card bg-base-100 shadow-sm border border-base-200">
+                <div class="card-body">
+                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+                        <span class="material-symbols-outlined text-tertiary">manage_accounts</span>
+                        System Access & Role
+                    </h3>
+
+                    <div class="flex items-start gap-4 bg-primary/5 p-4 rounded-xl border border-primary/10 mb-4">
+                        <input type="hidden" name="create_login" value="0">
+                        <input type="checkbox" id="create_login" name="create_login" value="1"
+                            class="checkbox checkbox-primary mt-1"
+                            onchange="document.getElementById('login_fields').classList.toggle('hidden', !this.checked)" />
+                        <div>
+                            <label for="create_login" class="font-bold text-sm cursor-pointer select-none text-primary">
+                                Create Login Account
+                            </label>
+                            <p class="text-xs opacity-70 mt-0.5">
+                                Enable system login access for this employee with a role and password.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="login_fields" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Assign Role <span class="text-error">*</span></span></div>
+                            <select name="role_id" id="role_id" class="select select-bordered w-full">
+                                <option value="" disabled selected>Select Role</option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+                        </label>
+
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Login Password <span class="text-error">*</span></span></div>
+                            <input type="text" name="login_password" class="input input-bordered w-full" placeholder="Min 8 characters" value="password" />
+                            <div class="label"><span class="label-text-alt opacity-60">Default: password (ask employee to change)</span></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
             <!-- Submit -->
             <div class="flex justify-end gap-2 mt-8">
                 <a href="{{ route('hr.employees.index') }}" class="btn btn-ghost">Cancel</a>
@@ -122,3 +165,4 @@
         </form>
     </div>
 </x-app-layout>
+

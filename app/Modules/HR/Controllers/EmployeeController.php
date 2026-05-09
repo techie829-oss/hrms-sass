@@ -3,10 +3,13 @@
 namespace App\Modules\HR\Controllers;
 
 use App\Core\BaseController;
+use App\Models\User;
 use App\Modules\HR\Models\Department;
 use App\Modules\HR\Services\EmployeeService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Role;
 
 class EmployeeController extends BaseController
 {
@@ -31,7 +34,8 @@ class EmployeeController extends BaseController
     public function create(Request $request)
     {
         $departments = Department::all();
-        return view('hr::employees.create', compact('departments'))->with($request->all());
+        $roles = Role::where('tenant_id', saas_tenant('id'))->get();
+        return view('hr::employees.create', compact('departments', 'roles'))->with($request->all());
     }
 
     /**
@@ -51,9 +55,37 @@ class EmployeeController extends BaseController
             'status' => ['required', Rule::in(['active', 'inactive', 'on_leave', 'terminated', 'resigned'])],
             'basic_salary' => ['required', 'numeric', 'min:0'],
             'checkin_required' => ['nullable', 'string', 'in:0,1,'],
+            'create_login' => ['nullable', 'boolean'],
+            'role_id' => ['nullable', 'exists:roles,id'],
+            'login_password' => ['nullable', 'string', 'min:8'],
         ]);
 
-        $this->employeeService->create($validated);
+        $employee = $this->employeeService->create($validated);
+
+        // Create system login account if requested
+        if ($request->boolean('create_login') && $employee) {
+            $user = User::where('email', $validated['email'])->first();
+            if (!$user) {
+                $user = User::create([
+                    'tenant_id' => saas_tenant('id'),
+                    'name' => $validated['first_name'] . ' ' . $validated['last_name'],
+                    'email' => $validated['email'],
+                    'password' => Hash::make($request->input('login_password', 'password')),
+                    'email_verified_at' => now(),
+                ]);
+            }
+            // Link employee to user
+            $employee->update(['user_id' => $user->id]);
+
+            // Assign role if selected
+            if ($request->filled('role_id')) {
+                $role = Role::find($request->role_id);
+                if ($role) {
+                    setPermissionsTeamId(saas_tenant('id'));
+                    $user->syncRoles([$role]);
+                }
+            }
+        }
 
         return redirect()->route('hr.employees.index')
             ->with('success', 'Employee created successfully.');
@@ -79,8 +111,9 @@ class EmployeeController extends BaseController
     {
         $employee = $this->employeeService->findOrFail($id);
         $departments = Department::all();
+        $roles = Role::where('tenant_id', saas_tenant('id'))->get();
 
-        return view('hr::employees.edit', compact('employee', 'departments'));
+        return view('hr::employees.edit', compact('employee', 'departments', 'roles'));
     }
 
     /**
