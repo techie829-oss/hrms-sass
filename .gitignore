@@ -40,4 +40,8 @@ Thumbs.db
 # Temporary & Debug scripts
 /tmp_*
 /temp_*
+/scratch
+/scratch/
+/stitch
+/stitch/
 
