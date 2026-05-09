@@ -2,24 +2,24 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold">Attendance Logs</h2>
-                <p class="text-xs font-medium mt-1 opacity-70">Track and manage employee daily presence.</p>
+                <h2 class="text-xl font-bold text-base-content/90 tracking-tight">Attendance Logs</h2>
+                <p class="text-xs font-medium mt-0.5 opacity-50">Track and manage employee daily presence.</p>
             </div>
             <div class="flex items-center gap-3">
-                <div class="join bg-base-200 p-1 rounded-xl border border-base-300 shadow-sm">
-                    <a href="{{ request()->fullUrlWithQuery(['view' => 'list']) }}" class="join-item btn btn-sm {{ $view == 'list' ? 'btn-primary shadow-lg' : 'btn-ghost' }} gap-2 px-4 transition-all">
+                <div class="join bg-base-200/50 p-1 rounded-2xl border border-base-300/50 shadow-sm">
+                    <a href="{{ request()->fullUrlWithQuery(['view' => 'list']) }}" class="join-item btn btn-sm {{ $view == 'list' ? 'btn-primary shadow-lg border-primary' : 'btn-ghost border-transparent' }} gap-2 px-4 transition-all rounded-xl">
                         <span class="material-symbols-outlined text-sm">view_list</span> List
                     </a>
-                    <a href="{{ request()->fullUrlWithQuery(['view' => 'calendar']) }}" class="join-item btn btn-sm {{ $view == 'calendar' ? 'btn-primary shadow-lg' : 'btn-ghost' }} gap-2 px-4 transition-all">
+                    <a href="{{ request()->fullUrlWithQuery(['view' => 'calendar']) }}" class="join-item btn btn-sm {{ $view == 'calendar' ? 'btn-primary shadow-lg border-primary' : 'btn-ghost border-transparent' }} gap-2 px-4 transition-all rounded-xl">
                         <span class="material-symbols-outlined text-sm">calendar_view_month</span> Calendar
                     </a>
                 </div>
                 @can('manage_attendance')
                 <div class="flex gap-2">
-                    <a href="{{ route('attendance.settings') }}" class="btn btn-ghost btn-sm btn-outline border-base-300 rounded-xl">
+                    <a href="{{ route('attendance.settings') }}" class="btn btn-ghost btn-sm btn-outline border-base-300 rounded-xl px-3">
                         <span class="material-symbols-outlined text-base">settings</span>
                     </a>
-                    <a href="{{ route('attendance.create') }}" class="btn btn-primary btn-sm rounded-xl">
+                    <a href="{{ route('attendance.create') }}" class="btn btn-primary btn-sm rounded-xl px-4 shadow-lg shadow-primary/20">
                         <span class="material-symbols-outlined text-base">add</span> Manual Log
                     </a>
                 </div>
@@ -30,33 +30,33 @@
 
     <div class="flex flex-col gap-6">
         <!-- Filters Area -->
-        <div class="card bg-base-100 shadow-sm border border-base-200">
+        <div class="card bg-base-100 shadow-sm border border-base-200/60 rounded-3xl overflow-visible">
             <div class="p-4 flex flex-wrap items-center justify-between gap-4">
                 <form action="{{ route('attendance.index') }}" method="GET" class="flex flex-wrap items-center gap-3">
                     <input type="hidden" name="view" value="{{ $view }}">
                     
                     @can('view_all_attendance')
-                    <div class="relative max-w-xs">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 opacity-50 text-lg">search</span>
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search employee..." class="input input-bordered input-sm w-full pl-10 pr-10 py-2 text-xs rounded-xl">
+                    <div class="relative group">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 opacity-40 text-lg group-focus-within:text-primary transition-colors">search</span>
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search employee..." class="input input-bordered input-sm w-full max-w-[200px] pl-10 pr-10 py-2 text-xs rounded-2xl focus:border-primary transition-all">
                     </div>
                     @endcan
 
                     <div class="flex items-center gap-2">
-                        <input type="month" name="month" value="{{ request('month', date('Y-m')) }}" class="input input-bordered input-sm text-xs rounded-xl">
-                        <button type="submit" class="btn btn-primary btn-sm rounded-xl px-4">Filter</button>
+                        <input type="month" name="month" value="{{ request('month', date('Y-m')) }}" class="input input-bordered input-sm text-xs rounded-2xl focus:border-primary transition-all">
+                        <button type="submit" class="btn btn-primary btn-sm rounded-2xl px-5 font-bold shadow-md shadow-primary/10">Filter</button>
                         @if(request()->hasAny(['search', 'month', 'date']))
-                        <a href="{{ route('attendance.index', ['view' => $view]) }}" class="btn btn-ghost btn-sm rounded-xl text-error">
-                            <span class="material-symbols-outlined text-base">close</span>
+                        <a href="{{ route('attendance.index', ['view' => $view]) }}" class="btn btn-ghost btn-sm rounded-2xl text-error/70 hover:bg-error/10 px-3">
+                            <span class="material-symbols-outlined text-base">close_small</span>
                         </a>
                         @endif
                     </div>
                 </form>
 
-                <div class="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest opacity-60">
-                    <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-success"></span> Present</div>
-                    <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-warning"></span> Late</div>
-                    <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-error"></span> Absent</div>
+                <div class="flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.15em] opacity-40">
+                    <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-success ring-4 ring-success/10"></span> Present</div>
+                    <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-warning ring-4 ring-warning/10"></span> Late</div>
+                    <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-error ring-4 ring-error/10"></span> Absent</div>
                 </div>
             </div>
         </div>
@@ -65,90 +65,115 @@
             @include('attendance::partials.calendar_view')
         @else
             <!-- Date-wise Separated List View -->
-            <div class="flex flex-col gap-8">
-                @php $currentDate = null; @endphp
+            <div class="flex flex-col gap-10">
                 @forelse($logs->groupBy(fn($l) => $l->date->format('Y-m-d')) as $date => $dateLogs)
-                    <div class="flex flex-col gap-3">
-                        <div class="flex items-center gap-4 px-2">
-                            <div class="h-10 w-10 rounded-2xl bg-primary/10 text-primary flex flex-col items-center justify-center border border-primary/10 shadow-sm">
-                                <span class="text-[10px] font-black uppercase leading-none">{{ \Carbon\Carbon::parse($date)->format('M') }}</span>
-                                <span class="text-lg font-black leading-none mt-0.5">{{ \Carbon\Carbon::parse($date)->format('d') }}</span>
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-4 px-4">
+                            <div class="h-12 w-12 rounded-[22px] bg-gradient-to-br from-primary to-primary-focus text-white flex flex-col items-center justify-center shadow-xl shadow-primary/20 border border-white/20">
+                                <span class="text-[9px] font-black uppercase tracking-tighter opacity-80 leading-none">{{ \Carbon\Carbon::parse($date)->format('M') }}</span>
+                                <span class="text-xl font-black leading-none mt-1">{{ \Carbon\Carbon::parse($date)->format('d') }}</span>
                             </div>
                             <div>
-                                <h3 class="font-black text-sm uppercase tracking-wider text-base-content/80">{{ \Carbon\Carbon::parse($date)->format('l') }}</h3>
-                                <p class="text-[10px] font-bold opacity-50">{{ count($dateLogs) }} Records found</p>
+                                <h3 class="font-black text-base text-base-content/90 tracking-tight leading-none">{{ \Carbon\Carbon::parse($date)->format('l') }}</h3>
+                                <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1.5">{{ \Carbon\Carbon::parse($date)->format('jS M, Y') }}</p>
                             </div>
-                            <div class="h-px flex-1 bg-gradient-to-r from-base-content/10 to-transparent"></div>
+                            <div class="h-px flex-1 bg-gradient-to-r from-base-300/60 to-transparent ml-4"></div>
+                            <div class="px-4 py-1.5 rounded-2xl bg-base-200/50 border border-base-300/30 text-[10px] font-black uppercase tracking-widest opacity-60">
+                                {{ count($dateLogs->groupBy('employee_id')) }} Employees
+                            </div>
                         </div>
 
-                        <div class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
-                            <x-table :headers="['Employee', 'Shift Time', 'Clock In', 'Clock Out', 'Status', 'Work Hours', 'Actions']" :striped="false">
-                                @foreach($dateLogs as $log)
-                                    <tr class="hover:bg-base-200/40 transition-colors border-b border-base-200 last:border-0">
-                                        <td class="py-3 px-4">
-                                            <div class="flex items-center gap-3">
+                        <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
+                            <x-table :headers="['Employee', 'Entries', 'First In', 'Last Out', 'Status', 'Total Work Hours', 'Actions']" :striped="false">
+                                @foreach($dateLogs->groupBy('employee_id') as $employeeId => $empLogs)
+                                    @php
+                                        $firstLog = $empLogs->sortBy('check_in')->first();
+                                        $lastLog = $empLogs->sortByDesc('check_out')->first();
+                                        $totalWorkedHours = $empLogs->sum('worked_hours');
+                                        $employee = $firstLog->employee;
+                                        $entryCount = count($empLogs);
+                                    @endphp
+                                    <tr class="hover:bg-base-200/30 transition-all border-b border-base-200 last:border-0 group">
+                                        <td class="py-4 px-6">
+                                            <div class="flex items-center gap-4">
                                                 <div class="avatar placeholder">
-                                                    <div class="bg-primary/10 text-primary rounded-xl w-9 h-9 font-black text-[10px] border border-primary/10">
-                                                        {{ strtoupper(substr($log->employee->first_name, 0, 1) . substr($log->employee->last_name, 0, 1)) }}
+                                                    <div class="bg-gradient-to-tr from-primary/10 to-primary/5 text-primary rounded-[18px] w-11 h-11 font-black text-xs border border-primary/10 shadow-sm group-hover:scale-105 transition-transform">
+                                                        {{ strtoupper(substr($employee->first_name, 0, 1) . substr($employee->last_name, 0, 1)) }}
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <div class="font-black text-xs">{{ $log->employee->full_name }}</div>
-                                                    <div class="text-[9px] font-bold uppercase tracking-widest opacity-60">{{ $log->employee->employee_id }}</div>
+                                                    <div class="font-black text-sm text-base-content/80">{{ $employee->full_name }}</div>
+                                                    <div class="text-[9px] font-black uppercase tracking-[0.15em] opacity-30 group-hover:opacity-60 transition-opacity">{{ $employee->employee_id }}</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="flex flex-col">
-                                                <span class="text-[10px] font-bold opacity-60">SHFT-01</span>
-                                                <span class="text-[10px] font-black uppercase">09:00 - 18:00</span>
-                                            </div>
+                                            <span class="badge badge-sm rounded-lg font-black text-[9px] bg-base-200 border-base-300/50 text-base-content/60">
+                                                {{ $entryCount }} {{ $entryCount > 1 ? 'Entries' : 'Entry' }}
+                                            </span>
                                         </td>
                                         <td>
-                                            <div class="flex flex-col">
-                                                <span class="text-xs font-black {{ $log->check_in ? 'text-success' : 'text-base-content/20' }}">
-                                                    {{ $log->check_in ? $log->check_in->format('H:i A') : '--:--' }}
+                                            <div class="flex flex-col gap-0.5">
+                                                <span class="text-xs font-black text-success/80">
+                                                    {{ $firstLog->check_in ? $firstLog->check_in->format('h:i A') : '--:--' }}
                                                 </span>
-                                                @if($log->is_late)
-                                                    <span class="text-[9px] font-black text-warning uppercase">Late ({{ $log->late_minutes }}m)</span>
+                                                @if($firstLog->is_late)
+                                                    <span class="text-[9px] font-black text-warning uppercase leading-none">Late Entry</span>
                                                 @endif
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="text-xs font-black {{ $log->check_out ? 'text-error' : 'text-base-content/20' }}">
-                                                {{ $log->check_out ? $log->check_out->format('H:i A') : '--:--' }}
+                                            <span class="text-xs font-black text-error/70">
+                                                {{ $lastLog->check_out ? $lastLog->check_out->format('h:i A') : '--:--' }}
                                             </span>
                                         </td>
                                         <td>
                                             @php
+                                                $status = $firstLog->status;
                                                 $statusClasses = [
-                                                    'present' => 'bg-success/10 text-success border-success/20',
-                                                    'absent' => 'bg-error/10 text-error border-error/20',
-                                                    'half_day' => 'bg-warning/10 text-warning border-warning/20',
-                                                    'late' => 'bg-info/10 text-info border-info/20',
+                                                    'present' => 'bg-success/10 text-success border-success/20 ring-success/5',
+                                                    'absent' => 'bg-error/10 text-error border-error/20 ring-error/5',
+                                                    'half_day' => 'bg-warning/10 text-warning border-warning/20 ring-warning/5',
+                                                    'late' => 'bg-info/10 text-info border-info/20 ring-info/5',
                                                 ];
-                                                $statusClass = $statusClasses[$log->status] ?? 'bg-base-200 text-base-content/50 border-base-300';
+                                                $statusClass = $statusClasses[$status] ?? 'bg-base-200 text-base-content/50 border-base-300';
                                             @endphp
-                                            <span class="px-2 py-1 rounded-lg border {{ $statusClass }} font-black text-[9px] uppercase tracking-widest">
-                                                {{ str_replace('_', ' ', $log->status) }}
+                                            <span class="px-3 py-1.5 rounded-xl border {{ $statusClass }} font-black text-[9px] uppercase tracking-[0.1em] ring-4">
+                                                {{ str_replace('_', ' ', $status) }}
                                             </span>
                                         </td>
                                         <td>
-                                            <div class="flex items-center gap-2">
-                                                <span class="text-xs font-black">{{ $log->worked_hours ?? '0.00' }}h</span>
-                                                <progress class="progress progress-primary w-12 h-1" value="{{ min(($log->worked_hours ?? 0) * 10, 100) }}" max="100"></progress>
+                                            <div class="flex flex-col gap-1.5">
+                                                <div class="flex items-center justify-between px-1">
+                                                    <span class="text-xs font-black">{{ number_format($totalWorkedHours, 2) }}h</span>
+                                                    <span class="text-[9px] font-black opacity-30">{{ min(round(($totalWorkedHours / 8) * 100), 100) }}%</span>
+                                                </div>
+                                                <progress class="progress progress-primary w-24 h-1.5 shadow-sm" value="{{ min(($totalWorkedHours / 8) * 100, 100) }}" max="100"></progress>
                                             </div>
                                         </td>
-                                        <td class="text-right px-4">
-                                            <div class="flex justify-end gap-1">
-                                                <a href="{{ route('attendance.show', $log->id) }}" class="btn btn-ghost btn-xs btn-square rounded-lg text-primary hover:bg-primary/10">
-                                                    <span class="material-symbols-outlined text-base">visibility</span>
+                                        <td class="text-right px-6">
+                                            <div class="flex justify-end gap-2">
+                                                <a href="{{ route('attendance.show', $firstLog->id) }}" class="btn btn-ghost btn-sm btn-square rounded-2xl text-primary/60 hover:text-primary hover:bg-primary/10 transition-all">
+                                                    <span class="material-symbols-outlined text-lg">visibility</span>
                                                 </a>
-                                                @can('manage_attendance')
-                                                <a href="{{ route('attendance.edit', $log->id) }}" class="btn btn-ghost btn-xs btn-square rounded-lg text-secondary hover:bg-secondary/10">
-                                                    <span class="material-symbols-outlined text-base">edit</span>
-                                                </a>
-                                                @endcan
+                                                @if($entryCount > 1)
+                                                <div class="dropdown dropdown-end">
+                                                    <label tabindex="0" class="btn btn-ghost btn-sm btn-square rounded-2xl text-base-content/40 hover:text-base-content hover:bg-base-200 transition-all">
+                                                        <span class="material-symbols-outlined text-lg">more_vert</span>
+                                                    </label>
+                                                    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-2xl bg-base-100 rounded-2xl border border-base-200 w-48 mt-2">
+                                                        <li class="menu-title text-[9px] font-black uppercase opacity-40">Daily Entries</li>
+                                                        @foreach($empLogs as $elog)
+                                                            <li>
+                                                                <a class="text-[10px] font-bold py-2">
+                                                                    {{ $elog->check_in?->format('h:i A') }} - {{ $elog->check_out?->format('h:i A') ?? '...' }}
+                                                                    <span class="ml-auto text-[9px] opacity-50">{{ $elog->worked_hours }}h</span>
+                                                                </a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -157,16 +182,18 @@
                         </div>
                     </div>
                 @empty
-                    <div class="card bg-base-100 border border-base-200 border-dashed p-20 flex flex-col items-center justify-center opacity-40 grayscale">
-                        <span class="material-symbols-outlined text-6xl">event_busy</span>
-                        <h4 class="font-black text-sm uppercase tracking-widest mt-4">No Attendance Records Found</h4>
-                        <p class="text-xs font-bold">Try adjusting your filters or selection</p>
+                    <div class="card bg-base-100 border border-base-200 border-dashed rounded-[40px] p-24 flex flex-col items-center justify-center opacity-30 grayscale">
+                        <div class="w-20 h-20 rounded-[32px] bg-base-200 flex items-center justify-center mb-6">
+                            <span class="material-symbols-outlined text-4xl">calendar_today</span>
+                        </div>
+                        <h4 class="font-black text-sm uppercase tracking-[0.2em]">No Records Found</h4>
+                        <p class="text-[10px] font-bold mt-2">Try adjusting your search or date filters</p>
                     </div>
                 @endforelse
             </div>
 
             @if($logs->hasPages())
-                <div class="p-6">
+                <div class="flex justify-center mt-6">
                     {{ $logs->appends(request()->query())->links() }}
                 </div>
             @endif
