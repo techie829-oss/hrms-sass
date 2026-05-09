@@ -70,24 +70,21 @@
             <div class="p-8 relative min-h-[350px]">
                 <div class="flex flex-col lg:flex-row items-center gap-8 justify-center h-full">
                     
-                    {{-- Camera Preview (Only if Secure or Local) --}}
+                    {{-- Camera Preview --}}
                     <div class="flex flex-col items-center gap-3">
                         <div class="relative w-48 h-48 rounded-2xl overflow-hidden bg-black/90 border-2 border-outline-variant/20 shadow-xl">
                             <video x-ref="cameraVideo" autoplay playsinline muted class="w-full h-full object-cover" :style="isSecureContext ? 'transform: scaleX(-1);' : 'display:none;'"></video>
                             <canvas x-ref="cameraCanvas" class="hidden"></canvas>
-                            {{-- Captured photo overlay --}}
                             <img x-ref="capturedPhoto" x-show="photoCaptured" class="absolute inset-0 w-full h-full object-cover" style="transform: scaleX(-1); display:none;" />
                             
-                            {{-- HTTP / Insecure Warning --}}
                             <template x-if="!isSecureContext">
                                 <div class="absolute inset-0 flex flex-col items-center justify-center bg-surface-container-low p-4 text-center">
                                     <span class="material-symbols-outlined text-4xl text-warning mb-2">lock_open</span>
                                     <p class="text-[9px] font-black uppercase text-on-surface opacity-60">Insecure Connection</p>
-                                    <p class="text-[8px] font-medium text-on-surface-variant opacity-40 mt-1 uppercase">Camera & Location disabled by browser</p>
+                                    <p class="text-[8px] font-medium text-on-surface-variant opacity-40 mt-1 uppercase">Camera & Location disabled</p>
                                 </div>
                             </template>
 
-                            {{-- Camera status overlay (Secure context) --}}
                             <template x-if="isSecureContext">
                                 <div>
                                     <div x-show="!cameraReady && !cameraError" class="absolute inset-0 flex items-center justify-center bg-black/80">
@@ -104,7 +101,6 @@
                                     </div>
                                 </div>
                             </template>
-                            {{-- Flash effect --}}
                             <div x-ref="flashOverlay" class="absolute inset-0 bg-white pointer-events-none" style="opacity:0; transition: opacity 0.15s;"></div>
                         </div>
                         <div class="flex items-center gap-1.5">
@@ -147,17 +143,18 @@
                                 </div>
                                 <h4 class="text-sm font-black text-on-surface uppercase tracking-widest">Currently Working</h4>
                                 
-                                <form action="{{ route('attendance.clock-out') }}" method="POST" x-ref="clockOutForm" @submit.prevent="captureAndSubmit($event)">
+                                <button @click="showConfirmOut = true" class="btn btn-error btn-lg rounded-2xl font-black text-sm uppercase tracking-widest gap-3 px-12 h-16 shadow-lg text-white transition-all duration-300 hover:scale-105"
+                                    :disabled="isSecureContext && ((requireLocation && !locationReady) || (requirePhoto && !cameraReady))">
+                                    <span class="material-symbols-outlined text-xl" x-show="!isSecureContext || ((!requireLocation || locationReady) && (!requirePhoto || cameraReady))">logout</span>
+                                    <span x-text="!isSecureContext ? 'Clock Out (HTTP)' : ((requireLocation && !locationReady) || (requirePhoto && !cameraReady) ? 'Access Required' : 'Clock Out Now')"></span>
+                                </button>
+
+                                <form action="{{ route('attendance.clock-out') }}" method="POST" x-ref="clockOutForm" class="hidden">
                                     @csrf
                                     <input type="hidden" name="latitude" x-model="latitude">
                                     <input type="hidden" name="longitude" x-model="longitude">
                                     <input type="hidden" name="device_info" x-model="deviceInfo">
                                     <input type="hidden" name="photo" x-model="photoData">
-                                    <button type="submit" class="btn btn-error btn-lg rounded-2xl font-black text-sm uppercase tracking-widest gap-3 px-12 h-16 shadow-lg text-white transition-all duration-300 hover:scale-105"
-                                        :disabled="isSecureContext && ((requireLocation && !locationReady) || (requirePhoto && !cameraReady))">
-                                        <span class="material-symbols-outlined text-xl" x-show="!isSecureContext || ((!requireLocation || locationReady) && (!requirePhoto || cameraReady))">logout</span>
-                                        <span x-text="!isSecureContext ? 'Clock Out (HTTP)' : ((requireLocation && !locationReady) || (requirePhoto && !cameraReady) ? 'Access Required' : 'Clock Out Now')"></span>
-                                    </button>
                                 </form>
                             </div>
 
@@ -179,7 +176,7 @@
                                  x-transition x-cloak>
                                 <span class="material-symbols-outlined text-3xl text-error mb-2">security_update_warning</span>
                                 <h3 class="text-xs font-black uppercase tracking-widest mb-1">Access Required</h3>
-                                <p class="text-[9px] font-bold text-on-surface-variant opacity-60 mb-4 max-w-[200px]">Camera & Location permissions are required in Secure (HTTPS) mode.</p>
+                                <p class="text-[9px] font-bold text-on-surface-variant opacity-60 mb-4 max-w-[200px]">Camera & Location permissions are required.</p>
                                 <button @click="retryAccess()" class="btn btn-primary btn-sm w-full rounded-xl font-black uppercase tracking-widest text-[9px] h-9">Try Again</button>
                                 
                                 @if(config('app.debug'))
@@ -296,6 +293,31 @@
             </div>
         </div>
         </div>
+
+        {{-- Clock Out Confirmation Modal --}}
+        <div x-show="showConfirmOut" 
+             class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+             x-transition x-cloak>
+            <div class="bg-surface-container-lowest w-full max-w-sm rounded-3xl shadow-2xl border border-outline-variant/10 overflow-hidden" @click.away="showConfirmOut = false">
+                <div class="p-8 text-center">
+                    <div class="w-16 h-16 rounded-full bg-error/10 flex items-center justify-center mx-auto mb-6">
+                        <span class="material-symbols-outlined text-3xl text-error">logout</span>
+                    </div>
+                    <h3 class="text-lg font-black text-on-surface uppercase tracking-widest mb-2">Confirm Clock Out</h3>
+                    <p class="text-xs font-medium text-on-surface-variant opacity-60 leading-relaxed mb-8">
+                        Are you sure you want to end your session? This will record your final attendance for today.
+                    </p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button @click="showConfirmOut = false" class="btn btn-ghost btn-md rounded-2xl font-black uppercase tracking-widest text-[10px]">
+                            Cancel
+                        </button>
+                        <button @click="confirmClockOut()" class="btn btn-error btn-md rounded-2xl font-black uppercase tracking-widest text-[10px] text-white shadow-lg shadow-error/20">
+                            Yes, Clock Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -315,7 +337,8 @@
                 isKioskEnabled: config.isKioskEnabled,
                 requirePhoto: config.requirePhoto,
                 requireLocation: config.requireLocation,
-                isSecureContext: window.isSecureContext, // Use REAL browser property
+                isSecureContext: window.isSecureContext,
+                showConfirmOut: false,
                 latitude: '',
                 longitude: '',
                 deviceInfo: '',
@@ -330,7 +353,6 @@
                 stream: null,
 
                 init() {
-                    // Check for Localhost/127.0.0.1 which are implicitly secure
                     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
                         this.isSecureContext = true;
                     }
@@ -378,13 +400,24 @@
                     return canvas.toDataURL('image/jpeg', 0.8);
                 },
 
+                confirmClockOut() {
+                    this.showConfirmOut = false;
+                    const form = this.$refs.clockOutForm;
+                    if (this.isSecureContext) {
+                        this.photoData = this.capturePhoto();
+                    } else {
+                        this.photoData = 'insecure_context_bypass_out';
+                    }
+                    if (this.stream) this.stream.getTracks().forEach(t => t.stop());
+                    setTimeout(() => { form.submit(); }, 300);
+                },
+
                 captureAndSubmit(event) {
                     if (this.isSecureContext) {
                         this.photoData = this.capturePhoto();
                     } else {
                         this.photoData = 'insecure_context_bypass';
                     }
-                    
                     if (this.stream) this.stream.getTracks().forEach(t => t.stop());
                     setTimeout(() => { event.target.submit(); }, 300);
                 },
