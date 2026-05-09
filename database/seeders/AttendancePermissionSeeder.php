@@ -24,29 +24,29 @@ class AttendancePermissionSeeder extends Seeder
             Permission::findOrCreate($permission, 'web');
         }
 
-        // Assign to default roles (if they exist)
+        // Assign to ALL roles with these names across all tenants
         $adminRoles = ['tadmin', 'tmanager', 'superadmin'];
         foreach ($adminRoles as $roleName) {
-            try {
-                $role = Role::where('name', $roleName)->first();
-                if ($role) {
+            $roles = Role::where('name', $roleName)->get();
+            foreach ($roles as $role) {
+                try {
                     $role->givePermissionTo($permissions);
+                } catch (\Exception $e) {
+                    // Skip if error
                 }
-            } catch (\Exception $e) {
-                // Skip if error
             }
         }
 
-        // tstaff -> view_own
+        // Assign to ALL tstaff roles
         $staffRoles = ['tstaff'];
         foreach ($staffRoles as $roleName) {
-            try {
-                $role = Role::where('name', $roleName)->first();
-                if ($role) {
+            $roles = Role::where('name', $roleName)->get();
+            foreach ($roles as $role) {
+                try {
                     $role->givePermissionTo(['view_own_attendance']);
+                } catch (\Exception $e) {
+                    // Skip if error
                 }
-            } catch (\Exception $e) {
-                // Skip if error
             }
         }
     }
