@@ -56,6 +56,16 @@ class Employee extends Model
         return LogOptions::defaults()->logAll();
     }
 
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
+
+    public function todayAttendance()
+    {
+        return $this->hasOne(\App\Modules\Attendance\Models\AttendanceLog::class)->where('date', now()->toDateString());
+    }
+
     public function department()
     {
         return $this->belongsTo(Department::class);

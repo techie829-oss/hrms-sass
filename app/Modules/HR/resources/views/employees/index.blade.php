@@ -31,9 +31,10 @@
                 <thead class="bg-base-200/50 text-[10px] uppercase font-bold tracking-wider">
                     <tr>
                         <th>Employee</th>
-                        <th>Department</th>
+                        <th>Contact Info</th>
+                        <th>Department & Role</th>
+                        <th>Today's Attendance</th>
                         <th>Status</th>
-                        <th>Joining Date</th>
                         <th class="text-right">Actions</th>
                     </tr>
                 </thead>
@@ -54,7 +55,35 @@
                                 </div>
                             </td>
                             <td>
+                                <div class="text-[11px] font-bold">
+                                    <span class="material-symbols-outlined text-[12px] align-middle opacity-50 mr-1">mail</span>
+                                    {{ $employee->email }}
+                                </div>
+                                <div class="text-[11px] font-bold opacity-70 mt-1">
+                                    <span class="material-symbols-outlined text-[12px] align-middle opacity-50 mr-1">call</span>
+                                    {{ $employee->phone ? ($employee->country_code . ' ' . $employee->phone) : 'No phone' }}
+                                </div>
+                            </td>
+                            <td>
                                 <div class="text-sm font-medium">{{ $employee->department->name ?? 'Unassigned' }}</div>
+                                <div class="text-[10px] font-bold uppercase tracking-wider opacity-60 text-primary mt-1">
+                                    {{ $employee->user?->roles->first()?->name ?? 'No System Access' }}
+                                </div>
+                            </td>
+                            <td>
+                                @if($employee->todayAttendance)
+                                    <div class="flex items-center gap-1.5">
+                                        <div class="w-2 h-2 rounded-full {{ $employee->todayAttendance->check_out ? 'bg-neutral' : 'bg-success animate-pulse' }}"></div>
+                                        <div class="text-[11px] font-bold">
+                                            {{ $employee->todayAttendance->check_out ? 'Clocked Out' : 'Clocked In' }}
+                                        </div>
+                                    </div>
+                                    <div class="text-[10px] font-bold opacity-50 mt-1">
+                                        In: {{ \Carbon\Carbon::parse($employee->todayAttendance->check_in)->format('h:i A') }}
+                                    </div>
+                                @else
+                                    <div class="text-[11px] font-bold opacity-50">Not Punched</div>
+                                @endif
                             </td>
                             <td>
                                 @php
@@ -68,9 +97,6 @@
                                     $statusBadge = $statusClasses[$employee->status] ?? 'badge-ghost';
                                 @endphp
                                 <span class="badge {{ $statusBadge }} font-bold text-[10px] uppercase tracking-wider">{{ str_replace('_', ' ', $employee->status) }}</span>
-                            </td>
-                            <td>
-                                <div class="text-sm font-medium">{{ $employee->date_of_joining?->format('M d, Y') ?? 'N/A' }}</div>
                             </td>
                             <td class="text-right">
                                 <div class="flex justify-end gap-1">

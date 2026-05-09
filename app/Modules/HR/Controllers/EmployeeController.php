@@ -23,7 +23,13 @@ class EmployeeController extends BaseController
     public function index(Request $request)
     {
         $filters = $request->only(['department_id', 'status', 'employment_type']);
-        $employees = $this->employeeService->all($filters);
+        
+        $employees = \App\Modules\HR\Models\Employee::with(['department', 'user.roles', 'todayAttendance'])
+            ->when($filters['department_id'] ?? null, fn($q, $id) => $q->where('department_id', $id))
+            ->when($filters['status'] ?? null, fn($q, $status) => $q->where('status', $status))
+            ->when($filters['employment_type'] ?? null, fn($q, $type) => $q->where('employment_type', $type))
+            ->latest()
+            ->paginate(15);
 
         return view('hr::employees.index', compact('employees'));
     }
