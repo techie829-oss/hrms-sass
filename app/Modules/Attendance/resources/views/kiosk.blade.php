@@ -83,49 +83,60 @@
             {{-- Clock In/Out Section --}}
             <div class="p-8 relative min-h-[350px]">
                 <div class="flex flex-col lg:flex-row items-center gap-8 justify-center h-full">
-                    {{-- Camera Preview --}}
+                    
+                    {{-- Camera Preview (Only if Secure or Local) --}}
                     <div class="flex flex-col items-center gap-3">
                         <div class="relative w-48 h-48 rounded-2xl overflow-hidden bg-black/90 border-2 border-outline-variant/20 shadow-xl">
-                            <video x-ref="cameraVideo" autoplay playsinline muted class="w-full h-full object-cover" style="transform: scaleX(-1);"></video>
+                            <video x-ref="cameraVideo" autoplay playsinline muted class="w-full h-full object-cover" :style="isSecureContext ? 'transform: scaleX(-1);' : 'display:none;'"></video>
                             <canvas x-ref="cameraCanvas" class="hidden"></canvas>
                             {{-- Captured photo overlay --}}
                             <img x-ref="capturedPhoto" x-show="photoCaptured" class="absolute inset-0 w-full h-full object-cover" style="transform: scaleX(-1); display:none;" />
-                            {{-- Camera status overlay --}}
-                            <div x-show="!cameraReady && !cameraError" class="absolute inset-0 flex items-center justify-center bg-black/80">
-                                <div class="text-center">
-                                    <span class="material-symbols-outlined text-3xl text-white/40 animate-pulse">videocam</span>
-                                    <p class="text-[8px] font-bold text-white/40 uppercase mt-1">Starting Camera...</p>
+                            
+                            {{-- HTTP / Insecure Warning --}}
+                            <template x-if="!isSecureContext">
+                                <div class="absolute inset-0 flex flex-col items-center justify-center bg-surface-container-low p-4 text-center">
+                                    <span class="material-symbols-outlined text-4xl text-warning mb-2">lock_open</span>
+                                    <p class="text-[9px] font-black uppercase text-on-surface opacity-60">Insecure Connection</p>
+                                    <p class="text-[8px] font-medium text-on-surface-variant opacity-40 mt-1 uppercase">Camera & Location disabled by browser</p>
                                 </div>
-                            </div>
-                            <div x-show="cameraError" class="absolute inset-0 flex items-center justify-center bg-black/80">
-                                <div class="text-center">
-                                    <span class="material-symbols-outlined text-3xl text-error/60">videocam_off</span>
-                                    <p class="text-[8px] font-bold text-error/60 uppercase mt-1">Camera Unavailable</p>
+                            </template>
+
+                            {{-- Camera status overlay (Secure context) --}}
+                            <template x-if="isSecureContext">
+                                <div>
+                                    <div x-show="!cameraReady && !cameraError" class="absolute inset-0 flex items-center justify-center bg-black/80">
+                                        <div class="text-center">
+                                            <span class="material-symbols-outlined text-3xl text-white/40 animate-pulse">videocam</span>
+                                            <p class="text-[8px] font-bold text-white/40 uppercase mt-1">Starting Camera...</p>
+                                        </div>
+                                    </div>
+                                    <div x-show="cameraError" class="absolute inset-0 flex items-center justify-center bg-black/80">
+                                        <div class="text-center">
+                                            <span class="material-symbols-outlined text-3xl text-error/60">videocam_off</span>
+                                            <p class="text-[8px] font-bold text-error/60 uppercase mt-1">Camera Unavailable</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </template>
                             {{-- Flash effect --}}
                             <div x-ref="flashOverlay" class="absolute inset-0 bg-white pointer-events-none" style="opacity:0; transition: opacity 0.15s;"></div>
                         </div>
-                        <div class="flex items-center gap-1.5" x-show="requirePhoto">
-                            <div class="w-2 h-2 rounded-full" :class="cameraReady ? 'bg-success animate-pulse' : (cameraError ? 'bg-error' : 'bg-warning animate-pulse')"></div>
-                            <span class="text-[8px] font-black uppercase tracking-widest opacity-50" x-text="cameraReady ? 'Camera Live' : (cameraError ? 'Camera Off' : 'Connecting...')"></span>
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-2 h-2 rounded-full" :class="!isSecureContext ? 'bg-warning' : (cameraReady ? 'bg-success animate-pulse' : (cameraError ? 'bg-error' : 'bg-warning animate-pulse'))"></div>
+                            <span class="text-[8px] font-black uppercase tracking-widest opacity-50" x-text="!isSecureContext ? 'HTTP Mode' : (cameraReady ? 'Camera Live' : (cameraError ? 'Camera Off' : 'Connecting...'))"></span>
                         </div>
                     </div>
 
                     {{-- Actions Container --}}
-                    <div class="flex flex-col items-center gap-6 min-w-[300px]">
+                    <div class="flex flex-col items-center gap-6 min-w-[300px] relative">
+                        
                         @if(!$todayLog || ($isMultiEnabled && $todayLog->check_out))
                             {{-- Ready to Clock In --}}
                             <div class="flex flex-col items-center gap-4 text-center">
                                 <div class="w-20 h-20 rounded-full bg-success/10 border-4 border-success/20 flex items-center justify-center animate-pulse">
                                     <span class="material-symbols-outlined text-4xl text-success">login</span>
                                 </div>
-                                <div>
-                                    <h4 class="text-sm font-black text-on-surface uppercase tracking-widest">Ready to Clock In</h4>
-                                    <p class="text-[10px] font-bold text-on-surface-variant opacity-50 max-w-xs mt-1">
-                                        Photo, location, IP & device auto-captured
-                                    </p>
-                                </div>
+                                <h4 class="text-sm font-black text-on-surface uppercase tracking-widest">Ready to Clock In</h4>
                                 
                                 <form action="{{ route('attendance.clock-in') }}" method="POST" x-ref="clockInForm" @submit.prevent="captureAndSubmit($event)">
                                     @csrf
@@ -133,11 +144,11 @@
                                     <input type="hidden" name="longitude" x-model="longitude">
                                     <input type="hidden" name="device_info" x-model="deviceInfo">
                                     <input type="hidden" name="photo" x-model="photoData">
-                                    <button type="submit" class="btn btn-success btn-lg rounded-2xl font-black text-sm uppercase tracking-widest gap-3 px-12 h-16 shadow-lg shadow-success/30 hover:shadow-xl hover:shadow-success/40 transition-all duration-300 hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed group"
+                                    <button type="submit" class="btn btn-success btn-lg rounded-2xl font-black text-sm uppercase tracking-widest gap-3 px-12 h-16 shadow-lg transition-all duration-300 hover:scale-105 group"
                                         :disabled="isSecureContext && ((requireLocation && !locationReady) || (requirePhoto && !cameraReady))">
-                                        <span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform" x-show="!isSecureContext || ((!requireLocation || locationReady) && (!requirePhoto || cameraReady))">fingerprint</span>
+                                        <span class="material-symbols-outlined text-2xl" x-show="!isSecureContext || ((!requireLocation || locationReady) && (!requirePhoto || cameraReady))">fingerprint</span>
                                         <span class="loading loading-spinner loading-xs" x-show="isSecureContext && (((requireLocation && !locationReady) && !locationError) || ((requirePhoto && !cameraReady) && !cameraError))"></span>
-                                        <span x-text="(isSecureContext && ((requireLocation && !locationReady) || (requirePhoto && !cameraReady))) ? 'Access Required' : 'Clock In Now'"></span>
+                                        <span x-text="!isSecureContext ? 'Clock In (HTTP)' : ((requireLocation && !locationReady) || (requirePhoto && !cameraReady) ? 'Access Required' : 'Clock In Now')"></span>
                                     </button>
                                 </form>
                             </div>
@@ -148,20 +159,7 @@
                                 <div class="w-20 h-20 rounded-full bg-warning/10 border-4 border-warning/20 flex items-center justify-center">
                                     <span class="material-symbols-outlined text-4xl text-warning">schedule</span>
                                 </div>
-                                <div>
-                                    <h4 class="text-sm font-black text-on-surface uppercase tracking-widest">Currently Working</h4>
-                                    <div class="flex items-center gap-4 bg-surface-container-low/50 px-4 py-2 rounded-xl border border-outline-variant/10 mt-2">
-                                        <div class="text-center">
-                                            <span class="text-[8px] font-black uppercase tracking-widest opacity-40 block">In</span>
-                                            <span class="text-xs font-black text-success">{{ \Carbon\Carbon::parse($todayLog->check_in)->format('h:i A') }}</span>
-                                        </div>
-                                        <div class="w-px h-6 bg-outline-variant/10"></div>
-                                        <div class="text-center">
-                                            <span class="text-[8px] font-black uppercase tracking-widest opacity-40 block">Time</span>
-                                            <span class="text-xs font-black text-primary" id="duration-counter">--:--</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <h4 class="text-sm font-black text-on-surface uppercase tracking-widest">Currently Working</h4>
                                 
                                 <form action="{{ route('attendance.clock-out') }}" method="POST" x-ref="clockOutForm" @submit.prevent="captureAndSubmit($event)">
                                     @csrf
@@ -169,11 +167,10 @@
                                     <input type="hidden" name="longitude" x-model="longitude">
                                     <input type="hidden" name="device_info" x-model="deviceInfo">
                                     <input type="hidden" name="photo" x-model="photoData">
-                                    <button type="submit" class="btn btn-error btn-lg rounded-2xl font-black text-sm uppercase tracking-widest gap-3 px-12 shadow-lg shadow-error/30 hover:shadow-xl hover:shadow-error/40 transition-all duration-300 hover:scale-105 text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                                        :disabled="(requireLocation && !locationReady) || (requirePhoto && !cameraReady)">
-                                        <span class="material-symbols-outlined text-xl" x-show="(!requireLocation || locationReady) && (!requirePhoto || cameraReady)">logout</span>
-                                        <span class="loading loading-spinner loading-xs" x-show="(requireLocation && !locationReady) || (requirePhoto && !cameraReady)"></span>
-                                        <span x-text="((requireLocation && !locationReady) || (requirePhoto && !cameraReady)) ? 'Access Required' : 'Clock Out'"></span>
+                                    <button type="submit" class="btn btn-error btn-lg rounded-2xl font-black text-sm uppercase tracking-widest gap-3 px-12 h-16 shadow-lg text-white transition-all duration-300 hover:scale-105"
+                                        :disabled="isSecureContext && ((requireLocation && !locationReady) || (requirePhoto && !cameraReady))">
+                                        <span class="material-symbols-outlined text-xl" x-show="!isSecureContext || ((!requireLocation || locationReady) && (!requirePhoto || cameraReady))">logout</span>
+                                        <span x-text="!isSecureContext ? 'Clock Out (HTTP)' : ((requireLocation && !locationReady) || (requirePhoto && !cameraReady) ? 'Access Required' : 'Clock Out Now')"></span>
                                     </button>
                                 </form>
                             </div>
@@ -185,44 +182,26 @@
                                     <span class="material-symbols-outlined text-4xl text-primary">task_alt</span>
                                 </div>
                                 <h4 class="text-sm font-black text-on-surface uppercase tracking-widest">Day Completed</h4>
-                                <div class="flex items-center gap-4 bg-surface-container-low/50 px-4 py-2 rounded-xl border border-outline-variant/10">
-                                    <div class="text-center">
-                                        <span class="text-[8px] font-black uppercase tracking-widest opacity-40 block">Hours</span>
-                                        <span class="text-xs font-black text-primary">{{ $todayLog->worked_hours }}h</span>
-                                    </div>
-                                </div>
+                                <div class="badge badge-primary badge-outline uppercase text-[10px] font-black h-8 px-6">Total Worked: {{ $todayLog->worked_hours }}h</div>
                             </div>
                         @endif
 
-                        {{-- Permission Error Overlay (Only over Actions) --}}
-                        <div x-show="isSecureContext && ((requireLocation && locationError) || (requirePhoto && cameraError))" 
-                             class="absolute inset-0 bg-surface-container-lowest/90 backdrop-blur-sm z-30 flex flex-col items-center justify-center p-6 text-center"
-                             x-transition:enter="transition ease-out duration-300"
-                             x-transition:enter-start="opacity-0 scale-95"
-                             x-transition:enter-end="opacity-100 scale-100"
-                             x-cloak>
-                            <div class="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center mb-3">
-                                <span class="material-symbols-outlined text-2xl text-error">security_update_warning</span>
-                            </div>
-                            <h3 class="text-xs font-black text-on-surface uppercase tracking-widest mb-1">Access Required</h3>
-                            <p class="text-[9px] font-bold text-on-surface-variant opacity-60 max-w-[220px] mb-4">
-                                Attendance policy requires camera and location access.
-                            </p>
-                            <div class="space-y-3 w-full max-w-[180px]">
-                                <button @click="retryAccess()" class="btn btn-primary btn-sm w-full rounded-xl font-black uppercase tracking-widest text-[9px] h-9">
-                                    Try Again
-                                </button>
-
+                        {{-- Secure Context Permission Overlay --}}
+                        <template x-if="isSecureContext">
+                            <div x-show="(requireLocation && locationError) || (requirePhoto && cameraError)" 
+                                 class="absolute inset-0 bg-surface-container-lowest/95 backdrop-blur-sm z-30 flex flex-col items-center justify-center p-6 text-center"
+                                 x-transition x-cloak>
+                                <span class="material-symbols-outlined text-3xl text-error mb-2">security_update_warning</span>
+                                <h3 class="text-xs font-black uppercase tracking-widest mb-1">Access Required</h3>
+                                <p class="text-[9px] font-bold text-on-surface-variant opacity-60 mb-4 max-w-[200px]">Camera & Location permissions are required in Secure (HTTPS) mode.</p>
+                                <button @click="retryAccess()" class="btn btn-primary btn-sm w-full rounded-xl font-black uppercase tracking-widest text-[9px] h-9">Try Again</button>
+                                
                                 @if(config('app.debug'))
-                                    <div class="pt-3 border-t border-outline-variant/10 w-full">
-                                        <button @click="latitude='26.8467'; longitude='80.9462'; photoData='debug_bypass'; $nextTick(() => { if($refs.clockInForm) $refs.clockInForm.submit(); if($refs.clockOutForm) $refs.clockOutForm.submit(); })" 
-                                            class="btn btn-ghost btn-xs text-[9px] font-black uppercase tracking-widest text-warning hover:bg-warning/10 w-full">
-                                            Skip & Continue (Bypass)
-                                        </button>
-                                    </div>
+                                    <button @click="latitude='26.8467'; longitude='80.9462'; photoData='debug_bypass'; $nextTick(() => { if($refs.clockInForm) $refs.clockInForm.submit(); if($refs.clockOutForm) $refs.clockOutForm.submit(); })" 
+                                        class="btn btn-ghost btn-xs text-[8px] font-black uppercase text-warning mt-4 hover:bg-warning/5">Skip & Continue (Debug)</button>
                                 @endif
                             </div>
-                        </div>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -236,7 +215,7 @@
                     <h4 class="text-[10px] font-black uppercase tracking-widest opacity-80">Location</h4>
                     <span class="ml-auto badge badge-xs text-[7px] font-black px-2 h-auto uppercase"
                           :class="locationReady ? 'badge-success text-white' : (locationError ? 'badge-error text-white' : 'badge-warning')"
-                          x-text="locationReady ? 'Acquired' : (locationError ? 'Denied' : 'Pending')"></span>
+                          x-text="locationReady ? 'Acquired' : (locationError ? 'Denied' : 'Insecure Connection')"></span>
                 </div>
                 <div class="space-y-2">
                     <div class="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg">
@@ -333,7 +312,6 @@
         </div>
     </div>
 
-    {{-- JavaScript for Kiosk --}}
     <script>
         function updateClock() {
             const now = new Date();
@@ -346,32 +324,14 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        @if($todayLog && !$todayLog->check_out)
-        (function() {
-            const checkInTime = new Date('{{ \Carbon\Carbon::parse($todayLog->check_in)->toISOString() }}');
-            function updateDuration() {
-                const now = new Date();
-                const diff = Math.floor((now - checkInTime) / 1000);
-                const hours = Math.floor(diff / 3600);
-                const mins = Math.floor((diff % 3600) / 60);
-                const secs = diff % 60;
-                const el = document.getElementById('duration-counter');
-                if (el) el.textContent = hours.toString().padStart(2,'0') + ':' + mins.toString().padStart(2,'0') + ':' + secs.toString().padStart(2,'0');
-            }
-            setInterval(updateDuration, 1000);
-            updateDuration();
-        })();
-        @endif
-
         function kioskApp(config) {
             return {
                 isKioskEnabled: config.isKioskEnabled,
                 requirePhoto: config.requirePhoto,
                 requireLocation: config.requireLocation,
-                isSecureContext: window.isSecureContext || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.endsWith('.test'),
+                isSecureContext: window.isSecureContext, // Use REAL browser property
                 latitude: '',
                 longitude: '',
-                accuracy: '',
                 deviceInfo: '',
                 photoData: '',
                 locationReady: false,
@@ -384,6 +344,11 @@
                 stream: null,
 
                 init() {
+                    // Check for Localhost/127.0.0.1 which are implicitly secure
+                    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                        this.isSecureContext = true;
+                    }
+
                     this.platform = navigator.platform || 'Unknown';
                     const ua = navigator.userAgent;
                     if (ua.includes('Chrome') && !ua.includes('Edg')) this.browserName = 'Chrome';
@@ -393,12 +358,15 @@
                     else this.browserName = 'Browser';
 
                     this.deviceInfo = this.browserName + ' | ' + this.platform;
-                    this.requestLocation();
-                    this.startCamera();
+                    
+                    if (this.isSecureContext) {
+                        this.requestLocation();
+                        this.startCamera();
+                    }
                 },
 
                 async startCamera() {
-                    if (!this.requirePhoto) return;
+                    if (!this.requirePhoto || !this.isSecureContext) return;
                     try {
                         this.stream = await navigator.mediaDevices.getUserMedia({
                             video: { width: 480, height: 480, facingMode: 'user' },
@@ -425,12 +393,18 @@
                 },
 
                 captureAndSubmit(event) {
-                    this.photoData = this.capturePhoto();
+                    if (this.isSecureContext) {
+                        this.photoData = this.capturePhoto();
+                    } else {
+                        this.photoData = 'insecure_context_bypass';
+                    }
+                    
                     if (this.stream) this.stream.getTracks().forEach(t => t.stop());
                     setTimeout(() => { event.target.submit(); }, 300);
                 },
 
                 requestLocation() {
+                    if (!this.isSecureContext) return;
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(
                             (p) => {
