@@ -33,20 +33,6 @@
 
         <div x-show="isKioskEnabled" class="space-y-6">
 
-        {{-- Success / Error Alerts --}}
-        @if(session('success'))
-            <div class="alert alert-success shadow-lg text-xs font-bold" x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)">
-                <span class="material-symbols-outlined text-sm">check_circle</span>
-                {{ session('success') }}
-            </div>
-        @endif
-        @if(session('error'))
-            <div class="alert alert-error shadow-lg text-xs font-bold" x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)">
-                <span class="material-symbols-outlined text-sm">error</span>
-                {{ session('error') }}
-            </div>
-        @endif
-
         {{-- Main Kiosk Card --}}
         <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 shadow-xl overflow-hidden">
             {{-- Header Strip --}}
