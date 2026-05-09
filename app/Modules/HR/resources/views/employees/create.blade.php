@@ -36,7 +36,7 @@
                             @error('last_name') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
                         </label>
                     </div>
-
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                         <label class="form-control w-full">
                             <div class="label"><span class="label-text font-bold">Company Email (Login ID) <span class="text-error">*</span></span></div>
                             <input type="email" name="email" required value="{{ old('email', $email ?? '') }}" class="input input-bordered w-full" placeholder="john@company.com" />
