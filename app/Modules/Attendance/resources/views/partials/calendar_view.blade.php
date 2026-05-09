@@ -20,12 +20,17 @@
 <div class="flex flex-col gap-6">
     <div class="card bg-base-100 shadow-2xl shadow-base-content/5 border border-base-200/60 rounded-[40px] overflow-hidden">
         <!-- Calendar Header: Weekdays -->
-        <div class="grid grid-cols-7 bg-base-200/40 border-b border-base-200/60">
+        <div class="grid grid-cols-7 bg-base-100 border-b border-base-200/60 p-2">
             @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $index => $day)
-                <div class="p-5 text-center">
-                    <span class="text-[10px] font-black uppercase tracking-[0.25em] {{ $index == 0 || $index == 6 ? 'text-error/60' : 'opacity-40' }}">
-                        {{ substr($day, 0, 3) }}
-                    </span>
+                <div class="p-3 flex justify-center">
+                    <div class="px-4 py-2 rounded-full flex items-center gap-2 {{ $index == 0 || $index == 6 ? 'bg-error/10 text-error shadow-sm border border-error/20' : 'bg-base-200/50 text-base-content/40' }} transition-all">
+                        <span class="material-symbols-outlined text-xs">
+                            {{ $index == 0 || $index == 6 ? 'event_busy' : 'calendar_today' }}
+                        </span>
+                        <span class="text-[10px] font-black uppercase tracking-[0.1em]">
+                            {{ substr($day, 0, 3) }}
+                        </span>
+                    </div>
                 </div>
             @endforeach
         </div>
