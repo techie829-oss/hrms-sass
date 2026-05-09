@@ -90,7 +90,7 @@
                         </div>
 
                         <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
-                            <x-table :headers="['Employee', 'Entries', 'First In', 'Last Out', 'Status', 'Total Work Hours', 'Actions']" :striped="false">
+                            <x-table :headers="['Employee', 'Entries', 'Status', 'Total Work Hours', 'Actions']" :striped="false">
                                 @foreach($dateLogs->groupBy('employee_id') as $employeeId => $empLogs)
                                     @php
                                         $firstLog = $empLogs->sortBy('check_in')->first();
@@ -114,24 +114,14 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="badge badge-sm rounded-lg font-black text-[9px] bg-base-200 border-base-300/50 text-base-content/60">
-                                                {{ $entryCount }} {{ $entryCount > 1 ? 'Entries' : 'Entry' }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div class="flex flex-col gap-0.5">
-                                                <span class="text-xs font-black text-success/80">
-                                                    {{ $firstLog->check_in ? $firstLog->check_in->format('h:i A') : '--:--' }}
+                                            <div class="flex flex-col gap-1">
+                                                <span class="badge badge-sm rounded-lg font-black text-[9px] bg-base-200 border-base-300/50 text-base-content/60">
+                                                    {{ $entryCount }} {{ $entryCount > 1 ? 'Entries' : 'Entry' }}
                                                 </span>
-                                                @if($firstLog->is_late)
-                                                    <span class="text-[9px] font-black text-warning uppercase leading-none">Late Entry</span>
-                                                @endif
+                                                <span class="text-[8px] font-black opacity-30 uppercase tracking-tighter">
+                                                    {{ $firstLog->check_in?->format('h:i A') }} - {{ $lastLog->check_out?->format('h:i A') ?? '...' }}
+                                                </span>
                                             </div>
-                                        </td>
-                                        <td>
-                                            <span class="text-xs font-black text-error/70">
-                                                {{ $lastLog->check_out ? $lastLog->check_out->format('h:i A') : '--:--' }}
-                                            </span>
                                         </td>
                                         <td>
                                             @php
@@ -149,12 +139,18 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <div class="flex flex-col gap-1.5">
-                                                <div class="flex items-center justify-between px-1">
-                                                    <span class="text-xs font-black">{{ number_format($totalWorkedHours, 2) }}h</span>
-                                                    <span class="text-[9px] font-black opacity-30">{{ min(round(($totalWorkedHours / 8) * 100), 100) }}%</span>
+                                            <div class="flex items-center gap-6">
+                                                <div class="flex flex-col">
+                                                    <span class="text-lg font-black text-primary leading-none">{{ number_format($totalWorkedHours, 2) }}</span>
+                                                    <span class="text-[9px] font-black opacity-30 uppercase tracking-widest mt-1">Hours</span>
                                                 </div>
-                                                <progress class="progress progress-primary w-24 h-1.5 shadow-sm" value="{{ min(($totalWorkedHours / 8) * 100, 100) }}" max="100"></progress>
+                                                <div class="flex flex-col flex-1 min-w-[100px] gap-1.5">
+                                                    <div class="flex items-center justify-between px-1">
+                                                        <span class="text-[9px] font-black opacity-30">Progress</span>
+                                                        <span class="text-[9px] font-black opacity-30">{{ min(round(($totalWorkedHours / 8) * 100), 100) }}%</span>
+                                                    </div>
+                                                    <progress class="progress progress-primary w-full h-1.5 shadow-sm" value="{{ min(($totalWorkedHours / 8) * 100, 100) }}" max="100"></progress>
+                                                </div>
                                             </div>
                                         </td>
                                         <td class="text-right px-6">
