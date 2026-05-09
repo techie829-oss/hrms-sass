@@ -6,12 +6,12 @@
                 <p class="text-xs font-medium mt-1 opacity-70">Track and manage employee daily presence.</p>
             </div>
             <div class="flex items-center gap-3">
-                <div class="join bg-base-200 p-1 rounded-xl border border-base-300">
-                    <a href="{{ request()->fullUrlWithQuery(['view' => 'list']) }}" class="join-item btn btn-xs {{ request('view', 'list') == 'list' ? 'btn-primary' : 'btn-ghost' }} border-none px-4">
-                        <span class="material-symbols-outlined text-sm">list</span> List
+                <div class="join bg-base-200 p-1 rounded-xl border border-base-300 shadow-sm">
+                    <a href="{{ request()->fullUrlWithQuery(['view' => 'list']) }}" class="join-item btn btn-sm {{ $view == 'list' ? 'btn-primary shadow-lg' : 'btn-ghost' }} gap-2 px-4 transition-all">
+                        <span class="material-symbols-outlined text-sm">view_list</span> List
                     </a>
-                    <a href="{{ request()->fullUrlWithQuery(['view' => 'calendar']) }}" class="join-item btn btn-xs {{ request('view') == 'calendar' ? 'btn-primary' : 'btn-ghost' }} border-none px-4">
-                        <span class="material-symbols-outlined text-sm">calendar_month</span> Calendar
+                    <a href="{{ request()->fullUrlWithQuery(['view' => 'calendar']) }}" class="join-item btn btn-sm {{ $view == 'calendar' ? 'btn-primary shadow-lg' : 'btn-ghost' }} gap-2 px-4 transition-all">
+                        <span class="material-symbols-outlined text-sm">calendar_view_month</span> Calendar
                     </a>
                 </div>
                 @can('manage_attendance')
@@ -33,7 +33,7 @@
         <div class="card bg-base-100 shadow-sm border border-base-200">
             <div class="p-4 flex flex-wrap items-center justify-between gap-4">
                 <form action="{{ route('attendance.index') }}" method="GET" class="flex flex-wrap items-center gap-3">
-                    <input type="hidden" name="view" value="{{ request('view', 'list') }}">
+                    <input type="hidden" name="view" value="{{ $view }}">
                     
                     @can('view_all_attendance')
                     <div class="relative max-w-xs">
@@ -46,7 +46,7 @@
                         <input type="month" name="month" value="{{ request('month', date('Y-m')) }}" class="input input-bordered input-sm text-xs rounded-xl">
                         <button type="submit" class="btn btn-primary btn-sm rounded-xl px-4">Filter</button>
                         @if(request()->hasAny(['search', 'month', 'date']))
-                        <a href="{{ route('attendance.index', ['view' => request('view')]) }}" class="btn btn-ghost btn-sm rounded-xl text-error">
+                        <a href="{{ route('attendance.index', ['view' => $view]) }}" class="btn btn-ghost btn-sm rounded-xl text-error">
                             <span class="material-symbols-outlined text-base">close</span>
                         </a>
                         @endif
@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        @if(request('view') == 'calendar')
+        @if($view == 'calendar')
             @include('attendance::partials.calendar_view')
         @else
             <!-- Date-wise Separated List View -->

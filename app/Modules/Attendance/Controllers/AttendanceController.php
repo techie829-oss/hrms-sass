@@ -36,12 +36,13 @@ class AttendanceController extends BaseController
             $filters['employee_id'] = $user->employee->id;
         }
 
-        $isCalendar = $request->get('view') === 'calendar';
+        $view = $request->get('view', 'calendar');
+        $isCalendar = $view === 'calendar';
         $perPage = $isCalendar ? 1000 : 15;
         
         $logs = $this->attendanceService->paginate($perPage, $filters);
 
-        return view('attendance::index', compact('logs', 'canViewAll'));
+        return view('attendance::index', compact('logs', 'canViewAll', 'view'));
     }
 
     /**
