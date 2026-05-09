@@ -44,7 +44,7 @@
                         @if($hasHr && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
                         <x-dropdown align="left" width="48">
                             <x-slot name="trigger">
-                                <button class="inline-flex items-center px-3 py-2 border-none text-[11px] font-bold uppercase tracking-wider text-on-surface-variant/70 hover:text-primary transition ease-in-out duration-150">
+                                <button class="inline-flex items-center px-3 py-2 border-none text-[11px] font-bold uppercase tracking-wider {{ request()->routeIs('hr.*') ? 'text-primary' : 'text-on-surface-variant/70' }} hover:text-primary transition ease-in-out duration-150">
                                     <div class="flex items-center gap-1.5">
                                         <span class="material-symbols-outlined text-[18px]">group</span>
                                         Workforce
@@ -66,7 +66,7 @@
                         @if(($hasAttendance || $hasLeave || $hasPayroll) && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
                         <x-dropdown align="left" width="48">
                             <x-slot name="trigger">
-                                <button class="inline-flex items-center px-3 py-2 border-none text-[11px] font-bold uppercase tracking-wider text-on-surface-variant/70 hover:text-primary transition ease-in-out duration-150">
+                                <button class="inline-flex items-center px-3 py-2 border-none text-[11px] font-bold uppercase tracking-wider {{ request()->routeIs('attendance.*', 'leave.*', 'payroll.*', 'operations.*') ? 'text-primary' : 'text-on-surface-variant/70' }} hover:text-primary transition ease-in-out duration-150">
                                     <div class="flex items-center gap-1.5">
                                         <span class="material-symbols-outlined text-[18px]">settings_applications</span>
                                         Operations
@@ -97,7 +97,7 @@
                         @if(($hasPerformance || $hasRecruitment) && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
                         <x-dropdown align="left" width="48">
                             <x-slot name="trigger">
-                                <button class="inline-flex items-center px-3 py-2 border-none text-[11px] font-bold uppercase tracking-wider text-on-surface-variant/70 hover:text-primary transition ease-in-out duration-150">
+                                <button class="inline-flex items-center px-3 py-2 border-none text-[11px] font-bold uppercase tracking-wider {{ request()->routeIs('performance.*', 'recruitment.*') ? 'text-primary' : 'text-on-surface-variant/70' }} hover:text-primary transition ease-in-out duration-150">
                                     <div class="flex items-center gap-1.5">
                                         <span class="material-symbols-outlined text-[18px]">bolt</span>
                                         Performance
@@ -126,7 +126,7 @@
                         {{-- My Space (Self Service) --}}
                         <x-dropdown align="left" width="48">
                             <x-slot name="trigger">
-                                <button class="inline-flex items-center px-3 py-2 border-none text-[11px] font-bold uppercase tracking-wider text-primary font-bold transition ease-in-out duration-150">
+                                <button class="inline-flex items-center px-3 py-2 border-none text-[11px] font-bold uppercase tracking-wider {{ request()->routeIs('profile.*', 'attendance.kiosk') ? 'text-primary' : 'text-on-surface-variant/70' }} hover:text-primary transition ease-in-out duration-150">
                                     <div class="flex items-center gap-1.5">
                                         <span class="material-symbols-outlined text-[18px]">person</span>
                                         My Space

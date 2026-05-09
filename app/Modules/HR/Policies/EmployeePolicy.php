@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies;
+namespace App\Modules\HR\Policies;
 
 use App\Models\User;
 use App\Modules\HR\Models\Employee;
@@ -8,17 +8,16 @@ use App\Modules\HR\Models\Employee;
 class EmployeePolicy
 {
     /**
-     * List all employees — tadmin and tmanager only.
+     * List all employees.
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['tadmin', 'tmanager', 'tstaff']);
+        return $user->hasPermissionTo('view employees');
     }
 
     /**
      * View a specific employee record.
-     * - tstaff: can only view their own record
-     * - tadmin / tmanager: can view any employee in same tenant
+     * - Allows if user has 'view employees' permission OR is viewing their own record.
      */
     public function view(User $user, Employee $employee): bool
     {
@@ -26,25 +25,24 @@ class EmployeePolicy
             return false; // Cross-tenant isolation
         }
 
-        if ($user->hasRole('tstaff')) {
-            return $user->employee?->id === $employee->id;
+        if ($user->hasPermissionTo('view employees')) {
+            return true;
         }
 
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        return $user->employee?->id === $employee->id;
     }
 
     /**
-     * Create a new employee — tadmin and tmanager only.
+     * Create a new employee.
      */
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        return $user->hasPermissionTo('create employees');
     }
 
     /**
      * Update an employee record.
-     * - Only within same tenant.
-     * - tstaff can update their own profile (limited fields — enforce in controller).
+     * - Allows if user has 'edit employees' permission OR is updating their own profile.
      */
     public function update(User $user, Employee $employee): bool
     {
@@ -52,15 +50,15 @@ class EmployeePolicy
             return false;
         }
 
-        if ($user->hasRole('tstaff')) {
-            return $user->employee?->id === $employee->id;
+        if ($user->hasPermissionTo('edit employees')) {
+            return true;
         }
 
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        return $user->employee?->id === $employee->id;
     }
 
     /**
-     * Delete an employee — tadmin only.
+     * Delete an employee.
      */
     public function delete(User $user, Employee $employee): bool
     {
@@ -68,6 +66,6 @@ class EmployeePolicy
             return false;
         }
 
-        return $user->hasRole('tadmin');
+        return $user->hasPermissionTo('delete employees');
     }
 }

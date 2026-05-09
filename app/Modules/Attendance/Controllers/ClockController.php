@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
+use App\Modules\HR\Models\Employee;
+use App\Modules\Attendance\Models\AttendanceRoleEnforcement;
+use App\Modules\Attendance\Models\AttendanceEmployeeEnforcement;
 
 class ClockController extends BaseController
 {
@@ -236,6 +240,63 @@ class ClockController extends BaseController
         Storage::disk('public')->put($filename, $imageData);
 
         return $filename;
+    }
+
+    /**
+     * Show Attendance modular Settings.
+     */
+    public function settings()
+    {
+        $policy = $this->getEffectivePolicy();
+        
+        $roles = Role::where('tenant_id', saas_tenant('id'))->get();
+        $roleEnforcements = AttendanceRoleEnforcement::pluck('checkin_required', 'role_name')->toArray();
+
+        $employees = Employee::all();
+        $employeeEnforcements = AttendanceEmployeeEnforcement::pluck('checkin_required', 'employee_id')->toArray();
+
+        return view('attendance::settings', compact('policy', 'roles', 'roleEnforcements', 'employees', 'employeeEnforcements'));
+    }
+
+    /**
+     * Save Attendance modular Settings.
+     */
+    public function saveSettings(Request $request)
+    {
+        $policy = $this->getEffectivePolicy();
+        if ($policy) {
+            $policy->update([
+                'enforce_clockin' => $request->has('enforce_clockin'),
+            ]);
+        }
+
+        // Save Role Enforcements
+        AttendanceRoleEnforcement::truncate();
+        $rolesData = $request->input('roles', []);
+        foreach ($rolesData as $roleName => $required) {
+            if ($required) {
+                AttendanceRoleEnforcement::create([
+                    'tenant_id' => saas_tenant('id'),
+                    'role_name' => $roleName,
+                    'checkin_required' => true,
+                ]);
+            }
+        }
+
+        // Save Employee Enforcements (Overrides)
+        AttendanceEmployeeEnforcement::truncate();
+        $employeesData = $request->input('employees', []);
+        foreach ($employeesData as $employeeId => $state) {
+            if ($state !== '') {
+                AttendanceEmployeeEnforcement::create([
+                    'tenant_id' => saas_tenant('id'),
+                    'employee_id' => $employeeId,
+                    'checkin_required' => (bool)$state,
+                ]);
+            }
+        }
+
+        return redirect()->route('attendance.settings')->with('success', 'Attendance Clock-In Enforcement settings saved successfully.');
     }
 
     /**

@@ -64,7 +64,7 @@ class ProfileController extends Controller
             $user->employee->update($employeeData);
         }
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::back()->with('status', 'profile-updated');
     }
 
     /**

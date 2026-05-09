@@ -55,9 +55,9 @@ class SetupTenantBlueprint
             ]
         );
 
-        // 4. Assign the Tenant Admin role
+        // 4. Assign the Tenant Admin role (pass the model instance, not the string, so Spatie picks the correct tenant_id)
         if (!$user->hasRole(RoleConstants::SADMIN)) {
-            $user->syncRoles([RoleConstants::TADMIN]);
+            $user->syncRoles([$adminRole]);
         }
 
         // 5. Create a skeleton employee record for the initial admin

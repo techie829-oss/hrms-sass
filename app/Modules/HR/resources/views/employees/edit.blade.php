@@ -112,6 +112,24 @@
                             @error('basic_salary') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
                         </div>
                     </div>
+
+                    <div class="divider my-4"></div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="form-control w-full">
+                            <div class="label">
+                                <span class="label-text font-bold">Daily Clock-In Enforcement</span>
+                            </div>
+                            <select name="checkin_required" class="select select-bordered w-full">
+                                <option value="" {{ old('checkin_required', $employee->user?->checkin_required) === null ? 'selected' : '' }}>Default (Inherit from Company/Role)</option>
+                                <option value="1" {{ old('checkin_required', $employee->user?->checkin_required) === 1 || old('checkin_required', $employee->user?->checkin_required) === '1' ? 'selected' : '' }}>Force Require Clock-In</option>
+                                <option value="0" {{ old('checkin_required', $employee->user?->checkin_required) === 0 || old('checkin_required', $employee->user?->checkin_required) === '0' ? 'selected' : '' }}>Exempt (Bypass Enforcement)</option>
+                            </select>
+                            <div class="label">
+                                <span class="label-text-alt opacity-70">Control whether this specific employee is forced to clock-in or exempted, regardless of general system defaults.</span>
+                            </div>
+                        </label>
+                    </div>
                 </div>
             </div>
 

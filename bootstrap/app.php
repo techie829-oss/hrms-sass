@@ -9,18 +9,23 @@ use App\Http\Middleware\EnsureTenantIsActive;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
+        then: function () {
+            Route::group([], base_path('routes/tenant.php'));
+        },
     )
     ->withMiddleware(function (Middleware $middleware): void {
         // Use our custom, trait-based schema isolation middleware (Prepend for early identification)
         $middleware->prepend(\App\Http\Middleware\CustomIdentifyTenant::class);
         $middleware->alias([
             'tenant.active' => EnsureTenantIsActive::class,
+            'enforce.clockin' => \App\Http\Middleware\EnforceClockIn::class,
             'tenant.employee' => \App\Http\Middleware\EnsureEmployeeProfile::class,
             'module.access' => CheckModuleAccess::class,
             'superadmin' => CheckSuperAdmin::class,

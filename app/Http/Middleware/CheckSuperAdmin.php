@@ -14,7 +14,9 @@ class CheckSuperAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user() || ! $request->user()->hasRole(RoleConstants::SADMIN)) {
+        // Allow ANY internal SaaS user (SADMIN, SMANAGER, SSTAFF) to enter the domain.
+        // Specific permissions (like deleting a tenant) should be checked via Gates in the controllers.
+        if (! $request->user() || ! $request->user()->hasAnyRole(RoleConstants::getCentralRoles())) {
             abort(403, 'Unauthorized access to SaaS Administration context.');
         }
 

@@ -14,6 +14,14 @@ $centralHost = parse_url(config('app.url'), PHP_URL_HOST) ?? config('app.url');
 // This ensures route('login') always uses the current request's host.
 Route::middleware(['web'])->group(function () {
     require __DIR__.'/auth.php';
+    
+    // Emergency Logout GET Route
+    Route::get('/force-logout', function () {
+        auth()->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/login');
+    });
 });
 
 // 3. Central Landing Site (hrms.test)
@@ -34,7 +42,7 @@ Route::domain($centralHost)->middleware(['web'])->group(function () {
 });
 
 // 4. Super Admin Panel (app.hrms.test)
-Route::domain('app.' . $centralHost)->middleware(['web', 'auth', 'superadmin', 'scope.roles'])->group(function () {
+Route::domain('app.' . $centralHost)->middleware(['web', 'auth', 'scope.roles', 'superadmin'])->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
     })->name('super-admin.dashboard');
@@ -44,17 +52,22 @@ Route::domain('app.' . $centralHost)->middleware(['web', 'auth', 'superadmin', '
     });
 
     Route::resource('tenants', TenantController::class)->names('admin.tenants');
+    Route::post('tenants/{tenant}/restore', [TenantController::class, 'restore'])->name('admin.tenants.restore');
+    Route::delete('tenants/{tenant}/force-delete', [TenantController::class, 'forceDelete'])->name('admin.tenants.force-delete');
     Route::patch('tenants/{tenant}/toggle-status', [TenantController::class, 'toggleStatus'])->name('admin.tenants.toggle-status');
     Route::patch('tenants/{tenant}/update-plan', [TenantController::class, 'updatePlan'])->name('admin.tenants.update-plan');
     Route::patch('tenants/{tenant}/toggle-module', [TenantController::class, 'toggleModule'])->name('admin.tenants.toggle-module');
 
     Route::resource('plans', \App\Http\Controllers\Admin\PlanController::class)->only(['index', 'edit', 'update'])->names('admin.plans');
-    Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class)->only(['index', 'create', 'store'])->names('admin.roles');
+    Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class)->names('admin.roles');
+    Route::resource('permissions', \App\Http\Controllers\Admin\PermissionController::class)->names('admin.permissions');
+    Route::get('/modules', [ModuleController::class, 'index'])->name('admin.modules.index');
     Route::post('/modules/sync', [ModuleController::class, 'sync'])->name('admin.modules.sync');
+    Route::get('/modules/{slug}', [ModuleController::class, 'show'])->name('admin.modules.show');
 });
 
 // 5. Global Profile Routes
-Route::middleware(['web', 'auth'])->group(function () {
+Route::middleware(['web', 'auth', 'scope.roles'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

@@ -25,10 +25,16 @@ class EmployeeService extends BaseService
                 'email' => $data['email'],
                 'password' => \Illuminate\Support\Facades\Hash::make('password'), // Default password
                 'email_verified_at' => now(),
+                'checkin_required' => isset($data['checkin_required']) && $data['checkin_required'] !== '' ? (bool)$data['checkin_required'] : null,
             ]);
 
-            // 2. Assign Baseline Tenant Staff Role
-            $user->assignRole('tstaff');
+            // 2. Assign Baseline Tenant Staff Role (pass explicit model to avoid global fallback)
+            $role = \Spatie\Permission\Models\Role::where('name', 'tstaff')->where('tenant_id', saas_tenant('id'))->first();
+            if ($role) {
+                $user->assignRole($role);
+            } else {
+                $user->assignRole('tstaff'); // Fallback if tenant-specific role is missing
+            }
 
             // 3. Create Employee linked to User
             $data['user_id'] = $user->id;
@@ -46,12 +52,23 @@ class EmployeeService extends BaseService
         return \Illuminate\Support\Facades\DB::transaction(function () use ($id, $data) {
             $employee = $this->repository->findOrFail($id);
             
-            // Sync user email if it changed
-            if (isset($data['email']) && $data['email'] !== $employee->email && $employee->user_id) {
-                \App\Models\User::where('id', $employee->user_id)->update([
-                    'email' => $data['email'],
-                    'name' => ($data['first_name'] ?? $employee->first_name) . ' ' . ($data['last_name'] ?? $employee->last_name),
-                ]);
+            // Sync user details and checkin_required
+            if ($employee->user_id) {
+                $userUpdate = [];
+                if (isset($data['email'])) {
+                    $userUpdate['email'] = $data['email'];
+                }
+                if (isset($data['first_name']) || isset($data['last_name'])) {
+                    $userUpdate['name'] = ($data['first_name'] ?? $employee->first_name) . ' ' . ($data['last_name'] ?? $employee->last_name);
+                }
+                if (array_key_exists('checkin_required', $data)) {
+                    $val = $data['checkin_required'];
+                    $userUpdate['checkin_required'] = ($val === '' || $val === null) ? null : (bool)$val;
+                }
+                
+                if (!empty($userUpdate)) {
+                    \App\Models\User::where('id', $employee->user_id)->update($userUpdate);
+                }
             }
 
             return $this->repository->update($id, $data);

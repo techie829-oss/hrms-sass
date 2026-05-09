@@ -82,9 +82,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-                "stancl/tenancy"
-            ]
+            "dont-discover": []
         }
     },
     "config": {

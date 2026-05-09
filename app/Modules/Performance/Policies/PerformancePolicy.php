@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies;
+namespace App\Modules\Performance\Policies;
 
 use App\Models\User;
 use App\Modules\Performance\Models\Appraisal;

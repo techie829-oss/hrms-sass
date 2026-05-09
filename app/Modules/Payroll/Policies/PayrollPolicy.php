@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies;
+namespace App\Modules\Payroll\Policies;
 
 use App\Models\User;
 use App\Modules\Payroll\Models\PayrollRun;

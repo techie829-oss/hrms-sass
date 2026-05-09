@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies;
+namespace App\Modules\Attendance\Policies;
 
 use App\Models\User;
 use App\Modules\Attendance\Models\AttendanceLog;

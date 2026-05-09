@@ -12,6 +12,14 @@
     </x-slot>
 
     <div class="bg-surface-container-lowest rounded-[2.5rem] border border-outline-variant/15 shadow-xl overflow-hidden">
+        <div class="flex gap-3 border-b border-outline-variant/10 pb-4 px-8 pt-6">
+            <a href="{{ route('admin.tenants.index') }}" class="px-5 py-2.5 font-black text-[10px] uppercase tracking-wider rounded-xl transition-all {{ request('filter') !== 'archived' ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-on-surface-variant hover:bg-surface-container-high' }}">
+                Active Tenants
+            </a>
+            <a href="{{ route('admin.tenants.index', ['filter' => 'archived']) }}" class="px-5 py-2.5 font-black text-[10px] uppercase tracking-wider rounded-xl transition-all {{ request('filter') === 'archived' ? 'bg-primary text-white shadow-lg shadow-primary/25' : 'text-on-surface-variant hover:bg-surface-container-high' }}">
+                Archived Tenants
+            </a>
+        </div>
         <x-table :headers="['Company', 'Subdomain', 'Mode', 'Plan', 'Status', 'Actions']" :striped="false">
             @forelse($tenants as $tenant)
                 <tr class="hover:bg-primary/5 transition-colors border-b border-outline-variant/5 group">
@@ -49,23 +57,39 @@
                     </td>
                     <td class="text-right px-8 py-6">
                         <div class="flex justify-end gap-2">
-                            <a href="{{ route('admin.tenants.show', $tenant->id) }}" class="btn btn-ghost btn-sm btn-square rounded-xl hover:bg-primary/10 hover:text-primary group-hover:scale-110 transition-transform" title="Manage Tenant">
-                                <span class="material-symbols-outlined text-xl">settings</span>
-                            </a>
-                            <form action="{{ route('admin.tenants.toggle-status', $tenant->id) }}" method="POST" class="inline">
-                                @csrf
-                                @method('PATCH')
-                                <button type="submit" class="btn btn-ghost btn-sm btn-square rounded-xl hover:bg-warning/10 hover:text-warning group-hover:scale-110 transition-transform" title="Toggle Status">
-                                    <span class="material-symbols-outlined text-xl">block</span>
-                                </button>
-                            </form>
-                            <form action="{{ route('admin.tenants.destroy', $tenant->id) }}" method="POST" class="inline" onsubmit="return confirm('WARNING: This will permanently delete the tenant and all their data!')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-ghost btn-sm btn-square rounded-xl hover:bg-error/10 hover:text-error group-hover:scale-110 transition-transform" title="Delete Tenant">
-                                    <span class="material-symbols-outlined text-xl">delete_forever</span>
-                                </button>
-                            </form>
+                            @if(request('filter') === 'archived')
+                                <form action="{{ route('admin.tenants.restore', $tenant->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-ghost btn-sm btn-square rounded-xl hover:bg-success/10 hover:text-success group-hover:scale-110 transition-transform text-success" title="Restore Tenant">
+                                        <span class="material-symbols-outlined text-xl">settings_backup_restore</span>
+                                    </button>
+                                </form>
+                                <form action="{{ route('admin.tenants.force-delete', $tenant->id) }}" method="POST" class="inline" onsubmit="return confirm('CRITICAL WARNING: This will automatically take a backup, then PERMANENTLY drop the PostgreSQL schema and delete the tenant record and all associated domains. This action is irreversible!')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-ghost btn-sm btn-square rounded-xl hover:bg-error/10 hover:text-error group-hover:scale-110 transition-transform text-error" title="Permanently Delete Tenant">
+                                        <span class="material-symbols-outlined text-xl">delete_forever</span>
+                                    </button>
+                                </form>
+                            @else
+                                <a href="{{ route('admin.tenants.show', $tenant->id) }}" class="btn btn-ghost btn-sm btn-square rounded-xl hover:bg-primary/10 hover:text-primary group-hover:scale-110 transition-transform" title="Manage Tenant">
+                                    <span class="material-symbols-outlined text-xl">settings</span>
+                                </a>
+                                <form action="{{ route('admin.tenants.toggle-status', $tenant->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-ghost btn-sm btn-square rounded-xl hover:bg-warning/10 hover:text-warning group-hover:scale-110 transition-transform" title="Toggle Status">
+                                        <span class="material-symbols-outlined text-xl">block</span>
+                                    </button>
+                                </form>
+                                <form action="{{ route('admin.tenants.destroy', $tenant->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to archive this tenant? Their subdomain will be disabled but their database remains completely safe.')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-ghost btn-sm btn-square rounded-xl hover:bg-error/10 hover:text-error group-hover:scale-110 transition-transform" title="Archive Tenant">
+                                        <span class="material-symbols-outlined text-xl">archive</span>
+                                    </button>
+                                </form>
+                            @endif
                         </div>
                     </td>
                 </tr>

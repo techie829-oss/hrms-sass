@@ -50,6 +50,7 @@ class EmployeeController extends BaseController
             'employment_type' => ['required', Rule::in(['full_time', 'part_time', 'contract', 'intern'])],
             'status' => ['required', Rule::in(['active', 'inactive', 'on_leave', 'terminated', 'resigned'])],
             'basic_salary' => ['required', 'numeric', 'min:0'],
+            'checkin_required' => ['nullable', 'string', 'in:0,1,'],
         ]);
 
         $this->employeeService->create($validated);
@@ -66,7 +67,7 @@ class EmployeeController extends BaseController
         $employee = $this->employeeService->findOrFail($id);
         
         // Eager load relationships if needed, or fetch related data
-        $employee->load(['department', 'appraisals', 'goals']);
+        $employee->load(['department', 'appraisals', 'goals', 'documents']);
 
         return view('hr::employees.show', compact('employee'));
     }
@@ -97,6 +98,7 @@ class EmployeeController extends BaseController
             'employment_type' => ['required', Rule::in(['full_time', 'part_time', 'contract', 'intern'])],
             'status' => ['required', Rule::in(['active', 'inactive', 'on_leave', 'terminated', 'resigned'])],
             'basic_salary' => ['required', 'numeric', 'min:0'],
+            'checkin_required' => ['nullable', 'string', 'in:0,1,'],
         ]);
 
         $this->employeeService->update($id, $validated);
@@ -114,5 +116,73 @@ class EmployeeController extends BaseController
 
         return redirect()->route('hr.employees.index')
             ->with('success', 'Employee deleted successfully.');
+    }
+
+    /**
+     * Upload an employee document securely.
+     */
+    public function uploadDocument(Request $request, $employeeId)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'document_type' => 'required|string|in:offer_letter,experience,certificate,id_proof,other',
+            'document_file' => 'required|file|mimes:pdf,docx,jpg,jpeg,png|max:5120', // 5MB max
+        ]);
+
+        $employee = $this->employeeService->findOrFail($employeeId);
+
+        if ($request->hasFile('document_file')) {
+            $file = $request->file('document_file');
+            $tenantId = saas_tenant('id');
+            
+            // Store file securely inside local disk
+            $path = $file->store("tenants/{$tenantId}/documents", 'local');
+
+            \App\Modules\HR\Models\EmployeeDocument::create([
+                'tenant_id' => $tenantId,
+                'employee_id' => $employee->id,
+                'title' => $request->title,
+                'document_type' => $request->document_type,
+                'file_path' => $path,
+                'file_name' => $file->getClientOriginalName(),
+                'mime_type' => $file->getClientMimeType(),
+                'file_size' => $file->getSize(),
+                'uploaded_by' => auth()->id(),
+            ]);
+
+            return back()->with('success', 'Document uploaded successfully.');
+        }
+
+        return back()->with('error', 'No file was uploaded.');
+    }
+
+    /**
+     * Securely download an employee document.
+     */
+    public function downloadDocument($employeeId, $documentId)
+    {
+        $document = \App\Modules\HR\Models\EmployeeDocument::where('employee_id', $employeeId)->findOrFail($documentId);
+
+        if (!\Illuminate\Support\Facades\Storage::disk('local')->exists($document->file_path)) {
+            abort(404, 'File not found in storage.');
+        }
+
+        return \Illuminate\Support\Facades\Storage::disk('local')->download($document->file_path, $document->file_name);
+    }
+
+    /**
+     * Permanently delete an employee document.
+     */
+    public function destroyDocument($employeeId, $documentId)
+    {
+        $document = \App\Modules\HR\Models\EmployeeDocument::where('employee_id', $employeeId)->findOrFail($documentId);
+
+        // Delete from storage disk
+        \Illuminate\Support\Facades\Storage::disk('local')->delete($document->file_path);
+
+        // Delete from DB
+        $document->delete();
+
+        return back()->with('success', 'Document deleted successfully.');
     }
 }

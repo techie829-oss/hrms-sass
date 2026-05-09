@@ -14,7 +14,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('tenant.profile.update') }}" class="space-y-8">
+    <form method="post" action="{{ url('/profile') }}" class="space-y-8">
         @csrf
         @method('patch')
 

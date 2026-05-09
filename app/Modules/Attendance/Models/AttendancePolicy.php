@@ -29,6 +29,7 @@ class AttendancePolicy extends Model
         'kiosk_require_location',
         'is_mobile_enabled',
         'is_manual_enabled',
+        'enforce_clockin',
     ];
 
     protected $casts = [
@@ -40,6 +41,7 @@ class AttendancePolicy extends Model
         'kiosk_require_location' => 'boolean',
         'is_mobile_enabled' => 'boolean',
         'is_manual_enabled' => 'boolean',
+        'enforce_clockin' => 'boolean',
     ];
 
     public function getActivitylogOptions(): LogOptions

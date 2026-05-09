@@ -16,7 +16,7 @@
     >{{ __('Terminate Account') }}</button>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('tenant.profile.destroy') }}" class="p-0 overflow-hidden bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-2xl font-sans">
+        <form method="post" action="{{ url('/profile') }}" class="p-0 overflow-hidden bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-2xl font-sans">
             @csrf
             @method('delete')
 

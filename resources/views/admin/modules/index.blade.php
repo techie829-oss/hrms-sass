@@ -41,7 +41,7 @@
                         <span class="material-symbols-outlined text-primary text-sm">settings_input_component</span>
                         <span class="text-[10px] font-black uppercase tracking-widest text-on-surface">Auto-Discoverable</span>
                     </div>
-                    <button class="btn btn-ghost btn-xs rounded-lg font-black uppercase text-[9px] tracking-widest">Details</button>
+                    <a href="{{ route('admin.modules.show', $slug) }}" class="btn btn-ghost btn-xs rounded-lg font-black uppercase text-[9px] tracking-widest">Details</a>
                 </div>
             </div>
         @endforeach

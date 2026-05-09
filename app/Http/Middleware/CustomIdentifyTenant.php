@@ -24,13 +24,14 @@ class CustomIdentifyTenant
         $domain = Domain::where('domain', $host)->first();
 
         if ($domain) {
-            $tenant = Tenant::find($domain->tenant_id);
+            $tenant = Tenant::withTrashed()->find($domain->tenant_id);
             if ($tenant) {
+                if ($tenant->trashed()) {
+                    abort(403, 'This account has been suspended or archived. Please contact support.');
+                }
+
                 // Initialize our custom context
                 $context->setTenant($tenant);
-                
-                // Set URL defaults for subdomain parameters (fixes UrlGenerationException in modules)
-                URL::defaults(['tenant' => $tenant->slug]);
 
                 // Also Share with view
                 view()->share('activeTenant', $tenant);

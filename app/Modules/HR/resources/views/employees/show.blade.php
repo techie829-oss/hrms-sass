@@ -99,7 +99,7 @@
                 <div class="card-body p-0">
                     <div role="tablist" class="tabs tabs-bordered bg-base-200/50 pt-2 px-4 rounded-t-2xl">
                         <!-- Overview Tab -->
-                        <input type="radio" name="employee_tabs" role="tab" class="tab text-[10px] font-bold uppercase tracking-widest [--tab-border-color:theme(colors.primary)] [--tab-bg:theme(colors.base-100)]" aria-label="Overview" checked="checked" />
+                        <input type="radio" name="employee_tabs" role="tab" class="tab text-[10px] font-bold uppercase tracking-widest [--tab-border-color:theme(colors.primary)] [--tab-bg:theme(colors.base-100)]" aria-label="Overview" {{ session('success') && str_contains(session('success'), 'Document') ? '' : 'checked="checked"' }} />
                         <div role="tabpanel" class="tab-content bg-base-100 p-8 border-none">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <section>
@@ -257,12 +257,134 @@
                         </div>
 
                         <!-- Documents Tab -->
-                        <input type="radio" name="employee_tabs" role="tab" class="tab text-[10px] font-bold uppercase tracking-widest [--tab-border-color:theme(colors.primary)] [--tab-bg:theme(colors.base-100)]" aria-label="Documents" />
+                        <input type="radio" name="employee_tabs" role="tab" class="tab text-[10px] font-bold uppercase tracking-widest [--tab-border-color:theme(colors.primary)] [--tab-bg:theme(colors.base-100)]" aria-label="Documents" {{ session('success') && str_contains(session('success'), 'Document') ? 'checked="checked"' : '' }} />
                         <div role="tabpanel" class="tab-content bg-base-100 p-8 border-none">
-                            <div class="py-20 text-center opacity-40">
-                                <span class="material-symbols-outlined text-6xl">description</span>
-                                <p class="font-bold text-sm mt-4">Document management coming soon.</p>
+                            <div class="space-y-6">
+                                <!-- Table Header Actions -->
+                                <div class="flex justify-between items-center pb-2">
+                                    <h5 class="text-xs font-bold uppercase tracking-wider opacity-60 flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-sm font-bold">folder_open</span>
+                                        Stored Documents
+                                    </h5>
+                                    <button onclick="upload_document_modal.showModal()" class="btn btn-primary btn-sm rounded-xl font-bold uppercase tracking-wider flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-sm">cloud_upload</span>
+                                        Upload Document
+                                    </button>
+                                </div>
+
+                                <!-- Documents Table (Full Width) -->
+                                <div class="overflow-x-auto rounded-2xl border border-base-200">
+                                    <table class="table table-zebra w-full text-left">
+                                        <thead class="bg-base-200/50 text-[10px] font-bold uppercase tracking-wider">
+                                            <tr>
+                                                <th class="px-6 py-4">Title / Type</th>
+                                                <th class="px-6 py-4">File Name / Size</th>
+                                                <th class="px-6 py-4">Uploaded Date</th>
+                                                <th class="px-6 py-4 text-right">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse($employee->documents as $doc)
+                                                @php
+                                                    $badges = [
+                                                        'offer_letter' => 'badge-primary',
+                                                        'experience' => 'badge-secondary',
+                                                        'certificate' => 'badge-accent',
+                                                        'id_proof' => 'badge-info',
+                                                        'other' => 'badge-ghost',
+                                                    ];
+                                                    $badgeClass = $badges[$doc->document_type] ?? 'badge-ghost';
+                                                @endphp
+                                                <tr class="text-xs hover:bg-base-200/20 group">
+                                                    <td class="px-6 py-4">
+                                                        <div class="font-bold text-sm">{{ $doc->title }}</div>
+                                                        <span class="badge {{ $badgeClass }} font-bold text-[8px] uppercase tracking-wider mt-1">{{ str_replace('_', ' ', $doc->document_type) }}</span>
+                                                    </td>
+                                                    <td class="px-6 py-4">
+                                                        <div class="font-medium opacity-80 max-w-[200px] truncate" title="{{ $doc->file_name }}">{{ $doc->file_name }}</div>
+                                                        <div class="text-[10px] opacity-50 mt-1">{{ round($doc->file_size / 1024, 1) }} KB</div>
+                                                    </td>
+                                                    <td class="px-6 py-4 opacity-70">
+                                                        {{ $doc->created_at->format('M d, Y') }}
+                                                    </td>
+                                                    <td class="px-6 py-4 text-right">
+                                                        <div class="flex justify-end gap-2">
+                                                            <a href="{{ route('hr.employees.documents.download', [$employee->id, $doc->id]) }}" class="btn btn-ghost btn-sm btn-square rounded-xl hover:bg-primary/10 hover:text-primary transition-transform group-hover:scale-105" title="Download Document">
+                                                                <span class="material-symbols-outlined text-sm">download</span>
+                                                            </a>
+                                                            <form action="{{ route('hr.employees.documents.destroy', [$employee->id, $doc->id]) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to permanently delete this document?')">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-ghost btn-sm btn-square rounded-xl hover:bg-error/10 hover:text-error transition-transform text-error group-hover:scale-105" title="Delete Document">
+                                                                    <span class="material-symbols-outlined text-sm">delete</span>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="4" class="py-20 text-center">
+                                                        <div class="flex flex-col items-center gap-4 opacity-40">
+                                                            <span class="material-symbols-outlined text-6xl">folder_off</span>
+                                                            <p class="font-bold text-sm">No secure documents uploaded yet.</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
+
+                            <!-- Modern DaisyUI Upload Modal -->
+                            <dialog id="upload_document_modal" class="modal modal-bottom sm:modal-middle">
+                                <div class="modal-box bg-base-100 rounded-2xl border border-base-200 shadow-xl max-w-md p-6">
+                                    <form method="dialog">
+                                        <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 focus:outline-none">✕</button>
+                                    </form>
+
+                                    <h3 class="text-sm font-bold uppercase tracking-wider text-primary flex items-center gap-2 mb-6">
+                                        <span class="material-symbols-outlined text-base font-bold">cloud_upload</span>
+                                        Upload Secure Document
+                                    </h3>
+
+                                    <form action="{{ route('hr.employees.documents.store', $employee->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                                        @csrf
+                                        <div class="form-control w-full">
+                                            <label class="label text-[10px] font-bold uppercase opacity-60">Document Title</label>
+                                            <input type="text" name="title" required placeholder="e.g. Offer Letter, Passport" class="input input-bordered w-full text-xs rounded-xl" />
+                                        </div>
+
+                                        <div class="form-control w-full">
+                                            <label class="label text-[10px] font-bold uppercase opacity-60">Document Type</label>
+                                            <select name="document_type" required class="select select-bordered w-full text-xs rounded-xl">
+                                                <option value="offer_letter">Offer Letter</option>
+                                                <option value="experience">Experience Letter</option>
+                                                <option value="certificate">Degree/Certificate</option>
+                                                <option value="id_proof">ID Proof (Aadhaar/PAN/Passport)</option>
+                                                <option value="other">Other Attachment</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-control w-full">
+                                            <label class="label text-[10px] font-bold uppercase opacity-60">Choose File (Max 5MB)</label>
+                                            <input type="file" name="document_file" required class="file-input file-input-bordered file-input-sm w-full text-xs rounded-xl" accept=".pdf,.docx,.jpg,.jpeg,.png" />
+                                        </div>
+
+                                        <div class="flex gap-2 justify-end pt-4">
+                                            <button type="button" onclick="upload_document_modal.close()" class="btn btn-ghost btn-sm rounded-xl text-xs uppercase font-bold tracking-wider">Cancel</button>
+                                            <button type="submit" class="btn btn-primary btn-sm rounded-xl text-xs uppercase font-bold tracking-wider flex items-center gap-2">
+                                                <span class="material-symbols-outlined text-sm">upload_file</span>
+                                                Securely Upload
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <form method="dialog" class="modal-backdrop bg-base-900/40 backdrop-blur-xs">
+                                    <button>close</button>
+                                </form>
+                            </dialog>
                         </div>
                     </div>
                 </div>

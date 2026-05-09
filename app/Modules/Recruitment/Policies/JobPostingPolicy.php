@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies;
+namespace App\Modules\Recruitment\Policies;
 
 use App\Models\User;
 use App\Modules\Recruitment\Models\JobPosting;

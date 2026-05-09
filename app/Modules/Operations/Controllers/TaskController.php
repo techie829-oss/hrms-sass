@@ -54,7 +54,7 @@ class TaskController extends Controller
         return view('operations::tasks.create', compact('employees', 'projects'));
     }
 
-    public function store(Request $request, Project $project = null)
+    public function store(Request $request, ?Project $project = null)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',

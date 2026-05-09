@@ -9,6 +9,9 @@ Route::name('attendance.')->middleware(['auth'])->group(function () {
     Route::post('clock-out', [\App\Modules\Attendance\Controllers\ClockController::class, 'clockOut'])->name('clock-out');
 
     Route::middleware(['role:tadmin|tmanager'])->group(function () {
+        Route::get('settings', [\App\Modules\Attendance\Controllers\ClockController::class, 'settings'])->name('settings');
+        Route::post('settings', [\App\Modules\Attendance\Controllers\ClockController::class, 'saveSettings'])->name('settings.save');
+
         Route::resource('logs', AttendanceController::class)->names([
             'index' => 'index',
             'create' => 'create',

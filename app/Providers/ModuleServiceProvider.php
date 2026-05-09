@@ -74,24 +74,6 @@ class ModuleServiceProvider extends ServiceProvider
             $name = basename($module);
             $this->registerModuleViews($name, $module);
             $this->registerModuleMigrations($name, $module);
-            $this->registerModuleRoutes($name, $module);
-        }
-    }
-
-    /**
-     * Register routes for the module.
-     */
-    protected function registerModuleRoutes(string $name, string $path): void
-    {
-        $routeFile = $path.'/routes.php';
-        $centralHost = parse_url(config('app.url'), PHP_URL_HOST) ?? 'hrms.test';
-
-        if (File::exists($routeFile)) {
-            // Register module routes ONLY on tenant domains
-            Route::domain('{tenant}.'.$centralHost)
-                ->middleware(['web', 'tenant.active'])
-                ->prefix(strtolower($name))
-                ->group($routeFile);
         }
     }
 

@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
-use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +12,9 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 Route::middleware([
     'web',
-    InitializeTenancyByDomain::class,
-    PreventAccessFromCentralDomains::class,
     'tenant.active',
     'scope.roles',
+    'enforce.clockin',
 ])->group(function () {
     
     Route::middleware('auth')->group(function () {
@@ -65,10 +62,6 @@ Route::middleware([
         Route::middleware(['module.access:operations', 'role:tadmin|tmanager'])->prefix('operations')->name('operations.')->group(function () {
             require app_path('Modules/Operations/routes.php');
         });
-        // Profile Routes (Tenant)
-        Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('tenant.profile.edit');
-        Route::patch('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('tenant.profile.update');
-        Route::delete('/profile', [\App\Http\Controllers\ProfileController::class, 'destroy'])->name('tenant.profile.destroy');
 
         // Independent Media Uploads
         Route::post('/profile/photo', [\App\Http\Controllers\ProfileController::class, 'updatePhoto'])->name('tenant.profile.update-photo');
@@ -83,7 +76,5 @@ Route::middleware([
         Route::post('/careers/{job_posting}/apply', [\App\Modules\Recruitment\Controllers\Public\PublicCareerController::class, 'store'])->name('tenant.careers.store');
     });
 
-    Route::name('tenant.')->group(function () {
-        require __DIR__.'/auth.php';
-    });
+    require __DIR__.'/auth.php';
 });

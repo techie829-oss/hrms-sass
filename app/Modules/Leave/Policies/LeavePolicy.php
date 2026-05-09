@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies;
+namespace App\Modules\Leave\Policies;
 
 use App\Models\User;
 use App\Modules\Leave\Models\LeaveRequest;

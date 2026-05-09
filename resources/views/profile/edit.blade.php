@@ -24,7 +24,7 @@
                     </div>
                 </div>
 
-                <form id="cover_upload_form" action="{{ route('tenant.profile.update-cover') }}" method="POST" enctype="multipart/form-data" class="hidden">
+                <form id="cover_upload_form" action="{{ url('/profile/cover') }}" method="POST" enctype="multipart/form-data" class="hidden">
                     @csrf
                     <input type="file" id="cover_input" name="cover_photo" onchange="document.getElementById('cover_upload_form').submit()" accept="image/*">
                 </form>
@@ -45,7 +45,7 @@
                             <span class="material-symbols-outlined text-white text-2xl group-hover/avatar:scale-110 transition-transform">add_a_photo</span>
                         </div>
 
-                        <form id="photo_upload_form" action="{{ route('tenant.profile.update-photo') }}" method="POST" enctype="multipart/form-data" class="hidden">
+                        <form id="photo_upload_form" action="{{ url('/profile/photo') }}" method="POST" enctype="multipart/form-data" class="hidden">
                             @csrf
                             <input type="file" id="photo_input" name="profile_photo" onchange="document.getElementById('photo_upload_form').submit()" accept="image/*">
                         </form>

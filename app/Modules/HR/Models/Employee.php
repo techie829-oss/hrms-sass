@@ -24,8 +24,14 @@ class Employee extends Model
         'last_name',
         'email',
         'phone',
+        'gender',
         'date_of_birth',
         'date_of_joining',
+        'emergency_contact_name',
+        'emergency_contact_phone',
+        'emergency_contact_relation',
+        'current_address',
+        'permanent_address',
         'status',
         'employment_type',
         'salary',
@@ -69,6 +75,11 @@ class Employee extends Model
     public function appraisals()
     {
         return $this->hasMany(\App\Modules\Performance\Models\Appraisal::class);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(EmployeeDocument::class);
     }
 
     public function attendanceLogs()
