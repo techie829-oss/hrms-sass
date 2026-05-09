@@ -269,25 +269,25 @@ class ClockController extends BaseController
         
         // Fetch existing enforcements as integers (0=Inherit, 1=Force, 2=Exempt)
         $roleEnforcements = AttendanceRoleEnforcement::where('tenant_id', saas_tenant('id'))
-            ->pluck('checkin_required', 'role_name')
+            ->pluck('enforce_kiosk', 'role_id')
             ->map(fn($v) => (string)$v)
             ->toArray();
             
         // Fetch multi-clocking enforcements as strings ('0'=Inherit, '1'=Allowed, '2'=Disallowed)
         $multiRoleEnforcements = AttendanceRoleEnforcement::where('tenant_id', saas_tenant('id'))
-            ->pluck('allow_multi_clocking', 'role_name')
+            ->pluck('multi_clocking', 'role_id')
             ->map(fn($v) => (string)$v)
             ->toArray();
 
         $employees = Employee::all();
         
         $employeeEnforcements = AttendanceEmployeeEnforcement::where('tenant_id', saas_tenant('id'))
-            ->pluck('checkin_required', 'employee_id')
+            ->pluck('enforce_kiosk', 'employee_id')
             ->map(fn($v) => (string)$v)
             ->toArray();
             
         $employeeMultiEnforcements = AttendanceEmployeeEnforcement::where('tenant_id', saas_tenant('id'))
-            ->pluck('allow_multi_clocking', 'employee_id')
+            ->pluck('multi_clocking', 'employee_id')
             ->map(fn($v) => (string)$v)
             ->toArray();
 
@@ -306,7 +306,7 @@ class ClockController extends BaseController
         if ($policy) {
             $policy->update([
                 'enforce_clockin' => $request->has('enforce_clockin'),
-                'allow_multi_clocking' => $request->has('allow_multi_clocking'),
+                'multi_clocking' => (int)$request->input('multi_clocking_policy', 0),
             ]);
         }
 
@@ -315,13 +315,17 @@ class ClockController extends BaseController
         $rolesData = $request->input('roles', []);
         $multiRolesData = $request->input('multi_roles', []);
         
-        foreach ($rolesData as $roleName => $required) {
-            AttendanceRoleEnforcement::create([
-                'tenant_id' => saas_tenant('id'),
-                'role_name' => $roleName,
-                'checkin_required' => (int)$required,
-                'allow_multi_clocking' => (int)($multiRolesData[$roleName] ?? 0),
-            ]);
+        foreach ($rolesData as $roleId => $required) {
+            $multiState = $multiRolesData[$roleId] ?? '0';
+            
+            if ($required !== '0' || $multiState !== '0') {
+                AttendanceRoleEnforcement::create([
+                    'tenant_id' => saas_tenant('id'),
+                    'role_id' => $roleId,
+                    'enforce_kiosk' => (int)$required,
+                    'multi_clocking' => (int)$multiState,
+                ]);
+            }
         }
 
         // Save Employee Enforcements (Scoped to Tenant)
@@ -337,8 +341,8 @@ class ClockController extends BaseController
                 AttendanceEmployeeEnforcement::create([
                     'tenant_id' => saas_tenant('id'),
                     'employee_id' => $employeeId,
-                    'checkin_required' => (int)$state,
-                    'allow_multi_clocking' => (int)$multiState,
+                    'enforce_kiosk' => (int)$state,
+                    'multi_clocking' => (int)$multiState,
                 ]);
             }
         }
@@ -353,21 +357,21 @@ class ClockController extends BaseController
     {
         // 1. Check Employee Level Override
         $empOverride = AttendanceEmployeeEnforcement::where('employee_id', $employee->id)->first();
-        if ($empOverride && $empOverride->allow_multi_clocking != 0) {
-            return $empOverride->allow_multi_clocking == 1;
+        if ($empOverride && $empOverride->multi_clocking != 0) {
+            return $empOverride->multi_clocking == 1;
         }
 
         // 2. Check Role Level Settings
         $user = $employee->user;
         if ($user) {
-            $roleNames = $user->roles->pluck('name')->toArray();
-            $roleEnforcements = AttendanceRoleEnforcement::whereIn('role_name', $roleNames)
-                ->where('allow_multi_clocking', '>', 0)
+            $roleIds = $user->roles->pluck('id')->toArray();
+            $roleEnforcements = AttendanceRoleEnforcement::whereIn('role_id', $roleIds)
+                ->where('multi_clocking', '>', 0)
                 ->get();
             
             if ($roleEnforcements->isNotEmpty()) {
                 // If any role explicitly allows it, it's allowed
-                if ($roleEnforcements->where('allow_multi_clocking', 1)->isNotEmpty()) {
+                if ($roleEnforcements->where('multi_clocking', 1)->isNotEmpty()) {
                     return true;
                 }
                 // If no role allows it but some roles explicitly disallow it
@@ -376,7 +380,7 @@ class ClockController extends BaseController
         }
 
         // 3. Fallback to Company Policy
-        return $policy ? (bool)$policy->allow_multi_clocking : false;
+        return $policy ? ($policy->multi_clocking == 1) : false;
     }
 
     /**
@@ -385,8 +389,6 @@ class ClockController extends BaseController
     private function getEffectivePolicy(): ?AttendancePolicy
     {
         // For now, return the default policy for the tenant
-        return AttendancePolicy::where('is_default', true)
-            ->where('is_active', true)
-            ->first();
+        return AttendancePolicy::where('is_active', true)->first();
     }
 }

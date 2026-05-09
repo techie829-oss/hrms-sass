@@ -37,13 +37,19 @@
                     </div>
 
                     <div class="flex items-start gap-4 bg-secondary/5 p-6 rounded-3xl border border-secondary/10">
-                        <input type="checkbox" id="allow_multi_clocking" name="allow_multi_clocking" class="checkbox checkbox-secondary rounded-xl mt-1" value="1" {{ old('allow_multi_clocking', $policy?->allow_multi_clocking) ? 'checked' : '' }} />
-                        <div>
-                            <label for="allow_multi_clocking" class="font-black text-sm uppercase tracking-wider text-secondary cursor-pointer select-none">Allow Multiple Check-In/Out</label>
-                            <p class="text-xs opacity-80 mt-1 font-medium leading-relaxed">
-                                When enabled, employees can clock-in and clock-out multiple times a day (e.g., for breaks). 
-                                If disabled, only one pair of Check-In/Out is allowed per day.
-                            </p>
+                        <div class="flex flex-col gap-4 w-full">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <label class="font-black text-sm uppercase tracking-wider text-secondary select-none">Default Multi Check-In/Out</label>
+                                    <p class="text-xs opacity-80 mt-1 font-medium leading-relaxed">
+                                        Set the default multi-clocking policy for the organization.
+                                    </p>
+                                </div>
+                                <select name="multi_clocking_policy" class="select select-bordered select-sm w-40 text-[10px] font-black uppercase tracking-wider rounded-xl bg-surface-container-lowest">
+                                    <option value="0" {{ ($policy?->multi_clocking == 0) ? 'selected' : '' }}>Disallow (Once/Day)</option>
+                                    <option value="1" {{ ($policy?->multi_clocking == 1) ? 'selected' : '' }}>Allow Multiple</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -82,17 +88,17 @@
                                 
                                 <div class="flex items-center gap-6">
                                     <div class="w-32 flex justify-center">
-                                        <select name="roles[{{ $role->name }}]" class="select select-bordered select-sm w-full text-[10px] font-black uppercase tracking-wider rounded-xl bg-surface-container-lowest">
-                                            <option value="0" {{ ($roleEnforcements[$role->name] ?? '0') === '0' ? 'selected' : '' }}>Inherit</option>
-                                            <option value="1" {{ ($roleEnforcements[$role->name] ?? '') === '1' ? 'selected' : '' }}>Force</option>
-                                            <option value="2" {{ ($roleEnforcements[$role->name] ?? '') === '2' ? 'selected' : '' }}>Exempt</option>
+                                        <select name="roles[{{ $role->id }}]" class="select select-bordered select-sm w-full text-[10px] font-black uppercase tracking-wider rounded-xl bg-surface-container-lowest">
+                                            <option value="0" {{ ($roleEnforcements[$role->id] ?? '0') === '0' ? 'selected' : '' }}>Inherit</option>
+                                            <option value="1" {{ ($roleEnforcements[$role->id] ?? '') === '1' ? 'selected' : '' }}>Force</option>
+                                            <option value="2" {{ ($roleEnforcements[$role->id] ?? '') === '2' ? 'selected' : '' }}>Exempt</option>
                                         </select>
                                     </div>
                                     <div class="w-32 flex justify-center">
-                                        <select name="multi_roles[{{ $role->name }}]" class="select select-bordered select-sm w-full text-[10px] font-black uppercase tracking-wider rounded-xl bg-surface-container-lowest">
-                                            <option value="0" {{ ($multiRoleEnforcements[$role->name] ?? '0') === '0' ? 'selected' : '' }}>Inherit</option>
-                                            <option value="1" {{ ($multiRoleEnforcements[$role->name] ?? '') === '1' ? 'selected' : '' }}>Allow</option>
-                                            <option value="2" {{ ($multiRoleEnforcements[$role->name] ?? '') === '2' ? 'selected' : '' }}>Disallow</option>
+                                        <select name="multi_roles[{{ $role->id }}]" class="select select-bordered select-sm w-full text-[10px] font-black uppercase tracking-wider rounded-xl bg-surface-container-lowest">
+                                            <option value="0" {{ ($multiRoleEnforcements[$role->id] ?? '0') === '0' ? 'selected' : '' }}>Inherit</option>
+                                            <option value="1" {{ ($multiRoleEnforcements[$role->id] ?? '') === '1' ? 'selected' : '' }}>Allow</option>
+                                            <option value="2" {{ ($multiRoleEnforcements[$role->id] ?? '') === '2' ? 'selected' : '' }}>Disallow</option>
                                         </select>
                                     </div>
                                 </div>
@@ -118,7 +124,7 @@
                             <span class="text-[8px] font-black uppercase tracking-widest">Employee</span>
                             <div class="flex items-center gap-8">
                                 <span class="text-[8px] font-black uppercase tracking-widest w-40 text-center">Enforcement Mode</span>
-                                <span class="text-[8px] font-black uppercase tracking-widest w-16 text-center">Multi In/Out</span>
+                                <span class="text-[8px] font-black uppercase tracking-widest w-40 text-center">Multi In/Out</span>
                             </div>
                         </div>
                         @foreach($employees as $employee)

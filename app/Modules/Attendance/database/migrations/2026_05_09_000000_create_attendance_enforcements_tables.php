@@ -15,12 +15,12 @@ return new class extends Migration
             Schema::create('attendance_role_enforcements', function (Blueprint $table) {
                 $table->id();
                 $table->string('tenant_id')->index();
-                $table->string('role_name');
-                $table->integer('checkin_required')->default(0); // 0=Inherit, 1=Force, 2=Exempt
-                $table->integer('allow_multi_clocking')->default(0); // 0=Inherit, 1=Allow, 2=Disallow
+                $table->unsignedBigInteger('role_id');
+                $table->integer('enforce_kiosk')->default(0); // 0=Inherit, 1=Force, 2=Exempt
+                $table->integer('multi_clocking')->default(0); // 0=Inherit, 1=Allow, 2=Disallow
                 $table->timestamps();
 
-                $table->unique(['tenant_id', 'role_name']);
+                $table->unique(['tenant_id', 'role_id']);
             });
         }
 
@@ -29,8 +29,8 @@ return new class extends Migration
                 $table->id();
                 $table->string('tenant_id')->index();
                 $table->unsignedBigInteger('employee_id');
-                $table->integer('checkin_required')->default(0); // 0=Inherit, 1=Force, 2=Exempt
-                $table->integer('allow_multi_clocking')->default(0); // 0=Inherit, 1=Allow, 2=Disallow
+                $table->integer('enforce_kiosk')->default(0); // 0=Inherit, 1=Force, 2=Exempt
+                $table->integer('multi_clocking')->default(0); // 0=Inherit, 1=Allow, 2=Disallow
                 $table->timestamps();
 
                 $table->unique(['tenant_id', 'employee_id']);

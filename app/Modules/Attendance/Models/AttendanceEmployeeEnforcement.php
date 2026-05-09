@@ -13,12 +13,13 @@ class AttendanceEmployeeEnforcement extends Model
     protected $fillable = [
         'tenant_id',
         'employee_id',
-        'checkin_required',
-        'allow_multi_clocking',
+        'enforce_kiosk',
+        'multi_clocking',
     ];
 
     protected $casts = [
-        'allow_multi_clocking' => 'boolean',
+        'enforce_kiosk' => 'integer',
+        'multi_clocking' => 'integer',
     ];
 
     public function employee()

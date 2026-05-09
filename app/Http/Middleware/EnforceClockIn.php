@@ -40,44 +40,39 @@ class EnforceClockIn
             }
         }
 
-        // 3. Fetch the company-level policy enforce clock-in setting (from the default active AttendancePolicy)
-        $policy = AttendancePolicy::where('is_default', true)
-            ->where('is_active', true)
-            ->first();
-            
+        // 3. Fetch the company-level policy enforce clock-in setting
+        $policy = AttendancePolicy::where('is_active', true)->first();
         $companyEnforced = $policy ? (bool)$policy->enforce_clockin : false;
 
-        // 4. Employee-level override check (Explicit Exclusion or Force)
-        $employeeEnforcement = AttendanceEmployeeEnforcement::where('employee_id', $user->employee->id)->first();
+        // 4. Resolve Enforcement (0=Inherit, 1=Force, 2=Exempt)
+        $enforcement = 0; // Default to Inherit
 
-        // 0=Inherit, 1=Force, 2=Exempt
-        // If employee has an explicit bypass/exclusion (checkin_required set to 2): EXCLUDED
-        if ($employeeEnforcement && $employeeEnforcement->checkin_required == 2) {
-            return $next($request);
-        }
-
-        // 5. Determine if check-in is required
-        $checkInRequired = false;
-
-        if ($employeeEnforcement && $employeeEnforcement->checkin_required == 1) {
-            // Explicitly forced at employee level
-            $checkInRequired = true;
+        // Priority 1: Employee Level
+        $empEnf = AttendanceEmployeeEnforcement::where('employee_id', $user->employee->id)->first();
+        if ($empEnf && $empEnf->enforce_kiosk != 0) {
+            $enforcement = $empEnf->enforce_kiosk;
         } else {
-            // Inherit from either company-level or role-level settings
-            if ($companyEnforced) {
-                $checkInRequired = true;
-            } else {
-                // Check if any of their active Spatie roles require check-in
-                $userRoleNames = $user->roles()->pluck('name')->toArray();
-                
-                $checkInRequired = AttendanceRoleEnforcement::whereIn('role_name', $userRoleNames)
-                    ->where('checkin_required', 1)
-                    ->exists();
+            // Priority 2: Role Level
+            $roleIds = $user->roles()->pluck('id')->toArray();
+            $roleEnf = AttendanceRoleEnforcement::whereIn('role_id', $roleIds)
+                ->where('enforce_kiosk', '!=', 0)
+                ->first(); // Get the first explicit enforcement found for any user role
+
+            if ($roleEnf) {
+                $enforcement = $roleEnf->enforce_kiosk;
+            } else if ($policy) {
+                // Priority 3: Company Level
+                $enforcement = $companyEnforced ? 1 : 2;
             }
         }
 
-        // 6. If check-in is required, verify if they have clocked in today
-        if ($checkInRequired) {
+        // 5. If Exempt (2), allow access
+        if ($enforcement == 2) {
+            return $next($request);
+        }
+
+        // 6. If Forced (1), verify if they have clocked in today
+        if ($enforcement == 1) {
             $today = Carbon::today();
             $hasClockedIn = AttendanceLog::where('employee_id', $user->employee->id)
                 ->whereDate('date', $today)
@@ -85,18 +80,22 @@ class EnforceClockIn
                 ->exists();
 
             if (!$hasClockedIn) {
-                // List of allowed route names or paths
+                // List of allowed routes
                 $allowedRoutes = [
                     'attendance.kiosk',
                     'attendance.clock-in',
                     'logout',
+                    'tenant.dashboard', // Allow dashboard to show the widget
                 ];
 
                 $currentRouteName = $request->route() ? $request->route()->getName() : null;
 
                 // Also allow logout and the kiosk routes, otherwise redirect
                 if (!in_array($currentRouteName, $allowedRoutes) && !$request->is('logout') && !$request->is('attendance/kiosk') && !$request->is('attendance/clock-in')) {
-                    return redirect()->route('attendance.kiosk')->with('error', 'Daily Clock-In is mandatory for your account. Please Clock In to access HRMS features.');
+                    // Only redirect if NOT on dashboard (to prevent infinite loop if dashboard shows widget)
+                    if ($currentRouteName !== 'tenant.dashboard') {
+                        return redirect()->route('attendance.kiosk')->with('error', 'Daily Clock-In is mandatory for your account. Please Clock In to access HRMS features.');
+                    }
                 }
             }
         }
