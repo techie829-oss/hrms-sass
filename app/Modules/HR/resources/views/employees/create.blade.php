@@ -125,8 +125,36 @@
                         </label>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                         <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Status</span></div>
+                            <select name="status" class="select select-bordered w-full">
+                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                <option value="on_leave" {{ old('status') == 'on_leave' ? 'selected' : '' }}>On Leave</option>
+                                <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                            </select>
+                        </label>
+
+                        <div class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Monthly Basic Salary <span class="text-error">*</span></span></div>
+                            <label class="input input-bordered flex items-center gap-2 w-full">
+                                <span class="opacity-50 font-bold">₹</span>
+                                <input type="number" step="0.01" name="basic_salary" required value="{{ old('basic_salary') }}" class="w-full" placeholder="0.00" />
+                            </label>
+                            @error('basic_salary') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </div>
+
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Reporting To (Manager)</span></div>
+                            <select name="reporting_to" class="select select-bordered w-full">
+                                <option value="">None (Top Level)</option>
+                                @foreach($employees as $emp)
+                                    <option value="{{ $emp->id }}" {{ old('reporting_to') == $emp->id ? 'selected' : '' }}>{{ $emp->full_name }} ({{ $emp->employee_id }})</option>
+                                @endforeach
+                            </select>
+                            @error('reporting_to') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+                    </div>
                 </div>
             </div>
 

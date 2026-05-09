@@ -126,8 +126,6 @@
                         </label>
                     </div>
 
-                    </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                         <label class="form-control w-full">
                             <div class="label"><span class="label-text font-bold">Status</span></div>
