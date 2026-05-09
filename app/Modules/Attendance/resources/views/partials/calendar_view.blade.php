@@ -108,9 +108,8 @@
                                     <span class="material-symbols-outlined text-xl">hotel</span>
                                     <span class="text-[8px] font-black uppercase tracking-[0.2em] mt-1">Weekend</span>
                                 </div>
-                            @endif
-                        </div>
-                    @endif
+                        @endif
+                    </div>
                 </div>
             @endfor
 
