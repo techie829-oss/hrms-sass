@@ -35,7 +35,14 @@ class SetupTenantBlueprint
         $adminRole->givePermissionTo(Permission::all());
 
         $managerRole->givePermissionTo([
-            'view dashboard', 'view employees', 'manage attendance', 'approve leave', 'view reports',
+            'view dashboard', 
+            'view employees', 'create employees', 'edit employees',
+            'manage attendance', 'view attendance',
+            'approve leave', 'create leave', 'cancel leave',
+            'view reports',
+            'view payroll',
+            'view timesheet', 'manage timesheet',
+            'view performance',
         ]);
 
         $staffRole->givePermissionTo([

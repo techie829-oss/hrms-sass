@@ -11,7 +11,7 @@
         </div>
     </x-slot>
 
-    @if(session('success'))
+    @if(false) {{-- handled by app layout --}}
         <div class="alert alert-success mb-6 text-sm font-semibold">
             <span class="material-symbols-outlined">check_circle</span>
             {{ session('success') }}

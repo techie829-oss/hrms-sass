@@ -12,12 +12,7 @@
         </div>
     </x-slot>
 
-    @if(session('success'))
-        <div class="alert alert-success mb-6 text-[10px] font-black uppercase tracking-widest rounded-xl border-none shadow-sm bg-success/20 text-success-content py-3 px-4">
-            <span class="material-symbols-outlined text-lg">check_circle</span>
-            {{ session('success') }}
-        </div>
-    @endif
+
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($designations as $designation)
