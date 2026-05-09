@@ -111,11 +111,11 @@
                             </a>
                         @else
                             @if(!$isWeekend && $isPast && !$isToday)
-                                <div class="p-3 rounded-[20px] border border-dashed border-error/20 bg-error/[0.02] flex flex-col items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
+                                <div class="p-3 rounded-[20px] border border-dashed border-error/30 bg-error/[0.05] flex flex-col items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity">
                                     <span class="text-[9px] font-black text-error uppercase tracking-widest">Absent</span>
                                 </div>
                             @elseif($isWeekend)
-                                <div class="p-3 flex flex-col items-center justify-center opacity-10 group-hover:opacity-30 transition-opacity">
+                                <div class="p-3 flex flex-col items-center justify-center opacity-40 group-hover:opacity-60 transition-opacity text-error/40">
                                     <span class="material-symbols-outlined text-xl">hotel</span>
                                     <span class="text-[8px] font-black uppercase tracking-[0.2em] mt-1">Weekend</span>
                                 </div>
