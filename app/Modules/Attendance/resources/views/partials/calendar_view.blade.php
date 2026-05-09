@@ -93,11 +93,11 @@
                                 $st = $statusMap[$primaryStatus] ?? ['color' => 'base-content', 'icon' => 'event'];
                             @endphp
                             
-                            <div class="relative p-3 rounded-[20px] bg-{{ $st['color'] }}/10 border border-{{ $st['color'] }}/20 flex flex-col items-center justify-center group/status overflow-hidden">
+                            <a href="{{ route('attendance.show', $dayLogs->first()->id) }}" class="relative p-3 rounded-[20px] bg-{{ $st['color'] }}/10 border border-{{ $st['color'] }}/20 flex flex-col items-center justify-center group/status overflow-hidden hover:bg-{{ $st['color'] }}/20 transition-all active:scale-95 shadow-sm group-hover:scale-105">
                                 <span class="material-symbols-outlined text-{{ $st['color'] }} text-[40px] absolute -right-2 -bottom-2 opacity-10 group-hover/status:scale-125 transition-transform">{{ $st['icon'] }}</span>
                                 <span class="text-xl font-black text-{{ $st['color'] }} leading-none tracking-tighter">{{ number_format($totalHours, 1) }}h</span>
-                                <span class="text-[8px] font-black uppercase tracking-[0.15em] mt-1.5 opacity-60 text-{{ $st['color'] }}">Calculated</span>
-                            </div>
+                                <span class="text-[8px] font-black uppercase tracking-[0.15em] mt-1.5 opacity-60 text-{{ $st['color'] }}">View Details</span>
+                            </a>
                         @else
                             @if(!$isWeekend && $isPast && !$isToday)
                                 <div class="p-3 rounded-[20px] border border-dashed border-error/20 bg-error/[0.02] flex flex-col items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
