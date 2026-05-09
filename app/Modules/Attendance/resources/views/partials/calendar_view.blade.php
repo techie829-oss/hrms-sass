@@ -8,11 +8,11 @@
     $mappedLogs = $logs->groupBy(fn($l) => $l->date->format('Y-m-d'));
 @endphp
 
-<div class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
-    <!-- Calendar Grid -->
-    <div class="grid grid-cols-7 border-b border-base-200">
+<div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
+    <!-- Calendar Grid Header -->
+    <div class="grid grid-cols-7 border-b border-base-200/60 bg-base-200/30">
         @foreach(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $day)
-            <div class="p-3 text-center text-[10px] font-black uppercase tracking-widest bg-base-200/50 border-r border-base-200 last:border-0">
+            <div class="p-4 text-center text-[10px] font-black uppercase tracking-[0.2em] opacity-40 border-r border-base-200/60 last:border-0">
                 {{ $day }}
             </div>
         @endforeach
@@ -21,7 +21,7 @@
     <div class="grid grid-cols-7 auto-rows-fr">
         <!-- Empty slots before the first day -->
         @for($i = 0; $i < $firstDayOfMonth; $i++)
-            <div class="min-h-[120px] bg-base-200/20 border-b border-r border-base-200 p-2"></div>
+            <div class="min-h-[140px] bg-base-200/10 border-b border-r border-base-200/60 p-3"></div>
         @endfor
 
         <!-- Days of the month -->
@@ -31,53 +31,53 @@
                 $dayLogs = $mappedLogs->get($dateString, []);
                 $isToday = $dateString == date('Y-m-d');
                 $isWeekend = in_array($carbon->copy()->day($day)->dayOfWeek, [0, 6]);
+                $totalHours = $dayLogs->sum('worked_hours');
+                $primaryStatus = count($dayLogs) > 0 ? $dayLogs->first()->status : null;
             @endphp
             
-            <div class="min-h-[120px] border-b border-r border-base-200 p-2 hover:bg-base-200/10 transition-colors {{ $isToday ? 'bg-primary/5' : '' }} {{ $isWeekend ? 'bg-base-200/10' : '' }}">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs font-black {{ $isToday ? 'bg-primary text-white w-6 h-6 rounded-lg flex items-center justify-center shadow-lg shadow-primary/20' : 'text-base-content/60' }}">
+            <div class="min-h-[140px] border-b border-r border-base-200/60 p-4 hover:bg-base-200/20 transition-all group {{ $isToday ? 'bg-primary/[0.03]' : '' }} {{ $isWeekend ? 'bg-base-200/10' : 'bg-base-100' }}">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-black {{ $isToday ? 'bg-primary text-white w-7 h-7 rounded-[10px] flex items-center justify-center shadow-lg shadow-primary/30' : 'text-base-content/40 group-hover:text-base-content/80' }} transition-colors">
                         {{ $day }}
                     </span>
                     @if(count($dayLogs) > 0)
-                        <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                        <div class="flex gap-1">
+                            @foreach($dayLogs->take(3) as $l)
+                                <span class="w-1.5 h-1.5 rounded-full {{ $l->status == 'present' ? 'bg-success' : ($l->status == 'late' ? 'bg-warning' : 'bg-error') }} ring-2 ring-white"></span>
+                            @endforeach
+                        </div>
                     @endif
                 </div>
 
-                <div class="flex flex-col gap-1.5">
-                    @forelse($dayLogs as $log)
+                <div class="flex flex-col gap-2">
+                    @if(count($dayLogs) > 0)
                         @php
                             $statusColors = [
                                 'present' => 'bg-success/10 text-success border-success/20',
                                 'late' => 'bg-warning/10 text-warning border-warning/20',
                                 'absent' => 'bg-error/10 text-error border-error/20',
                             ];
-                            $color = $statusColors[$log->status] ?? 'bg-base-200 text-base-content/50 border-base-300';
+                            $color = $statusColors[$primaryStatus] ?? 'bg-base-200 text-base-content/50 border-base-300';
                         @endphp
                         
-                        @if($canViewAll)
-                            <!-- For admins, show a compact summary or first employee -->
-                            <div class="px-1.5 py-0.5 rounded border {{ $color }} text-[8px] font-black uppercase truncate">
-                                {{ $log->employee->first_name }}: {{ $log->check_in ? $log->check_in->format('H:i') : 'IN' }}
-                            </div>
-                        @else
-                            <!-- For employees, show detailed log -->
-                            <div class="px-2 py-1 rounded-lg border {{ $color }} flex flex-col gap-0.5 shadow-sm">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-[9px] font-black uppercase tracking-widest">{{ $log->status }}</span>
-                                    <span class="text-[8px] opacity-60 font-bold">{{ $log->worked_hours }}h</span>
-                                </div>
-                                <div class="text-[10px] font-black">
-                                    {{ $log->check_in ? $log->check_in->format('H:i') : '--' }} - {{ $log->check_out ? $log->check_out->format('H:i') : '--' }}
-                                </div>
+                        <div class="px-3 py-2 rounded-2xl border {{ $color }} flex flex-col items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+                            <span class="text-lg font-black leading-none">{{ number_format($totalHours, 1) }}h</span>
+                            <span class="text-[8px] font-black uppercase tracking-[0.1em] mt-1 opacity-60">Calculated</span>
+                        </div>
+                        
+                        @if($canViewAll && count($dayLogs) > 1)
+                            <div class="text-[8px] font-black uppercase tracking-widest text-center opacity-30">
+                                {{ count($dayLogs) }} Entries
                             </div>
                         @endif
-                    @empty
+                    @else
                         @if(!$isWeekend && $carbon->copy()->day($day)->isPast())
-                             <div class="px-2 py-1 rounded-lg border border-error/20 bg-error/5 text-error flex flex-col gap-0.5 opacity-50 grayscale">
-                                <span class="text-[9px] font-black uppercase tracking-widest">Absent</span>
+                             <div class="px-3 py-2 rounded-2xl border border-dashed border-error/20 bg-error/[0.02] text-error/30 flex flex-col items-center justify-center opacity-60 grayscale group-hover:grayscale-0 transition-all">
+                                <span class="material-symbols-outlined text-sm mb-1">event_busy</span>
+                                <span class="text-[8px] font-black uppercase tracking-[0.1em]">No Log</span>
                             </div>
                         @endif
-                    @endforelse
+                    @endif
                 </div>
             </div>
         @endfor
@@ -88,7 +88,7 @@
             if ($remainingSlots == 7) $remainingSlots = 0;
         @endphp
         @for($i = 0; $i < $remainingSlots; $i++)
-            <div class="min-h-[120px] bg-base-200/20 border-b border-r border-base-200 p-2"></div>
+            <div class="min-h-[140px] bg-base-200/10 border-b border-r border-base-200/60 p-3"></div>
         @endfor
     </div>
 </div>
