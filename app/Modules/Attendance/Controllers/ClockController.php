@@ -307,6 +307,10 @@ class ClockController extends BaseController
             $policy->update([
                 'enforce_clockin' => $request->has('enforce_clockin'),
                 'multi_clocking' => (int)$request->input('multi_clocking_policy', 0),
+                'auto_checkout' => $request->has('auto_checkout'),
+                'auto_checkout_time' => $request->input('auto_checkout_time'),
+                'default_start_time' => $request->input('default_start_time'),
+                'default_end_time' => $request->input('default_end_time'),
             ]);
         }
 

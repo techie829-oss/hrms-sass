@@ -31,6 +31,10 @@ class AttendancePolicy extends Model
         'is_manual_enabled',
         'enforce_clockin',
         'allow_multi_clocking',
+        'auto_checkout',
+        'auto_checkout_time',
+        'default_start_time',
+        'default_end_time',
     ];
 
     protected $casts = [
@@ -44,6 +48,7 @@ class AttendancePolicy extends Model
         'is_manual_enabled' => 'boolean',
         'enforce_clockin' => 'boolean',
         'allow_multi_clocking' => 'boolean',
+        'auto_checkout' => 'boolean',
     ];
 
     public function getActivitylogOptions(): LogOptions

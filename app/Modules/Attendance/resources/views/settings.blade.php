@@ -55,6 +55,56 @@
                 </div>
             </div>
 
+            <!-- Card 2: Working Hours & Shift Rules -->
+            <div class="card bg-surface-container-lowest shadow-xl border border-outline-variant/15 rounded-[2.5rem] overflow-hidden">
+                <div class="card-body p-8 md:p-10 space-y-8">
+                    <div class="flex items-center gap-4 border-b border-outline-variant/10 pb-4">
+                        <span class="material-symbols-outlined text-tertiary text-3xl">schedule</span>
+                        <div>
+                            <h3 class="font-black font-headline text-lg uppercase tracking-wider text-on-surface">Working Hours & Shift Rules</h3>
+                            <p class="text-[10px] opacity-70 font-medium">Configure standard office hours and automatic check-out behaviors.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Office Hours -->
+                        <div class="space-y-4">
+                            <h4 class="text-[10px] font-black uppercase tracking-widest opacity-40">Standard Office Timing</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black uppercase tracking-wider opacity-60">Start Time</label>
+                                    <input type="time" name="default_start_time" value="{{ old('default_start_time', $policy?->default_start_time) }}" class="input input-bordered w-full rounded-2xl font-black text-xs bg-surface-container-low" />
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black uppercase tracking-wider opacity-60">End Time</label>
+                                    <input type="time" name="default_end_time" value="{{ old('default_end_time', $policy?->default_end_time) }}" class="input input-bordered w-full rounded-2xl font-black text-xs bg-surface-container-low" />
+                                </div>
+                            </div>
+                            <p class="text-[10px] opacity-50 font-medium italic">* This will be used as the default if no specific shift is assigned.</p>
+                        </div>
+
+                        <!-- Auto-Checkout -->
+                        <div class="space-y-4">
+                            <h4 class="text-[10px] font-black uppercase tracking-widest opacity-40">System Automation</h4>
+                            <div class="bg-surface-container-low p-6 rounded-[2rem] border border-outline-variant/10 space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" id="auto_checkout" name="auto_checkout" class="checkbox checkbox-tertiary rounded-lg" value="1" {{ old('auto_checkout', $policy?->auto_checkout) ? 'checked' : '' }} />
+                                        <label for="auto_checkout" class="font-black text-[11px] uppercase tracking-wider text-on-surface cursor-pointer">Enable Auto-Checkout</label>
+                                    </div>
+                                    <div class="badge badge-tertiary font-black text-[8px] uppercase tracking-tighter">Automatic</div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black uppercase tracking-wider opacity-60">Execution Time</label>
+                                    <input type="time" name="auto_checkout_time" value="{{ old('auto_checkout_time', $policy?->auto_checkout_time) }}" class="input input-bordered input-sm w-full rounded-xl font-black text-xs bg-surface-container-lowest" />
+                                </div>
+                                <p class="text-[9px] opacity-60 font-medium leading-relaxed">The system will automatically clock-out any active sessions at this specific time every day.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Card 2: Role-Level Enforcements -->
             <div class="card bg-surface-container-lowest shadow-xl border border-outline-variant/15 rounded-[2.5rem] overflow-hidden">
                 <div class="card-body p-8 md:p-10 space-y-6">
