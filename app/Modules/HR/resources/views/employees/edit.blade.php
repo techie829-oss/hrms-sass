@@ -201,17 +201,17 @@
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Current Address</span></div>
-                            <textarea name="current_address" class="textarea textarea-bordered h-24" placeholder="Enter current residential address">{{ old('current_address', $employee->current_address) }}</textarea>
-                            @error('current_address') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Current Address</span></label>
+                            <textarea name="current_address" class="textarea textarea-bordered h-24 w-full" placeholder="Enter current residential address">{{ old('current_address', $employee->current_address) }}</textarea>
+                            @error('current_address') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Permanent Address</span></div>
-                            <textarea name="permanent_address" class="textarea textarea-bordered h-24" placeholder="Enter permanent address">{{ old('permanent_address', $employee->permanent_address) }}</textarea>
-                            @error('permanent_address') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Permanent Address</span></label>
+                            <textarea name="permanent_address" class="textarea textarea-bordered h-24 w-full" placeholder="Enter permanent address">{{ old('permanent_address', $employee->permanent_address) }}</textarea>
+                            @error('permanent_address') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
                     </div>
                 </div>
             </div>
