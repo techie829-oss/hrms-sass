@@ -62,7 +62,7 @@
                     <div class="flex items-center justify-between mb-6">
                         <div class="relative">
                             <span class="text-sm font-black transition-all duration-300
-                                {{ $isToday ? 'bg-primary text-white w-9 h-9 rounded-[14px] flex items-center justify-center shadow-xl shadow-primary/40' : ($isWeekend ? 'text-error/40' : 'text-base-content/30 group-hover:text-base-content/90') }}">
+                                {{ $isToday ? 'bg-primary text-white w-9 h-9 rounded-[14px] flex items-center justify-center shadow-xl shadow-primary/40' : ($isWeekend ? 'text-error/70' : 'text-base-content/60 group-hover:text-base-content/90') }}">
                                 {{ $day }}
                             </span>
                             @if($isToday)
