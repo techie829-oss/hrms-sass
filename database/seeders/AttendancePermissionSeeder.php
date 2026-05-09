@@ -37,8 +37,8 @@ class AttendancePermissionSeeder extends Seeder
             }
         }
 
-        // tstaff/tuser -> view_own
-        $staffRoles = ['tstaff', 'tuser'];
+        // tstaff -> view_own
+        $staffRoles = ['tstaff'];
         foreach ($staffRoles as $roleName) {
             try {
                 $role = Role::where('name', $roleName)->first();

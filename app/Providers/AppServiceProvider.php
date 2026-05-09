@@ -52,10 +52,12 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Appraisal::class, PerformancePolicy::class);
         Gate::policy(Goal::class, PerformancePolicy::class);
         Gate::policy(KPI::class, PerformancePolicy::class);
+
         // ── SaaS Internal Gates ────────────────────────────────────────────
         // SADMIN bypasses all gates
         Gate::before(function ($user) {
-            if ($user->hasRole(RoleConstants::SADMIN)) {
+            // Super Admin Bypass
+            if ($user->hasRole('superadmin') || $user->hasRole(RoleConstants::SADMIN)) {
                 return true;
             }
         });
@@ -106,7 +108,7 @@ class AppServiceProvider extends ServiceProvider
             $user->hasPermissionTo('view dashboard')
         );
 
-        // Staff can only view their own space (My Space / Profile)
+        // Staff can access the tenant space
         Gate::define('access-tenant', fn($user) =>
             $user->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER, RoleConstants::TSTAFF])
         );
