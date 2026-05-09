@@ -37,11 +37,27 @@
                         </label>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                         <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Email Address <span class="text-error">*</span></span></div>
+                            <div class="label"><span class="label-text font-bold">Company Email (Login ID) <span class="text-error">*</span></span></div>
                             <input type="email" name="email" required value="{{ old('email', $email ?? '') }}" class="input input-bordered w-full" placeholder="john@company.com" />
                             @error('email') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Personal Email</span></div>
+                            <input type="email" name="personal_email" value="{{ old('personal_email') }}" class="input input-bordered w-full" placeholder="john@gmail.com" />
+                            @error('personal_email') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Mobile Number</span></div>
+                            <div class="flex gap-2">
+                                <input type="text" name="country_code" value="{{ old('country_code', '+91') }}" class="input input-bordered w-24 text-center" placeholder="+91" />
+                                <input type="text" name="phone" value="{{ old('phone') }}" class="input input-bordered w-full" placeholder="9876543210" />
+                            </div>
+                            @error('phone') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
                         </label>
 
                         <label class="form-control w-full">

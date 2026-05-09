@@ -65,6 +65,16 @@
                 </div>
             </div>
 
+            @if(empty($employee->personal_email) || $employee->personal_email === $employee->email)
+            <div class="alert alert-warning shadow-sm border border-warning/20 mb-6">
+                <span class="material-symbols-outlined">warning</span>
+                <div>
+                    <h3 class="font-bold text-xs uppercase tracking-wider">Email Update Required</h3>
+                    <div class="text-xs mt-0.5">Please provide a distinct personal email address for account recovery and communication.</div>
+                </div>
+            </div>
+            @endif
+
             <!-- Contact Info -->
             <div class="card bg-base-100 shadow-sm border border-base-200">
                 <div class="card-body">
@@ -72,20 +82,29 @@
                     <div class="space-y-4">
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 rounded-lg bg-base-200 flex items-center justify-center">
-                                <span class="material-symbols-outlined text-primary text-base">mail</span>
+                                <span class="material-symbols-outlined text-primary text-base">work</span>
                             </div>
                             <div class="overflow-hidden">
-                                <div class="text-[10px] font-bold opacity-70">Email Address</div>
+                                <div class="text-[10px] font-bold opacity-70">Company Email</div>
                                 <div class="text-xs font-medium truncate">{{ $employee->email }}</div>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 rounded-lg bg-base-200 flex items-center justify-center">
-                                <span class="material-symbols-outlined text-primary text-base">call</span>
+                                <span class="material-symbols-outlined text-secondary text-base">mail</span>
+                            </div>
+                            <div class="overflow-hidden">
+                                <div class="text-[10px] font-bold opacity-70">Personal Email</div>
+                                <div class="text-xs font-medium truncate">{{ $employee->personal_email ?? 'Not provided' }}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-base-200 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-success text-base">call</span>
                             </div>
                             <div>
-                                <div class="text-[10px] font-bold opacity-70">Phone Number</div>
-                                <div class="text-xs font-medium">{{ $employee->phone ?? 'Not provided' }}</div>
+                                <div class="text-[10px] font-bold opacity-70">Mobile Number</div>
+                                <div class="text-xs font-medium">{{ $employee->phone ? ($employee->country_code . ' ' . $employee->phone) : 'Not provided' }}</div>
                             </div>
                         </div>
                     </div>
