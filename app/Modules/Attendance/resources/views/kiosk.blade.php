@@ -115,8 +115,8 @@
                     {{-- Status + Actions --}}
                     <div class="flex flex-col items-center gap-6">
                     {{-- Status --}}
-                    @if(!$todayLog)
-                        {{-- Not clocked in --}}
+                    @if(!$todayLog || ($isMultiEnabled && $todayLog->check_out))
+                        {{-- Not clocked in OR Multi-clocking enabled and previous session closed --}}
                         <div class="flex flex-col items-center gap-4">
                             <div class="w-20 h-20 rounded-full bg-success/10 border-4 border-success/20 flex items-center justify-center animate-pulse">
                                 <span class="material-symbols-outlined text-4xl text-success">login</span>
@@ -153,7 +153,7 @@
                             </div>
                         </div>
 
-                        <form action="{{ route('attendance.clock-in') }}" method="POST" id="clockInForm" @submit.prevent="captureAndSubmit($event)">
+                        <form action="{{ route('attendance.clock-in') }}" method="POST" x-ref="clockInForm" @submit.prevent="captureAndSubmit($event)">
                             @csrf
                             <input type="hidden" name="latitude" x-model="latitude">
                             <input type="hidden" name="longitude" x-model="longitude">
@@ -166,6 +166,16 @@
                                 <span x-text="(isSecureContext && ((requireLocation && !locationReady) || (requirePhoto && !cameraReady))) ? 'Access Required' : 'Clock In Now'"></span>
                             </button>
                         </form>
+                        
+                        @if(config('app.debug'))
+                            <div class="mt-4 p-3 bg-warning/5 border border-warning/10 rounded-xl text-center">
+                                <p class="text-[8px] font-black uppercase text-warning opacity-60 mb-2">Debug Mode Active</p>
+                                <button @click="latitude='26.8467'; longitude='80.9462'; photoData='debug_bypass'; $nextTick(() => $refs.clockInForm.submit())" 
+                                    class="btn btn-ghost btn-xs text-[9px] font-black uppercase tracking-widest text-warning hover:bg-warning/10">
+                                    Skip & Clock In (Bypass)
+                                </button>
+                            </div>
+                        @endif
 
                     @elseif($todayLog && !$todayLog->check_out)
                         {{-- Clocked in, waiting for clock out --}}
@@ -212,7 +222,7 @@
                                 @endif
                             </div>
                         </div>
-                        <form action="{{ route('attendance.clock-out') }}" method="POST" id="clockOutForm" @submit.prevent="captureAndSubmit($event)">
+                        <form action="{{ route('attendance.clock-out') }}" method="POST" x-ref="clockOutForm" @submit.prevent="captureAndSubmit($event)">
                             @csrf
                             <input type="hidden" name="latitude" x-model="latitude">
                             <input type="hidden" name="longitude" x-model="longitude">
@@ -225,6 +235,16 @@
                                 <span x-text="((requireLocation && !locationReady) || (requirePhoto && !cameraReady)) ? 'Access Required' : 'Clock Out'"></span>
                             </button>
                         </form>
+
+                        @if(config('app.debug'))
+                            <div class="mt-4 p-3 bg-warning/5 border border-warning/10 rounded-xl text-center">
+                                <p class="text-[8px] font-black uppercase text-warning opacity-60 mb-2">Debug Mode Active</p>
+                                <button @click="latitude='26.8467'; longitude='80.9462'; photoData='debug_bypass_out'; $nextTick(() => $refs.clockOutForm.submit())" 
+                                    class="btn btn-ghost btn-xs text-[9px] font-black uppercase tracking-widest text-warning hover:bg-warning/10">
+                                    Skip & Clock Out (Bypass)
+                                </button>
+                            </div>
+                        @endif
                         <div class="flex flex-col items-center gap-2 mt-4" x-show="(requireLocation && !locationReady) || (requirePhoto && !cameraReady)">
                             <div class="flex flex-wrap justify-center gap-3">
                                 <div class="flex items-center gap-2 px-3 py-1.5 bg-error/10 rounded-full border border-error/20" x-show="requireLocation && locationError">
@@ -427,7 +447,7 @@
                 isKioskEnabled: config.isKioskEnabled,
                 requirePhoto: config.requirePhoto,
                 requireLocation: config.requireLocation,
-                isSecureContext: window.isSecureContext || window.location.hostname === 'localhost' || window.location.hostname.endsWith('.test'),
+                isSecureContext: window.isSecureContext || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.endsWith('.test'),
                 latitude: '',
                 longitude: '',
                 accuracy: '',

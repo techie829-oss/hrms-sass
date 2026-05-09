@@ -51,12 +51,15 @@ class ClockController extends BaseController
         // Fetch effective policy
         $policy = $this->getEffectivePolicy();
 
+        // Check if Multi-Clocking is enabled for this employee
+        $isMultiEnabled = $employee ? $this->isMultiClockingEnabled($employee, $policy) : false;
+
         // Check if Kiosk is even enabled for this policy
         if ($policy && !$policy->is_kiosk_enabled) {
             return redirect()->route('attendance.index')->with('error', 'Kiosk attendance is currently disabled by admin.');
         }
 
-        return view('attendance::kiosk', compact('user', 'employee', 'todayLog', 'shift', 'recentLogs', 'policy'));
+        return view('attendance::kiosk', compact('user', 'employee', 'todayLog', 'shift', 'recentLogs', 'policy', 'isMultiEnabled'));
     }
 
     /**
