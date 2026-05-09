@@ -28,11 +28,11 @@
         @for($day = 1; $day <= $daysInMonth; $day++)
             @php
                 $dateString = $carbon->copy()->day($day)->format('Y-m-d');
-                $dayLogs = $mappedLogs->get($dateString, []);
+                $dayLogs = $mappedLogs->get($dateString, collect());
                 $isToday = $dateString == date('Y-m-d');
                 $isWeekend = in_array($carbon->copy()->day($day)->dayOfWeek, [0, 6]);
                 $totalHours = $dayLogs->sum('worked_hours');
-                $primaryStatus = count($dayLogs) > 0 ? $dayLogs->first()->status : null;
+                $primaryStatus = $dayLogs->isNotEmpty() ? $dayLogs->first()->status : null;
             @endphp
             
             <div class="min-h-[140px] border-b border-r border-base-200/60 p-4 hover:bg-base-200/20 transition-all group {{ $isToday ? 'bg-primary/[0.03]' : '' }} {{ $isWeekend ? 'bg-base-200/10' : 'bg-base-100' }}">
