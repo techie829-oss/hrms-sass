@@ -82,13 +82,13 @@
                             <div class="flex items-center gap-1">
                                 @php
                                     $iconMap = [
-                                        'present' => ['i' => 'check_circle', 'c' => 'text-success'],
-                                        'late' => ['i' => 'schedule', 'c' => 'text-warning'],
-                                        'absent' => ['i' => 'cancel', 'c' => 'text-error'],
+                                        'present' => ['i' => 'check_circle', 'c' => 'text-green-800'],
+                                        'late' => ['i' => 'schedule', 'c' => 'text-amber-600'],
+                                        'absent' => ['i' => 'cancel', 'c' => 'text-red-800'],
                                     ];
                                     $dayStatus = $iconMap[$primaryStatus] ?? ['i' => 'event', 'c' => 'text-base-content/20'];
                                 @endphp
-                                <span class="material-symbols-outlined text-base {{ $dayStatus['c'] }}">{{ $dayStatus['i'] }}</span>
+                                <span class="material-symbols-outlined text-base font-black {{ $dayStatus['c'] }}">{{ $dayStatus['i'] }}</span>
                             </div>
                         @endif
                     </div>
@@ -97,27 +97,27 @@
                         @if($dayLogs->isNotEmpty())
                             @php
                                 $statusMap = [
-                                    'present' => ['color' => 'success', 'icon' => 'check_circle'],
-                                    'late' => ['color' => 'warning', 'icon' => 'schedule'],
-                                    'absent' => ['color' => 'error', 'icon' => 'cancel'],
+                                    'present' => ['color' => 'text-green-800', 'bg' => 'bg-green-50', 'icon' => 'check_circle'],
+                                    'late' => ['color' => 'text-amber-600', 'bg' => 'bg-amber-50', 'icon' => 'schedule'],
+                                    'absent' => ['color' => 'text-red-800', 'bg' => 'bg-red-50', 'icon' => 'cancel'],
                                 ];
-                                $st = $statusMap[$primaryStatus] ?? ['color' => 'base-content', 'icon' => 'event'];
+                                $st = $statusMap[$primaryStatus] ?? ['color' => 'text-base-content', 'bg' => 'bg-base-200', 'icon' => 'event'];
                             @endphp
                             
-                            <a href="{{ route('attendance.show', $dayLogs->first()->id) }}" class="relative p-3 rounded-[20px] bg-{{ $st['color'] }}/10 border border-{{ $st['color'] }}/20 flex flex-col items-center justify-center group/status overflow-hidden hover:bg-{{ $st['color'] }}/20 transition-all active:scale-95 shadow-sm group-hover:scale-105">
-                                <span class="material-symbols-outlined text-{{ $st['color'] }} text-[40px] absolute -right-2 -bottom-2 opacity-10 group-hover/status:scale-125 transition-transform">{{ $st['icon'] }}</span>
-                                <span class="text-xl font-black text-{{ $st['color'] }} leading-none tracking-tighter">{{ number_format($totalHours, 1) }}h</span>
-                                <span class="text-[8px] font-black uppercase tracking-[0.15em] mt-1.5 opacity-60 text-{{ $st['color'] }}">View Details</span>
+                            <a href="{{ route('attendance.show', $dayLogs->first()->id) }}" class="relative p-3 rounded-[20px] {{ $st['bg'] }} border border-{{ str_replace('text-', '', $st['color']) }}/20 flex flex-col items-center justify-center group/status overflow-hidden hover:scale-105 transition-all shadow-sm">
+                                <span class="material-symbols-outlined {{ $st['color'] }} text-[40px] absolute -right-2 -bottom-2 opacity-10 group-hover/status:scale-125 transition-transform">{{ $st['icon'] }}</span>
+                                <span class="text-xl font-black {{ $st['color'] }} leading-none tracking-tighter">{{ number_format($totalHours, 1) }}h</span>
+                                <span class="text-[8px] font-black uppercase tracking-[0.15em] mt-1.5 opacity-60 {{ $st['color'] }}">View Details</span>
                             </a>
                         @else
                             @if(!$isWeekend && $isPast && !$isToday)
-                                <div class="p-3 rounded-[20px] border border-dashed border-error/30 bg-error/[0.05] flex flex-col items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity">
-                                    <span class="text-[9px] font-black text-error uppercase tracking-widest">Absent</span>
+                                <div class="p-3 rounded-[20px] border border-dashed border-red-800/40 bg-red-50 flex flex-col items-center justify-center opacity-100 transition-opacity">
+                                    <span class="text-[9px] font-black text-red-900 uppercase tracking-widest">Absent</span>
                                 </div>
                             @elseif($isWeekend)
-                                <div class="p-3 flex flex-col items-center justify-center opacity-40 group-hover:opacity-60 transition-opacity text-error/40">
-                                    <span class="material-symbols-outlined text-xl">hotel</span>
-                                    <span class="text-[8px] font-black uppercase tracking-[0.2em] mt-1">Weekend</span>
+                                <div class="p-3 flex flex-col items-center justify-center opacity-100 transition-opacity">
+                                    <span class="material-symbols-outlined text-xl text-red-950 font-black">hotel</span>
+                                    <span class="text-[8px] font-black uppercase tracking-[0.2em] mt-1 text-red-950">Weekend</span>
                                 </div>
                         @endif
                     @endif
