@@ -8,6 +8,15 @@
     $mappedLogs = $logs->groupBy(fn($l) => $l->date->format('Y-m-d'));
 @endphp
 
+@if($canViewAll && !isset($filters['employee_id']))
+    <div class="card bg-base-100 border border-base-200 border-dashed rounded-[40px] p-24 flex flex-col items-center justify-center opacity-40 grayscale shadow-sm">
+        <div class="w-20 h-20 rounded-[32px] bg-primary/10 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-primary text-4xl">person_search</span>
+        </div>
+        <h4 class="font-black text-sm uppercase tracking-[0.2em] text-primary">Select an Employee</h4>
+        <p class="text-[10px] font-bold mt-2 text-center max-w-xs">Calendar view is most effective for tracking individual performance. Please search or select an employee to continue.</p>
+    </div>
+@else
 <div class="flex flex-col gap-6">
     <div class="card bg-base-100 shadow-2xl shadow-base-content/5 border border-base-200/60 rounded-[40px] overflow-hidden">
         <!-- Calendar Header: Weekdays -->
@@ -156,3 +165,5 @@
         </div>
     </div>
 </div>
+
+@endif
