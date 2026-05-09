@@ -82,9 +82,15 @@ class AttendanceController extends BaseController
         $log = AttendanceLog::with('employee')->findOrFail($id);
         $this->authorize('view', $log);
 
+        // Fetch all logs for this employee on this date
+        $allLogs = AttendanceLog::where('employee_id', $log->employee_id)
+            ->where('date', $log->date)
+            ->orderBy('check_in', 'asc')
+            ->get();
+
         $user = auth()->user();
         $canViewAll = $user->can('view_all_attendance');
 
-        return view('attendance::show', compact('log', 'canViewAll'));
+        return view('attendance::show', compact('log', 'allLogs', 'canViewAll'));
     }
 }
