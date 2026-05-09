@@ -164,6 +164,67 @@
                                 </section>
                             </div>
 
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                                <section>
+                                    <h5 class="text-xs font-bold text-warning mb-4 flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-warning"></span>
+                                        Identity Information
+                                    </h5>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between py-2 border-b border-base-200">
+                                            <span class="text-xs font-medium opacity-70">PAN Number</span>
+                                            <span class="text-xs font-bold uppercase">{{ $employee->pan_number ?? 'Not provided' }}</span>
+                                        </div>
+                                        <div class="flex justify-between py-2 border-b border-base-200">
+                                            <span class="text-xs font-medium opacity-70">Aadhar Number</span>
+                                            <span class="text-xs font-bold">{{ $employee->aadhar_number ?? 'Not provided' }}</span>
+                                        </div>
+                                        <div class="flex justify-between py-2 border-b border-base-200">
+                                            <span class="text-xs font-medium opacity-70">Passport</span>
+                                            <span class="text-xs font-bold uppercase">{{ $employee->passport_number ?? 'Not provided' }}</span>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <h5 class="text-xs font-bold text-error mb-4 flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                        Emergency Contact
+                                    </h5>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between py-2 border-b border-base-200">
+                                            <span class="text-xs font-medium opacity-70">Contact Name</span>
+                                            <span class="text-xs font-bold">{{ $employee->emergency_contact_name ?? 'Not provided' }}</span>
+                                        </div>
+                                        <div class="flex justify-between py-2 border-b border-base-200">
+                                            <span class="text-xs font-medium opacity-70">Relationship</span>
+                                            <span class="text-xs font-bold">{{ $employee->emergency_contact_relation ?? 'Not provided' }}</span>
+                                        </div>
+                                        <div class="flex justify-between py-2 border-b border-base-200">
+                                            <span class="text-xs font-medium opacity-70">Phone Number</span>
+                                            <span class="text-xs font-bold">{{ $employee->emergency_contact_phone ?? 'Not provided' }}</span>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+
+                            <div class="mt-8">
+                                <h5 class="text-xs font-bold text-info mb-4 flex items-center gap-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-info"></span>
+                                    Address Details
+                                </h5>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div class="p-4 bg-base-200/50 rounded-xl border border-base-200">
+                                        <h6 class="text-[10px] font-bold uppercase tracking-wider opacity-50 mb-2">Current Address</h6>
+                                        <p class="text-xs font-medium leading-relaxed">{{ $employee->current_address ?? 'Not provided' }}</p>
+                                    </div>
+                                    <div class="p-4 bg-base-200/50 rounded-xl border border-base-200">
+                                        <h6 class="text-[10px] font-bold uppercase tracking-wider opacity-50 mb-2">Permanent Address</h6>
+                                        <p class="text-xs font-medium leading-relaxed">{{ $employee->permanent_address ?? 'Not provided' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Company Info Summary -->
                             <div class="mt-10 p-6 bg-primary/5 rounded-xl border border-primary/10">
                                 <div class="flex items-center gap-4">
