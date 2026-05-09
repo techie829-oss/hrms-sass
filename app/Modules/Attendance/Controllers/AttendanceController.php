@@ -36,13 +36,21 @@ class AttendanceController extends BaseController
             $filters['employee_id'] = $user->employee->id;
         }
 
-        $view = $request->get('view', 'calendar');
+        $view = $request->get('view');
+        
+        // Dynamic default view: 
+        // If viewing specific employee OR viewing own only -> default to calendar
+        // If viewing all employees -> default to list
+        if (!$view) {
+            $view = (isset($filters['employee_id']) || !$canViewAll) ? 'calendar' : 'list';
+        }
+
         $isCalendar = $view === 'calendar';
         $perPage = $isCalendar ? 1000 : 15;
         
         $logs = $this->attendanceService->paginate($perPage, $filters);
 
-        return view('attendance::index', compact('logs', 'canViewAll', 'view'));
+        return view('attendance::index', compact('logs', 'canViewAll', 'view', 'filters'));
     }
 
     /**

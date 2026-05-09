@@ -6,6 +6,11 @@
                 <p class="text-xs font-medium mt-0.5 opacity-50">Track and manage employee daily presence.</p>
             </div>
             <div class="flex items-center gap-3">
+                @php
+                    $showCalendarToggle = !$canViewAll || isset($filters['employee_id']) || request('search');
+                @endphp
+
+                @if($showCalendarToggle)
                 <div class="join bg-base-200/50 p-1 rounded-2xl border border-base-300/50 shadow-sm">
                     <a href="{{ request()->fullUrlWithQuery(['view' => 'list']) }}" class="join-item btn btn-sm {{ $view == 'list' ? 'btn-primary shadow-lg border-primary' : 'btn-ghost border-transparent' }} gap-2 px-4 transition-all rounded-xl">
                         <span class="material-symbols-outlined text-sm">view_list</span> List
@@ -14,6 +19,7 @@
                         <span class="material-symbols-outlined text-sm">calendar_view_month</span> Calendar
                     </a>
                 </div>
+                @endif
                 @can('manage_attendance')
                 <div class="flex gap-2">
                     <a href="{{ route('attendance.settings') }}" class="btn btn-ghost btn-sm btn-outline border-base-300 rounded-xl px-3">
