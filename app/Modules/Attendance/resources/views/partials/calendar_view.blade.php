@@ -25,7 +25,7 @@
                 <div class="p-3 flex justify-center">
                     <div class="px-4 py-2 rounded-full flex items-center gap-2 {{ $index == 0 || $index == 6 ? 'bg-error/10 text-error shadow-sm border border-error/20' : 'bg-base-200/50 text-base-content/40' }} transition-all">
                         <span class="material-symbols-outlined text-xs">
-                            {{ $index == 0 || $index == 6 ? 'weekend' : 'calendar_today' }}
+                            {{ $index == 0 || $index == 6 ? 'event_busy' : 'calendar_today' }}
                         </span>
                         <span class="text-[10px] font-black uppercase tracking-[0.1em]">
                             {{ substr($day, 0, 3) }}
@@ -79,10 +79,16 @@
                         </div>
                         
                         @if($dayLogs->isNotEmpty())
-                            <div class="flex -space-x-1">
-                                @foreach($dayLogs->take(3) as $l)
-                                    <span class="w-2 h-2 rounded-full border-2 border-white {{ $l->status == 'present' ? 'bg-success' : ($l->status == 'late' ? 'bg-warning' : 'bg-error') }}"></span>
-                                @endforeach
+                            <div class="flex items-center gap-1 opacity-60">
+                                @php
+                                    $iconMap = [
+                                        'present' => ['i' => 'check_circle', 'c' => 'text-success'],
+                                        'late' => ['i' => 'schedule', 'c' => 'text-warning'],
+                                        'absent' => ['i' => 'cancel', 'c' => 'text-error'],
+                                    ];
+                                    $dayStatus = $iconMap[$primaryStatus] ?? ['i' => 'event', 'c' => 'text-base-content/20'];
+                                @endphp
+                                <span class="material-symbols-outlined text-sm {{ $dayStatus['c'] }}">{{ $dayStatus['i'] }}</span>
                             </div>
                         @endif
                     </div>
