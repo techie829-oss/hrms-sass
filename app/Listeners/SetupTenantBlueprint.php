@@ -31,8 +31,9 @@ class SetupTenantBlueprint
         $managerRole = Role::firstOrCreate(['name' => RoleConstants::TMANAGER, 'guard_name' => 'web', 'tenant_id' => $tenant->id]);
         $staffRole = Role::firstOrCreate(['name' => RoleConstants::TSTAFF, 'guard_name' => 'web', 'tenant_id' => $tenant->id]);
 
-        // Note: Global permissions are inherited, but assigned to tenant roles here.
-        $adminRole->givePermissionTo(Permission::all());
+        // Note: tadmin gets ALL available permissions. Using syncPermissions ensures
+        // it is always up-to-date even if called when some permissions don't exist yet.
+        $adminRole->syncPermissions(Permission::all());
 
         $managerRole->givePermissionTo([
             'view dashboard', 

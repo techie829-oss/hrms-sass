@@ -25,7 +25,6 @@ class EmployeeService extends BaseService
                 'email' => $data['email'],
                 'password' => \Illuminate\Support\Facades\Hash::make('password'), // Default password
                 'email_verified_at' => now(),
-                'checkin_required' => isset($data['checkin_required']) && $data['checkin_required'] !== '' ? (bool)$data['checkin_required'] : null,
             ]);
 
             // 2. Assign Baseline Tenant Staff Role (pass explicit model to avoid global fallback)
@@ -61,11 +60,7 @@ class EmployeeService extends BaseService
                 if (isset($data['first_name']) || isset($data['last_name'])) {
                     $userUpdate['name'] = ($data['first_name'] ?? $employee->first_name) . ' ' . ($data['last_name'] ?? $employee->last_name);
                 }
-                if (array_key_exists('checkin_required', $data)) {
-                    $val = $data['checkin_required'];
-                    $userUpdate['checkin_required'] = ($val === '' || $val === null) ? null : (bool)$val;
-                }
-                
+
                 if (!empty($userUpdate)) {
                     \App\Models\User::where('id', $employee->user_id)->update($userUpdate);
                 }
