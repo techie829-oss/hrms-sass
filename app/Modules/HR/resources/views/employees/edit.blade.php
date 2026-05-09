@@ -24,7 +24,7 @@
                         Personal Information
                     </h3>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                         <label class="form-control w-full">
                             <div class="label"><span class="label-text font-bold">First Name <span class="text-error">*</span></span></div>
                             <input type="text" name="first_name" required value="{{ old('first_name', $employee->first_name) }}" class="input input-bordered w-full" />
@@ -36,8 +36,27 @@
                             <input type="text" name="last_name" required value="{{ old('last_name', $employee->last_name) }}" class="input input-bordered w-full" />
                             @error('last_name') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
                         </label>
+
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Gender</span></div>
+                            <select name="gender" class="select select-bordered w-full">
+                                <option value="" disabled selected>Select</option>
+                                <option value="male" {{ old('gender', $employee->gender) == 'male' ? 'selected' : '' }}>Male</option>
+                                <option value="female" {{ old('gender', $employee->gender) == 'female' ? 'selected' : '' }}>Female</option>
+                                <option value="other" {{ old('gender', $employee->gender) == 'other' ? 'selected' : '' }}>Other</option>
+                            </select>
+                            @error('gender') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Date of Birth</span></div>
+                            <input type="date" name="date_of_birth" value="{{ old('date_of_birth', $employee->date_of_birth?->format('Y-m-d')) }}" class="input input-bordered w-full" />
+                            @error('date_of_birth') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
                     </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+
                         <label class="form-control w-full">
                             <div class="label"><span class="label-text font-bold">Company Email (Login ID) <span class="text-error">*</span></span></div>
                             <input type="email" name="email" required value="{{ old('email', $employee->email) }}" class="input input-bordered w-full" />
@@ -107,7 +126,9 @@
                         </label>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                         <label class="form-control w-full">
                             <div class="label"><span class="label-text font-bold">Status</span></div>
                             <select name="status" class="select select-bordered w-full">
@@ -127,11 +148,113 @@
                             </label>
                             @error('basic_salary') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
                         </div>
+
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Reporting To (Manager)</span></div>
+                            <select name="reporting_to" class="select select-bordered w-full">
+                                <option value="">None (Top Level)</option>
+                                @foreach($employees as $emp)
+                                    <option value="{{ $emp->id }}" {{ old('reporting_to', $employee->reporting_to) == $emp->id ? 'selected' : '' }}>{{ $emp->full_name }} ({{ $emp->employee_id }})</option>
+                                @endforeach
+                            </select>
+                            @error('reporting_to') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
                     </div>
 
-                    <div class="divider my-4"></div>
+                </div>
+            </div>
+
+            <!-- Identity & Documents Section -->
+            <div class="card bg-base-100 shadow-sm border border-base-200">
+                <div class="card-body">
+                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+                        <span class="material-symbols-outlined text-warning">badge</span>
+                        Identity & Documents
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">PAN Number</span></div>
+                            <input type="text" name="pan_number" value="{{ old('pan_number', $employee->pan_number) }}" class="input input-bordered w-full uppercase" placeholder="ABCDE1234F" />
+                            @error('pan_number') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Aadhar Number</span></div>
+                            <input type="text" name="aadhar_number" value="{{ old('aadhar_number', $employee->aadhar_number) }}" class="input input-bordered w-full" placeholder="1234 5678 9012" />
+                            @error('aadhar_number') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Passport Number</span></div>
+                            <input type="text" name="passport_number" value="{{ old('passport_number', $employee->passport_number) }}" class="input input-bordered w-full uppercase" />
+                            @error('passport_number') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address Section -->
+            <div class="card bg-base-100 shadow-sm border border-base-200">
+                <div class="card-body">
+                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+                        <span class="material-symbols-outlined text-info">home</span>
+                        Address Details
+                    </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Current Address</span></div>
+                            <textarea name="current_address" class="textarea textarea-bordered h-24" placeholder="Enter current residential address">{{ old('current_address', $employee->current_address) }}</textarea>
+                            @error('current_address') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Permanent Address</span></div>
+                            <textarea name="permanent_address" class="textarea textarea-bordered h-24" placeholder="Enter permanent address">{{ old('permanent_address', $employee->permanent_address) }}</textarea>
+                            @error('permanent_address') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Contact Section -->
+            <div class="card bg-base-100 shadow-sm border border-base-200">
+                <div class="card-body">
+                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+                        <span class="material-symbols-outlined text-error">emergency</span>
+                        Emergency Contact
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Contact Name</span></div>
+                            <input type="text" name="emergency_contact_name" value="{{ old('emergency_contact_name', $employee->emergency_contact_name) }}" class="input input-bordered w-full" />
+                            @error('emergency_contact_name') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Relationship</span></div>
+                            <input type="text" name="emergency_contact_relation" value="{{ old('emergency_contact_relation', $employee->emergency_contact_relation) }}" class="input input-bordered w-full" placeholder="e.g. Spouse, Parent" />
+                            @error('emergency_contact_relation') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+
+                        <label class="form-control w-full">
+                            <div class="label"><span class="label-text font-bold">Contact Number</span></div>
+                            <input type="text" name="emergency_contact_phone" value="{{ old('emergency_contact_phone', $employee->emergency_contact_phone) }}" class="input input-bordered w-full" />
+                            @error('emergency_contact_phone') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Role & System Settings -->
+            <div class="card bg-base-100 shadow-sm border border-base-200">
+                <div class="card-body">
+                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+                        <span class="material-symbols-outlined text-tertiary">settings</span>
+                        Role & System Settings
+                    </h3>
                         <label class="form-control w-full">
                             <div class="label">
                                 <span class="label-text font-bold">Daily Clock-In Enforcement</span>

@@ -41,7 +41,8 @@ class EmployeeController extends BaseController
     {
         $departments = Department::all();
         $roles = Role::where('tenant_id', saas_tenant('id'))->get();
-        return view('hr::employees.create', compact('departments', 'roles'))->with($request->all());
+        $employees = \App\Modules\HR\Models\Employee::active()->get();
+        return view('hr::employees.create', compact('departments', 'roles', 'employees'))->with($request->all());
     }
 
     /**
@@ -57,6 +58,17 @@ class EmployeeController extends BaseController
             'personal_email' => ['nullable', 'email'],
             'country_code' => ['nullable', 'string', 'max:10'],
             'phone' => ['nullable', 'string', 'max:20'],
+            'gender' => ['nullable', Rule::in(['male', 'female', 'other'])],
+            'date_of_birth' => ['nullable', 'date'],
+            'pan_number' => ['nullable', 'string', 'max:20'],
+            'aadhar_number' => ['nullable', 'string', 'max:20'],
+            'passport_number' => ['nullable', 'string', 'max:20'],
+            'current_address' => ['nullable', 'string'],
+            'permanent_address' => ['nullable', 'string'],
+            'emergency_contact_name' => ['nullable', 'string', 'max:255'],
+            'emergency_contact_phone' => ['nullable', 'string', 'max:20'],
+            'emergency_contact_relation' => ['nullable', 'string', 'max:255'],
+            'reporting_to' => ['nullable', 'exists:employees,id'],
             'department_id' => ['nullable', 'exists:departments,id'],
             'designation_id' => ['nullable', 'exists:designations,id'],
             'date_of_joining' => ['required', 'date'],
@@ -121,8 +133,9 @@ class EmployeeController extends BaseController
         $employee = $this->employeeService->findOrFail($id);
         $departments = Department::all();
         $roles = Role::where('tenant_id', saas_tenant('id'))->get();
+        $employees = \App\Modules\HR\Models\Employee::active()->where('id', '!=', $id)->get();
 
-        return view('hr::employees.edit', compact('employee', 'departments', 'roles'));
+        return view('hr::employees.edit', compact('employee', 'departments', 'roles', 'employees'));
     }
 
     /**
@@ -138,6 +151,17 @@ class EmployeeController extends BaseController
             'personal_email' => ['nullable', 'email'],
             'country_code' => ['nullable', 'string', 'max:10'],
             'phone' => ['nullable', 'string', 'max:20'],
+            'gender' => ['nullable', Rule::in(['male', 'female', 'other'])],
+            'date_of_birth' => ['nullable', 'date'],
+            'pan_number' => ['nullable', 'string', 'max:20'],
+            'aadhar_number' => ['nullable', 'string', 'max:20'],
+            'passport_number' => ['nullable', 'string', 'max:20'],
+            'current_address' => ['nullable', 'string'],
+            'permanent_address' => ['nullable', 'string'],
+            'emergency_contact_name' => ['nullable', 'string', 'max:255'],
+            'emergency_contact_phone' => ['nullable', 'string', 'max:20'],
+            'emergency_contact_relation' => ['nullable', 'string', 'max:255'],
+            'reporting_to' => ['nullable', 'exists:employees,id'],
             'department_id' => ['nullable', 'exists:departments,id'],
             'date_of_joining' => ['required', 'date'],
             'employment_type' => ['required', Rule::in(['full_time', 'part_time', 'contract', 'intern'])],

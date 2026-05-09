@@ -42,6 +42,10 @@ class Employee extends Model
         'profile_photo',
         'cover_photo',
         'main_image',
+        'pan_number',
+        'aadhar_number',
+        'passport_number',
+        'reporting_to',
     ];
 
     protected $casts = [
