@@ -5,6 +5,7 @@ namespace App\Modules\Attendance\Controllers;
 use App\Core\BaseController;
 use App\Modules\Attendance\Services\AttendanceService;
 use Illuminate\Http\Request;
+use App\Modules\Attendance\Models\AttendanceLog;
 
 class AttendanceController extends BaseController
 {
@@ -17,10 +18,22 @@ class AttendanceController extends BaseController
      */
     public function index(Request $request)
     {
+        $user = auth()->user();
+        $isAdmin = $user->hasRole(['tadmin', 'tmanager', 'superadmin']);
+        
         $filters = $request->only(['employee_id', 'date', 'status']);
+
+        // If not admin, force filter by their own employee ID
+        if (!$isAdmin) {
+            if (!$user->employee) {
+                return back()->with('error', 'Employee profile not found.');
+            }
+            $filters['employee_id'] = $user->employee->id;
+        }
+
         $logs = $this->attendanceService->paginate(15, $filters);
 
-        return view('attendance::index', compact('logs'));
+        return view('attendance::index', compact('logs', 'isAdmin'));
     }
 
     /**
@@ -54,8 +67,16 @@ class AttendanceController extends BaseController
      */
     public function show(string $id)
     {
-        $log = \App\Modules\Attendance\Models\AttendanceLog::with('employee')->findOrFail($id);
+        $user = auth()->user();
+        $isAdmin = $user->hasRole(['tadmin', 'tmanager', 'superadmin']);
+        
+        $log = AttendanceLog::with('employee')->findOrFail($id);
 
-        return view('attendance::show', compact('log'));
+        // Security check: regular employees can only see their own logs
+        if (!$isAdmin && $log->employee_id !== $user->employee?->id) {
+            abort(403, 'Unauthorized access to attendance log.');
+        }
+
+        return view('attendance::show', compact('log', 'isAdmin'));
     }
 }
