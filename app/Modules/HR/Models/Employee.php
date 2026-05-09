@@ -39,6 +39,7 @@ class Employee extends Model
         'status',
         'employment_type',
         'salary',
+        'basic_salary',
         'profile_photo',
         'cover_photo',
         'main_image',
@@ -108,6 +109,11 @@ class Employee extends Model
     public function goals()
     {
         return $this->hasMany(\App\Modules\Performance\Models\Goal::class);
+    }
+
+    public function bankAccounts()
+    {
+        return $this->hasMany(EmployeeBankAccount::class);
     }
 
     public function scopeActive($query)

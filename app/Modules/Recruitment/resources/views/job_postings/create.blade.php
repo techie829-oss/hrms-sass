@@ -24,20 +24,20 @@
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <label class="form-control w-full md:col-span-2">
-                            <div class="label"><span class="label-text font-bold">Job Title <span class="text-error">*</span></span></div>
+                        <div class="form-control w-full md:col-span-2">
+                            <label class="label"><span class="label-text font-bold">Job Title <span class="text-error">*</span></span></label>
                             <input type="text" name="title" value="{{ old('title') }}" required class="input input-bordered w-full" placeholder="e.g., Senior Software Engineer" />
-                            @error('title') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('title') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Department/Location</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Department/Location</span></label>
                             <input type="text" name="location" value="{{ old('location') }}" class="input input-bordered w-full" placeholder="e.g., San Francisco, CA / Remote" />
-                            @error('location') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('location') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
                         
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Employment Type <span class="text-error">*</span></span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Employment Type <span class="text-error">*</span></span></label>
                             <select name="employment_type" required class="select select-bordered w-full">
                                 <option disabled selected>Select employment type</option>
                                 <option value="full_time" {{ old('employment_type') == 'full_time' ? 'selected' : '' }}>Full Time</option>
@@ -45,8 +45,8 @@
                                 <option value="contract" {{ old('employment_type') == 'contract' ? 'selected' : '' }}>Contract</option>
                                 <option value="intern" {{ old('employment_type') == 'intern' ? 'selected' : '' }}>Internship</option>
                             </select>
-                            @error('employment_type') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('employment_type') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,17 +60,17 @@
                     </h3>
 
                     <div class="space-y-4">
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Job Description <span class="text-error">*</span></span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Job Description <span class="text-error">*</span></span></label>
                             <textarea name="description" required rows="6" class="textarea textarea-bordered h-32 w-full" placeholder="Describe the role, responsibilities, and team...">{{ old('description') }}</textarea>
-                            @error('description') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('description') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Requirements / Qualifications</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Requirements / Qualifications</span></label>
                             <textarea name="requirements" rows="5" class="textarea textarea-bordered h-24 w-full" placeholder="List required skills, experience, and education...">{{ old('requirements') }}</textarea>
-                            @error('requirements') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('requirements') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,27 +84,27 @@
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Salary Range</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Salary Range</span></label>
                             <input type="text" name="salary_range" value="{{ old('salary_range') }}" class="input input-bordered w-full" placeholder="e.g., $90k - $120k" />
-                            @error('salary_range') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('salary_range') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Closing Date</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Closing Date</span></label>
                             <input type="date" name="closing_date" value="{{ old('closing_date') }}" class="input input-bordered w-full" />
-                            @error('closing_date') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('closing_date') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Status <span class="text-error">*</span></span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Status <span class="text-error">*</span></span></label>
                             <select name="status" required class="select select-bordered w-full">
                                 <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft (Hidden)</option>
                                 <option value="open" {{ old('status') == 'open' ? 'selected' : '' }}>Open (Accepting Applicants)</option>
                                 <option value="closed" {{ old('status') == 'closed' ? 'selected' : '' }}>Closed</option>
                             </select>
-                            @error('status') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('status') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
                     </div>
                 </div>
             </div>

@@ -14,9 +14,10 @@ class AttendanceRoleEnforcement extends Model
         'tenant_id',
         'role_name',
         'checkin_required',
+        'allow_multi_clocking',
     ];
 
     protected $casts = [
-        'checkin_required' => 'boolean',
+        'allow_multi_clocking' => 'boolean',
     ];
 }

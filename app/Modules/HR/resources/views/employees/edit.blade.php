@@ -25,66 +25,66 @@
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">First Name <span class="text-error">*</span></span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">First Name <span class="text-error">*</span></span></label>
                             <input type="text" name="first_name" required value="{{ old('first_name', $employee->first_name) }}" class="input input-bordered w-full" />
-                            @error('first_name') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('first_name') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Last Name <span class="text-error">*</span></span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Last Name <span class="text-error">*</span></span></label>
                             <input type="text" name="last_name" required value="{{ old('last_name', $employee->last_name) }}" class="input input-bordered w-full" />
-                            @error('last_name') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('last_name') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Gender</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Gender</span></label>
                             <select name="gender" class="select select-bordered w-full">
                                 <option value="" disabled selected>Select</option>
                                 <option value="male" {{ old('gender', $employee->gender) == 'male' ? 'selected' : '' }}>Male</option>
                                 <option value="female" {{ old('gender', $employee->gender) == 'female' ? 'selected' : '' }}>Female</option>
                                 <option value="other" {{ old('gender', $employee->gender) == 'other' ? 'selected' : '' }}>Other</option>
                             </select>
-                            @error('gender') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('gender') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Date of Birth</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Date of Birth</span></label>
                             <input type="date" name="date_of_birth" value="{{ old('date_of_birth', $employee->date_of_birth?->format('Y-m-d')) }}" class="input input-bordered w-full" />
-                            @error('date_of_birth') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('date_of_birth') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Company Email (Login ID) <span class="text-error">*</span></span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Company Email (Login ID) <span class="text-error">*</span></span></label>
                             <input type="email" name="email" required value="{{ old('email', $employee->email) }}" class="input input-bordered w-full" />
-                            @error('email') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('email') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Personal Email</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Personal Email</span></label>
                             <input type="email" name="personal_email" value="{{ old('personal_email', $employee->personal_email) }}" class="input input-bordered w-full" />
-                            @error('personal_email') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('personal_email') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Mobile Number</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Mobile Number</span></label>
                             <div class="flex gap-2">
                                 <input type="text" name="country_code" value="{{ old('country_code', $employee->country_code ?? '+91') }}" class="input input-bordered w-24 text-center" />
                                 <input type="text" name="phone" value="{{ old('phone', $employee->phone) }}" class="input input-bordered w-full" />
                             </div>
-                            @error('phone') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('phone') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Employee ID <span class="text-error">*</span></span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Employee ID <span class="text-error">*</span></span></label>
                             <input type="text" name="employee_id" required value="{{ old('employee_id', $employee->employee_id) }}" class="input input-bordered w-full uppercase" />
-                            @error('employee_id') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('employee_id') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,37 +98,48 @@
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Joining Date <span class="text-error">*</span></span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Joining Date <span class="text-error">*</span></span></label>
                             <input type="date" name="date_of_joining" required value="{{ old('date_of_joining', $employee->date_of_joining?->format('Y-m-d')) }}" class="input input-bordered w-full" />
-                            @error('date_of_joining') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('date_of_joining') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Department</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Department</span></label>
                             <select name="department_id" class="select select-bordered w-full">
                                 <option disabled selected>Select Department</option>
                                 @foreach($departments as $dept)
                                     <option value="{{ $dept->id }}" {{ old('department_id', $employee->department_id) == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
                                 @endforeach
                             </select>
-                            @error('department_id') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('department_id') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Employment Type</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Designation</span></label>
+                            <select name="designation_id" class="select select-bordered w-full">
+                                <option disabled selected>Select Designation</option>
+                                @foreach($designations as $desig)
+                                    <option value="{{ $desig->id }}" {{ old('designation_id', $employee->designation_id) == $desig->id ? 'selected' : '' }}>{{ $desig->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('designation_id') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
+
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Employment Type</span></label>
                             <select name="employment_type" class="select select-bordered w-full">
                                 <option value="full_time" {{ old('employment_type', $employee->employment_type) === 'full_time' ? 'selected' : '' }}>Full Time</option>
                                 <option value="part_time" {{ old('employment_type', $employee->employment_type) === 'part_time' ? 'selected' : '' }}>Part Time</option>
                                 <option value="contract" {{ old('employment_type', $employee->employment_type) === 'contract' ? 'selected' : '' }}>Contract</option>
                                 <option value="intern" {{ old('employment_type', $employee->employment_type) === 'intern' ? 'selected' : '' }}>Intern</option>
                             </select>
-                        </label>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Status</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Status</span></label>
                             <select name="status" class="select select-bordered w-full">
                                 <option value="active" {{ old('status', $employee->status) === 'active' ? 'selected' : '' }}>Active</option>
                                 <option value="on_leave" {{ old('status', $employee->status) === 'on_leave' ? 'selected' : '' }}>On Leave</option>
@@ -136,7 +147,7 @@
                                 <option value="terminated" {{ old('status', $employee->status) === 'terminated' ? 'selected' : '' }}>Terminated</option>
                                 <option value="resigned" {{ old('status', $employee->status) === 'resigned' ? 'selected' : '' }}>Resigned</option>
                             </select>
-                        </label>
+                        </div>
 
                         <div class="form-control w-full">
                             <div class="label"><span class="label-text font-bold">Monthly Basic Salary <span class="text-error">*</span></span></div>
@@ -147,16 +158,16 @@
                             @error('basic_salary') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
                         </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Reporting To (Manager)</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Reporting To (Manager)</span></label>
                             <select name="reporting_to" class="select select-bordered w-full">
                                 <option value="">None (Top Level)</option>
                                 @foreach($employees as $emp)
                                     <option value="{{ $emp->id }}" {{ old('reporting_to', $employee->reporting_to) == $emp->id ? 'selected' : '' }}>{{ $emp->full_name }} ({{ $emp->employee_id }})</option>
                                 @endforeach
                             </select>
-                            @error('reporting_to') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('reporting_to') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
                     </div>
 
                 </div>
@@ -171,23 +182,23 @@
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">PAN Number</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">PAN Number</span></label>
                             <input type="text" name="pan_number" value="{{ old('pan_number', $employee->pan_number) }}" class="input input-bordered w-full uppercase" placeholder="ABCDE1234F" />
-                            @error('pan_number') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('pan_number') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Aadhar Number</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Aadhar Number</span></label>
                             <input type="text" name="aadhar_number" value="{{ old('aadhar_number', $employee->aadhar_number) }}" class="input input-bordered w-full" placeholder="1234 5678 9012" />
-                            @error('aadhar_number') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('aadhar_number') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Passport Number</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Passport Number</span></label>
                             <input type="text" name="passport_number" value="{{ old('passport_number', $employee->passport_number) }}" class="input input-bordered w-full uppercase" />
-                            @error('passport_number') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('passport_number') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
                     </div>
                 </div>
             </div>
@@ -225,23 +236,23 @@
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Contact Name</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Contact Name</span></label>
                             <input type="text" name="emergency_contact_name" value="{{ old('emergency_contact_name', $employee->emergency_contact_name) }}" class="input input-bordered w-full" />
-                            @error('emergency_contact_name') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('emergency_contact_name') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Relationship</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Relationship</span></label>
                             <input type="text" name="emergency_contact_relation" value="{{ old('emergency_contact_relation', $employee->emergency_contact_relation) }}" class="input input-bordered w-full" placeholder="e.g. Spouse, Parent" />
-                            @error('emergency_contact_relation') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('emergency_contact_relation') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
 
-                        <label class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Contact Number</span></div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Contact Number</span></label>
                             <input type="text" name="emergency_contact_phone" value="{{ old('emergency_contact_phone', $employee->emergency_contact_phone) }}" class="input input-bordered w-full" />
-                            @error('emergency_contact_phone') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
-                        </label>
+                            @error('emergency_contact_phone') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
+                        </div>
                     </div>
                 </div>
             </div>
@@ -253,19 +264,17 @@
                         <span class="material-symbols-outlined text-tertiary">settings</span>
                         Role & System Settings
                     </h3>
-                        <label class="form-control w-full">
-                            <div class="label">
-                                <span class="label-text font-bold">Daily Clock-In Enforcement</span>
-                            </div>
+                        <div class="form-control w-full">
+                            <label class="label"><span class="label-text font-bold">Daily Clock-In Enforcement</span></label>
                             <select name="checkin_required" class="select select-bordered w-full">
                                 <option value="" {{ old('checkin_required', $employee->user?->checkin_required) === null ? 'selected' : '' }}>Default (Inherit from Company/Role)</option>
                                 <option value="1" {{ old('checkin_required', $employee->user?->checkin_required) === 1 || old('checkin_required', $employee->user?->checkin_required) === '1' ? 'selected' : '' }}>Force Require Clock-In</option>
                                 <option value="0" {{ old('checkin_required', $employee->user?->checkin_required) === 0 || old('checkin_required', $employee->user?->checkin_required) === '0' ? 'selected' : '' }}>Exempt (Bypass Enforcement)</option>
                             </select>
-                            <div class="label">
+                            <label class="label">
                                 <span class="label-text-alt opacity-70">Control whether this specific employee is forced to clock-in or exempted, regardless of general system defaults.</span>
-                            </div>
-                        </label>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>

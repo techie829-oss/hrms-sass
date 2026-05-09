@@ -27,6 +27,10 @@ return new class extends Migration
             $table->string('check_out_ip', 45)->nullable();
             $table->decimal('check_in_lat', 10, 7)->nullable();
             $table->decimal('check_in_lng', 10, 7)->nullable();
+            $table->string('check_in_photo')->nullable();
+            $table->string('check_out_photo')->nullable();
+            $table->decimal('check_out_lat', 10, 7)->nullable();
+            $table->decimal('check_out_lng', 10, 7)->nullable();
             $table->text('remarks')->nullable();
             $table->unsignedBigInteger('approved_by')->nullable();
             $table->timestamps();

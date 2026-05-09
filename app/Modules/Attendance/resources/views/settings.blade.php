@@ -32,7 +32,17 @@
                             <label for="enforce_clockin" class="font-black text-sm uppercase tracking-wider text-primary cursor-pointer select-none">Enforce Daily Clock-In (Company Wide)</label>
                             <p class="text-xs opacity-80 mt-1 font-medium leading-relaxed">
                                 When enabled, all company employees are restricted from accessing system features until they clock-in for the day. 
-                                Individual roles and specific users can still be customized or exempted below.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 bg-secondary/5 p-6 rounded-3xl border border-secondary/10">
+                        <input type="checkbox" id="allow_multi_clocking" name="allow_multi_clocking" class="checkbox checkbox-secondary rounded-xl mt-1" value="1" {{ old('allow_multi_clocking', $policy?->allow_multi_clocking) ? 'checked' : '' }} />
+                        <div>
+                            <label for="allow_multi_clocking" class="font-black text-sm uppercase tracking-wider text-secondary cursor-pointer select-none">Allow Multiple Check-In/Out</label>
+                            <p class="text-xs opacity-80 mt-1 font-medium leading-relaxed">
+                                When enabled, employees can clock-in and clock-out multiple times a day (e.g., for breaks). 
+                                If disabled, only one pair of Check-In/Out is allowed per day.
                             </p>
                         </div>
                     </div>
@@ -50,13 +60,41 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 gap-3">
+                        <div class="flex items-center justify-between px-6 opacity-40">
+                            <span class="text-[8px] font-black uppercase tracking-widest">Role Name</span>
+                            <div class="flex items-center gap-6">
+                                <span class="text-[8px] font-black uppercase tracking-widest w-32 text-center">Enforce Mode</span>
+                                <span class="text-[8px] font-black uppercase tracking-widest w-32 text-center">Multi In/Out</span>
+                            </div>
+                        </div>
                         @foreach($roles as $role)
-                            <div class="flex items-center gap-3 bg-surface-container-low p-4 rounded-2xl border border-outline-variant/10 hover:border-secondary/20 transition-colors">
-                                <input type="checkbox" name="roles[{{ $role->name }}]" id="role_{{ $role->id }}" class="checkbox checkbox-secondary checkbox-sm rounded-lg" value="1" {{ isset($roleEnforcements[$role->name]) && $roleEnforcements[$role->name] ? 'checked' : '' }} />
-                                <div>
-                                    <label for="role_{{ $role->id }}" class="font-bold text-xs uppercase tracking-wider text-on-surface cursor-pointer select-none">{{ $role->name }}</label>
-                                    <p class="text-[10px] opacity-60 mt-0.5">Enforce clock-in for users with this role.</p>
+                            <div class="flex items-center justify-between bg-surface-container-low p-5 rounded-2xl border border-outline-variant/10 hover:border-secondary/20 transition-all group">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-sm text-secondary">person</span>
+                                    </div>
+                                    <div>
+                                        <label for="role_{{ $role->id }}" class="font-black text-xs uppercase tracking-wider text-on-surface cursor-pointer select-none group-hover:text-secondary transition-colors">{{ $role->name }}</label>
+                                        <p class="text-[10px] opacity-60">Apply settings to all users with this role.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center gap-6">
+                                    <div class="w-32 flex justify-center">
+                                        <select name="roles[{{ $role->name }}]" class="select select-bordered select-sm w-full text-[10px] font-black uppercase tracking-wider rounded-xl bg-surface-container-lowest">
+                                            <option value="0" {{ ($roleEnforcements[$role->name] ?? '0') === '0' ? 'selected' : '' }}>Inherit</option>
+                                            <option value="1" {{ ($roleEnforcements[$role->name] ?? '') === '1' ? 'selected' : '' }}>Force</option>
+                                            <option value="2" {{ ($roleEnforcements[$role->name] ?? '') === '2' ? 'selected' : '' }}>Exempt</option>
+                                        </select>
+                                    </div>
+                                    <div class="w-32 flex justify-center">
+                                        <select name="multi_roles[{{ $role->name }}]" class="select select-bordered select-sm w-full text-[10px] font-black uppercase tracking-wider rounded-xl bg-surface-container-lowest">
+                                            <option value="0" {{ ($multiRoleEnforcements[$role->name] ?? '0') === '0' ? 'selected' : '' }}>Inherit</option>
+                                            <option value="1" {{ ($multiRoleEnforcements[$role->name] ?? '') === '1' ? 'selected' : '' }}>Allow</option>
+                                            <option value="2" {{ ($multiRoleEnforcements[$role->name] ?? '') === '2' ? 'selected' : '' }}>Disallow</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -75,27 +113,43 @@
                         </div>
                     </div>
 
-                    <div class="space-y-4 max-h-[300px] overflow-y-auto pr-2">
+                    <div class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
+                        <div class="flex items-center justify-between px-6 opacity-40 mb-2">
+                            <span class="text-[8px] font-black uppercase tracking-widest">Employee</span>
+                            <div class="flex items-center gap-8">
+                                <span class="text-[8px] font-black uppercase tracking-widest w-40 text-center">Enforcement Mode</span>
+                                <span class="text-[8px] font-black uppercase tracking-widest w-16 text-center">Multi In/Out</span>
+                            </div>
+                        </div>
                         @foreach($employees as $employee)
-                            <div class="flex items-center justify-between gap-4 bg-surface-container-low p-4 rounded-2xl border border-outline-variant/10">
+                            <div class="flex items-center justify-between gap-4 bg-surface-container-low p-4 rounded-2xl border border-outline-variant/10 hover:border-tertiary/20 transition-all group">
                                 <div class="flex items-center gap-3">
                                     <div class="avatar placeholder">
-                                        <div class="bg-tertiary/10 text-tertiary rounded-xl w-10 h-10 font-bold text-xs border border-tertiary/10">
+                                        <div class="bg-tertiary/10 text-tertiary rounded-xl w-10 h-10 font-bold text-xs border border-tertiary/10 group-hover:bg-tertiary group-hover:text-white transition-colors">
                                             {{ strtoupper(substr($employee->first_name, 0, 1) . substr($employee->last_name, 0, 1)) }}
                                         </div>
                                     </div>
                                     <div>
-                                        <h4 class="font-black text-xs text-on-surface">{{ $employee->full_name }}</h4>
+                                        <h4 class="font-black text-xs text-on-surface group-hover:text-tertiary transition-colors">{{ $employee->full_name }}</h4>
                                         <p class="text-[10px] opacity-60 tracking-wider font-bold">{{ $employee->employee_id }}</p>
                                     </div>
                                 </div>
 
-                                <div class="w-full max-w-xs">
-                                    <select name="employees[{{ $employee->id }}]" class="select select-bordered select-sm w-full text-xs font-semibold rounded-xl">
-                                        <option value="" {{ !isset($employeeEnforcements[$employee->id]) ? 'selected' : '' }}>Inherit (Company/Role Default)</option>
-                                        <option value="1" {{ isset($employeeEnforcements[$employee->id]) && $employeeEnforcements[$employee->id] === true ? 'selected' : '' }}>Force Require Clock-In</option>
-                                        <option value="0" {{ isset($employeeEnforcements[$employee->id]) && $employeeEnforcements[$employee->id] === false ? 'selected' : '' }}>Exempt (Bypass Enforcement)</option>
-                                    </select>
+                                <div class="flex items-center gap-6">
+                                    <div class="w-40">
+                                        <select name="employees[{{ $employee->id }}]" class="select select-bordered select-sm w-full text-[10px] font-black uppercase tracking-wider rounded-xl bg-surface-container-lowest">
+                                            <option value="0" {{ ($employeeEnforcements[$employee->id] ?? '0') === '0' ? 'selected' : '' }}>Inherit Default</option>
+                                            <option value="1" {{ ($employeeEnforcements[$employee->id] ?? '') === '1' ? 'selected' : '' }}>Force Required</option>
+                                            <option value="2" {{ ($employeeEnforcements[$employee->id] ?? '') === '2' ? 'selected' : '' }}>Exempt / Bypass</option>
+                                        </select>
+                                    </div>
+                                    <div class="w-40">
+                                        <select name="multi_employees[{{ $employee->id }}]" class="select select-bordered select-sm w-full text-[10px] font-black uppercase tracking-wider rounded-xl bg-surface-container-lowest">
+                                            <option value="0" {{ ($employeeMultiEnforcements[$employee->id] ?? '0') === '0' ? 'selected' : '' }}>Inherit Default</option>
+                                            <option value="1" {{ ($employeeMultiEnforcements[$employee->id] ?? '') === '1' ? 'selected' : '' }}>Allow Multi</option>
+                                            <option value="2" {{ ($employeeMultiEnforcements[$employee->id] ?? '') === '2' ? 'selected' : '' }}>Disallow Multi</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach

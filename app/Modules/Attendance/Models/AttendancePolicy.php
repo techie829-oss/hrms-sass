@@ -30,6 +30,7 @@ class AttendancePolicy extends Model
         'is_mobile_enabled',
         'is_manual_enabled',
         'enforce_clockin',
+        'allow_multi_clocking',
     ];
 
     protected $casts = [
@@ -42,6 +43,7 @@ class AttendancePolicy extends Model
         'is_mobile_enabled' => 'boolean',
         'is_manual_enabled' => 'boolean',
         'enforce_clockin' => 'boolean',
+        'allow_multi_clocking' => 'boolean',
     ];
 
     public function getActivitylogOptions(): LogOptions

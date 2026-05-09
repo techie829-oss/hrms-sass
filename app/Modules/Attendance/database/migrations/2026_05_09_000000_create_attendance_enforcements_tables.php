@@ -11,18 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasTable('attendance_policies') && !Schema::hasColumn('attendance_policies', 'enforce_clockin')) {
-            Schema::table('attendance_policies', function (Blueprint $table) {
-                $table->boolean('enforce_clockin')->default(false)->after('is_active');
-            });
-        }
-
         if (!Schema::hasTable('attendance_role_enforcements')) {
             Schema::create('attendance_role_enforcements', function (Blueprint $table) {
                 $table->id();
                 $table->string('tenant_id')->index();
                 $table->string('role_name');
-                $table->boolean('checkin_required')->default(true);
+                $table->integer('checkin_required')->default(0); // 0=Inherit, 1=Force, 2=Exempt
+                $table->integer('allow_multi_clocking')->default(0); // 0=Inherit, 1=Allow, 2=Disallow
                 $table->timestamps();
 
                 $table->unique(['tenant_id', 'role_name']);
@@ -34,7 +29,8 @@ return new class extends Migration
                 $table->id();
                 $table->string('tenant_id')->index();
                 $table->unsignedBigInteger('employee_id');
-                $table->boolean('checkin_required')->default(true); // true = forced, false = exempt/bypass
+                $table->integer('checkin_required')->default(0); // 0=Inherit, 1=Force, 2=Exempt
+                $table->integer('allow_multi_clocking')->default(0); // 0=Inherit, 1=Allow, 2=Disallow
                 $table->timestamps();
 
                 $table->unique(['tenant_id', 'employee_id']);
@@ -49,11 +45,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('attendance_employee_enforcements');
         Schema::dropIfExists('attendance_role_enforcements');
-
-        if (Schema::hasTable('attendance_policies') && Schema::hasColumn('attendance_policies', 'enforce_clockin')) {
-            Schema::table('attendance_policies', function (Blueprint $table) {
-                $table->dropColumn('enforce_clockin');
-            });
-        }
     }
 };

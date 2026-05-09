@@ -35,6 +35,13 @@ return new class extends Migration
             $table->unsignedSmallInteger('min_hours_half_day')->default(4);
             $table->boolean('auto_deduct_leave')->default(false);
             $table->unsignedSmallInteger('max_late_allowed_per_month')->default(3);
+            $table->boolean('enforce_clockin')->default(false);
+            $table->boolean('allow_multi_clocking')->default(false);
+            $table->boolean('is_kiosk_enabled')->default(true);
+            $table->boolean('kiosk_require_photo')->default(true);
+            $table->boolean('kiosk_require_location')->default(true);
+            $table->boolean('is_mobile_enabled')->default(true);
+            $table->boolean('is_manual_enabled')->default(true);
             $table->boolean('is_default')->default(false);
             $table->boolean('is_active')->default(true);
             $table->timestamps();

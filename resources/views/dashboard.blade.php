@@ -14,10 +14,10 @@
     </x-slot>
 
     <div class="space-y-6">
-        <!-- Compact Stats Row -->
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            @if($hasHr)
-            <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
+        <!-- Compact Stats Row (Flexible) -->
+        <div class="flex flex-wrap gap-4">
+            @if($hasHr && $isAdmin)
+            <div class="flex-1 min-w-[180px] bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Workforce</span>
                     <span class="material-symbols-outlined text-primary text-base">groups</span>
@@ -29,8 +29,8 @@
             </div>
             @endif
             
-            @if($hasAttendance)
-            <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
+            @if($hasAttendance && $isAdmin)
+            <div class="flex-1 min-w-[180px] bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Attendance</span>
                     <span class="material-symbols-outlined text-secondary text-base">event_available</span>
@@ -41,18 +41,18 @@
             @endif
 
             @if($hasLeave)
-            <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
+            <div class="flex-1 min-w-[180px] bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Pending Leaves</span>
+                    <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">{{ $isAdmin ? 'Pending Leaves' : 'My Pending' }}</span>
                     <span class="material-symbols-outlined text-tertiary text-base">pending_actions</span>
                 </div>
                 <div class="text-2xl font-bold text-tertiary">{{ number_format($pendingLeaves) }}</div>
-                <div class="text-[9px] font-bold text-on-surface-variant mt-1 italic opacity-70">Awaiting approval</div>
+                <div class="text-[9px] font-bold text-on-surface-variant mt-1 italic opacity-70">{{ $isAdmin ? 'Awaiting approval' : 'Applied requests' }}</div>
             </div>
             @endif
 
-            @if($hasPayroll)
-            <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
+            @if($hasPayroll && $isAdmin)
+            <div class="flex-1 min-w-[180px] bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Payroll Disbursed</span>
                     <span class="material-symbols-outlined text-primary text-base">payments</span>
@@ -62,7 +62,8 @@
             </div>
             @endif
 
-            <div class="hidden lg:block bg-primary p-5 rounded-xl shadow-sm relative overflow-hidden transition-all">
+            @if($isAdmin)
+            <div class="flex-1 min-w-[180px] bg-primary p-5 rounded-xl shadow-sm relative overflow-hidden transition-all">
                 <div class="relative z-10">
                     <span class="text-[9px] font-bold uppercase tracking-wider text-white/80">System Health</span>
                     <div class="text-2xl font-bold text-white">99.9%</div>
@@ -72,11 +73,13 @@
                 </div>
                 <span class="material-symbols-outlined absolute -right-3 -bottom-3 text-5xl opacity-10 text-white">bolt</span>
             </div>
+            @endif
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <!-- Left Side: Main Tables and Charts -->
             <div class="lg:col-span-8 space-y-6">
+                @if($isAdmin)
                 <!-- Employee Overview Table -->
                 <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm overflow-hidden">
                     <div class="p-4 border-b border-outline-variant/5 flex items-center justify-between">
@@ -157,6 +160,60 @@
                         <p class="text-[9px] text-on-surface-variant font-medium mt-1">Productivity alignment status</p>
                     </div>
                 </div>
+                @else
+                <!-- Employee Specific View -->
+                <div class="space-y-6">
+                    <div class="bg-primary/5 p-8 rounded-2xl border border-primary/10 flex items-center gap-6">
+                        <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary shrink-0">
+                            <span class="material-symbols-outlined text-3xl">waving_hand</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-on-surface">Welcome back, {{ auth()->user()->name }}!</h3>
+                            <p class="text-xs text-on-surface-variant mt-1 leading-relaxed">
+                                Have a productive day ahead. You can track your time, manage leaves, and view your performance from here.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- My Recent Attendance -->
+                        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm overflow-hidden">
+                            <div class="p-4 border-b border-outline-variant/5">
+                                <h3 class="font-bold text-[10px] uppercase tracking-wider text-on-surface">My Recent Attendance</h3>
+                            </div>
+                            <div class="p-4 space-y-4">
+                                @forelse($myRecentAttendance ?? [] as $log)
+                                <div class="flex items-center justify-between">
+                                    <div class="flex flex-col">
+                                        <span class="text-[11px] font-bold">{{ \Carbon\Carbon::parse($log->date)->format('d M, Y') }}</span>
+                                        <span class="text-[9px] opacity-60 font-medium uppercase tracking-tighter">{{ \Carbon\Carbon::parse($log->date)->format('l') }}</span>
+                                    </div>
+                                    <div class="flex gap-4 text-right">
+                                        <div class="flex flex-col">
+                                            <span class="text-[10px] font-bold text-primary">IN: {{ $log->check_in ? \Carbon\Carbon::parse($log->check_in)->format('H:i') : '--:--' }}</span>
+                                            <span class="text-[10px] font-bold text-secondary">OUT: {{ $log->check_out ? \Carbon\Carbon::parse($log->check_out)->format('H:i') : '--:--' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @empty
+                                <p class="text-[10px] text-center text-on-surface-variant italic">No recent logs</p>
+                                @endforelse
+                            </div>
+                        </div>
+
+                        <!-- Company Policy or Info -->
+                        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm overflow-hidden">
+                            <div class="p-4 border-b border-outline-variant/5">
+                                <h3 class="font-bold text-[10px] uppercase tracking-wider text-on-surface">Quick Info</h3>
+                            </div>
+                            <div class="p-6 text-center">
+                                <span class="material-symbols-outlined text-primary/40 text-4xl mb-2">info</span>
+                                <p class="text-[10px] text-on-surface-variant italic">Stay updated with latest company news and policies here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
             </div>
 
             <!-- Right Side: Activity and Tasks (Dense Sidebar) -->
@@ -179,13 +236,26 @@
                             @endif
                         </div>
                         
-                        <form action="{{ route('attendance.clock-in') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-primary w-full gap-2 rounded-xl border-none shadow-md shadow-primary/20">
-                                <span class="material-symbols-outlined text-sm">login</span>
-                                <span class="text-[10px] font-bold uppercase tracking-widest">Clock In</span>
-                            </button>
-                        </form>
+                        @if($enforceKiosk ?? false)
+                            <div class="mt-4 p-3 bg-primary/5 rounded-xl border border-primary/10">
+                                <p class="text-[9px] font-bold text-primary uppercase tracking-tighter mb-3">Secure Kiosk Mode Enabled</p>
+                                <a href="{{ route('attendance.kiosk') }}" class="btn btn-primary w-full gap-2 rounded-xl border-none shadow-md shadow-primary/20">
+                                    <span class="material-symbols-outlined text-sm">qr_code_scanner</span>
+                                    <span class="text-[10px] font-bold uppercase tracking-widest">Go to Kiosk</span>
+                                </a>
+                                <p class="text-[8px] font-medium text-on-surface-variant opacity-40 mt-2">
+                                    Face/Location capture required
+                                </p>
+                            </div>
+                        @else
+                            <form action="{{ route('attendance.clock-in') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary w-full gap-2 rounded-xl border-none shadow-md shadow-primary/20">
+                                    <span class="material-symbols-outlined text-sm">login</span>
+                                    <span class="text-[10px] font-bold uppercase tracking-widest">Clock In Now</span>
+                                </button>
+                            </form>
+                        @endif
                     </div>
                     @elseif($currentUserAttendance && !$currentUserAttendance->check_out)
                     <div class="text-center py-4">
@@ -200,13 +270,23 @@
                             @endif
                         </div>
                         
-                        <form action="{{ route('attendance.clock-out') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-error btn-outline w-full gap-2 rounded-xl transition-all hover:bg-error/10">
-                                <span class="material-symbols-outlined text-sm">logout</span>
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-error">Clock Out</span>
-                            </button>
-                        </form>
+                        @if($enforceKiosk ?? false)
+                            <div class="mt-4 p-3 bg-error/5 rounded-xl border border-error/10">
+                                <p class="text-[9px] font-bold text-error uppercase tracking-tighter mb-3">Secure Kiosk Mode Enabled</p>
+                                <a href="{{ route('attendance.kiosk') }}" class="btn btn-error w-full gap-2 rounded-xl border-none shadow-md shadow-error/20 text-white">
+                                    <span class="material-symbols-outlined text-sm">logout</span>
+                                    <span class="text-[10px] font-bold uppercase tracking-widest">Clock Out via Kiosk</span>
+                                </a>
+                            </div>
+                        @else
+                            <form action="{{ route('attendance.clock-out') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-error btn-outline w-full gap-2 rounded-xl transition-all hover:bg-error/10">
+                                    <span class="material-symbols-outlined text-sm">logout</span>
+                                    <span class="text-[10px] font-bold uppercase tracking-widest text-error">Clock Out</span>
+                                </button>
+                            </form>
+                        @endif
                     </div>
                     @else
                     <div class="text-center py-4">
@@ -264,6 +344,7 @@
                     </div>
                 </div>
 
+                @if($isAdmin)
                 <!-- Recent Activity Feed -->
                 <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm">
                     <h4 class="text-[9px] font-bold uppercase tracking-wider mb-6 text-on-surface-variant">System Activity</h4>
@@ -287,6 +368,7 @@
                         @endforelse
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>

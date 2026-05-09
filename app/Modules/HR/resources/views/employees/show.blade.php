@@ -13,6 +13,9 @@
                 </div>
             </div>
             <div class="flex gap-2">
+                <button onclick="change_password_modal.showModal()" class="btn btn-ghost btn-sm text-warning">
+                    <span class="material-symbols-outlined text-base">lock_reset</span> Change Password
+                </button>
                 <a href="{{ route('hr.employees.edit', $employee->id) }}" class="btn btn-secondary btn-sm">
                     <span class="material-symbols-outlined text-base">edit</span> Edit Profile
                 </a>
@@ -35,7 +38,7 @@
                         </div>
                     </div>
                     <h3 class="text-lg font-bold">{{ $employee->full_name }}</h3>
-                    <p class="text-xs font-bold uppercase tracking-widest opacity-60 mb-4">{{ $employee->designation ?? 'Team Member' }}</p>
+                    <p class="text-xs font-bold uppercase tracking-widest opacity-60 mb-4">{{ $employee->designation->name ?? 'Team Member' }}</p>
                     
                     <div class="flex flex-wrap justify-center gap-2 mb-6">
                         @php
@@ -466,9 +469,148 @@
                                 </form>
                             </dialog>
                         </div>
+
+                        <!-- Bank Details Tab -->
+                        <input type="radio" name="employee_tabs" role="tab" class="tab text-[10px] font-bold uppercase tracking-widest [--tab-border-color:theme(colors.primary)] [--tab-bg:theme(colors.base-100)]" aria-label="Bank Details" />
+                        <div role="tabpanel" class="tab-content bg-base-100 p-8 border-none">
+                            <div class="space-y-6">
+                                <div class="flex justify-between items-center pb-2">
+                                    <h5 class="text-xs font-bold uppercase tracking-wider opacity-60 flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-sm font-bold">account_balance</span>
+                                        Bank Accounts
+                                    </h5>
+                                    <button onclick="add_bank_modal.showModal()" class="btn btn-secondary btn-sm rounded-xl font-bold uppercase tracking-wider flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-sm">add</span>
+                                        Add Bank Account
+                                    </button>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    @forelse($employee->bankAccounts as $bank)
+                                        <div class="card bg-base-100 shadow-sm border border-base-200 p-6 relative group overflow-hidden">
+                                            @if($bank->is_primary)
+                                                <div class="absolute top-0 right-0">
+                                                    <div class="bg-primary text-[8px] font-bold text-white px-3 py-1 uppercase tracking-widest rounded-bl-xl shadow-sm">Primary</div>
+                                                </div>
+                                            @endif
+                                            
+                                            <div class="flex items-center gap-4 mb-4">
+                                                <div class="w-12 h-12 rounded-2xl bg-base-200 flex items-center justify-center text-primary">
+                                                    <span class="material-symbols-outlined text-2xl">account_balance</span>
+                                                </div>
+                                                <div>
+                                                    <h6 class="font-bold text-sm">{{ $bank->bank_name }}</h6>
+                                                    <p class="text-[10px] opacity-60 uppercase tracking-wider font-bold">{{ $bank->branch_name ?? 'Main Branch' }}</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="space-y-3">
+                                                <div class="flex justify-between items-center border-b border-base-200 pb-2">
+                                                    <span class="text-[10px] font-bold uppercase opacity-50">Account Number</span>
+                                                    <span class="text-xs font-mono font-bold tracking-wider text-primary">{{ $bank->account_number }}</span>
+                                                </div>
+                                                <div class="flex justify-between items-center border-b border-base-200 pb-2">
+                                                    <span class="text-[10px] font-bold uppercase opacity-50">IFSC Code</span>
+                                                    <span class="text-xs font-bold uppercase">{{ $bank->ifsc_code }}</span>
+                                                </div>
+                                                <div class="flex justify-between items-center">
+                                                    <span class="text-[10px] font-bold uppercase opacity-50">Account Type</span>
+                                                    <span class="badge badge-ghost font-bold text-[8px] uppercase tracking-widest">{{ $bank->account_type }}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-6 flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button class="btn btn-ghost btn-xs text-error font-bold uppercase tracking-wider">Remove</button>
+                                                <button class="btn btn-ghost btn-xs text-primary font-bold uppercase tracking-wider">Edit</button>
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <div class="col-span-2 py-20 text-center border-2 border-dashed border-base-300 rounded-3xl">
+                                            <div class="flex flex-col items-center gap-4 opacity-40">
+                                                <span class="material-symbols-outlined text-6xl">account_balance_wallet</span>
+                                                <p class="font-bold text-sm">No bank accounts linked to this profile.</p>
+                                            </div>
+                                        </div>
+                                    @endforelse
+                                </div>
+                            </div>
+
+                            <!-- Add Bank Modal (Placeholder for now) -->
+                            <dialog id="add_bank_modal" class="modal modal-bottom sm:modal-middle">
+                                <div class="modal-box bg-base-100 rounded-3xl border border-base-200 shadow-2xl max-w-lg p-8">
+                                    <form method="dialog">
+                                        <button class="btn btn-sm btn-circle btn-ghost absolute right-6 top-6 focus:outline-none">✕</button>
+                                    </form>
+
+                                    <h3 class="text-sm font-bold uppercase tracking-widest text-primary flex items-center gap-2 mb-8">
+                                        <span class="material-symbols-outlined text-base font-bold">add_card</span>
+                                        Add Bank Details
+                                    </h3>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div class="form-control w-full">
+                                            <label class="label text-[10px] font-bold uppercase opacity-60">Bank Name</label>
+                                            <input type="text" placeholder="e.g. HDFC Bank" class="input input-bordered w-full text-sm rounded-xl h-12" />
+                                        </div>
+                                        <div class="form-control w-full">
+                                            <label class="label text-[10px] font-bold uppercase opacity-60">IFSC Code</label>
+                                            <input type="text" placeholder="e.g. HDFC0001234" class="input input-bordered w-full text-sm rounded-xl h-12 uppercase" />
+                                        </div>
+                                        <div class="form-control w-full md:col-span-2">
+                                            <label class="label text-[10px] font-bold uppercase opacity-60">Account Number</label>
+                                            <input type="text" placeholder="Enter full account number" class="input input-bordered w-full text-sm rounded-xl h-12" />
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-10 flex gap-3 justify-end">
+                                        <button type="button" onclick="add_bank_modal.close()" class="btn btn-ghost btn-sm rounded-xl px-6 font-bold uppercase tracking-wider text-[10px]">Cancel</button>
+                                        <button type="button" class="btn btn-primary btn-sm rounded-xl px-6 font-bold uppercase tracking-wider text-[10px] shadow-lg shadow-primary/20">Save Details</button>
+                                    </div>
+                                </div>
+                                <form method="dialog" class="modal-backdrop bg-base-900/60 backdrop-blur-md"><button>close</button></form>
+                            </dialog>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Change Password Modal -->
+    <dialog id="change_password_modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box bg-base-100 rounded-2xl border border-base-200 shadow-xl max-w-md p-6">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 focus:outline-none">✕</button>
+            </form>
+
+            <h3 class="text-sm font-bold uppercase tracking-wider text-warning flex items-center gap-2 mb-6">
+                <span class="material-symbols-outlined text-base font-bold">lock_reset</span>
+                Reset System Password
+            </h3>
+
+            <form action="{{ route('hr.employees.change-password', $employee->id) }}" method="POST" class="space-y-4">
+                @csrf
+                <div class="form-control w-full">
+                    <label class="label text-[10px] font-bold uppercase opacity-60">New Password</label>
+                    <input type="password" name="password" required class="input input-bordered w-full text-xs rounded-xl" placeholder="Min 8 characters" />
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label text-[10px] font-bold uppercase opacity-60">Confirm Password</label>
+                    <input type="password" name="password_confirmation" required class="input input-bordered w-full text-xs rounded-xl" placeholder="Repeat new password" />
+                </div>
+
+                <div class="flex gap-2 justify-end pt-4">
+                    <button type="button" onclick="change_password_modal.close()" class="btn btn-ghost btn-sm rounded-xl text-xs uppercase font-bold tracking-wider">Cancel</button>
+                    <button type="submit" class="btn btn-warning btn-sm rounded-xl text-xs uppercase font-bold tracking-wider flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">save</span>
+                        Update Password
+                    </button>
+                </div>
+            </form>
+        </div>
+        <form method="dialog" class="modal-backdrop bg-base-900/40 backdrop-blur-xs">
+            <button>close</button>
+        </form>
+    </dialog>
 </x-app-layout>

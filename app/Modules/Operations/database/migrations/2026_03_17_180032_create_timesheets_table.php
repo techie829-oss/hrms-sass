@@ -16,7 +16,7 @@ return new class extends Migration
                 $table->id();
                 $table->string('tenant_id')->index();
                 $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
-                $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
+                $table->foreignId('project_id')->nullable()->constrained('projects')->onDelete('cascade');
                 $table->foreignId('task_id')->nullable()->constrained('tasks')->onDelete('set null');
                 $table->date('date');
                 $table->decimal('hours', 4, 2);

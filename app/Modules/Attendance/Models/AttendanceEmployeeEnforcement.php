@@ -14,10 +14,11 @@ class AttendanceEmployeeEnforcement extends Model
         'tenant_id',
         'employee_id',
         'checkin_required',
+        'allow_multi_clocking',
     ];
 
     protected $casts = [
-        'checkin_required' => 'boolean',
+        'allow_multi_clocking' => 'boolean',
     ];
 
     public function employee()

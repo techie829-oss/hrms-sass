@@ -24,7 +24,7 @@ class EmployeeController extends BaseController
     {
         $filters = $request->only(['department_id', 'status', 'employment_type']);
         
-        $employees = \App\Modules\HR\Models\Employee::with(['department', 'user.roles', 'todayAttendance'])
+        $employees = \App\Modules\HR\Models\Employee::with(['department', 'designation', 'user.roles', 'todayAttendance'])
             ->when($filters['department_id'] ?? null, fn($q, $id) => $q->where('department_id', $id))
             ->when($filters['status'] ?? null, fn($q, $status) => $q->where('status', $status))
             ->when($filters['employment_type'] ?? null, fn($q, $type) => $q->where('employment_type', $type))
@@ -40,9 +40,10 @@ class EmployeeController extends BaseController
     public function create(Request $request)
     {
         $departments = Department::all();
+        $designations = \App\Modules\HR\Models\Designation::all();
         $roles = Role::where('tenant_id', saas_tenant('id'))->get();
         $employees = \App\Modules\HR\Models\Employee::active()->get();
-        return view('hr::employees.create', compact('departments', 'roles', 'employees'))->with($request->all());
+        return view('hr::employees.create', compact('departments', 'designations', 'roles', 'employees'))->with($request->all());
     }
 
     /**
@@ -120,7 +121,7 @@ class EmployeeController extends BaseController
         $employee = $this->employeeService->findOrFail($id);
         
         // Eager load relationships if needed, or fetch related data
-        $employee->load(['department', 'appraisals', 'goals', 'documents']);
+        $employee->load(['department', 'appraisals', 'goals', 'documents', 'bankAccounts']);
 
         return view('hr::employees.show', compact('employee'));
     }
@@ -132,10 +133,11 @@ class EmployeeController extends BaseController
     {
         $employee = $this->employeeService->findOrFail($id);
         $departments = Department::all();
+        $designations = \App\Modules\HR\Models\Designation::all();
         $roles = Role::where('tenant_id', saas_tenant('id'))->get();
         $employees = \App\Modules\HR\Models\Employee::active()->where('id', '!=', $id)->get();
 
-        return view('hr::employees.edit', compact('employee', 'departments', 'roles', 'employees'));
+        return view('hr::employees.edit', compact('employee', 'departments', 'designations', 'roles', 'employees'));
     }
 
     /**
@@ -163,6 +165,7 @@ class EmployeeController extends BaseController
             'emergency_contact_relation' => ['nullable', 'string', 'max:255'],
             'reporting_to' => ['nullable', 'exists:employees,id'],
             'department_id' => ['nullable', 'exists:departments,id'],
+            'designation_id' => ['nullable', 'exists:designations,id'],
             'date_of_joining' => ['required', 'date'],
             'employment_type' => ['required', Rule::in(['full_time', 'part_time', 'contract', 'intern'])],
             'status' => ['required', Rule::in(['active', 'inactive', 'on_leave', 'terminated', 'resigned'])],
@@ -253,5 +256,28 @@ class EmployeeController extends BaseController
         $document->delete();
 
         return back()->with('success', 'Document deleted successfully.');
+    }
+
+    /**
+     * Change employee system login password.
+     */
+    public function changePassword(Request $request, $id)
+    {
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $employee = $this->employeeService->findOrFail($id);
+
+        if (!$employee->user_id) {
+            return back()->with('error', 'This employee does not have a system login account.');
+        }
+
+        $user = User::findOrFail($employee->user_id);
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        return back()->with('success', 'Password updated successfully.');
     }
 }

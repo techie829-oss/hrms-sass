@@ -81,7 +81,7 @@
             </div>
 
             {{-- Clock In/Out Section --}}
-            <div class="p-8">
+            <div class="p-8 relative">
                 <div class="flex flex-col lg:flex-row items-center gap-8 justify-center">
                     {{-- Camera Preview --}}
                     <div class="flex flex-col items-center gap-3">
@@ -126,37 +126,68 @@
                                 Photo, location, IP & device auto-captured
                             </p>
                         </div>
+                        {{-- Strict Permission Required Overlay --}}
+                        <div x-show="isSecureContext && ((requireLocation && locationError) || (requirePhoto && cameraError))" 
+                             class="absolute inset-0 bg-surface-container-lowest/90 backdrop-blur-sm z-30 flex flex-col items-center justify-center p-6 text-center"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-cloak>
+                            <div class="w-16 h-16 rounded-full bg-error/10 flex items-center justify-center mb-4">
+                                <span class="material-symbols-outlined text-3xl text-error">security_update_warning</span>
+                            </div>
+                            <h3 class="text-sm font-black text-on-surface uppercase tracking-widest mb-2">Access Required</h3>
+                            <p class="text-[10px] font-bold text-on-surface-variant opacity-60 max-w-[250px] mb-6 leading-relaxed">
+                                Attendance policy requires <span x-show="requireLocation" class="text-error font-black">Location</span> <span x-show="requireLocation && requirePhoto">and</span> <span x-show="requirePhoto" class="text-error font-black">Camera</span> access to proceed.
+                            </p>
+                            <div class="space-y-3 w-full max-w-[200px]">
+                                <button @click="retryAccess()" class="btn btn-primary btn-sm w-full rounded-xl font-black uppercase tracking-widest text-[9px] h-10 shadow-lg shadow-primary/20">
+                                    Try Again
+                                </button>
+                                <div class="bg-surface-container-low p-3 rounded-lg border border-outline-variant/10">
+                                    <p class="text-[8px] font-black text-on-surface-variant uppercase mb-1">How to reset:</p>
+                                    <p class="text-[8px] font-medium text-on-surface-variant/70 leading-tight">
+                                        Click the <span class="font-bold text-primary">Lock Icon</span> (🔒) in your browser address bar and set permissions to <span class="font-bold text-success">Allow</span>.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
                         <form action="{{ route('attendance.clock-in') }}" method="POST" id="clockInForm" @submit.prevent="captureAndSubmit($event)">
                             @csrf
                             <input type="hidden" name="latitude" x-model="latitude">
                             <input type="hidden" name="longitude" x-model="longitude">
                             <input type="hidden" name="device_info" x-model="deviceInfo">
                             <input type="hidden" name="photo" x-model="photoData">
-                            <button type="submit" class="btn btn-success btn-lg rounded-2xl font-black text-sm uppercase tracking-widest gap-3 px-12 shadow-lg shadow-success/30 hover:shadow-xl hover:shadow-success/40 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                                :disabled="(requireLocation && !locationReady) || (requirePhoto && !cameraReady)">
-                                <span class="material-symbols-outlined text-xl" x-show="(!requireLocation || locationReady) && (!requirePhoto || cameraReady)">fingerprint</span>
-                                <span class="loading loading-spinner loading-xs" x-show="(requireLocation && !locationReady) || (requirePhoto && !cameraReady)"></span>
-                                <span x-text="((requireLocation && !locationReady) || (requirePhoto && !cameraReady)) ? 'Access Required' : 'Clock In'"></span>
+                            <button type="submit" class="btn btn-success btn-lg rounded-2xl font-black text-sm uppercase tracking-widest gap-3 px-12 h-16 shadow-lg shadow-success/30 hover:shadow-xl hover:shadow-success/40 transition-all duration-300 hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed group"
+                                :disabled="isSecureContext && ((requireLocation && !locationReady) || (requirePhoto && !cameraReady))">
+                                <span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform" x-show="!isSecureContext || ((!requireLocation || locationReady) && (!requirePhoto || cameraReady))">fingerprint</span>
+                                <span class="loading loading-spinner loading-xs" x-show="isSecureContext && (((requireLocation && !locationReady) && !locationError) || ((requirePhoto && !cameraReady) && !cameraError))"></span>
+                                <span x-text="(isSecureContext && ((requireLocation && !locationReady) || (requirePhoto && !cameraReady))) ? 'Access Required' : 'Clock In Now'"></span>
                             </button>
                         </form>
-                        {{-- Permission Warnings --}}
-                        <div class="flex flex-col items-center gap-2 mt-2" x-show="(requireLocation && !locationReady) || (requirePhoto && !cameraReady)">
-                            <p class="text-[9px] font-bold text-error uppercase tracking-tighter flex items-center gap-1" x-show="requireLocation && locationError">
-                                <span class="material-symbols-outlined text-xs">location_off</span> Location Access Denied
-                            </p>
-                            <p class="text-[9px] font-bold text-error uppercase tracking-tighter flex items-center gap-1" x-show="requirePhoto && cameraError">
-                                <span class="material-symbols-outlined text-xs">videocam_off</span> Camera Access Denied
-                            </p>
-                            <p class="text-[8px] font-medium text-on-surface-variant opacity-60 text-center max-w-[200px]">
-                                Attendance cannot be marked without <span x-show="requireLocation">location</span><span x-show="requireLocation && requirePhoto"> and </span><span x-show="requirePhoto">photo</span> capture.
-                            </p>
-                            <button @click="retryAccess()" class="btn btn-ghost btn-xs text-[8px] font-black uppercase tracking-widest text-primary">
-                                Retry Permissions
-                            </button>
-                        </div>
 
                     @elseif($todayLog && !$todayLog->check_out)
                         {{-- Clocked in, waiting for clock out --}}
+                        {{-- Strict Permission Required Overlay for Clock Out --}}
+                        <div x-show="isSecureContext && ((requireLocation && locationError) || (requirePhoto && cameraError))" 
+                             class="absolute inset-0 bg-surface-container-lowest/90 backdrop-blur-sm z-30 flex flex-col items-center justify-center p-6 text-center"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-cloak>
+                            <div class="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center mb-3">
+                                <span class="material-symbols-outlined text-2xl text-error">security_update_warning</span>
+                            </div>
+                            <h3 class="text-xs font-black text-on-surface uppercase tracking-widest mb-1">Permission Required</h3>
+                            <p class="text-[9px] font-bold text-on-surface-variant opacity-60 max-w-[200px] mb-4">
+                                Cannot mark Clock Out without permissions.
+                            </p>
+                            <button @click="retryAccess()" class="btn btn-primary btn-xs rounded-lg font-black uppercase tracking-widest px-6 h-8">
+                                Retry Access
+                            </button>
+                        </div>
+
                         <div class="flex flex-col items-center gap-4">
                             <div class="w-24 h-24 rounded-full bg-warning/10 border-4 border-warning/20 flex items-center justify-center">
                                 <span class="material-symbols-outlined text-5xl text-warning">schedule</span>
@@ -194,17 +225,20 @@
                                 <span x-text="((requireLocation && !locationReady) || (requirePhoto && !cameraReady)) ? 'Access Required' : 'Clock Out'"></span>
                             </button>
                         </form>
-                        {{-- Permission Warnings --}}
-                        <div class="flex flex-col items-center gap-2 mt-2" x-show="(requireLocation && !locationReady) || (requirePhoto && !cameraReady)">
-                            <p class="text-[9px] font-bold text-error uppercase tracking-tighter flex items-center gap-1" x-show="requireLocation && locationError">
-                                <span class="material-symbols-outlined text-xs">location_off</span> Location Access Denied
+                        <div class="flex flex-col items-center gap-2 mt-4" x-show="(requireLocation && !locationReady) || (requirePhoto && !cameraReady)">
+                            <div class="flex flex-wrap justify-center gap-3">
+                                <div class="flex items-center gap-2 px-3 py-1.5 bg-error/10 rounded-full border border-error/20" x-show="requireLocation && locationError">
+                                    <span class="material-symbols-outlined text-xs text-error">location_off</span>
+                                    <span class="text-[9px] font-black text-error uppercase">Location Blocked</span>
+                                </div>
+                                <div class="flex items-center gap-2 px-3 py-1.5 bg-error/10 rounded-full border border-error/20" x-show="requirePhoto && cameraError">
+                                    <span class="material-symbols-outlined text-xs text-error">videocam_off</span>
+                                    <span class="text-[9px] font-black text-error uppercase">Camera Blocked</span>
+                                </div>
+                            </div>
+                            <p class="text-[8px] font-medium text-on-surface-variant opacity-60 text-center max-w-[250px] mt-2">
+                                Please enable permissions in your browser settings and <button @click="retryAccess()" class="text-primary font-bold hover:underline">retry</button>.
                             </p>
-                            <p class="text-[9px] font-bold text-error uppercase tracking-tighter flex items-center gap-1" x-show="requirePhoto && cameraError">
-                                <span class="material-symbols-outlined text-xs">videocam_off</span> Camera Access Denied
-                            </p>
-                            <button @click="retryAccess()" class="btn btn-ghost btn-xs text-[8px] font-black uppercase tracking-widest text-primary">
-                                Retry Permissions
-                            </button>
                         </div>
 
                     @else
@@ -244,16 +278,15 @@
             </div>
         </div>
 
-        {{-- Device Info & Location Cards --}}
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {{-- Location Card --}}
-            <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm p-5">
+        {{-- Device Info & Location Cards (Flexible Grid) --}}
+        <div class="flex flex-wrap gap-4">
+            <div class="flex-1 min-w-[280px] bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm p-5">
                 <div class="flex items-center gap-2 mb-3">
                     <span class="material-symbols-outlined text-sm text-primary">location_on</span>
                     <h4 class="text-[10px] font-black uppercase tracking-widest opacity-80">Location</h4>
                     <span class="ml-auto badge badge-xs text-[7px] font-black px-2 h-auto uppercase"
-                          :class="locationReady ? 'badge-success text-white' : 'badge-warning'"
-                          x-text="locationReady ? 'Acquired' : 'Pending'"></span>
+                          :class="locationReady ? 'badge-success text-white' : (locationError ? 'badge-error text-white' : 'badge-warning')"
+                          x-text="locationReady ? 'Acquired' : (locationError ? 'Denied' : 'Pending')"></span>
                 </div>
                 <div class="space-y-2">
                     <div class="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg">
@@ -264,15 +297,11 @@
                         <span class="text-[9px] font-bold opacity-40 uppercase">Longitude</span>
                         <span class="text-[10px] font-black text-on-surface font-mono" x-text="longitude || '—'"></span>
                     </div>
-                    <div class="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg">
-                        <span class="text-[9px] font-bold opacity-40 uppercase">Accuracy</span>
-                        <span class="text-[10px] font-black text-on-surface font-mono" x-text="accuracy ? accuracy + 'm' : '—'"></span>
-                    </div>
                 </div>
             </div>
 
             {{-- Network Info --}}
-            <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm p-5">
+            <div class="flex-1 min-w-[280px] bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm p-5">
                 <div class="flex items-center gap-2 mb-3">
                     <span class="material-symbols-outlined text-sm text-secondary">wifi</span>
                     <h4 class="text-[10px] font-black uppercase tracking-widest opacity-80">Network</h4>
@@ -287,15 +316,11 @@
                         <span class="text-[9px] font-bold opacity-40 uppercase">Protocol</span>
                         <span class="text-[10px] font-black text-on-surface font-mono uppercase">{{ request()->secure() ? 'HTTPS' : 'HTTP' }}</span>
                     </div>
-                    <div class="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg">
-                        <span class="text-[9px] font-bold opacity-40 uppercase">User Agent</span>
-                        <span class="text-[10px] font-black text-on-surface font-mono truncate max-w-[180px]" x-text="browserName"></span>
-                    </div>
                 </div>
             </div>
 
             {{-- Device Info --}}
-            <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm p-5">
+            <div class="flex-1 min-w-[280px] bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm p-5">
                 <div class="flex items-center gap-2 mb-3">
                     <span class="material-symbols-outlined text-sm text-accent">devices</span>
                     <h4 class="text-[10px] font-black uppercase tracking-widest opacity-80">Device</h4>
@@ -303,15 +328,11 @@
                 <div class="space-y-2">
                     <div class="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg">
                         <span class="text-[9px] font-bold opacity-40 uppercase">Platform</span>
-                        <span class="text-[10px] font-black text-on-surface font-mono" x-text="platform"></span>
+                        <span class="text-[10px] font-black text-on-surface font-mono truncate max-w-[150px]" x-text="platform"></span>
                     </div>
                     <div class="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg">
-                        <span class="text-[9px] font-bold opacity-40 uppercase">Screen</span>
-                        <span class="text-[10px] font-black text-on-surface font-mono" x-text="screenRes"></span>
-                    </div>
-                    <div class="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg">
-                        <span class="text-[9px] font-bold opacity-40 uppercase">Timezone</span>
-                        <span class="text-[10px] font-black text-on-surface font-mono" x-text="timezone"></span>
+                        <span class="text-[9px] font-bold opacity-40 uppercase">Browser</span>
+                        <span class="text-[10px] font-black text-on-surface font-mono" x-text="browserName"></span>
                     </div>
                 </div>
             </div>
@@ -406,6 +427,7 @@
                 isKioskEnabled: config.isKioskEnabled,
                 requirePhoto: config.requirePhoto,
                 requireLocation: config.requireLocation,
+                isSecureContext: window.isSecureContext || window.location.hostname === 'localhost' || window.location.hostname.endsWith('.test'),
                 latitude: '',
                 longitude: '',
                 accuracy: '',
@@ -423,6 +445,11 @@
                 stream: null,
 
                 init() {
+                    // Check for Secure Context (Required for Camera/Location in modern browsers)
+                    if (!window.isSecureContext && window.location.hostname !== 'localhost' && !window.location.hostname.endsWith('.test')) {
+                        console.warn('Kiosk is running in an insecure context. Camera/Location may not work.');
+                    }
+
                     // Device info
                     this.platform = navigator.platform || 'Unknown';
                     this.screenRes = screen.width + 'x' + screen.height;
@@ -447,16 +474,24 @@
                 },
 
                 async startCamera() {
+                    if (!this.requirePhoto) return;
+                    
                     try {
+                        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                            throw new Error('MediaDevices not supported or insecure context');
+                        }
+
                         this.stream = await navigator.mediaDevices.getUserMedia({
                             video: { width: 480, height: 480, facingMode: 'user' },
                             audio: false
                         });
                         this.$refs.cameraVideo.srcObject = this.stream;
                         this.cameraReady = true;
+                        this.cameraError = false;
                     } catch (err) {
                         console.warn('Camera error:', err.message);
                         this.cameraError = true;
+                        this.cameraReady = false;
                     }
                 },
 

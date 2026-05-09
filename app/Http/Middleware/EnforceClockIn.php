@@ -50,15 +50,16 @@ class EnforceClockIn
         // 4. Employee-level override check (Explicit Exclusion or Force)
         $employeeEnforcement = AttendanceEmployeeEnforcement::where('employee_id', $user->employee->id)->first();
 
-        // If employee has an explicit bypass/exclusion (checkin_required set to false): EXCLUDED
-        if ($employeeEnforcement && $employeeEnforcement->checkin_required === false) {
+        // 0=Inherit, 1=Force, 2=Exempt
+        // If employee has an explicit bypass/exclusion (checkin_required set to 2): EXCLUDED
+        if ($employeeEnforcement && $employeeEnforcement->checkin_required == 2) {
             return $next($request);
         }
 
         // 5. Determine if check-in is required
         $checkInRequired = false;
 
-        if ($employeeEnforcement && $employeeEnforcement->checkin_required === true) {
+        if ($employeeEnforcement && $employeeEnforcement->checkin_required == 1) {
             // Explicitly forced at employee level
             $checkInRequired = true;
         } else {
@@ -70,7 +71,7 @@ class EnforceClockIn
                 $userRoleNames = $user->roles()->pluck('name')->toArray();
                 
                 $checkInRequired = AttendanceRoleEnforcement::whereIn('role_name', $userRoleNames)
-                    ->where('checkin_required', true)
+                    ->where('checkin_required', 1)
                     ->exists();
             }
         }

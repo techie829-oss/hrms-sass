@@ -21,10 +21,10 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email');
-
-            $table->unique(['tenant_id', 'employee_id']);
-            $table->unique(['tenant_id', 'email']);
+            $table->string('personal_email')->nullable();
+            $table->string('country_code', 10)->default('+91');
             $table->string('phone', 20)->nullable();
+            $table->string('alt_country_code', 10)->nullable();
             $table->string('alt_phone', 20)->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->date('date_of_birth')->nullable();
@@ -56,6 +56,8 @@ return new class extends Migration
 
             // Meta
             $table->string('profile_photo')->nullable();
+            $table->string('main_image')->nullable();
+            $table->string('cover_photo')->nullable();
             $table->json('custom_fields')->nullable();
             $table->timestamps();
             $table->softDeletes();
