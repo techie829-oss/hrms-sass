@@ -126,6 +126,7 @@
                                 Photo, location, IP & device auto-captured
                             </p>
                         </div>
+
                         {{-- Strict Permission Required Overlay --}}
                         <div x-show="isSecureContext && ((requireLocation && locationError) || (requirePhoto && cameraError))" 
                              class="absolute inset-0 bg-surface-container-lowest/90 backdrop-blur-sm z-30 flex flex-col items-center justify-center p-6 text-center"
@@ -144,7 +145,17 @@
                                 <button @click="retryAccess()" class="btn btn-primary btn-sm w-full rounded-xl font-black uppercase tracking-widest text-[9px] h-10 shadow-lg shadow-primary/20">
                                     Try Again
                                 </button>
-                                <div class="bg-surface-container-low p-3 rounded-lg border border-outline-variant/10">
+
+                                @if(config('app.debug'))
+                                    <div class="mt-4 pt-4 border-t border-outline-variant/10 w-full">
+                                        <button @click="latitude='26.8467'; longitude='80.9462'; photoData='debug_bypass'; $nextTick(() => $refs.clockInForm.submit())" 
+                                            class="btn btn-ghost btn-xs text-[9px] font-black uppercase tracking-widest text-warning hover:bg-warning/10 w-full">
+                                            Skip & Clock In (Bypass)
+                                        </button>
+                                    </div>
+                                @endif
+
+                                <div class="bg-surface-container-low p-3 rounded-lg border border-outline-variant/10 mt-4">
                                     <p class="text-[8px] font-black text-on-surface-variant uppercase mb-1">How to reset:</p>
                                     <p class="text-[8px] font-medium text-on-surface-variant/70 leading-tight">
                                         Click the <span class="font-bold text-primary">Lock Icon</span> (🔒) in your browser address bar and set permissions to <span class="font-bold text-success">Allow</span>.
@@ -166,16 +177,6 @@
                                 <span x-text="(isSecureContext && ((requireLocation && !locationReady) || (requirePhoto && !cameraReady))) ? 'Access Required' : 'Clock In Now'"></span>
                             </button>
                         </form>
-                        
-                        @if(config('app.debug'))
-                            <div class="mt-4 p-3 bg-warning/5 border border-warning/10 rounded-xl text-center">
-                                <p class="text-[8px] font-black uppercase text-warning opacity-60 mb-2">Debug Mode Active</p>
-                                <button @click="latitude='26.8467'; longitude='80.9462'; photoData='debug_bypass'; $nextTick(() => $refs.clockInForm.submit())" 
-                                    class="btn btn-ghost btn-xs text-[9px] font-black uppercase tracking-widest text-warning hover:bg-warning/10">
-                                    Skip & Clock In (Bypass)
-                                </button>
-                            </div>
-                        @endif
 
                     @elseif($todayLog && !$todayLog->check_out)
                         {{-- Clocked in, waiting for clock out --}}
@@ -193,9 +194,20 @@
                             <p class="text-[9px] font-bold text-on-surface-variant opacity-60 max-w-[200px] mb-4">
                                 Cannot mark Clock Out without permissions.
                             </p>
-                            <button @click="retryAccess()" class="btn btn-primary btn-xs rounded-lg font-black uppercase tracking-widest px-6 h-8">
-                                Retry Access
-                            </button>
+                            <div class="space-y-3 w-full max-w-[160px]">
+                                <button @click="retryAccess()" class="btn btn-primary btn-xs w-full rounded-lg font-black uppercase tracking-widest px-6 h-8 shadow-md">
+                                    Retry Access
+                                </button>
+
+                                @if(config('app.debug'))
+                                    <div class="pt-2 border-t border-outline-variant/10 w-full">
+                                        <button @click="latitude='26.8467'; longitude='80.9462'; photoData='debug_bypass_out'; $nextTick(() => $refs.clockOutForm.submit())" 
+                                            class="btn btn-ghost btn-xs text-[9px] font-black uppercase tracking-widest text-warning hover:bg-warning/10 w-full">
+                                            Skip & Clock Out (Bypass)
+                                        </button>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
 
                         <div class="flex flex-col items-center gap-4">
@@ -235,16 +247,6 @@
                                 <span x-text="((requireLocation && !locationReady) || (requirePhoto && !cameraReady)) ? 'Access Required' : 'Clock Out'"></span>
                             </button>
                         </form>
-
-                        @if(config('app.debug'))
-                            <div class="mt-4 p-3 bg-warning/5 border border-warning/10 rounded-xl text-center">
-                                <p class="text-[8px] font-black uppercase text-warning opacity-60 mb-2">Debug Mode Active</p>
-                                <button @click="latitude='26.8467'; longitude='80.9462'; photoData='debug_bypass_out'; $nextTick(() => $refs.clockOutForm.submit())" 
-                                    class="btn btn-ghost btn-xs text-[9px] font-black uppercase tracking-widest text-warning hover:bg-warning/10">
-                                    Skip & Clock Out (Bypass)
-                                </button>
-                            </div>
-                        @endif
                         <div class="flex flex-col items-center gap-2 mt-4" x-show="(requireLocation && !locationReady) || (requirePhoto && !cameraReady)">
                             <div class="flex flex-wrap justify-center gap-3">
                                 <div class="flex items-center gap-2 px-3 py-1.5 bg-error/10 rounded-full border border-error/20" x-show="requireLocation && locationError">
@@ -465,9 +467,9 @@
                 stream: null,
 
                 init() {
-                    // Check for Secure Context (Required for Camera/Location in modern browsers)
-                    if (!window.isSecureContext && window.location.hostname !== 'localhost' && !window.location.hostname.endsWith('.test')) {
-                        console.warn('Kiosk is running in an insecure context. Camera/Location may not work.');
+                    // Check for Secure Context
+                    if (!window.isSecureContext && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1' && !window.location.hostname.endsWith('.test')) {
+                        console.warn('Kiosk is running in an insecure context.');
                     }
 
                     // Device info
@@ -483,13 +485,9 @@
                     else if (ua.includes('Edg')) this.browserName = 'Edge';
                     else this.browserName = 'Browser';
 
-                    // Compose device info string
                     this.deviceInfo = this.browserName + ' | ' + this.platform + ' | ' + this.screenRes + ' | ' + this.timezone;
 
-                    // Request Geolocation
                     this.requestLocation();
-
-                    // Start Camera
                     this.startCamera();
                 },
 
@@ -498,7 +496,7 @@
                     
                     try {
                         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                            throw new Error('MediaDevices not supported or insecure context');
+                            throw new Error('MediaDevices not supported');
                         }
 
                         this.stream = await navigator.mediaDevices.getUserMedia({
@@ -524,19 +522,16 @@
                     canvas.height = 480;
                     const ctx = canvas.getContext('2d');
                     
-                    // Mirror the image to match the preview
                     ctx.translate(480, 0);
                     ctx.scale(-1, 1);
                     ctx.drawImage(video, 0, 0, 480, 480);
 
-                    // Flash effect
                     const flash = this.$refs.flashOverlay;
                     if (flash) {
                         flash.style.opacity = '1';
                         setTimeout(() => { flash.style.opacity = '0'; }, 150);
                     }
 
-                    // Show captured photo
                     const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
                     this.$refs.capturedPhoto.src = dataUrl;
                     this.photoCaptured = true;
@@ -545,17 +540,13 @@
                 },
 
                 captureAndSubmit(event) {
-                    // Capture photo
                     this.photoData = this.capturePhoto();
-                    // Refresh device info
                     this.deviceInfo = this.browserName + ' | ' + this.platform + ' | ' + this.screenRes + ' | ' + this.timezone;
 
-                    // Stop camera
                     if (this.stream) {
                         this.stream.getTracks().forEach(t => t.stop());
                     }
 
-                    // Small delay for flash effect, then submit
                     setTimeout(() => {
                         event.target.submit();
                     }, 300);
@@ -577,8 +568,6 @@
                                 console.warn('Geolocation error:', error.message);
                                 this.locationReady = false;
                                 this.locationError = true;
-                                this.latitude = '';
-                                this.longitude = '';
                             },
                             {
                                 enableHighAccuracy: true,
