@@ -26,7 +26,7 @@ class AttendanceController extends BaseController
             abort(403, 'You do not have permission to view attendance logs.');
         }
         
-        $filters = $request->only(['employee_id', 'date', 'status', 'search']);
+        $filters = $request->only(['employee_id', 'date', 'status', 'search', 'month']);
 
         // If cannot view all, force filter by their own employee ID
         if (!$canViewAll) {
@@ -36,7 +36,10 @@ class AttendanceController extends BaseController
             $filters['employee_id'] = $user->employee->id;
         }
 
-        $logs = $this->attendanceService->paginate(15, $filters);
+        $isCalendar = $request->get('view') === 'calendar';
+        $perPage = $isCalendar ? 1000 : 15;
+        
+        $logs = $this->attendanceService->paginate($perPage, $filters);
 
         return view('attendance::index', compact('logs', 'canViewAll'));
     }

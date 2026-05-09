@@ -96,12 +96,23 @@ class AttendanceRepository extends BaseRepository implements AttendanceRepositor
             unset($filters['search']);
         }
 
+        if (isset($filters['date']) && !empty($filters['date'])) {
+            $query->where('date', $filters['date']);
+            unset($filters['date']);
+        }
+
+        if (isset($filters['month']) && !empty($filters['month'])) {
+            $query->whereMonth('date', date('m', strtotime($filters['month'])))
+                  ->whereYear('date', date('Y', strtotime($filters['month'])));
+            unset($filters['month']);
+        }
+
         foreach ($filters as $field => $value) {
             if (!is_null($value) && $value !== '') {
                 $query->where($field, $value);
             }
         }
 
-        return $query->latest('date')->paginate($perPage);
+        return $query->orderBy('date', 'desc')->orderBy('created_at', 'desc')->paginate($perPage);
     }
 }
