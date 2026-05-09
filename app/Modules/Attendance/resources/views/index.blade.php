@@ -20,10 +20,15 @@
 
     <div class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
         <div class="p-4 border-b border-base-200 bg-base-200/30">
-            <div class="relative max-w-sm">
+            <form action="{{ route('attendance.index') }}" method="GET" class="relative max-w-sm">
                 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 opacity-50 text-lg">search</span>
-                <input type="text" placeholder="Search employee..." class="input input-bordered input-sm w-full pl-10 px-4 py-2 text-xs">
-            </div>
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search employee..." class="input input-bordered input-sm w-full pl-10 pr-10 py-2 text-xs">
+                @if(request('search'))
+                <a href="{{ route('attendance.index') }}" class="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 hover:opacity-100 transition-opacity">
+                    <span class="material-symbols-outlined text-base">close</span>
+                </a>
+                @endif
+            </form>
         </div>
 
         <x-table :headers="['Employee', 'Date', 'Check In', 'Check Out', 'Hours', 'Status', 'Actions']" :striped="false">

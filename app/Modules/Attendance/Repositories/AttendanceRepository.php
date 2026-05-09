@@ -84,6 +84,24 @@ class AttendanceRepository extends BaseRepository implements AttendanceRepositor
 
     public function paginate(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
-        return parent::paginate($perPage, $filters);
+        $query = $this->model->query()->with('employee');
+
+        if (isset($filters['search']) && !empty($filters['search'])) {
+            $search = $filters['search'];
+            $query->whereHas('employee', function ($q) use ($search) {
+                $q->where('first_name', 'ilike', "%{$search}%")
+                  ->orWhere('last_name', 'ilike', "%{$search}%")
+                  ->orWhere('employee_id', 'ilike', "%{$search}%");
+            });
+            unset($filters['search']);
+        }
+
+        foreach ($filters as $field => $value) {
+            if (!is_null($value) && $value !== '') {
+                $query->where($field, $value);
+            }
+        }
+
+        return $query->latest('date')->paginate($perPage);
     }
 }

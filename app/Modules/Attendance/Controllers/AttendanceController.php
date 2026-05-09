@@ -26,7 +26,7 @@ class AttendanceController extends BaseController
             abort(403, 'You do not have permission to view attendance logs.');
         }
         
-        $filters = $request->only(['employee_id', 'date', 'status']);
+        $filters = $request->only(['employee_id', 'date', 'status', 'search']);
 
         // If cannot view all, force filter by their own employee ID
         if (!$canViewAll) {
