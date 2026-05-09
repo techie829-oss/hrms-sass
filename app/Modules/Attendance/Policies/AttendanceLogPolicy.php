@@ -9,18 +9,17 @@ class AttendanceLogPolicy
 {
     /**
      * View attendance list.
-     * - tstaff: allowed (filtered to own records in controller)
-     * - tadmin/tmanager: allowed (all records in tenant)
+     * - Everyone with an employee profile or admin roles can view.
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['tadmin', 'tmanager', 'tstaff']);
+        return $user->employee !== null || $user->hasAnyRole(['tadmin', 'tmanager', 'superadmin']);
     }
 
     /**
      * View a specific attendance log.
-     * - tstaff: only their own
-     * - tadmin/tmanager: any record in same tenant
+     * - Employees: only their own
+     * - Admin/Manager: any record in same tenant
      */
     public function view(User $user, AttendanceLog $attendanceLog): bool
     {
@@ -28,20 +27,21 @@ class AttendanceLogPolicy
             return false;
         }
 
-        if ($user->hasRole('tstaff')) {
-            return $user->employee?->id === $attendanceLog->employee_id;
+        // Admins can see everything in their tenant
+        if ($user->hasAnyRole(['tadmin', 'tmanager', 'superadmin'])) {
+            return true;
         }
 
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        // Regular employees can only see their own logs
+        return $user->employee?->id === $attendanceLog->employee_id;
     }
 
     /**
      * Create / log attendance.
-     * All tenant users can clock in/out (e.g., via kiosk).
      */
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['tadmin', 'tmanager', 'tstaff']);
+        return $user->employee !== null || $user->hasAnyRole(['tadmin', 'tmanager', 'superadmin']);
     }
 
     /**
@@ -53,7 +53,7 @@ class AttendanceLogPolicy
             return false;
         }
 
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        return $user->hasAnyRole(['tadmin', 'tmanager', 'superadmin']);
     }
 
     /**
@@ -65,6 +65,6 @@ class AttendanceLogPolicy
             return false;
         }
 
-        return $user->hasRole('tadmin');
+        return $user->hasAnyRole(['tadmin', 'superadmin']);
     }
 }
