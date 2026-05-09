@@ -9,6 +9,9 @@ use App\SaaS\Modules\ModuleManager;
 use App\Modules\HR\Models\Employee;
 use App\Modules\HR\Models\Department;
 use App\Modules\Attendance\Models\AttendanceLog;
+use App\Modules\Attendance\Models\AttendanceEmployeeEnforcement;
+use App\Modules\Attendance\Models\AttendanceRoleEnforcement;
+use App\Modules\Attendance\Models\AttendancePolicy;
 use App\Modules\Leave\Models\LeaveRequest;
 use App\Modules\Payroll\Models\PayrollRun;
 use Carbon\Carbon;
@@ -85,9 +88,39 @@ class DashboardController extends Controller
                 $data['assignedShift'] = $employee->attendanceShift;
                 
                 // Check if clock-in enforcement is enabled for this employee's policy
-                // Only enforce if we are in a secure context (HTTPS) as per user request
+                // Only enforce if we are in a secure context (HTTPS) or local development
                 $policy = $employee->attendancePolicy;
-                $data['enforceKiosk'] = ($policy && $policy->enforce_clockin && request()->secure()) ? true : false;
+                
+                // Resolve Multi-Clocking (3-state: 0=Inherit, 1=Allow, 2=Disallow)
+                $multiClocking = 0; // Default
+                $empEnf = AttendanceEmployeeEnforcement::where('employee_id', $employee->id)->first();
+                if ($empEnf && $empEnf->multi_clocking != 0) {
+                    $multiClocking = $empEnf->multi_clocking;
+                } else {
+                    $roleEnf = AttendanceRoleEnforcement::where('role_id', $employee->role_id)->first();
+                    if ($roleEnf && $roleEnf->multi_clocking != 0) {
+                        $multiClocking = $roleEnf->multi_clocking;
+                    } else if ($policy) {
+                        $multiClocking = $policy->multi_clocking;
+                    }
+                }
+                $data['isMultiEnabled'] = ($multiClocking == 1);
+
+                // Resolve Enforcement (3-state: 0=Inherit, 1=Force, 2=Exempt)
+                $enforcement = 0;
+                if ($empEnf && $empEnf->enforce_kiosk != 0) {
+                    $enforcement = $empEnf->enforce_kiosk;
+                } else {
+                    $roleEnf = AttendanceRoleEnforcement::where('role_id', $employee->role_id)->first();
+                    if ($roleEnf && $roleEnf->enforce_kiosk != 0) {
+                        $enforcement = $roleEnf->enforce_kiosk;
+                    } else if ($policy) {
+                        $enforcement = $policy->enforce_clockin ? 1 : 2;
+                    }
+                }
+                
+                $isSecure = request()->secure() || in_array(request()->getHost(), ['localhost', '127.0.0.1']) || str_ends_with(request()->getHost(), '.test');
+                $data['enforceKiosk'] = ($enforcement == 1 && $isSecure);
                 
                 // Fetch recent attendance for the employee view
                 $data['myRecentAttendance'] = AttendanceLog::where('employee_id', $employee->id)

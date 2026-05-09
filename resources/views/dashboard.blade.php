@@ -297,11 +297,29 @@
                                 <span class="badge badge-neutral text-[8px] font-black opacity-40">Recorded as Late</span>
                             @endif
                         </div>
-                        <div class="bg-surface-container-low p-3 rounded-lg flex justify-between items-center text-[10px] font-bold mb-2">
+                        <div class="bg-surface-container-low p-3 rounded-lg flex justify-between items-center text-[10px] font-bold mb-4">
                             <span class="opacity-50">IN: {{ \Carbon\Carbon::parse($currentUserAttendance->check_in)->format('H:i') }}</span>
                             <span class="opacity-50">OUT: {{ \Carbon\Carbon::parse($currentUserAttendance->check_out)->format('H:i') }}</span>
                         </div>
-                        <button disabled class="btn btn-ghost btn-sm w-full opacity-50 text-[9px] uppercase tracking-widest">Done for today</button>
+
+                        @if($isMultiEnabled ?? false)
+                            @if($enforceKiosk ?? false)
+                                <a href="{{ route('attendance.kiosk') }}" class="btn btn-primary btn-sm w-full gap-2 rounded-xl border-none shadow-md shadow-primary/20">
+                                    <span class="material-symbols-outlined text-sm">qr_code_scanner</span>
+                                    <span class="text-[9px] font-bold uppercase tracking-widest">Clock In Again</span>
+                                </a>
+                            @else
+                                <form action="{{ route('attendance.clock-in') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary btn-sm w-full gap-2 rounded-xl border-none shadow-md shadow-primary/20">
+                                        <span class="material-symbols-outlined text-sm">login</span>
+                                        <span class="text-[9px] font-bold uppercase tracking-widest">Clock In Again</span>
+                                    </button>
+                                </form>
+                            @endif
+                        @else
+                            <button disabled class="btn btn-ghost btn-sm w-full opacity-50 text-[9px] uppercase tracking-widest">Done for today</button>
+                        @endif
                     </div>
                     @endif
 
