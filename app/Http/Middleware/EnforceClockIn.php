@@ -30,9 +30,10 @@ class EnforceClockIn
         $tenant = function_exists('saas_tenant') ? saas_tenant() : null;
         if ($tenant) {
             $attendanceEnabled = DB::table('tenant_modules')
-                ->where('tenant_id', $tenant->id)
-                ->where('module_id', 'attendance')
-                ->where('enabled', true)
+                ->join('modules', 'modules.id', '=', 'tenant_modules.module_id')
+                ->where('tenant_modules.tenant_id', $tenant->id)
+                ->where('modules.slug', 'attendance')
+                ->where('tenant_modules.enabled', true)
                 ->exists();
             if (!$attendanceEnabled) {
                 return $next($request);
