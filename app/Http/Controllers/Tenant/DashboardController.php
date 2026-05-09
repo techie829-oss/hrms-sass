@@ -94,14 +94,19 @@ class DashboardController extends Controller
                 // Resolve Multi-Clocking (3-state: 0=Inherit, 1=Allow, 2=Disallow)
                 $multiClocking = 0; // Default
                 $empEnf = AttendanceEmployeeEnforcement::where('employee_id', $employee->id)->first();
+                
                 if ($empEnf && $empEnf->multi_clocking != 0) {
                     $multiClocking = $empEnf->multi_clocking;
                 } else {
-                    $roleEnf = AttendanceRoleEnforcement::where('role_id', $employee->role_id)->first();
-                    if ($roleEnf && $roleEnf->multi_clocking != 0) {
+                    $roleIds = $user->roles()->pluck('id')->toArray();
+                    $roleEnf = AttendanceRoleEnforcement::whereIn('role_id', $roleIds)
+                        ->where('multi_clocking', '!=', 0)
+                        ->first();
+                        
+                    if ($roleEnf) {
                         $multiClocking = $roleEnf->multi_clocking;
                     } else if ($policy) {
-                        $multiClocking = $policy->multi_clocking;
+                        $multiClocking = $policy->allow_multi_clocking ? 1 : 2;
                     }
                 }
                 $data['isMultiEnabled'] = ($multiClocking == 1);
@@ -111,8 +116,12 @@ class DashboardController extends Controller
                 if ($empEnf && $empEnf->enforce_kiosk != 0) {
                     $enforcement = $empEnf->enforce_kiosk;
                 } else {
-                    $roleEnf = AttendanceRoleEnforcement::where('role_id', $employee->role_id)->first();
-                    if ($roleEnf && $roleEnf->enforce_kiosk != 0) {
+                    $roleIds = $user->roles()->pluck('id')->toArray();
+                    $roleEnf = AttendanceRoleEnforcement::whereIn('role_id', $roleIds)
+                        ->where('enforce_kiosk', '!=', 0)
+                        ->first();
+                        
+                    if ($roleEnf) {
                         $enforcement = $roleEnf->enforce_kiosk;
                     } else if ($policy) {
                         $enforcement = $policy->enforce_clockin ? 1 : 2;
