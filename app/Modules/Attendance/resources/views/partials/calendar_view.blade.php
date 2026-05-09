@@ -79,7 +79,7 @@
                         </div>
                         
                         @if($dayLogs->isNotEmpty())
-                            <div class="flex items-center gap-1 opacity-60">
+                            <div class="flex items-center gap-1">
                                 @php
                                     $iconMap = [
                                         'present' => ['i' => 'check_circle', 'c' => 'text-success'],
@@ -88,7 +88,7 @@
                                     ];
                                     $dayStatus = $iconMap[$primaryStatus] ?? ['i' => 'event', 'c' => 'text-base-content/20'];
                                 @endphp
-                                <span class="material-symbols-outlined text-sm {{ $dayStatus['c'] }}">{{ $dayStatus['i'] }}</span>
+                                <span class="material-symbols-outlined text-base {{ $dayStatus['c'] }}">{{ $dayStatus['i'] }}</span>
                             </div>
                         @endif
                     </div>
