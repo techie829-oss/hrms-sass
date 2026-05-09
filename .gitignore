@@ -22,3 +22,22 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# AI Agents & IDE Tooling
+/.agents
+/.claude
+/.cursor
+/.gemini
+/.junie
+/AGENTS.md
+/CLAUDE.md
+/GEMINI.md
+
+# Storage & Uploaded Files
+/storage/app/public/attendance-photos
+/public/attendance-photos
+
+# Temporary & Debug scripts
+/tmp_*
+/temp_*
+
