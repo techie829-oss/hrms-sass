@@ -9,17 +9,14 @@ class AttendanceLogPolicy
 {
     /**
      * View attendance list.
-     * - Everyone with an employee profile or admin roles can view.
      */
     public function viewAny(User $user): bool
     {
-        return $user->employee !== null || $user->hasAnyRole(['tadmin', 'tmanager', 'superadmin']);
+        return $user->can('view_all_attendance') || $user->can('view_own_attendance');
     }
 
     /**
      * View a specific attendance log.
-     * - Employees: only their own
-     * - Admin/Manager: any record in same tenant
      */
     public function view(User $user, AttendanceLog $attendanceLog): bool
     {
@@ -27,13 +24,15 @@ class AttendanceLogPolicy
             return false;
         }
 
-        // Admins can see everything in their tenant
-        if ($user->hasAnyRole(['tadmin', 'tmanager', 'superadmin'])) {
+        if ($user->can('view_all_attendance')) {
             return true;
         }
 
-        // Regular employees can only see their own logs
-        return $user->employee?->id === $attendanceLog->employee_id;
+        if ($user->can('view_own_attendance')) {
+            return $user->employee?->id === $attendanceLog->employee_id;
+        }
+
+        return false;
     }
 
     /**
@@ -41,11 +40,11 @@ class AttendanceLogPolicy
      */
     public function create(User $user): bool
     {
-        return $user->employee !== null || $user->hasAnyRole(['tadmin', 'tmanager', 'superadmin']);
+        return $user->can('manage_attendance') || $user->employee !== null;
     }
 
     /**
-     * Manually update an attendance record (admin correction).
+     * Manually update an attendance record.
      */
     public function update(User $user, AttendanceLog $attendanceLog): bool
     {
@@ -53,11 +52,11 @@ class AttendanceLogPolicy
             return false;
         }
 
-        return $user->hasAnyRole(['tadmin', 'tmanager', 'superadmin']);
+        return $user->can('manage_attendance');
     }
 
     /**
-     * Delete an attendance log — tadmin only.
+     * Delete an attendance log.
      */
     public function delete(User $user, AttendanceLog $attendanceLog): bool
     {
@@ -65,6 +64,6 @@ class AttendanceLogPolicy
             return false;
         }
 
-        return $user->hasAnyRole(['tadmin', 'superadmin']);
+        return $user->can('manage_attendance');
     }
 }

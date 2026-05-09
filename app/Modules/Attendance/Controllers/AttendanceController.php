@@ -19,12 +19,17 @@ class AttendanceController extends BaseController
     public function index(Request $request)
     {
         $user = auth()->user();
-        $isAdmin = $user->hasRole(['tadmin', 'tmanager', 'superadmin']);
+        $canViewAll = $user->can('view_all_attendance');
+        $canViewOwn = $user->can('view_own_attendance');
+
+        if (!$canViewAll && !$canViewOwn) {
+            abort(403, 'You do not have permission to view attendance logs.');
+        }
         
         $filters = $request->only(['employee_id', 'date', 'status']);
 
-        // If not admin, force filter by their own employee ID
-        if (!$isAdmin) {
+        // If cannot view all, force filter by their own employee ID
+        if (!$canViewAll) {
             if (!$user->employee) {
                 return back()->with('error', 'Employee profile not found.');
             }
@@ -33,7 +38,7 @@ class AttendanceController extends BaseController
 
         $logs = $this->attendanceService->paginate(15, $filters);
 
-        return view('attendance::index', compact('logs', 'isAdmin'));
+        return view('attendance::index', compact('logs', 'canViewAll'));
     }
 
     /**
@@ -41,6 +46,7 @@ class AttendanceController extends BaseController
      */
     public function create()
     {
+        $this->authorize('create', AttendanceLog::class);
         return view('attendance::create');
     }
 
@@ -49,6 +55,8 @@ class AttendanceController extends BaseController
      */
     public function store(Request $request)
     {
+        $this->authorize('create', AttendanceLog::class);
+        
         $validated = $request->validate([
             'employee_id' => ['required', 'exists:employees,id'],
             'date' => ['required', 'date'],
@@ -67,16 +75,12 @@ class AttendanceController extends BaseController
      */
     public function show(string $id)
     {
-        $user = auth()->user();
-        $isAdmin = $user->hasRole(['tadmin', 'tmanager', 'superadmin']);
-        
         $log = AttendanceLog::with('employee')->findOrFail($id);
+        $this->authorize('view', $log);
 
-        // Security check: regular employees can only see their own logs
-        if (!$isAdmin && $log->employee_id !== $user->employee?->id) {
-            abort(403, 'Unauthorized access to attendance log.');
-        }
+        $user = auth()->user();
+        $canViewAll = $user->can('view_all_attendance');
 
-        return view('attendance::show', compact('log', 'isAdmin'));
+        return view('attendance::show', compact('log', 'canViewAll'));
     }
 }
