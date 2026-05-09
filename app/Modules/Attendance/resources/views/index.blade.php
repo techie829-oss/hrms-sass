@@ -19,6 +19,7 @@
     </x-slot>
 
     <div class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
+        @can('view_all_attendance')
         <div class="p-4 border-b border-base-200 bg-base-200/30">
             <form action="{{ route('attendance.index') }}" method="GET" class="relative max-w-sm">
                 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 opacity-50 text-lg">search</span>
@@ -30,6 +31,7 @@
                 @endif
             </form>
         </div>
+        @endcan
 
         <x-table :headers="['Employee', 'Date', 'Check In', 'Check Out', 'Hours', 'Status', 'Actions']" :striped="false">
             @forelse($logs as $log)
