@@ -27,18 +27,26 @@ class AttendancePermissionSeeder extends Seeder
         // Assign to default roles (if they exist)
         $adminRoles = ['tadmin', 'tmanager', 'superadmin'];
         foreach ($adminRoles as $roleName) {
-            $role = Role::where('name', $roleName)->first();
-            if ($role) {
-                $role->givePermissionTo($permissions);
+            try {
+                $role = Role::where('name', $roleName)->first();
+                if ($role) {
+                    $role->givePermissionTo($permissions);
+                }
+            } catch (\Exception $e) {
+                // Skip if error
             }
         }
 
         // tstaff/tuser -> view_own
         $staffRoles = ['tstaff', 'tuser'];
         foreach ($staffRoles as $roleName) {
-            $role = Role::where('name', $roleName)->first();
-            if ($role) {
-                $role->givePermissionTo(['view_own_attendance']);
+            try {
+                $role = Role::where('name', $roleName)->first();
+                if ($role) {
+                    $role->givePermissionTo(['view_own_attendance']);
+                }
+            } catch (\Exception $e) {
+                // Skip if error
             }
         }
     }
