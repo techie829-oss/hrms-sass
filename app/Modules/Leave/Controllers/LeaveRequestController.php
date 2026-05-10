@@ -152,6 +152,25 @@ class LeaveRequestController extends BaseController
                     if ($validated['status'] === 'approved') {
                         $balance->decrement('balance', $leaveRequest->total_days);
                         $balance->increment('total_used', $leaveRequest->total_days);
+
+                        // Comp-Off Settlement Logic
+                        $coType = \App\Modules\Leave\Models\LeaveType::where('code', 'CO')->first();
+                        if ($coType && $leaveRequest->leave_type_id === $coType->id) {
+                            $unsettled = \App\Modules\Leave\Models\CompOffRequest::where('employee_id', $leaveRequest->employee_id)
+                                ->where('status', 'approved')
+                                ->where('is_used', false)
+                                ->orderBy('worked_on_date')
+                                ->limit((int)$leaveRequest->total_days)
+                                ->get();
+
+                            foreach ($unsettled as $co) {
+                                $co->update([
+                                    'is_used' => true,
+                                    'used_at' => $leaveRequest->start_date,
+                                    'leave_request_id' => $leaveRequest->id
+                                ]);
+                            }
+                        }
                     }
                 }
             }

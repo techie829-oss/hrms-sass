@@ -21,6 +21,9 @@ class CompOffRequest extends Model
         'approved_by',
         'approved_at',
         'expiry_date',
+        'leave_request_id',
+        'is_used',
+        'used_at',
     ];
 
     protected $casts = [
@@ -28,10 +31,17 @@ class CompOffRequest extends Model
         'duration' => 'decimal:1',
         'approved_at' => 'datetime',
         'expiry_date' => 'date',
+        'is_used' => 'boolean',
+        'used_at' => 'date',
     ];
 
     public function employee()
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    public function leaveRequest()
+    {
+        return $this->belongsTo(LeaveRequest::class);
     }
 }

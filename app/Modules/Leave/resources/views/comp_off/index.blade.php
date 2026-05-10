@@ -32,7 +32,7 @@
     </div>
 
     <div class="bg-base-100 rounded-[32px] shadow-sm border border-base-200 overflow-hidden">
-        <x-table :headers="['Employee', 'Worked On', 'Duration', 'Reason', 'Status', 'Actions']" :striped="false">
+        <x-table :headers="['Employee', 'Worked On', 'Duration', 'Reason', 'Status', 'Settlement', 'Actions']" :striped="false">
             @forelse($requests as $request)
                 <tr class="hover:bg-base-200/50 transition-colors border-b border-base-200">
                     <td class="py-4 px-6">
@@ -64,6 +64,18 @@
                         <span class="px-2.5 py-1 rounded-lg border text-[9px] font-black uppercase tracking-widest {{ $statusClass }}">
                             {{ $request->status }}
                         </span>
+                    </td>
+                    <td>
+                        @if($request->is_used)
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-emerald-600">Settled</span>
+                                <a href="{{ route('leave.requests.show', $request->leave_request_id) }}" class="text-[9px] font-bold opacity-40 hover:opacity-100 transition-opacity">
+                                    Used on {{ $request->used_at->format('M d, Y') }}
+                                </a>
+                            </div>
+                        @else
+                            <span class="text-[10px] font-black uppercase tracking-widest opacity-20">Unused</span>
+                        @endif
                     </td>
                     <td class="text-right px-6">
                         @if($request->status === 'pending' && Auth::user()->can('manage comp_off'))
