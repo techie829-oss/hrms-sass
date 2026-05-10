@@ -48,7 +48,16 @@ class LeaveRequestController extends BaseController
             $isAdmin = false;
         }
 
-        return view('leave::create', compact('leaveTypes', 'employees', 'isAdmin'));
+        $employee = $user->employee;
+        $balances = [];
+        if ($employee) {
+            $balances = \App\Modules\Leave\Models\LeaveBalance::with('leaveType')
+                ->where('employee_id', $employee->id)
+                ->where('year', now()->year)
+                ->get();
+        }
+
+        return view('leave::create', compact('leaveTypes', 'employees', 'isAdmin', 'balances'));
     }
 
     /**

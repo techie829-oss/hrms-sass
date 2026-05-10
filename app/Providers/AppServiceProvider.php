@@ -23,6 +23,10 @@ use App\Core\Constants\RoleConstants;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
+use Illuminate\Support\Facades\Event;
+use App\Modules\HR\Events\EmployeeCreated;
+use App\Modules\Leave\Listeners\AllocateLeaveBalances;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -41,6 +45,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // ── Register Modular Event Listeners ───────────────────────────────
+        Event::listen(EmployeeCreated::class, AllocateLeaveBalances::class);
+
         // ── Register Eloquent Policies ────────────────────────────────────
         Gate::policy(Employee::class, EmployeePolicy::class);
         Gate::policy(LeaveRequest::class, LeavePolicy::class);

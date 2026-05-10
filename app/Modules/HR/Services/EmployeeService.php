@@ -39,7 +39,12 @@ class EmployeeService extends BaseService
             $data['user_id'] = $user->id;
             $data['tenant_id'] = saas_tenant('id');
 
-            return $this->repository->create($data);
+            $employee = $this->repository->create($data);
+
+            // 4. Dispatch Event
+            \App\Modules\HR\Events\EmployeeCreated::dispatch($employee);
+
+            return $employee;
         });
     }
 
