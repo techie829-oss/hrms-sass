@@ -368,9 +368,13 @@
                         @foreach($employees as $employee)
                             <div class="flex items-center justify-between gap-4 bg-surface-container-low p-4 rounded-2xl border border-outline-variant/10 hover:border-tertiary/20 transition-all group">
                                 <div class="flex items-center gap-3">
-                                    <div class="avatar placeholder">
-                                        <div class="bg-tertiary/10 text-tertiary rounded-xl w-10 h-10 font-bold text-xs border border-tertiary/10 group-hover:bg-tertiary group-hover:text-white transition-colors">
-                                            {{ strtoupper(substr($employee->first_name, 0, 1) . substr($employee->last_name, 0, 1)) }}
+                                    <div class="avatar {{ !$employee->profile_photo ? 'placeholder' : '' }}">
+                                        <div class="bg-tertiary/10 text-tertiary rounded-xl w-10 h-10 font-bold text-xs border border-tertiary/10 group-hover:bg-tertiary group-hover:text-white transition-colors overflow-hidden">
+                                            @if($employee->profile_photo)
+                                                <img src="{{ asset('storage/' . $employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
+                                            @else
+                                                {{ strtoupper(substr($employee->first_name, 0, 1) . substr($employee->last_name, 0, 1)) }}
+                                            @endif
                                         </div>
                                     </div>
                                     <div>
