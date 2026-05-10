@@ -5,12 +5,17 @@
                 <h2 class="text-3xl font-black font-headline tracking-tight text-on-surface">System Modules</h2>
                 <p class="text-sm text-on-surface-variant font-medium mt-1">Configure and sync available capabilities in the ecosystem.</p>
             </div>
-            <form action="{{ route('admin.modules.sync') }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-secondary rounded-xl font-bold text-xs uppercase tracking-widest px-6 shadow-lg border-none">
-                    <span class="material-symbols-outlined text-lg">sync</span> Sync Filesystem
-                </button>
-            </form>
+            <div class="flex items-center gap-3">
+                <a href="{{ route('admin.modules.visualizer') }}" class="btn btn-ghost rounded-xl font-bold text-xs uppercase tracking-widest px-6 border border-outline-variant/20 hover:bg-surface-container-high transition-colors">
+                    <span class="material-symbols-outlined text-lg">account_tree</span> Module Map
+                </a>
+                <form action="{{ route('admin.modules.sync') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-secondary rounded-xl font-bold text-xs uppercase tracking-widest px-6 shadow-lg border-none">
+                        <span class="material-symbols-outlined text-lg">sync</span> Sync Filesystem
+                    </button>
+                </form>
+            </div>
         </div>
     </x-slot>
 

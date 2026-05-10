@@ -63,6 +63,7 @@ Route::domain('app.' . $centralHost)->middleware(['web', 'auth', 'scope.roles', 
     Route::resource('permissions', \App\Http\Controllers\Admin\PermissionController::class)->names('admin.permissions');
     Route::get('/modules', [ModuleController::class, 'index'])->name('admin.modules.index');
     Route::post('/modules/sync', [ModuleController::class, 'sync'])->name('admin.modules.sync');
+    Route::get('/modules/visualizer', [ModuleController::class, 'visualizer'])->name('admin.modules.visualizer');
     Route::get('/modules/{slug}', [ModuleController::class, 'show'])->name('admin.modules.show');
 });
 

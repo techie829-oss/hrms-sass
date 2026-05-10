@@ -117,4 +117,24 @@ class ModuleController extends Controller
             'controllers', 'models', 'migrations', 'policies', 'views'
         ));
     }
+
+    /**
+     * Display a visual map of module dependencies.
+     */
+    public function visualizer()
+    {
+        $availableModules = $this->moduleManager->getAvailableModules();
+        
+        // Define dependencies (Manual for now, can be moved to module.json later)
+        $dependencies = [
+            'hr' => ['mandatory' => true, 'depends_on' => []],
+            'attendance' => ['mandatory' => false, 'depends_on' => ['hr']],
+            'leave' => ['mandatory' => false, 'depends_on' => ['hr']],
+            'payroll' => ['mandatory' => false, 'depends_on' => ['hr', 'attendance', 'leave']],
+            'performance' => ['mandatory' => false, 'depends_on' => ['hr']],
+            'recruitment' => ['mandatory' => false, 'depends_on' => ['hr']],
+        ];
+
+        return view('admin.modules.visualizer', compact('availableModules', 'dependencies'));
+    }
 }
