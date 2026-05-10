@@ -24,7 +24,7 @@
                         </div>
                         <div>
                             <h3 class="font-black text-base text-base-content/90 tracking-tight">Company-Wide Enforcement</h3>
-                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">General organization clock-in rules</p>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Master Switch: When enabled, the system restricts access until the employee clocks in.</p>
                         </div>
                     </div>
 
@@ -65,8 +65,8 @@
                             <span class="material-symbols-outlined text-tertiary text-2xl">schedule</span>
                         </div>
                         <div>
-                            <h3 class="font-black text-base text-base-content/90 tracking-tight">Working Hours & Shift Rules</h3>
-                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Standard office hours and automation</p>
+                            <h3 class="font-black text-base text-base-content/90 tracking-tight">Working Hours & Thresholds</h3>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Logic: Assigned Shift takes priority. These timings act as a fallback for employees without a shift.</p>
                         </div>
                     </div>
 
@@ -200,7 +200,7 @@
                         </div>
                         <div>
                             <h3 class="font-black text-base text-base-content/90 tracking-tight">Shift Management</h3>
-                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Create and manage multi-timing work shifts</p>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Specific Timing Templates: Assign these to employees to override default company hours.</p>
                         </div>
                     </div>
 
@@ -309,7 +309,7 @@
                         </div>
                         <div>
                             <h3 class="font-black text-base text-base-content/90 tracking-tight">Role-Level Defaults</h3>
-                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Specify which user roles require daily clock-in.</p>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Granular Control: Force clock-in for specific roles (e.g. Interns) and exempt others (e.g. Directors).</p>
                         </div>
                     </div>
 
@@ -364,7 +364,7 @@
                         </div>
                         <div>
                             <h3 class="font-black text-base text-base-content/90 tracking-tight">Individual Employee Exclusions</h3>
-                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Force or exempt specific staff members</p>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Final Override: Explicitly force or exempt specific staff members, ignoring all other rules.</p>
                         </div>
                     </div>
 
