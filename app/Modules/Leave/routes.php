@@ -19,6 +19,7 @@ Route::name('leave.')->middleware(['auth'])->group(function () {
     Route::get('comp-off', [CompOffController::class, 'index'])->name('comp-off.index');
     Route::post('comp-off', [CompOffController::class, 'store'])->name('comp-off.store');
     Route::post('comp-off/bulk-grant', [CompOffController::class, 'bulkGrant'])->name('comp-off.bulk-grant');
+    Route::post('comp-off/one-click-settle', [CompOffController::class, 'settleBulk'])->name('comp-off.one-click-settle');
     Route::post('comp-off/{compOffRequest}/status', [CompOffController::class, 'updateStatus'])->name('comp-off.status');
 
     Route::middleware(['role:tadmin|tmanager'])->group(function () {

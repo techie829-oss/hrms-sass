@@ -7,6 +7,9 @@
             </div>
             <div class="flex items-center gap-2">
                 @can('manage comp_off')
+                <button onclick="one_click_settle_modal.showModal()" class="btn btn-ghost btn-sm border-base-300 rounded-xl px-4 font-bold text-indigo-600">
+                    <span class="material-symbols-outlined text-base">auto_fix_high</span> One-Click Settle
+                </button>
                 <button onclick="bulk_grant_modal.showModal()" class="btn btn-ghost btn-sm border-base-300 rounded-xl px-4 font-bold text-primary">
                     <span class="material-symbols-outlined text-base">group_add</span> Bulk Grant
                 </button>
@@ -154,6 +157,30 @@
                 </div>
                 <div class="grid grid-cols-2 gap-3 pt-4">
                     <button type="submit" class="btn bg-primary hover:bg-primary-focus text-white border-none rounded-2xl font-bold">Submit Claim</button>
+                    <form method="dialog"><button class="btn btn-ghost rounded-2xl font-bold w-full">Cancel</button></form>
+                </div>
+            </form>
+        </div>
+        <form method="dialog" class="modal-backdrop bg-base-300/40 backdrop-blur-sm"><button>close</button></form>
+    </dialog>
+    {{-- One-Click Settle Modal --}}
+    <dialog id="one_click_settle_modal" class="modal">
+        <div class="modal-box bg-base-100 rounded-[32px] p-8 shadow-2xl border border-base-200 max-w-sm">
+            <h3 class="text-xl font-bold text-base-content/90 mb-6">One-Click Settlement</h3>
+            <p class="text-xs font-medium opacity-50 mb-6">Match an earned date to a usage date. Employees present on the usage date will be skipped.</p>
+            
+            <form action="{{ route('leave.comp-off.one-click-settle') }}" method="POST" class="space-y-4">
+                @csrf
+                <div class="form-control">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-base-content/40 mb-2 ml-1">Date Worked (Reference)</label>
+                    <input type="date" name="reference_date" class="input input-bordered rounded-2xl bg-base-200/50 border-none focus:bg-base-100" required>
+                </div>
+                <div class="form-control">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-base-content/40 mb-2 ml-1">Date to Use (Target)</label>
+                    <input type="date" name="target_date" class="input input-bordered rounded-2xl bg-base-200/50 border-none focus:bg-base-100" required>
+                </div>
+                <div class="grid grid-cols-2 gap-3 pt-4">
+                    <button type="submit" class="btn bg-indigo-600 hover:bg-indigo-700 text-white border-none rounded-2xl font-bold">Process Settle</button>
                     <form method="dialog"><button class="btn btn-ghost rounded-2xl font-bold w-full">Cancel</button></form>
                 </div>
             </form>

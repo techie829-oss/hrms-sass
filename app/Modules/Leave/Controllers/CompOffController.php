@@ -112,6 +112,73 @@ class CompOffController extends BaseController
             }
         });
 
-        return back()->with('success', 'Request ' . $validated['status']);
+    /**
+     * One-click settlement of comp-offs.
+     * Takes earned date and target usage date.
+     */
+    public function settleBulk(Request $request)
+    {
+        $this->authorize('manage_comp_off');
+
+        $validated = $request->validate([
+            'reference_date' => 'required|date', // Date worked
+            'target_date' => 'required|date',    // Date used
+        ]);
+
+        $earnedCompOffs = CompOffRequest::where('worked_on_date', $validated['reference_date'])
+            ->where('status', 'approved')
+            ->where('is_used', false)
+            ->where('tenant_id', saas_tenant('id'))
+            ->get();
+
+        $count = 0;
+        $skipped = 0;
+
+        foreach ($earnedCompOffs as $co) {
+            $employee = $co->employee;
+
+            // 1. Check if employee was actually PRESENT on the target_date
+            $isPresent = \App\Modules\Attendance\Models\AttendanceLog::where('employee_id', $co->employee_id)
+                ->where('date', $validated['target_date'])
+                ->exists();
+
+            if ($isPresent) {
+                $skipped++;
+                continue;
+            }
+
+            // 2. Auto-Apply and Approve Leave
+            \Illuminate\Support\Facades\DB::transaction(function () use ($co, $employee, $validated) {
+                $coType = \App\Modules\Leave\Models\LeaveType::where('code', 'CO')->first();
+                
+                $leaveRequest = \App\Modules\Leave\Models\LeaveRequest::create([
+                    'tenant_id' => saas_tenant('id'),
+                    'employee_id' => $co->employee_id,
+                    'leave_type_id' => $coType->id,
+                    'start_date' => $validated['target_date'],
+                    'end_date' => $validated['target_date'],
+                    'total_days' => 1.0,
+                    'reason' => "Settlement for work on " . $validated['reference_date'],
+                    'status' => 'approved',
+                    'approved_by' => Auth::id(),
+                    'approved_at' => now(),
+                ]);
+
+                // 3. Mark Comp-Off as Used
+                $co->update([
+                    'is_used' => true,
+                    'used_at' => $validated['target_date'],
+                    'leave_request_id' => $leaveRequest->id
+                ]);
+
+                // 4. Update Balance
+                $this->balanceService->adjustBalance($employee, 'CO', -1.0); // Deduct from balance as it's used
+                // Note: adjustBalance increments, so we pass -1.0
+            });
+
+            $count++;
+        }
+
+        return back()->with('success', "Settled {$count} claims. Skipped {$skipped} employees (Present on target date).");
     }
 }
