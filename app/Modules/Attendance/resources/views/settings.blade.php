@@ -269,9 +269,9 @@
                                     <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Full Day Min (hrs)
                                         <span class="text-info/70 normal-case font-medium ml-1">(optional)</span>
                                     </label>
-                                    <input type="number" name="min_hours_full_day" placeholder="e.g. 7 for Night" min="1" max="24" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" />
+                                    <input type="number" name="min_hours_full_day" placeholder="e.g. 8" min="1" max="24" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" />
                                 </div>
-                                <div class="flex items-end gap-4 pb-1">
+                                <div class="flex items-end gap-6 pb-1">
                                     <label class="flex items-center gap-2 cursor-pointer">
                                         <input type="checkbox" name="is_default" class="checkbox checkbox-success checkbox-xs rounded" />
                                         <span class="text-[9px] font-black uppercase tracking-wider opacity-60">Set Default</span>
@@ -280,28 +280,10 @@
                                         <input type="checkbox" name="is_overnight" class="checkbox checkbox-warning checkbox-xs rounded" />
                                         <span class="text-[9px] font-black uppercase tracking-wider opacity-60">Overnight</span>
                                     </label>
-                                    <label class="flex items-center gap-2 cursor-pointer" title="Flexible: only total hours matter, no fixed start/end time penalty">
-                                        <input type="checkbox" name="is_flexible" id="shift_is_flexible" class="checkbox checkbox-info checkbox-xs rounded" onchange="toggleFlexible(this)" />
-                                        <span class="text-[9px] font-black uppercase tracking-wider text-info/80">Flexible</span>
-                                    </label>
-                                </div>
-                                <!-- Flexible: min hours override (shown only when flexible) -->
-                                <div id="flexible_hours_field" class="col-span-2 md:col-span-3 hidden">
-                                    <div class="bg-info/5 border border-info/20 rounded-xl p-4 flex items-center gap-4">
-                                        <span class="material-symbols-outlined text-info text-xl">timer</span>
-                                        <div class="flex-1">
-                                            <p class="text-[9px] font-black uppercase tracking-wider text-info mb-1">Flexible Shift: Min Hours Required</p>
-                                            <p class="text-[9px] opacity-60">Start/End time won't affect Late or Early Leave. Only total worked hours count.</p>
-                                        </div>
-                                        <div class="relative w-28">
-                                            <input type="number" name="min_hours_full_day" value="8" min="1" max="24" class="input input-bordered input-sm w-full rounded-xl font-black text-xs bg-surface-container-lowest pr-8" />
-                                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-black opacity-40">hrs</span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-                            <div class="flex justify-end">
-                                <button type="submit" class="btn btn-success btn-sm rounded-xl font-black uppercase tracking-wider text-[10px]">
+                            <div class="flex justify-end pt-4">
+                                <button type="submit" class="btn btn-success btn-sm rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-lg shadow-success/20">
                                     <span class="material-symbols-outlined text-sm">add</span> Create Shift
                                 </button>
                             </div>

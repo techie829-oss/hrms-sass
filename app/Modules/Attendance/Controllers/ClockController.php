@@ -449,11 +449,12 @@ class ClockController extends BaseController
     public function storeShift(Request $request)
     {
         $request->validate([
-            'name'           => 'required|string|max:100',
-            'start_time'     => 'required|date_format:H:i',
-            'end_time'       => 'required|date_format:H:i',
-            'grace_minutes'  => 'required|integer|min:0|max:120',
-            'half_day_hours' => 'required|integer|min:1|max:12',
+            'name'                => 'required|string|max:100',
+            'start_time'          => 'required|date_format:H:i',
+            'end_time'            => 'required|date_format:H:i',
+            'grace_minutes'       => 'required|integer|min:0|max:120',
+            'half_day_hours'      => 'required|integer|min:1|max:12',
+            'min_hours_full_day'  => 'nullable|integer|min:1|max:24',
         ]);
 
         if ($request->boolean('is_default')) {
@@ -461,15 +462,16 @@ class ClockController extends BaseController
         }
 
         AttendanceShift::create([
-            'tenant_id'      => saas_tenant('id'),
-            'name'           => $request->input('name'),
-            'start_time'     => $request->input('start_time') . ':00',
-            'end_time'       => $request->input('end_time') . ':00',
-            'grace_minutes'  => $request->input('grace_minutes', 15),
-            'half_day_hours' => $request->input('half_day_hours', 4),
-            'is_overnight'   => $request->boolean('is_overnight'),
-            'is_default'     => $request->boolean('is_default'),
-            'is_active'      => true,
+            'tenant_id'          => saas_tenant('id'),
+            'name'               => $request->input('name'),
+            'start_time'         => $request->input('start_time') . ':00',
+            'end_time'           => $request->input('end_time') . ':00',
+            'grace_minutes'      => $request->input('grace_minutes', 15),
+            'half_day_hours'     => $request->input('half_day_hours', 4),
+            'min_hours_full_day' => $request->input('min_hours_full_day'),
+            'is_overnight'       => $request->boolean('is_overnight'),
+            'is_default'         => $request->boolean('is_default'),
+            'is_active'          => true,
         ]);
 
         return redirect()->route('attendance.settings')->with('success', 'Shift created successfully.');
