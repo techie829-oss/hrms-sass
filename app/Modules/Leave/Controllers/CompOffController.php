@@ -7,6 +7,7 @@ use App\Modules\Leave\Models\CompOffRequest;
 use App\Modules\HR\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CompOffController extends BaseController
 {
@@ -55,7 +56,7 @@ class CompOffController extends BaseController
      */
     public function bulkGrant(Request $request)
     {
-        $this->authorize('manage_comp_off');
+        Gate::authorize('manage comp_off');
         
         $validated = $request->validate([
             'date' => 'required|date',
@@ -94,7 +95,7 @@ class CompOffController extends BaseController
 
     public function updateStatus(Request $request, CompOffRequest $compOffRequest)
     {
-        $this->authorize('manage_comp_off');
+        Gate::authorize('manage comp_off');
         
         $validated = $request->validate([
             'status' => 'required|in:approved,rejected',
@@ -112,13 +113,16 @@ class CompOffController extends BaseController
             }
         });
 
+        return back()->with('success', 'Request ' . $validated['status']);
+    }
+
     /**
      * One-click settlement of comp-offs.
      * Takes earned date and target usage date.
      */
     public function settleBulk(Request $request)
     {
-        $this->authorize('manage_comp_off');
+        Gate::authorize('manage comp_off');
 
         $validated = $request->validate([
             'reference_date' => 'required|date', // Date worked
