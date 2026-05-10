@@ -9,13 +9,22 @@ use Illuminate\Support\Facades\File;
 
 class ModuleInstaller
 {
-    /**
-     * Install a module for a specific tenant.
-     * Table creation is handled centrally by 'tenants:migrate'.
-     */
     public static function install(string $module, Tenant $tenant): bool
     {
-        // Internal state is handled by ModuleManager
+        $slug = strtolower($module);
+        $moduleName = ucfirst($slug);
+        
+        // Construct the expected seeder class name
+        // Example: App\Modules\Attendance\Database\Seeders\AttendanceSettingsSeeder
+        $seederClass = "App\\Modules\\{$moduleName}\\Database\\Seeders\\{$moduleName}SettingsSeeder";
+
+        if (class_exists($seederClass)) {
+            $seeder = new $seederClass();
+            if (method_exists($seeder, 'run')) {
+                $seeder->run($tenant->id);
+            }
+        }
+
         return true;
     }
 
