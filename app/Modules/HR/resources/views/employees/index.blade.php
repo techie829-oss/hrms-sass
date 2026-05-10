@@ -43,9 +43,13 @@
                         <tr>
                             <td>
                                 <div class="flex items-center gap-3">
-                                    <div class="avatar placeholder">
-                                        <div class="bg-primary/10 text-primary rounded-lg w-10 h-10 font-bold text-xs">
-                                            {{ strtoupper(substr($employee->first_name, 0, 1) . substr($employee->last_name, 0, 1)) }}
+                                    <div class="avatar {{ !$employee->profile_photo ? 'placeholder' : '' }}">
+                                        <div class="bg-primary/10 text-primary rounded-xl w-10 h-10 font-bold text-xs overflow-hidden">
+                                            @if($employee->profile_photo)
+                                                <img src="{{ asset('storage/' . $employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
+                                            @else
+                                                {{ strtoupper(substr($employee->first_name, 0, 1) . substr($employee->last_name, 0, 1)) }}
+                                            @endif
                                         </div>
                                     </div>
                                     <div>

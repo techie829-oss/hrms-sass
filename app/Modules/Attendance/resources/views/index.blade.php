@@ -105,9 +105,13 @@
                                     <tr class="hover:bg-base-200/30 transition-all border-b border-base-200 last:border-0 group">
                                         <td class="py-4 px-6">
                                             <div class="flex items-center gap-4">
-                                                <div class="avatar placeholder">
-                                                    <div class="bg-gradient-to-tr from-primary/10 to-primary/5 text-primary rounded-[18px] w-11 h-11 font-black text-xs border border-primary/10 shadow-sm group-hover:scale-105 transition-transform">
-                                                        {{ strtoupper(substr($employee->first_name, 0, 1) . substr($employee->last_name, 0, 1)) }}
+                                                <div class="avatar {{ !$employee->profile_photo ? 'placeholder' : '' }}">
+                                                    <div class="bg-gradient-to-tr from-primary/10 to-primary/5 text-primary rounded-[18px] w-11 h-11 font-black text-xs border border-primary/10 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
+                                                        @if($employee->profile_photo)
+                                                            <img src="{{ asset('storage/' . $employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
+                                                        @else
+                                                            {{ strtoupper(substr($employee->first_name, 0, 1) . substr($employee->last_name, 0, 1)) }}
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div>

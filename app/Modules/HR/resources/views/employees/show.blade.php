@@ -32,9 +32,13 @@
             <!-- Profile Card -->
             <div class="card bg-base-100 shadow-sm border border-base-200 text-center">
                 <div class="card-body">
-                    <div class="avatar placeholder mb-4 mx-auto">
-                        <div class="bg-primary/10 text-primary rounded-2xl w-24 h-24 font-bold text-2xl">
-                            {{ strtoupper(substr($employee->first_name, 0, 1) . substr($employee->last_name, 0, 1)) }}
+                    <div class="avatar {{ !$employee->profile_photo ? 'placeholder' : '' }} mb-4 mx-auto">
+                        <div class="bg-primary/10 text-primary rounded-2xl w-24 h-24 font-bold text-2xl overflow-hidden">
+                            @if($employee->profile_photo)
+                                <img src="{{ asset('storage/' . $employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
+                            @else
+                                {{ strtoupper(substr($employee->first_name, 0, 1) . substr($employee->last_name, 0, 1)) }}
+                            @endif
                         </div>
                     </div>
                     <h3 class="text-lg font-bold">{{ $employee->full_name }}</h3>
