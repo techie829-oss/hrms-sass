@@ -217,6 +217,9 @@
                                         → {{ \Carbon\Carbon::parse($shift->end_time)->format('h:i A') }}
                                         &nbsp;·&nbsp; {{ $shift->grace_minutes }}min grace
                                         &nbsp;·&nbsp; {{ $shift->half_day_hours }}h half-day
+                                        @if($shift->min_hours_full_day)
+                                            &nbsp;·&nbsp; <span class="text-info font-black">{{ $shift->min_hours_full_day }}h full-day</span>
+                                        @endif
                                     </p>
                                 </div>
                             </div>
@@ -262,6 +265,12 @@
                                     <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Half Day (hrs)</label>
                                     <input type="number" name="half_day_hours" value="4" min="1" max="12" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
                                 </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Full Day Min (hrs)
+                                        <span class="text-info/70 normal-case font-medium ml-1">(optional)</span>
+                                    </label>
+                                    <input type="number" name="min_hours_full_day" placeholder="e.g. 7 for Night" min="1" max="24" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" />
+                                </div>
                                 <div class="flex items-end gap-4 pb-1">
                                     <label class="flex items-center gap-2 cursor-pointer">
                                         <input type="checkbox" name="is_default" class="checkbox checkbox-success checkbox-xs rounded" />
@@ -271,6 +280,24 @@
                                         <input type="checkbox" name="is_overnight" class="checkbox checkbox-warning checkbox-xs rounded" />
                                         <span class="text-[9px] font-black uppercase tracking-wider opacity-60">Overnight</span>
                                     </label>
+                                    <label class="flex items-center gap-2 cursor-pointer" title="Flexible: only total hours matter, no fixed start/end time penalty">
+                                        <input type="checkbox" name="is_flexible" id="shift_is_flexible" class="checkbox checkbox-info checkbox-xs rounded" onchange="toggleFlexible(this)" />
+                                        <span class="text-[9px] font-black uppercase tracking-wider text-info/80">Flexible</span>
+                                    </label>
+                                </div>
+                                <!-- Flexible: min hours override (shown only when flexible) -->
+                                <div id="flexible_hours_field" class="col-span-2 md:col-span-3 hidden">
+                                    <div class="bg-info/5 border border-info/20 rounded-xl p-4 flex items-center gap-4">
+                                        <span class="material-symbols-outlined text-info text-xl">timer</span>
+                                        <div class="flex-1">
+                                            <p class="text-[9px] font-black uppercase tracking-wider text-info mb-1">Flexible Shift: Min Hours Required</p>
+                                            <p class="text-[9px] opacity-60">Start/End time won't affect Late or Early Leave. Only total worked hours count.</p>
+                                        </div>
+                                        <div class="relative w-28">
+                                            <input type="number" name="min_hours_full_day" value="8" min="1" max="24" class="input input-bordered input-sm w-full rounded-xl font-black text-xs bg-surface-container-lowest pr-8" />
+                                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-black opacity-40">hrs</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flex justify-end">
@@ -353,6 +380,7 @@
                             <div class="flex items-center gap-8">
                                 <span class="text-[8px] font-black uppercase tracking-widest w-40 text-center">Enforcement Mode</span>
                                 <span class="text-[8px] font-black uppercase tracking-widest w-40 text-center">Multi In/Out</span>
+                                <span class="text-[8px] font-black uppercase tracking-widest w-24 text-center">Flexible</span>
                             </div>
                         </div>
                         @foreach($employees as $employee)
@@ -384,6 +412,17 @@
                                             <option value="2" {{ ($employeeMultiEnforcements[$employee->id] ?? '') === '2' ? 'selected' : '' }}>Disallow Multi</option>
                                         </select>
                                     </div>
+                                    {{-- Flexible Toggle: only min_hours matters, no late/early leave penalty --}}
+                                    <div class="w-24 flex justify-center">
+                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
+                                            <input type="checkbox"
+                                                name="flexible_employees[{{ $employee->id }}]"
+                                                value="1"
+                                                class="checkbox checkbox-info checkbox-sm rounded-lg"
+                                                {{ ($employeeFlexible[$employee->id] ?? false) ? 'checked' : '' }} />
+                                            <span class="text-[8px] font-black uppercase tracking-wider text-info/60">Hours Only</span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -400,4 +439,13 @@
             </div>
         </form>
     </div>
+
+    @push('scripts')
+    <script>
+    function toggleFlexible(checkbox) {
+        const field = document.getElementById('flexible_hours_field');
+        if (field) field.classList.toggle('hidden', !checkbox.checked);
+    }
+    </script>
+    @endpush
 </x-app-layout>

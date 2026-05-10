@@ -306,12 +306,16 @@ class ClockController extends BaseController
             ->map(fn($v) => (string)$v)
             ->toArray();
 
+        $employeeFlexible = AttendanceEmployeeEnforcement::where('tenant_id', saas_tenant('id'))
+            ->pluck('is_flexible', 'employee_id')
+            ->toArray();
+
         $shifts = AttendanceShift::where('tenant_id', saas_tenant('id'))->orderBy('name')->get();
 
         return view('attendance::settings', compact(
             'policy', 'roles', 'roleEnforcements', 'multiRoleEnforcements',
             'employees', 'employeeEnforcements', 'employeeMultiEnforcements',
-            'shifts'
+            'employeeFlexible', 'shifts'
         ));
     }
 
@@ -361,20 +365,28 @@ class ClockController extends BaseController
 
         // Save Employee Enforcements (Scoped to Tenant)
         AttendanceEmployeeEnforcement::where('tenant_id', saas_tenant('id'))->delete();
-        $employeesData = $request->input('employees', []);
+        $employeesData      = $request->input('employees', []);
         $multiEmployeesData = $request->input('multi_employees', []);
+        $flexibleEmployeesData = $request->input('flexible_employees', []);
 
         foreach ($employeesData as $employeeId => $state) {
-            $multiState = $multiEmployeesData[$employeeId] ?? '0';
-            
-            // Only create a record if it's NOT the default (Inherit AND Inherit)
-            if ($state !== '0' || $multiState !== '0') {
-                AttendanceEmployeeEnforcement::create([
-                    'tenant_id' => saas_tenant('id'),
-                    'employee_id' => $employeeId,
-                    'enforce_kiosk' => (int)$state,
-                    'multi_clocking' => (int)$multiState,
-                ]);
+            $multiState    = $multiEmployeesData[$employeeId] ?? '0';
+            $isFlexible    = isset($flexibleEmployeesData[$employeeId]);
+
+            if ($state !== '0' || $multiState !== '0' || $isFlexible) {
+                AttendanceEmployeeEnforcement::updateOrCreate(
+                    ['tenant_id' => saas_tenant('id'), 'employee_id' => $employeeId],
+                    [
+                        'enforce_kiosk'  => (int)$state,
+                        'multi_clocking' => (int)$multiState,
+                        'is_flexible'    => $isFlexible,
+                    ]
+                );
+            } else {
+                // Remove record if everything is default
+                AttendanceEmployeeEnforcement::where('tenant_id', saas_tenant('id'))
+                    ->where('employee_id', $employeeId)
+                    ->delete();
             }
         }
 

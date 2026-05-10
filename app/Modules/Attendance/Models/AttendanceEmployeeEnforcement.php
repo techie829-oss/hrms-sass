@@ -15,11 +15,13 @@ class AttendanceEmployeeEnforcement extends Model
         'employee_id',
         'enforce_kiosk',
         'multi_clocking',
+        'is_flexible',   // Per-employee: ignore late/early leave, only count min hours
     ];
 
     protected $casts = [
-        'enforce_kiosk' => 'integer',
+        'enforce_kiosk'  => 'integer',
         'multi_clocking' => 'integer',
+        'is_flexible'    => 'boolean',
     ];
 
     public function employee()

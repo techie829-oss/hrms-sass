@@ -48,16 +48,31 @@ class AttendanceSummaryService
 
         $totalSessions = $logs->whereNotNull('check_in')->count();
 
-        // --- Thresholds from Policy ---
-        $fullDayHours  = $policy?->min_hours_full_day  ?? 8;
-        $halfDayHours  = $policy?->min_hours_half_day  ?? 4;
-        $graceMinutes  = $policy?->late_mark_after_minutes ?? 15;
-        $earlyLeaveMin = $policy?->early_leave_before_minutes ?? 30;
+        // --- Determine Shift Mode ---
+        // Flexible is per-EMPLOYEE, not per-shift.
+        // Check employee enforcement override first.
+        $empEnforcement = \App\Modules\Attendance\Models\AttendanceEmployeeEnforcement
+            ::where('employee_id', $employeeId)
+            ->where('tenant_id', $tenantId)
+            ->first();
+        $isFlexible = $empEnforcement?->is_flexible ?? false;
 
-        // --- Late Calculation ---
-        $lateMinutes = 0;
-        $isLate = false;
-        if ($firstIn) {
+        // Shift-level min hours can override policy (for special part-time/custom shifts)
+        $fullDayHours = $shift?->min_hours_full_day ?? ($policy?->min_hours_full_day ?? 8);
+        $halfDayHours  = $policy?->min_hours_half_day ?? 4;
+
+        // --- Late & Early Leave (Only for Fixed Shifts) ---
+        $lateMinutes       = 0;
+        $isLate            = false;
+        $overtimeMinutes   = 0;
+        $earlyLeaveMinutes = 0;
+
+        if (!$isFlexible && $firstIn) {
+            // Grace period from shift or policy
+            $graceMinutes  = $shift?->grace_minutes ?? ($policy?->late_mark_after_minutes ?? 15);
+            $earlyLeaveMin = $policy?->early_leave_before_minutes ?? 30;
+
+            // Late Mark Calculation
             $targetStartTime = $shift?->start_time ?? $policy?->default_start_time;
             if ($targetStartTime) {
                 $expected = Carbon::parse($targetStartTime)->setDateFrom($date);
@@ -67,31 +82,24 @@ class AttendanceSummaryService
                     $lateMinutes = $actualIn->diffInMinutes($expected);
                 }
             }
-        }
 
-        // --- Overtime Calculation ---
-        $overtimeMinutes = 0;
-        if ($lastOut) {
-            $targetEndTime = $shift?->end_time ?? $policy?->default_end_time;
-            if ($targetEndTime) {
-                $expected = Carbon::parse($targetEndTime)->setDateFrom($date);
-                $actualOut = Carbon::parse($lastOut);
-                if ($actualOut->greaterThan($expected)) {
-                    $overtimeMinutes = $actualOut->diffInMinutes($expected);
+            // Overtime & Early Leave Calculation
+            if ($lastOut) {
+                $targetEndTime = $shift?->end_time ?? $policy?->default_end_time;
+                if ($targetEndTime) {
+                    $expected  = Carbon::parse($targetEndTime)->setDateFrom($date);
+                    $actualOut = Carbon::parse($lastOut);
+                    if ($actualOut->greaterThan($expected)) {
+                        $overtimeMinutes = $actualOut->diffInMinutes($expected);
+                    } elseif ($actualOut->lessThan($expected->copy()->subMinutes($earlyLeaveMin))) {
+                        $earlyLeaveMinutes = $actualOut->diffInMinutes($expected);
+                    }
                 }
             }
-        }
-
-        // --- Early Leave Calculation ---
-        $earlyLeaveMinutes = 0;
-        if ($lastOut) {
-            $targetEndTime = $shift?->end_time ?? $policy?->default_end_time;
-            if ($targetEndTime) {
-                $expected = Carbon::parse($targetEndTime)->setDateFrom($date);
-                $actualOut = Carbon::parse($lastOut);
-                if ($actualOut->lessThan($expected->copy()->subMinutes($earlyLeaveMin))) {
-                    $earlyLeaveMinutes = $actualOut->diffInMinutes($expected);
-                }
+        } elseif ($isFlexible) {
+            // Flexible: Only check overtime (worked more than full day hours)
+            if ($totalWorkedHours > $fullDayHours) {
+                $overtimeMinutes = (int)(($totalWorkedHours - $fullDayHours) * 60);
             }
         }
 
