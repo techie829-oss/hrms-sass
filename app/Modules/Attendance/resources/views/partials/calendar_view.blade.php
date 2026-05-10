@@ -4,8 +4,9 @@
     $daysInMonth = $carbon->daysInMonth;
     $firstDayOfMonth = $carbon->copy()->firstOfMonth()->dayOfWeek; // 0 (Sun) to 6 (Sat)
     
-    // Map logs to dates for easy lookup
+    // Map logs and summaries to dates
     $mappedLogs = $logs->groupBy(fn($l) => $l->date->format('Y-m-d'));
+    $mappedSummaries = $summaries->groupBy(fn($s) => $s->date->format('Y-m-d'));
 @endphp
 
 @if($canViewAll && !isset($filters['employee_id']))
@@ -48,13 +49,14 @@
                     $dateObj = $carbon->copy()->day($day);
                     $dateString = $dateObj->format('Y-m-d');
                     $dayLogs = $mappedLogs->get($dateString, collect());
+                    $summary = $mappedSummaries->get($dateString, collect())->first();
+                    
                     $isToday = $dateString == date('Y-m-d');
                     $dayOfWeek = $dateObj->dayOfWeek;
                     $isWeekend = ($dayOfWeek == 0 || $dayOfWeek == 6);
-                    $totalHours = $dayLogs->sum('worked_hours');
-                    $primaryStatus = $dayLogs->isNotEmpty() ? $dayLogs->first()->status : null;
                     
-                    // Logic for "Expected" work day
+                    $totalHours = $summary ? $summary->total_worked_hours : 0;
+                    
                     $isPast = $dateObj->isPast();
                     $isFuture = $dateObj->isFuture();
                 @endphp
@@ -64,63 +66,86 @@
                     {{ $isWeekend ? 'bg-base-200/30' : 'bg-base-100' }}
                     hover:z-10 hover:shadow-2xl hover:shadow-primary/10 hover:bg-base-100 hover:scale-[1.02] hover:rounded-2xl">
                     
-                    <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center justify-between mb-4">
                         <div class="relative">
                             <span class="text-sm font-black transition-all duration-300
                                 {{ $isToday ? 'bg-primary text-white w-9 h-9 rounded-[14px] flex items-center justify-center shadow-xl shadow-primary/40' : ($isWeekend ? 'text-error/70' : 'text-base-content/60 group-hover:text-base-content/90') }}">
                                 {{ $day }}
                             </span>
-                            @if($isToday)
-                                <span class="absolute -top-1 -right-1 flex h-3 w-3">
-                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                  <span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-                                </span>
-                            @endif
                         </div>
                         
-                        @if($dayLogs->isNotEmpty())
-                            <div class="flex items-center gap-1">
-                                @php
-                                    $iconMap = [
-                                        'present' => ['i' => 'check_circle', 'c' => 'text-green-800'],
-                                        'late' => ['i' => 'schedule', 'c' => 'text-amber-600'],
-                                        'absent' => ['i' => 'cancel', 'c' => 'text-red-800'],
-                                    ];
-                                    $dayStatus = $iconMap[$primaryStatus] ?? ['i' => 'event', 'c' => 'text-base-content/20'];
-                                @endphp
-                                <span class="material-symbols-outlined text-base font-black {{ $dayStatus['c'] }}">{{ $dayStatus['i'] }}</span>
-                            </div>
+                        @if($summary)
+                            @php
+                                $statusIconMap = [
+                                    'present'  => ['i' => 'check_circle', 'c' => 'text-success'],
+                                    'late'     => ['i' => 'schedule', 'c' => 'text-warning'],
+                                    'half_day' => ['i' => 'circle_half', 'c' => 'text-info'],
+                                    'absent'   => ['i' => 'cancel', 'c' => 'text-error'],
+                                ];
+                                $sIcon = $statusIconMap[$summary->status] ?? ['i' => 'event', 'c' => 'opacity-20'];
+                            @endphp
+                            <span class="material-symbols-outlined text-base font-black {{ $sIcon['c'] }}">{{ $sIcon['i'] }}</span>
                         @endif
                     </div>
 
-                    <div class="flex flex-col gap-3 mt-auto">
-                        @if($dayLogs->isNotEmpty())
-                            @php
-                                $statusMap = [
-                                    'present' => ['color' => 'text-green-800', 'bg' => 'bg-green-50', 'icon' => 'check_circle'],
-                                    'late' => ['color' => 'text-amber-600', 'bg' => 'bg-amber-50', 'icon' => 'schedule'],
-                                    'absent' => ['color' => 'text-red-800', 'bg' => 'bg-red-50', 'icon' => 'cancel'],
-                                ];
-                                $st = $statusMap[$primaryStatus] ?? ['color' => 'text-base-content', 'bg' => 'bg-base-200', 'icon' => 'event'];
-                            @endphp
-                            
-                            <a href="{{ route('attendance.show', $dayLogs->first()->id) }}" class="relative p-3 rounded-[20px] {{ $st['bg'] }} border border-{{ str_replace('text-', '', $st['color']) }}/20 flex flex-col items-center justify-center group/status overflow-hidden hover:scale-105 transition-all shadow-sm">
-                                <span class="material-symbols-outlined {{ $st['color'] }} text-[40px] absolute -right-2 -bottom-2 opacity-10 group-hover/status:scale-125 transition-transform">{{ $st['icon'] }}</span>
-                                <span class="text-xl font-black {{ $st['color'] }} leading-none tracking-tighter">{{ number_format($totalHours, 1) }}h</span>
-                                <span class="text-[8px] font-black uppercase tracking-[0.15em] mt-1.5 opacity-60 {{ $st['color'] }}">View Details</span>
-                            </a>
-                        @else
-                            @if(!$isWeekend && $isPast && !$isToday)
-                                <div class="p-3 rounded-[20px] border border-dashed border-red-800/40 bg-red-50 flex flex-col items-center justify-center opacity-100 transition-opacity">
-                                    <span class="text-[9px] font-black text-red-900 uppercase tracking-widest">Absent</span>
+                    <div class="flex flex-col gap-2 mt-auto">
+                        @if($summary)
+                            {{-- Day Type Badge --}}
+                            <div class="flex flex-col gap-1">
+                                @php
+                                    $typeMap = [
+                                        'full_day'    => ['l' => 'Full Day', 'c' => 'bg-success/20 text-success border-success/30'],
+                                        'half_day'    => ['l' => 'Half Day', 'c' => 'bg-info/20 text-info border-info/30'],
+                                        'quarter_day' => ['l' => 'Short Day', 'c' => 'bg-warning/20 text-warning border-warning/30'],
+                                        'absent'      => ['l' => 'Absent', 'c' => 'bg-error/20 text-error border-error/30'],
+                                    ];
+                                    $t = $typeMap[$summary->day_type] ?? null;
+                                @endphp
+                                @if($t)
+                                    <span class="px-2 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-widest border {{ $t['c'] }} w-max">
+                                        {{ $t['l'] }}
+                                    </span>
+                                @endif
+
+                                {{-- Worked Hours --}}
+                                @if($totalHours > 0)
+                                    <span class="text-[10px] font-mono font-black text-base-content/60 mt-0.5">
+                                        {{ $summary->formatted_hours }}
+                                    </span>
+                                @endif
+                            </div>
+
+                            {{-- Smart Tags --}}
+                            @if($summary->tags && count($summary->tags) > 0)
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    @foreach($summary->tags as $tag)
+                                        @php
+                                            $tagMap = [
+                                                'late_arrived'     => ['i' => 'timer', 'c' => 'bg-amber-100 text-amber-800 border-amber-300'],
+                                                'checkout_missing' => ['i' => 'warning', 'c' => 'bg-red-600 text-white border-red-700 animate-pulse'],
+                                                'overtime'         => ['i' => 'add_task', 'c' => 'bg-purple-100 text-purple-800 border-purple-300'],
+                                                'early_leave'      => ['i' => 'logout', 'c' => 'bg-orange-100 text-orange-800 border-orange-300'],
+                                                'multi_session'    => ['i' => 'repeat', 'c' => 'bg-blue-100 text-blue-800 border-blue-300'],
+                                            ];
+                                            $tg = $tagMap[$tag] ?? ['i' => 'label', 'c' => 'bg-base-200 text-base-content border-base-300'];
+                                        @endphp
+                                        <div class="flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[8px] font-black uppercase tracking-tighter border {{ $tg['c'] }}" title="{{ str_replace('_', ' ', $tag) }}">
+                                            <span class="material-symbols-outlined text-[10px]">{{ $tg['i'] }}</span>
+                                            {{ explode('_', $tag)[0] }}
+                                        </div>
+                                    @endforeach
                                 </div>
-                            @elseif($isWeekend)
-                                <div class="p-3 flex flex-col items-center justify-center opacity-100 transition-opacity">
-                                    <span class="material-symbols-outlined text-xl text-red-950 font-black">hotel</span>
-                                    <span class="text-[8px] font-black uppercase tracking-[0.2em] mt-1 text-red-950">Weekend</span>
-                                </div>
+                            @endif
+                        @elseif($isPast && !$isWeekend)
+                            <div class="flex flex-col items-center justify-center py-2 bg-error/5 rounded-xl border border-dashed border-error/20 opacity-40">
+                                <span class="text-[8px] font-black uppercase tracking-widest text-error">Absent</span>
+                            </div>
+                        @elseif($isWeekend)
+                            <div class="flex flex-col items-center justify-center py-2 opacity-20">
+                                <span class="material-symbols-outlined text-lg">hotel</span>
+                                <span class="text-[7px] font-black uppercase tracking-widest">Weekend</span>
+                            </div>
                         @endif
-                    @endif
                     </div>
                 </div>
             @endfor
@@ -165,16 +190,6 @@
                 <p class="text-xs font-black tracking-tight">No Logs Found</p>
             </div>
         </div>
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-base-200 border border-base-300/40 flex items-center justify-center opacity-40">
-                <span class="material-symbols-outlined text-lg">hotel</span>
-            </div>
-            <div>
-                <p class="text-[10px] font-black uppercase tracking-widest opacity-40 leading-none mb-1">Weekend</p>
-                <p class="text-xs font-black tracking-tight">Saturday & Sunday</p>
-            </div>
-        </div>
     </div>
 </div>
-
 @endif

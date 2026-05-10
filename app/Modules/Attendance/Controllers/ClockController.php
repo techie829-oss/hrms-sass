@@ -87,6 +87,7 @@ class ClockController extends BaseController
             return back()->with('error', 'Employee record not found for your user account.');
         }
 
+        $now = Carbon::now();
         $today = Carbon::today();
 
         // Check for existing records today
@@ -116,6 +117,8 @@ class ClockController extends BaseController
 
         $targetStartTime = null;
         $graceMinutes = 0;
+        $isLate = false;
+        $lateMinutes = 0;
 
         if ($shift) {
             $targetStartTime = $shift->start_time;
@@ -209,7 +212,12 @@ class ClockController extends BaseController
         $diffInMinutes = $checkInTime->diffInMinutes($checkOutTime);
         $workedHours = round($diffInMinutes / 60, 2);
 
+        $shift = $employee->attendanceShift ?: AttendanceShift::where('is_active', true)
+            ->where('is_default', true)
+            ->first();
+
         $targetEndTime = null;
+        $overtimeMinutes = 0;
         if ($shift) {
             $targetEndTime = $shift->end_time;
         } elseif ($policy && $policy->default_end_time) {
@@ -246,13 +254,13 @@ class ClockController extends BaseController
             'remarks' => $updatedRemarks,
         ]);
 
+        // Recompute daily summary
+        (new AttendanceSummaryService())->recompute($employee->id, saas_tenant('id'), $today);
+
         $msg = 'Clocked out at ' . $checkOutTime->format('h:i A') . '. Worked ' . $workedHours . ' hours.';
         if ($overtimeMinutes > 0) {
             $msg .= ' (Overtime: ' . $overtimeMinutes . ' mins)';
         }
-
-        // Recompute daily summary
-        (new AttendanceSummaryService())->recompute($employee->id, saas_tenant('id'), $today);
 
         return back()->with('success', $msg);
     }

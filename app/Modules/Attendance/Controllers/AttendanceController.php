@@ -50,7 +50,23 @@ class AttendanceController extends BaseController
         
         $logs = $this->attendanceService->paginate($perPage, $filters);
 
-        return view('attendance::index', compact('logs', 'canViewAll', 'view', 'filters'));
+        // Fetch Daily Summaries for the current month/view
+        $summaryQuery = \App\Modules\Attendance\Models\AttendanceDailySummary::query();
+        
+        if (isset($filters['employee_id'])) {
+            $summaryQuery->where('employee_id', $filters['employee_id']);
+        }
+        
+        if (isset($filters['month'])) {
+            $carbon = \Carbon\Carbon::parse($filters['month']);
+            $summaryQuery->whereYear('date', $carbon->year)->whereMonth('date', $carbon->month);
+        } else {
+            $summaryQuery->whereYear('date', date('Y'))->whereMonth('date', date('m'));
+        }
+
+        $summaries = $summaryQuery->get();
+
+        return view('attendance::index', compact('logs', 'summaries', 'canViewAll', 'view', 'filters'));
     }
 
     /**

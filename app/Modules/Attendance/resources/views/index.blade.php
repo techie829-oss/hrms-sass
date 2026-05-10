@@ -95,9 +95,12 @@
                                     @php
                                         $firstLog = $empLogs->sortBy('check_in')->first();
                                         $lastLog = $empLogs->sortByDesc('check_out')->first();
-                                        $totalWorkedHours = $empLogs->sum('worked_hours');
                                         $employee = $firstLog->employee;
                                         $entryCount = count($empLogs);
+                                        
+                                        // Find summary for this employee on this date
+                                        $summary = $summaries->where('date', $date)->where('employee_id', $employeeId)->first();
+                                        $totalWorkedHours = $summary ? $summary->total_worked_hours : $empLogs->sum('worked_hours');
                                     @endphp
                                     <tr class="hover:bg-base-200/30 transition-all border-b border-base-200 last:border-0 group">
                                         <td class="py-4 px-6">
@@ -114,44 +117,69 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="badge badge-sm rounded-lg font-black text-[9px] bg-base-200 border-base-300/50 text-base-content/60">
-                                                {{ $entryCount }} {{ $entryCount > 1 ? 'Entries' : 'Entry' }}
-                                            </span>
+                                            <div class="flex flex-col gap-1">
+                                                <span class="badge badge-sm rounded-lg font-black text-[9px] bg-base-200 border-base-300/50 text-base-content/60">
+                                                    {{ $entryCount }} {{ $entryCount > 1 ? 'Entries' : 'Entry' }}
+                                                </span>
+                                                @if($summary && count($summary->tags ?? []) > 1)
+                                                    <span class="text-[8px] font-black text-info uppercase tracking-widest px-1">Multi-Session</span>
+                                                @endif
+                                            </div>
                                         </td>
                                         <td>
                                             <div class="flex flex-col gap-0.5">
                                                 <span class="text-xs font-black text-success/80">
                                                     {{ $firstLog->check_in ? $firstLog->check_in->format('h:i A') : '--:--' }}
                                                 </span>
-                                                @if($firstLog->is_late)
-                                                    <span class="text-[9px] font-black text-warning uppercase leading-none">Late Entry</span>
+                                                @if($summary && in_array('late_arrived', $summary->tags ?? []))
+                                                    <span class="text-[9px] font-black text-warning uppercase leading-none">Late Arrived</span>
                                                 @endif
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="text-xs font-black text-error/70">
-                                                {{ $lastLog->check_out ? $lastLog->check_out->format('h:i A') : '--:--' }}
-                                            </span>
+                                            <div class="flex flex-col gap-0.5">
+                                                <span class="text-xs font-black text-error/80">
+                                                    {{ $lastLog->check_out ? $lastLog->check_out->format('h:i A') : '--:--' }}
+                                                </span>
+                                                @if($summary && in_array('checkout_missing', $summary->tags ?? []))
+                                                    <span class="text-[9px] font-black text-error uppercase leading-none animate-pulse">Missing</span>
+                                                @elseif($summary && in_array('early_leave', $summary->tags ?? []))
+                                                    <span class="text-[9px] font-black text-orange-600 uppercase leading-none">Early Leave</span>
+                                                @endif
+                                            </div>
                                         </td>
                                         <td>
-                                            @php
-                                                $status = $firstLog->status;
-                                                $statusClasses = [
-                                                    'present' => 'bg-success/10 text-success border-success/20 ring-success/5',
-                                                    'absent' => 'bg-error/10 text-error border-error/20 ring-error/5',
-                                                    'half_day' => 'bg-warning/10 text-warning border-warning/20 ring-warning/5',
-                                                    'late' => 'bg-info/10 text-info border-info/20 ring-info/5',
-                                                ];
-                                                $statusClass = $statusClasses[$status] ?? 'bg-base-200 text-base-content/50 border-base-300';
-                                            @endphp
-                                            <span class="px-3 py-1.5 rounded-xl border {{ $statusClass }} font-black text-[9px] uppercase tracking-[0.1em] ring-4">
-                                                {{ str_replace('_', ' ', $status) }}
-                                            </span>
+                                            <div class="flex flex-wrap gap-2">
+                                                @php
+                                                    $typeMap = [
+                                                        'full_day'    => ['l' => 'Full Day', 'c' => 'bg-green-100 text-green-800 border-green-300'],
+                                                        'half_day'    => ['l' => 'Half Day', 'c' => 'bg-blue-100 text-blue-800 border-blue-300'],
+                                                        'quarter_day' => ['l' => 'Short Day', 'c' => 'bg-amber-100 text-amber-800 border-amber-300'],
+                                                        'absent'      => ['l' => 'Absent', 'c' => 'bg-red-100 text-red-800 border-red-300'],
+                                                    ];
+                                                    $t = $summary ? ($typeMap[$summary->day_type] ?? null) : null;
+                                                @endphp
+                                                @if($t)
+                                                    <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border {{ $t['c'] }}">
+                                                        {{ $t['l'] }}
+                                                    </span>
+                                                @else
+                                                    <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border bg-base-200 text-base-content/60 border-base-300">
+                                                        Pending
+                                                    </span>
+                                                @endif
+                                                
+                                                @if($summary && in_array('overtime', $summary->tags ?? []))
+                                                    <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border bg-purple-100 text-purple-800 border-purple-300">
+                                                        Overtime
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </td>
                                         <td>
                                             <div class="flex flex-col gap-1.5">
                                                 <div class="flex items-center justify-between px-1">
-                                                    <span class="text-xs font-black">{{ number_format($totalWorkedHours, 2) }}h</span>
+                                                    <span class="text-xs font-black">{{ $summary ? $summary->formatted_hours : number_format($totalWorkedHours, 1) . 'h' }}</span>
                                                     <span class="text-[9px] font-black opacity-30">{{ min(round(($totalWorkedHours / 8) * 100), 100) }}%</span>
                                                 </div>
                                                 <progress class="progress progress-primary w-24 h-1.5 shadow-sm" value="{{ min(($totalWorkedHours / 8) * 100, 100) }}" max="100"></progress>
