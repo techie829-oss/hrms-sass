@@ -18,16 +18,32 @@
                     @csrf
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        @if($isAdmin)
                         <div class="form-control w-full">
                             <label class="label" for="employee_id">
-                                <span class="label-text font-bold">Employee</span>
+                                <span class="label-text font-bold">Apply For Employee</span>
                             </label>
                             <select id="employee_id" name="employee_id" class="select select-bordered w-full" required>
                                 @foreach($employees as $employee)
-                                    <option value="{{ $employee->id }}">{{ $employee->full_name }} ({{ $employee->employee_id }})</option>
+                                    <option value="{{ $employee->id }}" {{ count($employees) === 1 ? 'selected' : '' }}>
+                                        {{ $employee->full_name }} ({{ $employee->employee_id }})
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
+                        @else
+                            @php $employee = $employees->first(); @endphp
+                            <div class="form-control w-full">
+                                <label class="label">
+                                    <span class="label-text font-bold">Applying For</span>
+                                </label>
+                                <div class="px-4 py-3 bg-base-200/50 rounded-lg border border-base-200 text-sm font-bold flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-base opacity-50">person</span>
+                                    {{ $employee->full_name ?? 'My Profile' }}
+                                    <input type="hidden" name="employee_id" value="{{ $employee->id ?? '' }}">
+                                </div>
+                            </div>
+                        @endif
 
                         <div class="form-control w-full">
                             <label class="label" for="leave_type_id">

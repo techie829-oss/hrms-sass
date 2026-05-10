@@ -29,9 +29,19 @@ class LeaveRequestController extends BaseController
     public function create()
     {
         $leaveTypes = LeaveType::where('is_active', true)->get();
-        $employees = Employee::where('status', 'active')->get(); // For admin view
+        $user = Auth::user();
+        
+        // If user can manage leaves, show all active employees.
+        // Otherwise, only show the logged-in user's own employee record.
+        if ($user->can('manage_leaves')) {
+            $employees = Employee::where('status', 'active')->get();
+            $isAdmin = true;
+        } else {
+            $employees = Employee::where('user_id', $user->id)->get();
+            $isAdmin = false;
+        }
 
-        return view('leave::create', compact('leaveTypes', 'employees'));
+        return view('leave::create', compact('leaveTypes', 'employees', 'isAdmin'));
     }
 
     /**
@@ -48,6 +58,15 @@ class LeaveRequestController extends BaseController
             'half_day_type' => ['nullable', 'required_if:is_half_day,1', 'in:first_half,second_half'],
             'reason' => ['required', 'string', 'max:500'],
         ]);
+
+        // Security check: If not an admin/manager, force employee_id to the user's own employee record
+        if (!Auth::user()->can('manage_leaves')) {
+            $ownEmployee = Employee::where('user_id', Auth::id())->first();
+            if (!$ownEmployee) {
+                return back()->with('error', 'You do not have an employee profile associated with your user account.');
+            }
+            $validated['employee_id'] = $ownEmployee->id;
+        }
 
         // Logic to calculate total days would normally go in a Service
         $start = \Carbon\Carbon::parse($validated['start_date']);
