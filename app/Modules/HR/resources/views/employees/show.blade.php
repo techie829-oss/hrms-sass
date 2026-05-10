@@ -30,8 +30,17 @@
         <!-- Sidebar: Basic Info & Actions -->
         <div class="lg:col-span-1 space-y-6">
             <!-- Profile Card -->
-            <div class="card bg-base-100 shadow-sm border border-base-200 text-center">
-                <div class="card-body">
+            <div class="card bg-base-100 shadow-sm border border-base-200 text-center overflow-hidden">
+                {{-- Banner / Cover Photo Section --}}
+                <div class="h-24 relative bg-primary/5">
+                    @if($employee->cover_photo)
+                        <img src="{{ asset('storage/' . $employee->cover_photo) }}" class="w-full h-full object-cover" />
+                    @else
+                        <div class="w-full h-full bg-gradient-to-r from-primary/10 via-secondary/5 to-accent/10"></div>
+                    @endif
+                </div>
+                
+                <div class="card-body -mt-12 relative">
                     <div class="avatar {{ !$employee->profile_photo ? 'placeholder' : '' }} mb-4 mx-auto">
                         <div class="bg-primary/10 text-primary rounded-2xl w-24 h-24 font-bold text-2xl overflow-hidden">
                             @if($employee->profile_photo)
