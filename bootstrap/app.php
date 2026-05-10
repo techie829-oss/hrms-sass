@@ -58,5 +58,5 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withSchedule(function (\Illuminate\Console\Scheduling\Schedule $schedule) {
-        $schedule->command('attendance:auto-checkout')->everyMinute();
+        $schedule->command('attendance:auto-checkout')->dailyAt('23:59');
     })->create();

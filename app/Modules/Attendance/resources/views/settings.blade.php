@@ -105,6 +105,184 @@
                 </div>
             </div>
 
+            <!-- Card C: Attendance Rules & Thresholds -->
+            <div class="card bg-surface-container-lowest shadow-xl border border-outline-variant/15 rounded-[2.5rem] overflow-hidden">
+                <div class="card-body p-8 md:p-10 space-y-8">
+                    <div class="flex items-center gap-4 border-b border-outline-variant/10 pb-4">
+                        <span class="material-symbols-outlined text-warning text-3xl">tune</span>
+                        <div>
+                            <h3 class="font-black font-headline text-lg uppercase tracking-wider text-on-surface">Attendance Rules & Thresholds</h3>
+                            <p class="text-[10px] opacity-70 font-medium">Define full day, half day, late mark, and leave deduction rules.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-wider opacity-50">Full Day (Min Hours)</label>
+                            <div class="relative">
+                                <input type="number" name="min_hours_full_day" value="{{ old('min_hours_full_day', $policy?->min_hours_full_day ?? 8) }}" min="1" max="24" class="input input-bordered w-full rounded-2xl font-black text-sm bg-surface-container-low pr-12" />
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black opacity-40 uppercase">hrs</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-wider opacity-50">Half Day (Min Hours)</label>
+                            <div class="relative">
+                                <input type="number" name="min_hours_half_day" value="{{ old('min_hours_half_day', $policy?->min_hours_half_day ?? 4) }}" min="1" max="12" class="input input-bordered w-full rounded-2xl font-black text-sm bg-surface-container-low pr-12" />
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black opacity-40 uppercase">hrs</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-wider opacity-50">Late Mark After</label>
+                            <div class="relative">
+                                <input type="number" name="late_mark_after_minutes" value="{{ old('late_mark_after_minutes', $policy?->late_mark_after_minutes ?? 15) }}" min="0" max="120" class="input input-bordered w-full rounded-2xl font-black text-sm bg-surface-container-low pr-12" />
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black opacity-40 uppercase">min</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-wider opacity-50">Early Leave Before</label>
+                            <div class="relative">
+                                <input type="number" name="early_leave_before_minutes" value="{{ old('early_leave_before_minutes', $policy?->early_leave_before_minutes ?? 30) }}" min="0" max="120" class="input input-bordered w-full rounded-2xl font-black text-sm bg-surface-container-low pr-12" />
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black opacity-40 uppercase">min</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-wider opacity-50">Max Late Days/Month</label>
+                            <input type="number" name="max_late_allowed_per_month" value="{{ old('max_late_allowed_per_month', $policy?->max_late_allowed_per_month ?? 3) }}" min="0" max="31" class="input input-bordered w-full rounded-2xl font-black text-sm bg-surface-container-low" />
+                        </div>
+                        <div class="flex flex-col justify-end space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-wider opacity-50">Auto Deduct Leave</label>
+                            <div class="flex items-center gap-3 bg-surface-container-low p-4 rounded-2xl border border-outline-variant/10 h-[52px]">
+                                <input type="checkbox" id="auto_deduct_leave" name="auto_deduct_leave" class="checkbox checkbox-warning checkbox-sm rounded-lg" value="1" {{ old('auto_deduct_leave', $policy?->auto_deduct_leave) ? 'checked' : '' }} />
+                                <label for="auto_deduct_leave" class="text-[10px] font-black uppercase tracking-wider cursor-pointer">When exceeded</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Smart Tag Badges Preview -->
+                    <div class="pt-4 border-t border-outline-variant/10">
+                        <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mb-3">Computed Tag Badges Preview</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-300">
+                                <span class="material-symbols-outlined text-xs">schedule</span> Late Arrived
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-red-100 text-red-800 border border-red-300 animate-pulse">
+                                <span class="material-symbols-outlined text-xs">warning</span> Checkout Missing
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-green-100 text-green-800 border border-green-300">
+                                <span class="material-symbols-outlined text-xs">check_circle</span> Full Day
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-100 text-blue-800 border border-blue-300">
+                                <span class="material-symbols-outlined text-xs">circle_half</span> Half Day
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-100 text-purple-800 border border-purple-300">
+                                <span class="material-symbols-outlined text-xs">more_time</span> Overtime
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-orange-100 text-orange-800 border border-orange-300">
+                                <span class="material-symbols-outlined text-xs">exit_to_app</span> Early Leave
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card D: Shift Management -->
+            <div class="card bg-surface-container-lowest shadow-xl border border-outline-variant/15 rounded-[2.5rem] overflow-hidden">
+                <div class="card-body p-8 md:p-10 space-y-6">
+                    <div class="flex items-center gap-4 border-b border-outline-variant/10 pb-4">
+                        <span class="material-symbols-outlined text-success text-3xl">work_history</span>
+                        <div>
+                            <h3 class="font-black font-headline text-lg uppercase tracking-wider text-on-surface">Shift Management</h3>
+                            <p class="text-[10px] opacity-70 font-medium">Create and manage work shifts. Assign them to employees from their profile.</p>
+                        </div>
+                    </div>
+
+                    <!-- Existing Shifts List -->
+                    @if($shifts->isNotEmpty())
+                    <div class="space-y-2">
+                        <p class="text-[10px] font-black uppercase tracking-widest opacity-40">Active Shifts</p>
+                        @foreach($shifts as $shift)
+                        <div class="flex items-center justify-between bg-surface-container-low p-4 rounded-2xl border border-outline-variant/10 group hover:border-success/30 transition-all">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-success/10 flex items-center justify-center border border-success/20">
+                                    <span class="material-symbols-outlined text-sm text-success">schedule</span>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h4 class="font-black text-xs text-on-surface">{{ $shift->name }}</h4>
+                                        @if($shift->is_default) <span class="badge badge-xs badge-success font-black uppercase tracking-tighter">Default</span> @endif
+                                        @if($shift->is_overnight) <span class="badge badge-xs badge-warning font-black uppercase tracking-tighter">Overnight</span> @endif
+                                    </div>
+                                    <p class="text-[10px] opacity-60 font-mono mt-0.5">
+                                        {{ \Carbon\Carbon::parse($shift->start_time)->format('h:i A') }}
+                                        → {{ \Carbon\Carbon::parse($shift->end_time)->format('h:i A') }}
+                                        &nbsp;·&nbsp; {{ $shift->grace_minutes }}min grace
+                                        &nbsp;·&nbsp; {{ $shift->half_day_hours }}h half-day
+                                    </p>
+                                </div>
+                            </div>
+                            <form action="{{ route('attendance.shifts.delete', $shift) }}" method="POST" onsubmit="return confirm('Delete this shift?')">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="btn btn-ghost btn-xs text-error opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span class="material-symbols-outlined text-sm">delete</span>
+                                </button>
+                            </form>
+                        </div>
+                        @endforeach
+                    </div>
+                    @else
+                    <div class="text-center py-6 opacity-40">
+                        <span class="material-symbols-outlined text-4xl">calendar_add_on</span>
+                        <p class="text-xs font-black uppercase tracking-widest mt-2">No shifts created yet</p>
+                    </div>
+                    @endif
+
+                    <!-- Add New Shift Form -->
+                    <div class="bg-surface-container-low p-6 rounded-[2rem] border border-dashed border-success/30">
+                        <p class="text-[10px] font-black uppercase tracking-widest opacity-50 mb-4">Add New Shift</p>
+                        <form action="{{ route('attendance.shifts.store') }}" method="POST" class="space-y-4">
+                            @csrf
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                <div class="col-span-2 md:col-span-1 space-y-1">
+                                    <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Shift Name</label>
+                                    <input type="text" name="name" placeholder="e.g. Morning Shift" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Start Time</label>
+                                    <input type="time" name="start_time" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black uppercase tracking-wider opacity-50">End Time</label>
+                                    <input type="time" name="end_time" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Grace (min)</label>
+                                    <input type="number" name="grace_minutes" value="15" min="0" max="120" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Half Day (hrs)</label>
+                                    <input type="number" name="half_day_hours" value="4" min="1" max="12" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
+                                </div>
+                                <div class="flex items-end gap-4 pb-1">
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="checkbox" name="is_default" class="checkbox checkbox-success checkbox-xs rounded" />
+                                        <span class="text-[9px] font-black uppercase tracking-wider opacity-60">Set Default</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="checkbox" name="is_overnight" class="checkbox checkbox-warning checkbox-xs rounded" />
+                                        <span class="text-[9px] font-black uppercase tracking-wider opacity-60">Overnight</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit" class="btn btn-success btn-sm rounded-xl font-black uppercase tracking-wider text-[10px]">
+                                    <span class="material-symbols-outlined text-sm">add</span> Create Shift
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             <!-- Card 2: Role-Level Enforcements -->
             <div class="card bg-surface-container-lowest shadow-xl border border-outline-variant/15 rounded-[2.5rem] overflow-hidden">
                 <div class="card-body p-8 md:p-10 space-y-6">

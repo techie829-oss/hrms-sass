@@ -14,6 +14,7 @@ use Spatie\Permission\Models\Role;
 use App\Modules\HR\Models\Employee;
 use App\Modules\Attendance\Models\AttendanceRoleEnforcement;
 use App\Modules\Attendance\Models\AttendanceEmployeeEnforcement;
+use App\Modules\Attendance\Services\AttendanceSummaryService;
 
 class ClockController extends BaseController
 {
@@ -158,6 +159,9 @@ class ClockController extends BaseController
             $msg .= ' — Late by ' . $lateMinutes . ' minutes';
         }
 
+        // Recompute daily summary
+        (new AttendanceSummaryService())->recompute($employee->id, saas_tenant('id'), $today);
+
         return back()->with('success', $msg);
     }
 
@@ -247,6 +251,9 @@ class ClockController extends BaseController
             $msg .= ' (Overtime: ' . $overtimeMinutes . ' mins)';
         }
 
+        // Recompute daily summary
+        (new AttendanceSummaryService())->recompute($employee->id, saas_tenant('id'), $today);
+
         return back()->with('success', $msg);
     }
 
@@ -299,9 +306,12 @@ class ClockController extends BaseController
             ->map(fn($v) => (string)$v)
             ->toArray();
 
+        $shifts = AttendanceShift::where('tenant_id', saas_tenant('id'))->orderBy('name')->get();
+
         return view('attendance::settings', compact(
-            'policy', 'roles', 'roleEnforcements', 'multiRoleEnforcements', 
-            'employees', 'employeeEnforcements', 'employeeMultiEnforcements'
+            'policy', 'roles', 'roleEnforcements', 'multiRoleEnforcements',
+            'employees', 'employeeEnforcements', 'employeeMultiEnforcements',
+            'shifts'
         ));
     }
 
@@ -313,12 +323,21 @@ class ClockController extends BaseController
         $policy = $this->getEffectivePolicy();
         if ($policy) {
             $policy->update([
-                'enforce_clockin' => $request->has('enforce_clockin'),
-                'multi_clocking' => (int)$request->input('multi_clocking_policy', 0),
-                'auto_checkout' => $request->has('auto_checkout'),
+                // Enforcement
+                'enforce_clockin'    => $request->has('enforce_clockin'),
+                'multi_clocking'     => (int)$request->input('multi_clocking_policy', 0),
+                // Office Timing
+                'auto_checkout'      => $request->has('auto_checkout'),
                 'auto_checkout_time' => $request->input('auto_checkout_time'),
                 'default_start_time' => $request->input('default_start_time'),
-                'default_end_time' => $request->input('default_end_time'),
+                'default_end_time'   => $request->input('default_end_time'),
+                // Thresholds
+                'min_hours_full_day'          => (int)$request->input('min_hours_full_day', 8),
+                'min_hours_half_day'          => (int)$request->input('min_hours_half_day', 4),
+                'late_mark_after_minutes'     => (int)$request->input('late_mark_after_minutes', 15),
+                'early_leave_before_minutes'  => (int)$request->input('early_leave_before_minutes', 30),
+                'max_late_allowed_per_month'  => (int)$request->input('max_late_allowed_per_month', 3),
+                'auto_deduct_leave'           => $request->has('auto_deduct_leave'),
             ]);
         }
 
@@ -402,5 +421,46 @@ class ClockController extends BaseController
     {
         // For now, return the default policy for the tenant
         return AttendancePolicy::where('is_active', true)->first();
+    }
+
+    /**
+     * Store a new Attendance Shift.
+     */
+    public function storeShift(Request $request)
+    {
+        $request->validate([
+            'name'           => 'required|string|max:100',
+            'start_time'     => 'required|date_format:H:i',
+            'end_time'       => 'required|date_format:H:i',
+            'grace_minutes'  => 'required|integer|min:0|max:120',
+            'half_day_hours' => 'required|integer|min:1|max:12',
+        ]);
+
+        if ($request->boolean('is_default')) {
+            AttendanceShift::where('tenant_id', saas_tenant('id'))->update(['is_default' => false]);
+        }
+
+        AttendanceShift::create([
+            'tenant_id'      => saas_tenant('id'),
+            'name'           => $request->input('name'),
+            'start_time'     => $request->input('start_time') . ':00',
+            'end_time'       => $request->input('end_time') . ':00',
+            'grace_minutes'  => $request->input('grace_minutes', 15),
+            'half_day_hours' => $request->input('half_day_hours', 4),
+            'is_overnight'   => $request->boolean('is_overnight'),
+            'is_default'     => $request->boolean('is_default'),
+            'is_active'      => true,
+        ]);
+
+        return redirect()->route('attendance.settings')->with('success', 'Shift created successfully.');
+    }
+
+    /**
+     * Delete an Attendance Shift.
+     */
+    public function deleteShift(AttendanceShift $shift)
+    {
+        $shift->delete();
+        return redirect()->route('attendance.settings')->with('success', 'Shift deleted.');
     }
 }

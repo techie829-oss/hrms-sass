@@ -15,6 +15,8 @@ Route::name('attendance.')->middleware(['auth'])->group(function () {
     Route::middleware(['role:tadmin|tmanager'])->group(function () {
         Route::get('settings', [\App\Modules\Attendance\Controllers\ClockController::class, 'settings'])->name('settings');
         Route::post('settings', [\App\Modules\Attendance\Controllers\ClockController::class, 'saveSettings'])->name('settings.save');
+        Route::post('shifts', [\App\Modules\Attendance\Controllers\ClockController::class, 'storeShift'])->name('shifts.store');
+        Route::delete('shifts/{shift}', [\App\Modules\Attendance\Controllers\ClockController::class, 'deleteShift'])->name('shifts.delete');
 
         // Other admin-only log actions
         Route::get('logs/create', [AttendanceController::class, 'create'])->name('create');
