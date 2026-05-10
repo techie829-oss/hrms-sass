@@ -9,12 +9,15 @@
         {{-- Profile Header Card (Premium Aesthetic) --}}
         <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 shadow-sm overflow-hidden mb-8 group/header transition-all duration-500 hover:shadow-xl">
             {{-- Cover Photo Section --}}
-            <div class="h-44 relative group/cover overflow-hidden bg-primary/5">
-                @if($user->employee?->cover_photo)
-                    <img src="{{ asset('storage/' . $user->employee->cover_photo) }}" class="w-full h-full object-cover transition-transform duration-700 group-hover/cover:scale-105" />
-                @else
-                    <div class="w-full h-full bg-gradient-to-r from-primary/10 via-secondary/5 to-accent/10"></div>
-                @endif
+            <div class="h-44 relative group/cover bg-primary/5">
+                {{-- Image Wrapper with overflow-hidden to allow zoom but not clip profile info --}}
+                <div class="absolute inset-0 overflow-hidden">
+                    @if($user->employee?->cover_photo)
+                        <img src="{{ asset('storage/' . $user->employee->cover_photo) }}" class="w-full h-full object-cover transition-transform duration-700 group-hover/cover:scale-105" />
+                    @else
+                        <div class="w-full h-full bg-gradient-to-r from-primary/10 via-secondary/5 to-accent/10"></div>
+                    @endif
+                </div>
                 
                 {{-- Cover Upload Overlay --}}
                 <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/cover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer" onclick="document.getElementById('cover_input').click()">
