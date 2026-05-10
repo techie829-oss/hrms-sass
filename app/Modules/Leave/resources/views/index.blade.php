@@ -2,18 +2,18 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold">Leave Management</h2>
-                <p class="text-xs font-medium mt-1 opacity-70">Manage employee leave requests and balances.</p>
+                <h2 class="text-xl font-bold text-base-content/90 tracking-tight">Leave Management</h2>
+                <p class="text-xs font-medium mt-0.5 opacity-50">Track and manage employee time-off requests.</p>
             </div>
-            <div class="flex gap-2">
-                @can('manage-settings') {{-- Custom gate for leave policies --}}
-                <a href="{{ route('leave.types.index') }}" class="btn btn-ghost btn-sm btn-outline">
-                    <span class="material-symbols-outlined text-base">settings</span> Policies
+            <div class="flex items-center gap-2">
+                @can('manage-settings')
+                <a href="{{ route('leave.types.index') }}" class="btn btn-ghost btn-sm btn-outline border-base-300 rounded-xl px-4">
+                    <span class="material-symbols-outlined text-base">category</span> Leave Types
                 </a>
                 @endcan
                 @can('create', App\Modules\Leave\Models\LeaveRequest::class)
-                <a href="{{ route('leave.requests.create') }}" class="btn btn-primary btn-sm">
-                    <span class="material-symbols-outlined text-base">add</span> New Request
+                <a href="{{ route('leave.requests.create') }}" class="btn btn-primary btn-sm rounded-xl px-5 shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined text-base">add</span> Apply Leave
                 </a>
                 @endcan
             </div>
