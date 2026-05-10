@@ -178,7 +178,7 @@
                                 <span class="material-symbols-outlined text-xs">check_circle</span> Full Day
                             </span>
                             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-100 text-blue-800 border border-blue-300">
-                                <span class="material-symbols-outlined text-xs">circle_half</span> Half Day
+                                <span class="material-symbols-outlined text-xs">brightness_6</span> Half Day
                             </span>
                             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-100 text-purple-800 border border-purple-300">
                                 <span class="material-symbols-outlined text-xs">more_time</span> Overtime
