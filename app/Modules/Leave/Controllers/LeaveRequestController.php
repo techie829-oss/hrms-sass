@@ -16,9 +16,16 @@ class LeaveRequestController extends BaseController
      */
     public function index()
     {
-        $requests = LeaveRequest::with(['employee', 'leaveType'])
-            ->latest()
-            ->paginate(15);
+        $user = Auth::user();
+        $query = LeaveRequest::with(['employee', 'leaveType']);
+
+        // If not an admin/manager, only show their own requests
+        if (!$user->can('manage_leaves')) {
+            $employee = Employee::where('user_id', $user->id)->first();
+            $query->where('employee_id', $employee->id ?? 0);
+        }
+
+        $requests = $query->latest()->paginate(15);
 
         return view('leave::index', compact('requests'));
     }
