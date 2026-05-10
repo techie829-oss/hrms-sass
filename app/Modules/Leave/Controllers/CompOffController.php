@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Auth;
 
 class CompOffController extends BaseController
 {
+    protected $balanceService;
+
+    public function __construct(\App\Modules\Leave\Services\LeaveBalanceService $balanceService)
+    {
+        $this->balanceService = $balanceService;
+    }
+
     public function index()
     {
         $this->authorize('viewAny', CompOffRequest::class);
@@ -43,9 +50,51 @@ class CompOffController extends BaseController
         return back()->with('success', 'Comp-off request submitted.');
     }
 
+    /**
+     * Bulk grant comp-off to all employees present on a specific date.
+     */
+    public function bulkGrant(Request $request)
+    {
+        $this->authorize('manage_comp_off');
+        
+        $validated = $request->validate([
+            'date' => 'required|date',
+            'reason' => 'required|string|max:255',
+        ]);
+
+        $presentEmployees = \App\Modules\Attendance\Models\AttendanceLog::where('date', $validated['date'])
+            ->where('tenant_id', saas_tenant('id'))
+            ->pluck('employee_id')
+            ->unique();
+
+        $count = 0;
+        foreach ($presentEmployees as $employeeId) {
+            $employee = Employee::find($employeeId);
+            if (!$employee) continue;
+
+            // Create approved request
+            CompOffRequest::create([
+                'tenant_id' => saas_tenant('id'),
+                'employee_id' => $employeeId,
+                'worked_on_date' => $validated['date'],
+                'duration' => 1.0,
+                'reason' => $validated['reason'],
+                'status' => 'approved',
+                'approved_by' => Auth::id(),
+                'approved_at' => now(),
+            ]);
+
+            // Add to balance
+            $this->balanceService->adjustBalance($employee, 'CO', 1.0);
+            $count++;
+        }
+
+        return back()->with('success', "Comp-off granted to {$count} employees.");
+    }
+
     public function updateStatus(Request $request, CompOffRequest $compOffRequest)
     {
-        $this->authorize('update', $compOffRequest);
+        $this->authorize('manage_comp_off');
         
         $validated = $request->validate([
             'status' => 'required|in:approved,rejected',
@@ -58,8 +107,9 @@ class CompOffController extends BaseController
                 'approved_at' => now(),
             ]);
 
-            // If approved, we could potentially add it to LeaveBalance.
-            // But usually, it's a separate balance type.
+            if ($validated['status'] === 'approved') {
+                $this->balanceService->adjustBalance($compOffRequest->employee, 'CO', (float)$compOffRequest->duration);
+            }
         });
 
         return back()->with('success', 'Request ' . $validated['status']);

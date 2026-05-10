@@ -38,18 +38,37 @@ class LeaveBalanceService
     }
 
     /**
-     * Get the current available balance for an employee and leave type.
+     * Adjust (increment/decrement) leave balance for an employee.
+     * Useful for Comp-Off additions or manual corrections.
      */
-    public function getAvailableBalance(Employee $employee, LeaveType $type, int $year = null)
+    public function adjustBalance(Employee $employee, string $typeCode, float $amount, int $year = null)
     {
         $year = $year ?? now()->year;
+        $leaveType = LeaveType::where('tenant_id', $employee->tenant_id)
+            ->where('code', $typeCode)
+            ->first();
 
-        $balance = LeaveBalance::where([
-            'employee_id' => $employee->id,
-            'leave_type_id' => $type->id,
-            'year' => $year,
-        ])->first();
+        if (!$leaveType) return false;
 
-        return $balance ? $balance->balance : 0;
+        $balance = LeaveBalance::firstOrCreate(
+            [
+                'tenant_id' => $employee->tenant_id,
+                'employee_id' => $employee->id,
+                'leave_type_id' => $leaveType->id,
+                'year' => $year,
+            ],
+            [
+                'total_allocated' => 0,
+                'balance' => 0,
+                'total_used' => 0,
+                'total_pending' => 0,
+                'carried_forward' => 0,
+            ]
+        );
+
+        $balance->increment('total_allocated', $amount);
+        $balance->increment('balance', $amount);
+
+        return $balance;
     }
 }

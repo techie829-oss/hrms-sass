@@ -6,6 +6,11 @@
                 <p class="text-xs font-medium mt-0.5 opacity-50">Earned time-off for working extra days or holidays.</p>
             </div>
             <div class="flex items-center gap-2">
+                @can('manage comp_off')
+                <button onclick="bulk_grant_modal.showModal()" class="btn btn-ghost btn-sm border-base-300 rounded-xl px-4 font-bold text-primary">
+                    <span class="material-symbols-outlined text-base">group_add</span> Bulk Grant
+                </button>
+                @endcan
                 <button onclick="request_compoff_modal.showModal()" class="btn btn-primary btn-sm rounded-xl px-5 shadow-lg shadow-primary/20">
                     <span class="material-symbols-outlined text-base">add_circle</span> Request Claim
                 </button>
@@ -87,6 +92,31 @@
             {{ $requests->links() }}
         </div>
     </div>
+
+    {{-- Bulk Grant Modal --}}
+    <dialog id="bulk_grant_modal" class="modal">
+        <div class="modal-box bg-base-100 rounded-[32px] p-8 shadow-2xl border border-base-200 max-w-sm">
+            <h3 class="text-xl font-bold text-base-content/90 mb-6">Bulk Grant Comp-Off</h3>
+            <p class="text-xs font-medium opacity-50 mb-6">This will automatically grant 1.0 Comp-Off day to all employees present on the selected date.</p>
+            
+            <form action="{{ route('leave.comp-off.bulk-grant') }}" method="POST" class="space-y-4">
+                @csrf
+                <div class="form-control">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-base-content/40 mb-2 ml-1">Reference Date</label>
+                    <input type="date" name="date" class="input input-bordered rounded-2xl bg-base-200/50 border-none focus:bg-base-100" required>
+                </div>
+                <div class="form-control">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-base-content/40 mb-2 ml-1">Reason (Internal Note)</label>
+                    <input type="text" name="reason" class="input input-bordered rounded-2xl bg-base-200/50 border-none focus:bg-base-100" required placeholder="e.g. Worked on Sunday for Project X">
+                </div>
+                <div class="grid grid-cols-2 gap-3 pt-4">
+                    <button type="submit" class="btn bg-primary hover:bg-primary-focus text-white border-none rounded-2xl font-bold">Grant to All</button>
+                    <form method="dialog"><button class="btn btn-ghost rounded-2xl font-bold w-full">Cancel</button></form>
+                </div>
+            </form>
+        </div>
+        <form method="dialog" class="modal-backdrop bg-base-300/40 backdrop-blur-sm"><button>close</button></form>
+    </dialog>
 
     {{-- Request Modal --}}
     <dialog id="request_compoff_modal" class="modal">
