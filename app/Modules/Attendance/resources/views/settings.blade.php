@@ -2,27 +2,29 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-3xl font-black font-headline tracking-tight text-on-surface uppercase">Attendance Settings</h2>
-                <p class="text-xs font-medium mt-1 opacity-70">Configure daily clock-in enforcement rules and modular exclusions.</p>
+                <h2 class="text-xl font-bold text-base-content/90 tracking-tight">Attendance Settings</h2>
+                <p class="text-xs font-medium mt-0.5 opacity-50">Configure daily clock-in enforcement rules and modular exclusions.</p>
             </div>
-            <a href="{{ route('attendance.index') }}" class="btn btn-ghost btn-sm">
-                <span class="material-symbols-outlined">arrow_back</span> Back to Logs
+            <a href="{{ route('attendance.index') }}" class="btn btn-ghost btn-sm btn-outline border-base-300 rounded-xl px-4">
+                <span class="material-symbols-outlined text-base">arrow_back</span> Back to Logs
             </a>
         </div>
     </x-slot>
 
-    <div class="max-w-5xl mx-auto py-8">
+    <div class="flex flex-col gap-10">
         <form action="{{ route('attendance.settings.save') }}" method="POST" class="space-y-8">
             @csrf
 
             <!-- Card 1: Company-Wide Setting -->
-            <div class="card bg-surface-container-lowest shadow-xl border border-outline-variant/15 rounded-[2.5rem] overflow-hidden">
+            <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
                 <div class="card-body p-8 md:p-10 space-y-6">
-                    <div class="flex items-center gap-4 border-b border-outline-variant/10 pb-4">
-                        <span class="material-symbols-outlined text-primary text-3xl">corporate_fare</span>
+                    <div class="flex items-center gap-4 border-b border-base-200/60 pb-6">
+                        <div class="w-12 h-12 rounded-[22px] bg-primary/10 flex items-center justify-center border border-primary/20">
+                            <span class="material-symbols-outlined text-primary text-2xl">corporate_fare</span>
+                        </div>
                         <div>
-                            <h3 class="font-black font-headline text-lg uppercase tracking-wider text-on-surface">Company-Wide Enforcement</h3>
-                            <p class="text-[10px] opacity-70 font-medium">Define general clock-in requirement rules for the entire organization.</p>
+                            <h3 class="font-black text-base text-base-content/90 tracking-tight">Company-Wide Enforcement</h3>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">General organization clock-in rules</p>
                         </div>
                     </div>
 
@@ -56,13 +58,15 @@
             </div>
 
             <!-- Card 2: Working Hours & Shift Rules -->
-            <div class="card bg-surface-container-lowest shadow-xl border border-outline-variant/15 rounded-[2.5rem] overflow-hidden">
+            <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
                 <div class="card-body p-8 md:p-10 space-y-8">
-                    <div class="flex items-center gap-4 border-b border-outline-variant/10 pb-4">
-                        <span class="material-symbols-outlined text-tertiary text-3xl">schedule</span>
+                    <div class="flex items-center gap-4 border-b border-base-200/60 pb-6">
+                        <div class="w-12 h-12 rounded-[22px] bg-tertiary/10 flex items-center justify-center border border-tertiary/20">
+                            <span class="material-symbols-outlined text-tertiary text-2xl">schedule</span>
+                        </div>
                         <div>
-                            <h3 class="font-black font-headline text-lg uppercase tracking-wider text-on-surface">Working Hours & Shift Rules</h3>
-                            <p class="text-[10px] opacity-70 font-medium">Configure standard office hours and automatic check-out behaviors.</p>
+                            <h3 class="font-black text-base text-base-content/90 tracking-tight">Working Hours & Shift Rules</h3>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Standard office hours and automation</p>
                         </div>
                     </div>
 
@@ -106,13 +110,15 @@
             </div>
 
             <!-- Card C: Attendance Rules & Thresholds -->
-            <div class="card bg-surface-container-lowest shadow-xl border border-outline-variant/15 rounded-[2.5rem] overflow-hidden">
+            <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
                 <div class="card-body p-8 md:p-10 space-y-8">
-                    <div class="flex items-center gap-4 border-b border-outline-variant/10 pb-4">
-                        <span class="material-symbols-outlined text-warning text-3xl">tune</span>
+                    <div class="flex items-center gap-4 border-b border-base-200/60 pb-6">
+                        <div class="w-12 h-12 rounded-[22px] bg-warning/10 flex items-center justify-center border border-warning/20">
+                            <span class="material-symbols-outlined text-warning text-2xl">tune</span>
+                        </div>
                         <div>
-                            <h3 class="font-black font-headline text-lg uppercase tracking-wider text-on-surface">Attendance Rules & Thresholds</h3>
-                            <p class="text-[10px] opacity-70 font-medium">Define full day, half day, late mark, and leave deduction rules.</p>
+                            <h3 class="font-black text-base text-base-content/90 tracking-tight">Attendance Rules & Thresholds</h3>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Define full day, half day, late mark, and leave deduction rules.</p>
                         </div>
                     </div>
 
@@ -186,13 +192,15 @@
             </div>
 
             <!-- Card D: Shift Management -->
-            <div class="card bg-surface-container-lowest shadow-xl border border-outline-variant/15 rounded-[2.5rem] overflow-hidden">
+            <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
                 <div class="card-body p-8 md:p-10 space-y-6">
-                    <div class="flex items-center gap-4 border-b border-outline-variant/10 pb-4">
-                        <span class="material-symbols-outlined text-success text-3xl">work_history</span>
+                    <div class="flex items-center gap-4 border-b border-base-200/60 pb-6">
+                        <div class="w-12 h-12 rounded-[22px] bg-success/10 flex items-center justify-center border border-success/20">
+                            <span class="material-symbols-outlined text-success text-2xl">work_history</span>
+                        </div>
                         <div>
-                            <h3 class="font-black font-headline text-lg uppercase tracking-wider text-on-surface">Shift Management</h3>
-                            <p class="text-[10px] opacity-70 font-medium">Create and manage work shifts. Assign them to employees from their profile.</p>
+                            <h3 class="font-black text-base text-base-content/90 tracking-tight">Shift Management</h3>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Create and manage multi-timing work shifts</p>
                         </div>
                     </div>
 
@@ -293,13 +301,15 @@
             </div>
 
             <!-- Card 2: Role-Level Enforcements -->
-            <div class="card bg-surface-container-lowest shadow-xl border border-outline-variant/15 rounded-[2.5rem] overflow-hidden">
+            <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
                 <div class="card-body p-8 md:p-10 space-y-6">
-                    <div class="flex items-center gap-4 border-b border-outline-variant/10 pb-4">
-                        <span class="material-symbols-outlined text-secondary text-3xl">shield_person</span>
+                    <div class="flex items-center gap-4 border-b border-base-200/60 pb-6">
+                        <div class="w-12 h-12 rounded-[22px] bg-secondary/10 flex items-center justify-center border border-secondary/20">
+                            <span class="material-symbols-outlined text-secondary text-2xl">shield_person</span>
+                        </div>
                         <div>
-                            <h3 class="font-black font-headline text-lg uppercase tracking-wider text-on-surface">Role-Level Defaults</h3>
-                            <p class="text-[10px] opacity-70 font-medium">Specify which user roles require daily clock-in (effective if company-wide is disabled).</p>
+                            <h3 class="font-black text-base text-base-content/90 tracking-tight">Role-Level Defaults</h3>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Specify which user roles require daily clock-in.</p>
                         </div>
                     </div>
 
@@ -346,13 +356,15 @@
             </div>
 
             <!-- Card 3: Employee-Level Exclusions & Overrides -->
-            <div class="card bg-surface-container-lowest shadow-xl border border-outline-variant/15 rounded-[2.5rem] overflow-hidden">
+            <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
                 <div class="card-body p-8 md:p-10 space-y-6">
-                    <div class="flex items-center gap-4 border-b border-outline-variant/10 pb-4">
-                        <span class="material-symbols-outlined text-tertiary text-3xl">badge</span>
+                    <div class="flex items-center gap-4 border-b border-base-200/60 pb-6">
+                        <div class="w-12 h-12 rounded-[22px] bg-tertiary/10 flex items-center justify-center border border-tertiary/20">
+                            <span class="material-symbols-outlined text-tertiary text-2xl">person_search</span>
+                        </div>
                         <div>
-                            <h3 class="font-black font-headline text-lg uppercase tracking-wider text-on-surface">Employee Overrides & Exemptions</h3>
-                            <p class="text-[10px] opacity-70 font-medium">Explicitly exempt or force require clock-in for individual employees, overriding general company and role defaults.</p>
+                            <h3 class="font-black text-base text-base-content/90 tracking-tight">Individual Employee Exclusions</h3>
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Force or exempt specific staff members</p>
                         </div>
                     </div>
 
@@ -417,21 +429,12 @@
             </div>
 
             <!-- Submit Section -->
-            <div class="flex justify-end gap-4 pt-4">
-                <a href="{{ route('attendance.index') }}" class="btn btn-ghost rounded-2xl font-black uppercase tracking-widest text-xs px-8">Discard</a>
-                <button type="submit" class="btn btn-primary bg-gradient-to-br from-primary to-tertiary border-none rounded-2xl font-black uppercase tracking-[0.2em] text-xs h-auto py-5 px-12 shadow-xl hover:scale-105 transition-transform">
-                    Save Enforcement Rules
+            <div class="flex justify-end gap-4 pt-6 border-t border-base-200/60 mt-6">
+                <a href="{{ route('attendance.index') }}" class="btn btn-ghost rounded-xl font-bold uppercase tracking-widest text-[10px] px-8">Discard Changes</a>
+                <button type="submit" class="btn btn-primary bg-gradient-to-br from-primary to-primary-focus border-none rounded-xl font-black uppercase tracking-[0.15em] text-[10px] h-auto py-4 px-10 shadow-xl shadow-primary/20 hover:scale-105 transition-transform">
+                    Save Attendance Settings
                 </button>
             </div>
         </form>
     </div>
-
-    @push('scripts')
-    <script>
-    function toggleFlexible(checkbox) {
-        const field = document.getElementById('flexible_hours_field');
-        if (field) field.classList.toggle('hidden', !checkbox.checked);
-    }
-    </script>
-    @endpush
 </x-app-layout>
