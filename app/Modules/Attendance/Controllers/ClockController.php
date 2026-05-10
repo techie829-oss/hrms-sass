@@ -113,15 +113,20 @@ class ClockController extends BaseController
             ->where('is_default', true)
             ->first();
 
-        $isLate = false;
-        $lateMinutes = 0;
-        $now = Carbon::now();
+        $targetStartTime = null;
+        $graceMinutes = 0;
 
         if ($shift) {
-            $startTime = Carbon::createFromFormat('H:i:s', Carbon::parse($shift->start_time)->format('H:i:s'))
-                ->setDate($today->year, $today->month, $today->day);
-            
-            $graceTime = $startTime->copy()->addMinutes($shift->grace_minutes);
+            $targetStartTime = $shift->start_time;
+            $graceMinutes = $shift->grace_minutes;
+        } elseif ($policy && $policy->default_start_time) {
+            $targetStartTime = $policy->default_start_time;
+            $graceMinutes = $policy->late_mark_after_minutes ?? 0;
+        }
+
+        if ($targetStartTime) {
+            $startTime = Carbon::parse($targetStartTime)->setDate($today->year, $today->month, $today->day);
+            $graceTime = $startTime->copy()->addMinutes($graceMinutes);
 
             if ($now->greaterThan($graceTime)) {
                 $isLate = true;
@@ -200,12 +205,15 @@ class ClockController extends BaseController
         $diffInMinutes = $checkInTime->diffInMinutes($checkOutTime);
         $workedHours = round($diffInMinutes / 60, 2);
 
-        $overtimeMinutes = 0;
-        $shift = $log->shift;
-
+        $targetEndTime = null;
         if ($shift) {
-            $endTime = Carbon::createFromFormat('H:i:s', Carbon::parse($shift->end_time)->format('H:i:s'))
-                ->setDate($today->year, $today->month, $today->day);
+            $targetEndTime = $shift->end_time;
+        } elseif ($policy && $policy->default_end_time) {
+            $targetEndTime = $policy->default_end_time;
+        }
+
+        if ($targetEndTime) {
+            $endTime = Carbon::parse($targetEndTime)->setDate($today->year, $today->month, $today->day);
             
             if ($checkOutTime->greaterThan($endTime)) {
                 $overtimeMinutes = $checkOutTime->diffInMinutes($endTime);
