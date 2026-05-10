@@ -32,7 +32,7 @@
                     <input type="file" id="cover_input" name="cover_photo" onchange="document.getElementById('cover_upload_form').submit()" accept="image/*">
                 </form>
 
-                <div class="absolute -bottom-10 left-8 flex items-end gap-6 z-10">
+                <div class="absolute -bottom-16 left-8 flex items-end gap-6 z-10">
                     {{-- Profile Photo Section --}}
                     <div class="w-28 h-28 rounded-2xl bg-surface-container-lowest border-4 border-surface-container-lowest shadow-xl flex items-center justify-center relative overflow-hidden group/avatar">
                         @if($user->employee?->profile_photo)
@@ -73,7 +73,7 @@
                     </div>
                 @endif
             </div>
-            <div class="pt-14 pb-6 px-8 flex flex-wrap gap-8 items-center bg-surface-container-low/10">
+            <div class="pt-20 pb-6 px-8 flex flex-wrap gap-8 items-center bg-surface-container-low/10">
                 <div class="flex flex-col">
                     <span class="text-[8px] font-black uppercase tracking-tighter opacity-40">Employee ID</span>
                     <span class="text-xs font-black text-on-surface">{{ $user->employee?->employee_id ?? 'N/A' }}</span>
