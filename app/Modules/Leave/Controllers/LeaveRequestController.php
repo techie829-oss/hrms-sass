@@ -16,12 +16,14 @@ class LeaveRequestController extends BaseController
      */
     public function index()
     {
+        $this->authorize('viewAny', LeaveRequest::class);
+        
         $user = Auth::user();
         $query = LeaveRequest::with(['employee', 'leaveType']);
 
-        // If not an admin/manager, only show their own requests
-        if (!$user->can('manage_leaves')) {
-            $employee = Employee::where('user_id', $user->id)->first();
+        // Staff can only see their own requests unless they have broader view permissions
+        if ($user->hasRole(\App\Core\Constants\RoleConstants::TSTAFF) && !$user->can('approve leave')) {
+            $employee = $user->employee;
             $query->where('employee_id', $employee->id ?? 0);
         }
 
@@ -35,18 +37,15 @@ class LeaveRequestController extends BaseController
      */
     public function create()
     {
+        $this->authorize('create', LeaveRequest::class);
+        
         $leaveTypes = LeaveType::where('is_active', true)->get();
         $user = Auth::user();
         
-        // If user can manage leaves, show all active employees.
-        // Otherwise, only show the logged-in user's own employee record.
-        if ($user->can('manage_leaves')) {
-            $employees = Employee::where('status', 'active')->get();
-            $isAdmin = true;
-        } else {
-            $employees = Employee::where('user_id', $user->id)->get();
-            $isAdmin = false;
-        }
+        $isAdmin = $user->can('approve leave');
+        $employees = $isAdmin 
+            ? Employee::active()->get() 
+            : Employee::where('user_id', $user->id)->get();
 
         $employee = $user->employee;
         $balances = [];
@@ -65,6 +64,8 @@ class LeaveRequestController extends BaseController
      */
     public function store(Request $request)
     {
+        $this->authorize('create', LeaveRequest::class);
+
         $validated = $request->validate([
             'employee_id' => ['required', 'exists:employees,id'],
             'leave_type_id' => ['required', 'exists:leave_types,id'],
@@ -75,16 +76,12 @@ class LeaveRequestController extends BaseController
             'reason' => ['required', 'string', 'max:500'],
         ]);
 
-        // Security check: If not an admin/manager, force employee_id to the user's own employee record
-        if (!Auth::user()->can('manage_leaves')) {
-            $ownEmployee = Employee::where('user_id', Auth::id())->first();
-            if (!$ownEmployee) {
-                return back()->with('error', 'You do not have an employee profile associated with your user account.');
-            }
-            $validated['employee_id'] = $ownEmployee->id;
+        // Security check: Staff cannot apply for others
+        if (!$request->user()->can('approve leave')) {
+            $validated['employee_id'] = $request->user()->employee?->id;
         }
 
-        // Logic to calculate total days would normally go in a Service
+        // Logic to calculate total days
         $start = \Carbon\Carbon::parse($validated['start_date']);
         $end = \Carbon\Carbon::parse($validated['end_date']);
         $totalDays = $start->diffInDays($end) + 1;
@@ -109,13 +106,12 @@ class LeaveRequestController extends BaseController
         }
 
         $leaveRequest = LeaveRequest::create(array_merge($validated, [
+            'tenant_id' => saas_tenant('id'),
             'total_days' => $totalDays,
             'status' => 'pending',
         ]));
 
-        if ($balance) {
-            $balance->increment('total_pending', $totalDays);
-        }
+        $balance->increment('total_pending', $totalDays);
 
         return redirect()->route('leave.requests.index')
             ->with('success', 'Leave request submitted successfully.');
@@ -126,6 +122,8 @@ class LeaveRequestController extends BaseController
      */
     public function updateStatus(Request $request, LeaveRequest $leaveRequest)
     {
+        $this->authorize('approve', $leaveRequest);
+
         $validated = $request->validate([
             'status' => ['required', 'in:approved,rejected'],
             'rejection_reason' => ['nullable', 'required_if:status,rejected', 'string'],
@@ -168,6 +166,7 @@ class LeaveRequestController extends BaseController
      */
     public function show(LeaveRequest $leaveRequest)
     {
+        $this->authorize('view', $leaveRequest);
         $leaveRequest->load(['employee', 'leaveType']);
 
         return view('leave::show', compact('leaveRequest'));

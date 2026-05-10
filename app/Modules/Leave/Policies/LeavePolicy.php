@@ -4,23 +4,20 @@ namespace App\Modules\Leave\Policies;
 
 use App\Models\User;
 use App\Modules\Leave\Models\LeaveRequest;
+use App\Core\Constants\RoleConstants;
 
 class LeavePolicy
 {
     /**
      * View list of leave requests.
-     * - tstaff: allowed (they'll see filtered results in controller)
-     * - tadmin/tmanager: allowed
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['tadmin', 'tmanager', 'tstaff']);
+        return $user->hasAnyPermission(['view leave', 'approve leave', 'create leave']);
     }
 
     /**
      * View a specific leave request.
-     * - tstaff: only their own
-     * - tadmin/tmanager: any leave in same tenant
      */
     public function view(User $user, LeaveRequest $leaveRequest): bool
     {
@@ -28,25 +25,24 @@ class LeavePolicy
             return false;
         }
 
-        if ($user->hasRole('tstaff')) {
+        // Staff can only view their own
+        if ($user->hasRole(RoleConstants::TSTAFF) && !$user->hasPermissionTo('approve leave')) {
             return $user->employee?->id === $leaveRequest->employee_id;
         }
 
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        return $user->hasAnyPermission(['approve leave', 'view leave']);
     }
 
     /**
      * Apply for a new leave request.
-     * All tenant users can apply.
      */
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['tadmin', 'tmanager', 'tstaff']);
+        return $user->hasPermissionTo('create leave');
     }
 
     /**
      * Approve or reject a leave request.
-     * Only tadmin and tmanager can approve/reject.
      */
     public function approve(User $user, LeaveRequest $leaveRequest): bool
     {
@@ -54,13 +50,16 @@ class LeavePolicy
             return false;
         }
 
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        // Prevent self-approval
+        if ($user->employee?->id === $leaveRequest->employee_id) {
+            return false;
+        }
+
+        return $user->hasPermissionTo('approve leave');
     }
 
     /**
      * Cancel a leave request.
-     * - tstaff: can cancel their own (if still pending)
-     * - tadmin/tmanager: can cancel any
      */
     public function cancel(User $user, LeaveRequest $leaveRequest): bool
     {
@@ -68,11 +67,11 @@ class LeavePolicy
             return false;
         }
 
-        if ($user->hasRole('tstaff')) {
-            return $user->employee?->id === $leaveRequest->employee_id
-                && $leaveRequest->status === 'pending';
+        // Staff can cancel their own if pending
+        if ($user->employee?->id === $leaveRequest->employee_id) {
+            return $leaveRequest->status === 'pending';
         }
 
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        return $user->hasPermissionTo('cancel leave');
     }
 }
