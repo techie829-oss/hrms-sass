@@ -7,6 +7,9 @@
             </div>
             <div class="flex items-center gap-2">
                 @can('manage-settings')
+                <button onclick="bulk_apply_modal.showModal()" class="btn btn-ghost btn-sm border-base-300 rounded-xl px-4 font-bold text-primary">
+                    <span class="material-symbols-outlined text-base">group_add</span> Bulk Apply
+                </button>
                 <a href="{{ route('leave.types.index') }}" class="btn btn-ghost btn-sm btn-outline border-base-300 rounded-xl px-4">
                     <span class="material-symbols-outlined text-base">category</span> Leave Types
                 </a>
@@ -148,4 +151,58 @@
             </div>
         @endif
     </div>
+
+    {{-- Bulk Apply Modal --}}
+    <dialog id="bulk_apply_modal" class="modal">
+        <div class="modal-box bg-base-100 rounded-[32px] p-8 shadow-2xl border border-base-200 max-w-2xl">
+            <h3 class="text-xl font-bold text-base-content/90 mb-6">Bulk Apply Leave</h3>
+            
+            <form action="{{ route('leave.requests.bulk') }}" method="POST" class="space-y-6">
+                @csrf
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="form-control">
+                        <label class="text-[10px] font-black uppercase tracking-widest text-base-content/40 mb-2 ml-1">Select Employees</label>
+                        <div class="bg-base-200/50 rounded-2xl p-4 border border-base-200/50 max-h-48 overflow-y-auto space-y-2">
+                            @foreach($employees as $emp)
+                                <label class="flex items-center gap-3 cursor-pointer hover:bg-white/50 p-2 rounded-xl transition-colors">
+                                    <input type="checkbox" name="employee_ids[]" value="{{ $emp->id }}" class="checkbox checkbox-primary checkbox-sm rounded-md">
+                                    <span class="text-xs font-bold text-base-content/70">{{ $emp->full_name }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="form-control">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-base-content/40 mb-2 ml-1">Leave Type</label>
+                            <select name="leave_type_id" class="select select-bordered rounded-2xl bg-base-200/50 border-none focus:bg-base-100" required>
+                                @foreach($leaveTypes as $type)
+                                    <option value="{{ $type->id }}">{{ $type->name }} ({{ $type->code }})</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-control">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-base-content/40 mb-2 ml-1">Start Date</label>
+                            <input type="date" name="start_date" class="input input-bordered rounded-2xl bg-base-200/50 border-none focus:bg-base-100" required>
+                        </div>
+                        <div class="form-control">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-base-content/40 mb-2 ml-1">End Date</label>
+                            <input type="date" name="end_date" class="input input-bordered rounded-2xl bg-base-200/50 border-none focus:bg-base-100" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-control">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-base-content/40 mb-2 ml-1">Reason for Bulk Application</label>
+                    <textarea name="reason" class="textarea textarea-bordered rounded-2xl bg-base-200/50 border-none focus:bg-base-100 min-h-[100px]" required placeholder="e.g. Finance Month Closing Recovery Day Off"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 pt-4">
+                    <button type="submit" class="btn bg-primary hover:bg-primary-focus text-white border-none rounded-2xl font-bold">Apply for All Selected</button>
+                    <form method="dialog"><button class="btn btn-ghost rounded-2xl font-bold w-full">Cancel</button></form>
+                </div>
+            </form>
+        </div>
+        <form method="dialog" class="modal-backdrop bg-base-300/40 backdrop-blur-sm"><button>close</button></form>
+    </dialog>
 </x-app-layout>

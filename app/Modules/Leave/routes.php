@@ -7,6 +7,7 @@ use App\Modules\Leave\Controllers\CompOffController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('leave.')->middleware(['auth'])->group(function () {
+    Route::post('requests/bulk', [LeaveRequestController::class, 'bulkStore'])->name('requests.bulk');
     Route::resource('requests', LeaveRequestController::class);
     
     // Holidays

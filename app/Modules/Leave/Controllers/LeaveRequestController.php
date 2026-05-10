@@ -28,8 +28,10 @@ class LeaveRequestController extends BaseController
         }
 
         $requests = $query->latest()->paginate(15);
+        $employees = Employee::active()->get();
+        $leaveTypes = LeaveType::where('is_active', true)->get();
 
-        return view('leave::index', compact('requests'));
+        return view('leave::index', compact('requests', 'employees', 'leaveTypes'));
     }
 
     /**
@@ -178,6 +180,95 @@ class LeaveRequestController extends BaseController
 
         return redirect()->route('leave.requests.index')
             ->with('success', 'Leave request status updated.');
+    }
+
+    /**
+     * Store multiple leave requests at once (Bulk Apply).
+     */
+    public function bulkStore(Request $request)
+    {
+        $this->authorize('create', LeaveRequest::class);
+
+        $validated = $request->validate([
+            'employee_ids' => ['required', 'array'],
+            'employee_ids.*' => ['exists:employees,id'],
+            'leave_type_id' => ['required', 'exists:leave_types,id'],
+            'start_date' => ['required', 'date'],
+            'end_date' => ['required', 'date', 'after_or_equal:start_date'],
+            'reason' => ['required', 'string', 'max:500'],
+        ]);
+
+        $start = \Carbon\Carbon::parse($validated['start_date']);
+        $end = \Carbon\Carbon::parse($validated['end_date']);
+        $totalDays = $start->diffInDays($end) + 1;
+
+        $successCount = 0;
+        $errors = [];
+
+        foreach ($validated['employee_ids'] as $employeeId) {
+            $employee = Employee::find($employeeId);
+            
+            // Check Balance
+            $balance = \App\Modules\Leave\Models\LeaveBalance::where([
+                'employee_id' => $employeeId,
+                'leave_type_id' => $validated['leave_type_id'],
+                'year' => $start->year,
+            ])->first();
+
+            if (!$balance || $balance->balance < $totalDays) {
+                $errors[] = "Employee {$employee->full_name} has insufficient balance.";
+                continue;
+            }
+
+            // Create Request (Auto-Approve if bulk by admin?) 
+            // Usually bulk apply by admin is auto-approved.
+            \Illuminate\Support\Facades\DB::transaction(function () use ($validated, $totalDays, $employeeId, $balance, $start) {
+                $leaveRequest = LeaveRequest::create([
+                    'tenant_id' => saas_tenant('id'),
+                    'employee_id' => $employeeId,
+                    'leave_type_id' => $validated['leave_type_id'],
+                    'start_date' => $validated['start_date'],
+                    'end_date' => $validated['end_date'],
+                    'total_days' => $totalDays,
+                    'reason' => $validated['reason'],
+                    'status' => 'approved',
+                    'approved_by' => Auth::id(),
+                    'approved_at' => now(),
+                ]);
+
+                // Update Balance
+                $balance->decrement('balance', $totalDays);
+                $balance->increment('total_used', $totalDays);
+
+                // Comp-Off Settlement
+                $coType = \App\Modules\Leave\Models\LeaveType::where('code', 'CO')->first();
+                if ($coType && (int)$validated['leave_type_id'] === $coType->id) {
+                    $unsettled = \App\Modules\Leave\Models\CompOffRequest::where('employee_id', $employeeId)
+                        ->where('status', 'approved')
+                        ->where('is_used', false)
+                        ->orderBy('worked_on_date')
+                        ->limit((int)$totalDays)
+                        ->get();
+
+                    foreach ($unsettled as $co) {
+                        $co->update([
+                            'is_used' => true,
+                            'used_at' => $start,
+                            'leave_request_id' => $leaveRequest->id
+                        ]);
+                    }
+                }
+            });
+
+            $successCount++;
+        }
+
+        $message = "Bulk leave applied for {$successCount} employees.";
+        if (count($errors) > 0) {
+            $message .= " Errors: " . implode(', ', $errors);
+        }
+
+        return redirect()->route('leave.requests.index')->with('success', $message);
     }
 
     /**
