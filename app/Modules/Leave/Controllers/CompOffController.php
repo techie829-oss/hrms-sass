@@ -25,7 +25,7 @@ class CompOffController extends BaseController
         
         $query = CompOffRequest::with('employee');
         
-        if ($user->hasRole(\App\Core\Constants\RoleConstants::TSTAFF) && !$user->can('manage comp_off')) {
+        if (!$user->can('manage comp_off')) {
             $query->where('employee_id', $user->employee?->id);
         }
 
@@ -56,7 +56,7 @@ class CompOffController extends BaseController
      */
     public function bulkGrant(Request $request)
     {
-        Gate::authorize('manage comp_off');
+        $this->authorize('manage', CompOffRequest::class);
         
         $validated = $request->validate([
             'date' => 'required|date',
@@ -95,7 +95,7 @@ class CompOffController extends BaseController
 
     public function updateStatus(Request $request, CompOffRequest $compOffRequest)
     {
-        Gate::authorize('manage comp_off');
+        $this->authorize('manage', CompOffRequest::class);
         
         $validated = $request->validate([
             'status' => 'required|in:approved,rejected',
@@ -122,7 +122,7 @@ class CompOffController extends BaseController
      */
     public function settleBulk(Request $request)
     {
-        Gate::authorize('manage comp_off');
+        $this->authorize('manage', CompOffRequest::class);
 
         $validated = $request->validate([
             'reference_date' => 'required|date', // Date worked

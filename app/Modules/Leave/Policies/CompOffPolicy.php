@@ -13,6 +13,11 @@ class CompOffPolicy
         return $user->hasAnyPermission(['view comp_off', 'manage comp_off']);
     }
 
+    public function manage(User $user): bool
+    {
+        return $user->hasPermissionTo('manage comp_off');
+    }
+
     public function view(User $user, CompOffRequest $compOffRequest): bool
     {
         if ($compOffRequest->tenant_id !== $user->tenant_id) {

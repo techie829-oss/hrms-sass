@@ -22,7 +22,7 @@ class LeaveRequestController extends BaseController
         $query = LeaveRequest::with(['employee', 'leaveType']);
 
         // Staff can only see their own requests unless they have broader view permissions
-        if ($user->hasRole(\App\Core\Constants\RoleConstants::TSTAFF) && !$user->can('approve leave')) {
+        if (!$user->can('approve leave')) {
             $employee = $user->employee;
             $query->where('employee_id', $employee->id ?? 0);
         }
