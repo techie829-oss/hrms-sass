@@ -44,6 +44,14 @@ class LeaveSettingsSeeder extends Seeder
                 'is_carry_forward' => false,
                 'description' => 'Unpaid absence from work.',
             ],
+            [
+                'name' => 'Compensatory Off',
+                'code' => 'CO',
+                'max_days_per_year' => 50,
+                'is_paid' => true,
+                'is_carry_forward' => false,
+                'description' => 'Earned leave for working on holidays or extra days.',
+            ],
         ];
 
         foreach ($types as $type) {

@@ -25,6 +25,7 @@ class LeaveType extends Model
         'applicable_gender',
         'description',
         'is_active',
+        'applicable_in_probation',
     ];
 
     protected $casts = [
@@ -37,5 +38,6 @@ class LeaveType extends Model
         'max_days_per_year' => 'integer',
         'max_carry_forward_days' => 'integer',
         'min_days_notice' => 'integer',
+        'applicable_in_probation' => 'boolean',
     ];
 }

@@ -6,7 +6,7 @@
                 <p class="text-xs font-medium mt-0.5 opacity-50">Earned time-off for working extra days or holidays.</p>
             </div>
             <div class="flex items-center gap-2">
-                @can('manage comp_off')
+                @can('manage-comp-off')
                 <button onclick="one_click_settle_modal.showModal()" class="btn btn-ghost btn-sm border-base-300 rounded-xl px-4 font-bold text-indigo-600">
                     <span class="material-symbols-outlined text-base">auto_fix_high</span> One-Click Settle
                 </button>
@@ -81,7 +81,7 @@
                         @endif
                     </td>
                     <td class="text-right px-6">
-                        @if($request->status === 'pending' && Auth::user()->can('manage comp_off'))
+                        @if($request->status === 'pending' && Auth::user()->can('manage-comp-off'))
                         <div class="flex justify-end gap-2">
                             <form action="{{ route('leave.comp-off.status', $request->id) }}" method="POST">
                                 @csrf

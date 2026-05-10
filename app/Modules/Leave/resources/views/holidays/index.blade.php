@@ -6,7 +6,7 @@
                 <p class="text-xs font-medium mt-0.5 opacity-50">Official company holidays and restricted days off.</p>
             </div>
             <div class="flex items-center gap-2">
-                @can('manage holidays')
+                @can('manage-holidays')
                 <button onclick="add_holiday_modal.showModal()" class="btn btn-primary btn-sm rounded-xl px-5 shadow-lg shadow-primary/20">
                     <span class="material-symbols-outlined text-base">add</span> Add Holiday
                 </button>
@@ -31,7 +31,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($holidays as $holiday)
             <div class="bg-base-100 rounded-[32px] p-6 border border-base-200 shadow-sm hover:shadow-md transition-all group relative">
-                @can('manage holidays')
+                @can('manage-holidays')
                 <form action="{{ route('leave.holidays.destroy', $holiday->id) }}" method="POST" class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     @csrf
                     @method('DELETE')

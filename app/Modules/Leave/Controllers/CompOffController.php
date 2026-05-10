@@ -25,7 +25,7 @@ class CompOffController extends BaseController
         
         $query = CompOffRequest::with('employee');
         
-        if (!$user->can('manage comp_off')) {
+        if (!$user->can('manage-comp-off')) {
             $query->where('employee_id', $user->employee?->id);
         }
 

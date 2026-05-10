@@ -13,7 +13,7 @@ class LeavePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyPermission(['view leave', 'approve leave', 'create leave']);
+        return $user->hasAnyPermission(['view-leave', 'approve-leave', 'create-leave', 'view-own-leave']);
     }
 
     /**
@@ -25,12 +25,12 @@ class LeavePolicy
             return false;
         }
 
-        // Staff can only view their own
-        if ($user->hasRole(RoleConstants::TSTAFF) && !$user->hasPermissionTo('approve leave')) {
+        // Staff can only view their own if they have view-own-leave
+        if ($user->hasPermissionTo('view-own-leave') && !$user->hasPermissionTo('approve-leave')) {
             return $user->employee?->id === $leaveRequest->employee_id;
         }
 
-        return $user->hasAnyPermission(['approve leave', 'view leave']);
+        return $user->hasAnyPermission(['approve-leave', 'view-leave']);
     }
 
     /**
@@ -38,7 +38,7 @@ class LeavePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create leave');
+        return $user->hasPermissionTo('create-leave');
     }
 
     /**
@@ -55,7 +55,7 @@ class LeavePolicy
             return false;
         }
 
-        return $user->hasPermissionTo('approve leave');
+        return $user->hasPermissionTo('approve-leave');
     }
 
     /**
@@ -72,6 +72,6 @@ class LeavePolicy
             return $leaveRequest->status === 'pending';
         }
 
-        return $user->hasPermissionTo('cancel leave');
+        return $user->hasPermissionTo('cancel-leave');
     }
 }

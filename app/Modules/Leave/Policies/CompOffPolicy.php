@@ -10,12 +10,12 @@ class CompOffPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyPermission(['view comp_off', 'manage comp_off']);
+        return $user->hasAnyPermission(['view-comp-off', 'manage-comp-off', 'view-own-comp-off']);
     }
 
     public function manage(User $user): bool
     {
-        return $user->hasPermissionTo('manage comp_off');
+        return $user->hasPermissionTo('manage-comp-off');
     }
 
     public function view(User $user, CompOffRequest $compOffRequest): bool
@@ -24,26 +24,29 @@ class CompOffPolicy
             return false;
         }
 
-        if ($user->hasPermissionTo('manage comp_off')) {
+        if ($user->hasPermissionTo('manage-comp-off')) {
             return true;
         }
 
-        return $user->employee?->id === $compOffRequest->employee_id;
+        if ($user->hasPermissionTo('view-own-comp-off')) {
+            return $user->employee?->id === $compOffRequest->employee_id;
+        }
+
+        return false;
     }
 
     public function create(User $user): bool
     {
-        return true; // Any employee can request comp-off if they worked. 
-        // Or restricted: return $user->hasPermissionTo('create comp_off');
+        return $user->hasPermissionTo('create-comp-off');
     }
 
     public function update(User $user, CompOffRequest $compOffRequest): bool
     {
-        return $user->hasPermissionTo('manage comp_off') && $user->employee?->id !== $compOffRequest->employee_id;
+        return $user->hasPermissionTo('manage-comp-off') && $user->employee?->id !== $compOffRequest->employee_id;
     }
 
     public function delete(User $user, CompOffRequest $compOffRequest): bool
     {
-        return $user->hasPermissionTo('manage comp_off');
+        return $user->hasPermissionTo('manage-comp-off');
     }
 }

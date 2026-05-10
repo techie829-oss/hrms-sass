@@ -47,11 +47,15 @@ class Employee extends Model
         'aadhar_number',
         'passport_number',
         'reporting_to',
+        'probation_end_date',
+        'is_on_probation',
     ];
 
     protected $casts = [
         'date_of_birth' => 'date',
         'date_of_joining' => 'date',
+        'probation_end_date' => 'date',
+        'is_on_probation' => 'boolean',
         'salary' => 'decimal:2',
         'basic_salary' => 'decimal:2',
     ];

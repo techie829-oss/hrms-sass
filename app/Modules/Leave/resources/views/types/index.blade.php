@@ -115,13 +115,19 @@
 
                     <div class="h-px bg-base-200 w-full"></div>
 
-                    <label class="flex items-center justify-between cursor-pointer">
-                        <div class="flex flex-col">
-                            <span class="text-[11px] font-black uppercase tracking-widest text-base-content/80">Carry Forward</span>
-                            <span class="text-[9px] font-medium opacity-50 mt-1">Balance moves to next calendar year</span>
-                        </div>
-                        <input type="checkbox" name="is_carry_forward" value="1" class="checkbox checkbox-primary rounded-lg" />
-                    </label>
+                    <div class="form-control">
+                        <label class="label cursor-pointer justify-start gap-3">
+                            <input type="checkbox" name="is_carry_forward" value="1" class="checkbox checkbox-primary rounded-lg" />
+                            <span class="label-text font-bold text-xs">Carry Forward Balances</span>
+                        </label>
+                    </div>
+
+                    <div class="form-control">
+                        <label class="label cursor-pointer justify-start gap-3">
+                            <input type="checkbox" name="applicable_in_probation" value="1" class="checkbox checkbox-primary rounded-lg" />
+                            <span class="label-text font-bold text-xs">Applicable in Probation</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="form-control">
