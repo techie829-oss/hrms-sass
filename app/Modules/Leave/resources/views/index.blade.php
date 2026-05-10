@@ -20,6 +20,19 @@
         </div>
     </x-slot>
 
+    {{-- Module Navigation Tabs --}}
+    <div class="flex items-center gap-1 mb-8 bg-base-200/50 p-1.5 rounded-[20px] w-fit border border-base-200">
+        <a href="{{ route('leave.requests.index') }}" class="px-6 py-2 rounded-[14px] text-xs font-black uppercase tracking-widest transition-all {{ request()->routeIs('leave.requests.*') ? 'bg-white shadow-sm text-primary' : 'text-base-content/40 hover:text-base-content/70' }}">
+            Leave Requests
+        </a>
+        <a href="{{ route('leave.holidays.index') }}" class="px-6 py-2 rounded-[14px] text-xs font-black uppercase tracking-widest transition-all {{ request()->routeIs('leave.holidays.*') ? 'bg-white shadow-sm text-primary' : 'text-base-content/40 hover:text-base-content/70' }}">
+            Holiday Calendar
+        </a>
+        <a href="{{ route('leave.comp-off.index') }}" class="px-6 py-2 rounded-[14px] text-xs font-black uppercase tracking-widest transition-all {{ request()->routeIs('leave.comp-off.*') ? 'bg-white shadow-sm text-primary' : 'text-base-content/40 hover:text-base-content/70' }}">
+            Comp-Off Claims
+        </a>
+    </div>
+
     <div class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
         <x-table :headers="['Employee', 'Leave Type', 'Start Date', 'End Date', 'Days', 'Status', 'Actions']" :striped="false">
             @forelse($requests as $request)

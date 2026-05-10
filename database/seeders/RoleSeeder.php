@@ -65,6 +65,10 @@ class RoleSeeder extends Seeder
             'manage performance' => 'Define KPIs, Submit Staff Appraisals & Reviews',
             'view timesheet' => 'Access Personal Timesheet & Activity Logs',
             'manage timesheet' => 'Submit, Edit, and Approve Timesheet Hours',
+            'view holidays' => 'View Company Holiday Calendar',
+            'manage holidays' => 'Create, Edit, and Delete Holidays',
+            'view comp_off' => 'View Compensatory Off Requests & Balances',
+            'manage comp_off' => 'Approve/Reject Comp-Off Earnings',
         ];
 
         foreach ($permissions as $permission => $description) {
