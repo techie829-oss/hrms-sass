@@ -27,12 +27,24 @@ class DashboardController extends Controller
     {
         $tenantId = saas_tenant('id');
         $user = auth()->user();
-        $isAdmin = $user->hasRole(['tadmin', 'tmanager', 'superadmin']);
         
-        $recentActivities = $isAdmin ? $this->activityService->getRecentActivities(5) : collect([]);
+        // Granular Permissions (Now automatically true for Admins via Gate::before)
+        $canViewEmployees = $user->can('view-employees');
+        $canViewAttendance = $user->can('view-attendance');
+        $canViewLeave = $user->can('view-leave');
+        $canViewPayroll = $user->can('view-payroll');
+        $canApproveLeave = $user->can('approve-leave');
+        
+        $recentActivities = ($canViewEmployees || $canViewAttendance || $canViewLeave) 
+            ? $this->activityService->getRecentActivities(5) 
+            : collect([]);
 
         $data = [
-            'isAdmin' => $isAdmin,
+            'canViewEmployees' => $canViewEmployees,
+            'canViewAttendance' => $canViewAttendance,
+            'canViewLeave' => $canViewLeave,
+            'canViewPayroll' => $canViewPayroll,
+            'canApproveLeave' => $canApproveLeave,
             'recentActivities' => $recentActivities,
             'totalEmployees' => 0,
             'activeEmployees' => 0,
@@ -49,7 +61,7 @@ class DashboardController extends Controller
             'assignedShift' => null,
         ];
 
-        if ($data['hasHr'] && $isAdmin) {
+        if ($data['hasHr'] && $canViewEmployees) {
             $data['totalEmployees'] = Employee::count();
             $data['activeEmployees'] = Employee::where('status', 'active')->count();
             $data['recentEmployees'] = Employee::with('department')->latest('created_at')->take(5)->get();
@@ -66,7 +78,7 @@ class DashboardController extends Controller
         }
 
         if ($data['hasAttendance']) {
-            if ($isAdmin) {
+            if ($canViewAttendance) {
                 $totalEmp = Employee::count();
                 if ($totalEmp > 0) {
                     $today = Carbon::today();
@@ -87,12 +99,10 @@ class DashboardController extends Controller
                     ->first();
                 $data['assignedShift'] = $employee->attendanceShift;
                 
-                // Check if clock-in enforcement is enabled for this employee's policy
-                // Only enforce if we are in a secure context (HTTPS) or local development
                 $policy = $employee->attendancePolicy;
                 
-                // Resolve Multi-Clocking (3-state: 0=Inherit, 1=Allow, 2=Disallow)
-                $multiClocking = 0; // Default
+                // Resolve Multi-Clocking
+                $multiClocking = 0; 
                 $empEnf = AttendanceEmployeeEnforcement::where('employee_id', $employee->id)->first();
                 
                 if ($empEnf && $empEnf->multi_clocking != 0) {
@@ -111,7 +121,7 @@ class DashboardController extends Controller
                 }
                 $data['isMultiEnabled'] = ($multiClocking == 1);
 
-                // Resolve Enforcement (3-state: 0=Inherit, 1=Force, 2=Exempt)
+                // Resolve Enforcement
                 $enforcement = 0;
                 if ($empEnf && $empEnf->enforce_kiosk != 0) {
                     $enforcement = $empEnf->enforce_kiosk;
@@ -131,7 +141,6 @@ class DashboardController extends Controller
                 $isSecure = request()->secure() || in_array(request()->getHost(), ['localhost', '127.0.0.1']) || str_ends_with(request()->getHost(), '.test');
                 $data['enforceKiosk'] = ($enforcement == 1 && $isSecure);
                 
-                // Fetch recent attendance for the employee view
                 $data['myRecentAttendance'] = AttendanceLog::where('employee_id', $employee->id)
                     ->latest('date')
                     ->take(5)
@@ -142,7 +151,8 @@ class DashboardController extends Controller
         $data['pendingTasks'] = collect([]);
 
         if ($data['hasLeave']) {
-            if ($isAdmin) {
+            if ($canApproveLeave) {
+                // Admin/Manager view: Total pending in company
                 $data['pendingLeaves'] = LeaveRequest::where('status', 'pending')->count();
                 $pendingLeavesRecords = LeaveRequest::with('employee')->where('status', 'pending')->latest()->take(3)->get();
                 
@@ -155,13 +165,13 @@ class DashboardController extends Controller
                         'is_completed' => false
                     ]);
                 }
-            } else if ($user->employee) {
-                // For regular employees, show their own pending leaves
+            } else if ($user->employee && $user->can('view-own-leave')) {
+                // Staff view: Their own pending requests
                 $data['pendingLeaves'] = LeaveRequest::where('employee_id', $user->employee->id)->where('status', 'pending')->count();
             }
         }
 
-        if ($data['hasPayroll'] && $isAdmin) {
+        if ($data['hasPayroll'] && $canViewPayroll) {
             $data['payrollDisbursed'] = PayrollRun::where('status', 'completed')
                 ->whereMonth('created_at', Carbon::now()->month)
                 ->sum('total_net');

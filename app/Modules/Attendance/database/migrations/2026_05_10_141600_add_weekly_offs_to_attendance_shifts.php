@@ -9,8 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('attendance_shifts', function (Blueprint $table) {
-            if (!Schema::hasColumn('attendance_shifts', 'min_hours_full_day')) {
-                $table->unsignedSmallInteger('min_hours_full_day')->nullable()->after('half_day_hours');
+            if (!Schema::hasColumn('attendance_shifts', 'weekly_offs')) {
+                $table->json('weekly_offs')->nullable()->after('is_overnight');
             }
         });
     }
@@ -18,7 +18,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('attendance_shifts', function (Blueprint $table) {
-            $table->dropColumn('min_hours_full_day');
+            $table->dropColumn('weekly_offs');
         });
     }
 };

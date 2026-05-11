@@ -76,6 +76,8 @@ class RoleSeeder extends Seeder
             'view-own-comp-off' => 'View Personal Compensatory Off History',
             'create-comp-off' => 'Submit Personal Comp-Off Requests',
             'manage-comp-off' => 'Approve/Reject Comp-Off Earnings',
+            'view-comp-off-history' => 'View detailed audit trail of comp-off earnings and redemptions',
+            'manage-comp-off-history' => 'Force adjust or correct comp-off historical balances',
             'manage-settings' => 'Full System Configuration Access',
         ];
 

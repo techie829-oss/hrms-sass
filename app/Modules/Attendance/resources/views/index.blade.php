@@ -20,7 +20,7 @@
                     </a>
                 </div>
                 @endif
-                @can('manage_attendance')
+                @can('manage-attendance')
                 <div class="flex gap-2">
                     <a href="{{ route('attendance.settings') }}" class="btn btn-ghost btn-sm btn-outline border-base-300 rounded-xl px-3">
                         <span class="material-symbols-outlined text-base">settings</span>
@@ -41,7 +41,7 @@
                 <form action="{{ route('attendance.index') }}" method="GET" class="flex flex-wrap items-center gap-3">
                     <input type="hidden" name="view" value="{{ $view }}">
                     
-                    @can('view_all_attendance')
+                    @can('view-all-attendance')
                     <div class="relative group">
                         <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 opacity-40 text-lg group-focus-within:text-primary transition-colors">search</span>
                         <input type="text" name="search" value="{{ request('search') }}" placeholder="Search employee..." class="input input-bordered input-sm w-full max-w-[200px] pl-10 pr-10 py-2 text-xs rounded-2xl focus:border-primary transition-all">

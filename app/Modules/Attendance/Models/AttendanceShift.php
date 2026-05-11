@@ -22,6 +22,7 @@ class AttendanceShift extends Model
         'half_day_hours',
         'min_hours_full_day',  // Shift-specific full day threshold (overrides policy default)
         'is_overnight',
+        'weekly_offs',
         'is_default',
         'is_active',
     ];
@@ -30,6 +31,7 @@ class AttendanceShift extends Model
         'start_time' => 'datetime:H:i',
         'end_time' => 'datetime:H:i',
         'is_overnight'   => 'boolean',
+        'weekly_offs'    => 'array',
         'is_default'     => 'boolean',
         'is_active'      => 'boolean',
     ];

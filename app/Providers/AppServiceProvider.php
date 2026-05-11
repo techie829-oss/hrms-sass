@@ -61,10 +61,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(KPI::class, PerformancePolicy::class);
 
         // ── SaaS Internal Gates ────────────────────────────────────────────
-        // SADMIN bypasses all gates
+        // SADMIN and Tenant Admins bypass all gates
         Gate::before(function ($user) {
-            // Super Admin Bypass
-            if ($user->hasRole('superadmin') || $user->hasRole(RoleConstants::SADMIN)) {
+            // Super Admin & Tenant Admin Bypass
+            if ($user->hasRole(['superadmin', 'sadmin', 'tadmin', 'tmanager'])) {
                 return true;
             }
         });
@@ -92,19 +92,19 @@ class AppServiceProvider extends ServiceProvider
 
         // ── Tenant-level Gates ────────────────────────────────────────────
         Gate::define('manage-employees', fn($user) =>
-            $user->hasPermissionTo('view employees')
+            $user->hasPermissionTo('view-employees')
         );
 
         Gate::define('manage-payroll', fn($user) =>
-            $user->hasAnyPermission(['generate payroll', 'view payroll'])
+            $user->hasAnyPermission(['generate-payroll', 'view-payroll'])
         );
 
         Gate::define('manage-leave', fn($user) =>
-            $user->hasAnyPermission(['approve leave', 'create leave'])
+            $user->hasAnyPermission(['approve-leave', 'create-leave'])
         );
 
         Gate::define('view-reports', fn($user) =>
-            $user->hasPermissionTo('view reports')
+            $user->hasPermissionTo('view-reports')
         );
 
         Gate::define('manage-settings', fn($user) =>
@@ -112,7 +112,7 @@ class AppServiceProvider extends ServiceProvider
         );
 
         Gate::define('manage-recruitment', fn($user) =>
-            $user->hasPermissionTo('view dashboard')
+            $user->hasPermissionTo('manage-recruitment')
         );
 
         // Staff can access the tenant space

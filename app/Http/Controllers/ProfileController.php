@@ -108,11 +108,13 @@ class ProfileController extends Controller
      */
     public function updateMainImage(Request $request): RedirectResponse
     {
-        // Simple permission check (can be replaced with Spatie middleware)
-        if (!$request->user()->hasRole('superadmin') && !$request->user()->can('manage employees')) {
-            abort(403);
+        // Only allow admins or the employee themselves to update their profile
+        if (!$request->user()->hasRole('superadmin') && !$request->user()->can('manage-employees')) {
+            if ($user->employee && $user->employee->id !== auth()->user()->employee?->id) {
+                abort(403, 'Unauthorized action.');
+            }
         }
-
+        
         $request->validate([
             'employee_id' => ['required', 'exists:employees,id'],
             'main_image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:5120'],

@@ -20,7 +20,7 @@
                 <div class="space-y-6">
                     <div class="space-y-2">
                         <x-input-label for="name" :value="__('Permission Name')" />
-                        <x-text-input id="name" name="name" type="text" class="block w-full" required :value="old('name', $permission->name)" placeholder="view timesheet" />
+                        <x-text-input id="name" name="name" type="text" class="block w-full" required :value="old('name', $permission->name)" placeholder="view-timesheet" />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
 

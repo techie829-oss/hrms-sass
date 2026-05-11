@@ -104,6 +104,24 @@ class ModuleController extends Controller
                 ->toArray();
         }
 
+        // Scan Permissions (New Integration)
+        // Since our standard is action-module, we look for permissions ending with the slug
+        // Special case: 'leave' module also handles 'comp-off' and 'holiday'
+        $searchTerms = [$slug];
+        if ($slug === 'leave') {
+            $searchTerms = array_merge($searchTerms, ['comp-off', 'holiday']);
+        }
+
+        $modulePermissions = DB::table('permissions')
+            ->where(function($query) use ($searchTerms) {
+                foreach ($searchTerms as $term) {
+                    $query->orWhere('name', 'LIKE', "%-{$term}")
+                          ->orWhere('name', 'LIKE', "{$term}-%");
+                }
+            })
+            ->select('name', 'description')
+            ->get();
+
         // Find which tenants have this module enabled
         $activeTenants = DB::table('tenant_modules')
             ->join('tenants', 'tenant_modules.tenant_id', '=', 'tenants.id')
@@ -114,7 +132,7 @@ class ModuleController extends Controller
 
         return view('admin.modules.show', compact(
             'module', 'dbModule', 'activeTenants', 'slug',
-            'controllers', 'models', 'migrations', 'policies', 'views'
+            'controllers', 'models', 'migrations', 'policies', 'views', 'modulePermissions'
         ));
     }
 

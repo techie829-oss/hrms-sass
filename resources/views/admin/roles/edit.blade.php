@@ -29,7 +29,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         @foreach($permissions as $group => $perms)
                             <div class="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/10">
-                                <h4 class="font-bold text-xs uppercase tracking-widest text-primary mb-4 border-b border-primary/10 pb-2">{{ ucfirst($group) }}</h4>
+                                <h4 class="font-bold text-xs uppercase tracking-widest text-primary mb-4 border-b border-primary/10 pb-2">{{ str_replace('-', ' ', $group) }}</h4>
                                 <div class="space-y-3">
                                     @foreach($perms as $permission)
                                         <label class="flex items-center gap-3 cursor-pointer group">
@@ -37,7 +37,7 @@
                                                 class="checkbox checkbox-sm checkbox-primary rounded" 
                                                 {{ in_array($permission->name, $rolePermissions) ? 'checked' : '' }} />
                                             <span class="text-sm font-medium text-on-surface group-hover:text-primary transition-colors capitalize">
-                                                {{ $permission->name }}
+                                                {{ str_replace('-', ' ', $permission->name) }}
                                             </span>
                                         </label>
                                     @endforeach

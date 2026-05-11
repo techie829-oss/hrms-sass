@@ -16,13 +16,13 @@
         <div class="lg:col-span-1 space-y-6">
             <div class="bg-surface-container-lowest p-8 rounded-[2rem] shadow-xl border border-outline-variant/15 space-y-6">
                 <h3 class="text-xl font-black font-headline uppercase tracking-wider text-on-surface">New Permission</h3>
-                <p class="text-xs text-on-surface-variant font-medium">Add a new access key. Use lower case and include a group word (e.g., <code class="bg-surface-container-high px-1.5 py-0.5 rounded font-mono font-bold text-[10px]">view timesheet</code>).</p>
+                <p class="text-xs text-on-surface-variant font-medium">Add a new access key. Use lower case and hyphens for words (e.g., <code class="bg-surface-container-high px-1.5 py-0.5 rounded font-mono font-bold text-[10px]">view-timesheet</code>).</p>
                 
                 <form action="{{ route('admin.permissions.store') }}" method="POST" class="space-y-4">
                     @csrf
                     <div class="space-y-2">
                         <x-input-label for="name" :value="__('Permission Name')" />
-                        <x-text-input id="name" name="name" type="text" class="block w-full" required placeholder="view timesheet" />
+                        <x-text-input id="name" name="name" type="text" class="block w-full" required placeholder="view-timesheet" />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
 
@@ -77,7 +77,7 @@
                             </td>
                             <td class="py-5 px-8">
                                 <span class="badge badge-outline text-primary border-primary/20 font-black text-[9px] uppercase tracking-widest px-2.5 py-2.5 h-auto">
-                                    {{ explode(' ', $permission->name)[1] ?? 'general' }}
+                                    {{ explode('-', $permission->name)[1] ?? 'general' }}
                                 </span>
                             </td>
                             <td class="py-5 px-8">

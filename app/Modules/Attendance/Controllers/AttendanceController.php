@@ -19,8 +19,8 @@ class AttendanceController extends BaseController
     public function index(Request $request)
     {
         $user = auth()->user();
-        $canViewAll = $user->can('view_all_attendance');
-        $canViewOwn = $user->can('view_own_attendance');
+        $canViewAll = $user->can('view-attendance');
+        $canViewOwn = $user->can('view-own-attendance');
 
         if (!$canViewAll && !$canViewOwn) {
             abort(403, 'You do not have permission to view attendance logs.');
@@ -113,7 +113,7 @@ class AttendanceController extends BaseController
             ->get();
 
         $user = auth()->user();
-        $canViewAll = $user->can('view_all_attendance');
+        $canViewAll = $user->can('view-all-attendance');
 
         return view('attendance::show', compact('log', 'allLogs', 'canViewAll'));
     }

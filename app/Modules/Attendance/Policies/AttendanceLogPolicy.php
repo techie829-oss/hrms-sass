@@ -12,7 +12,7 @@ class AttendanceLogPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view attendance');
+        return $user->hasPermissionTo('view-attendance');
     }
 
     /**
@@ -25,12 +25,12 @@ class AttendanceLogPolicy
         }
 
         // Managers can view all
-        if ($user->hasPermissionTo('manage attendance')) {
+        if ($user->hasPermissionTo('manage-attendance')) {
             return true;
         }
 
         // Staff can only view their own
-        if ($user->hasPermissionTo('view attendance')) {
+        if ($user->hasPermissionTo('view-attendance')) {
             return $user->employee?->id === $attendanceLog->employee_id;
         }
 
@@ -42,7 +42,7 @@ class AttendanceLogPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('manage attendance');
+        return $user->hasPermissionTo('manage-attendance');
     }
 
     /**
@@ -54,7 +54,7 @@ class AttendanceLogPolicy
             return false;
         }
 
-        return $user->hasPermissionTo('manage attendance');
+        return $user->hasPermissionTo('manage-attendance');
     }
 
     /**
@@ -66,6 +66,6 @@ class AttendanceLogPolicy
             return false;
         }
 
-        return $user->hasPermissionTo('manage attendance');
+        return $user->hasPermissionTo('manage-attendance');
     }
 }

@@ -25,12 +25,12 @@ class EmployeePolicy
     public function viewAny(User $user): bool
     {
         $this->scopeTeam($user);
-        return $user->hasPermissionTo('view employees');
+        return $user->hasPermissionTo('view-employees');
     }
 
     /**
      * View a specific employee record.
-     * Allows if user has 'view employees' permission OR is viewing their own record.
+     * Allows if user has 'view-employees' permission OR is viewing their own record.
      */
     public function view(User $user, Employee $employee): bool
     {
@@ -40,7 +40,7 @@ class EmployeePolicy
 
         $this->scopeTeam($user);
 
-        if ($user->hasPermissionTo('view employees')) {
+        if ($user->hasPermissionTo('view-employees')) {
             return true;
         }
 
@@ -53,7 +53,7 @@ class EmployeePolicy
     public function create(User $user): bool
     {
         $this->scopeTeam($user);
-        return $user->hasPermissionTo('create employees');
+        return $user->hasPermissionTo('create-employees');
     }
 
     /**
@@ -68,7 +68,7 @@ class EmployeePolicy
 
         $this->scopeTeam($user);
 
-        if ($user->hasPermissionTo('edit employees')) {
+        if ($user->hasPermissionTo('edit-employees')) {
             return true;
         }
 
@@ -87,6 +87,6 @@ class EmployeePolicy
 
         $this->scopeTeam($user);
 
-        return $user->hasPermissionTo('delete employees');
+        return $user->hasPermissionTo('delete-employees');
     }
 }

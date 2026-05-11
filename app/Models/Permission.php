@@ -16,4 +16,13 @@ class Permission extends SpatiePermission
     {
         return config('tenancy.database.central_connection') ?: config('database.default');
     }
+
+    /**
+     * Root Fix: Always enforce slug format for permissions.
+     * No spaces or underscores allowed in DB.
+     */
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = str_replace([' ', '_'], '-', strtolower($value));
+    }
 }

@@ -455,6 +455,8 @@ class ClockController extends BaseController
             'grace_minutes'       => 'required|integer|min:0|max:120',
             'half_day_hours'      => 'required|integer|min:1|max:12',
             'min_hours_full_day'  => 'nullable|integer|min:1|max:24',
+            'weekly_offs'         => 'nullable|array',
+            'weekly_offs.*'       => 'string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
         ]);
 
         if ($request->boolean('is_default')) {
@@ -470,6 +472,7 @@ class ClockController extends BaseController
             'half_day_hours'     => $request->input('half_day_hours', 4),
             'min_hours_full_day' => $request->input('min_hours_full_day'),
             'is_overnight'       => $request->boolean('is_overnight'),
+            'weekly_offs'        => $request->input('weekly_offs') ?: ['Saturday', 'Sunday'],
             'is_default'         => $request->boolean('is_default'),
             'is_active'          => true,
         ]);

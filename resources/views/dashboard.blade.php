@@ -16,7 +16,7 @@
     <div class="space-y-6">
         <!-- Compact Stats Row (Flexible) -->
         <div class="flex flex-wrap gap-4">
-            @if($hasHr && $isAdmin)
+            @if($hasHr && $canViewEmployees)
             <div class="flex-1 min-w-[180px] bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Workforce</span>
@@ -29,7 +29,7 @@
             </div>
             @endif
             
-            @if($hasAttendance && $isAdmin)
+            @if($hasAttendance && $canViewAttendance)
             <div class="flex-1 min-w-[180px] bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Attendance</span>
@@ -40,18 +40,18 @@
             </div>
             @endif
 
-            @if($hasLeave)
+            @if($hasLeave && ($canApproveLeave || auth()->user()->can('view-own-leave')))
             <div class="flex-1 min-w-[180px] bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">{{ $isAdmin ? 'Pending Leaves' : 'My Pending' }}</span>
+                    <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">{{ $canApproveLeave ? 'Pending Leaves' : 'My Pending' }}</span>
                     <span class="material-symbols-outlined text-tertiary text-base">pending_actions</span>
                 </div>
                 <div class="text-2xl font-bold text-tertiary">{{ number_format($pendingLeaves) }}</div>
-                <div class="text-[9px] font-bold text-on-surface-variant mt-1 italic opacity-70">{{ $isAdmin ? 'Awaiting approval' : 'Applied requests' }}</div>
+                <div class="text-[9px] font-bold text-on-surface-variant mt-1 italic opacity-70">{{ $canApproveLeave ? 'Awaiting approval' : 'Applied requests' }}</div>
             </div>
             @endif
 
-            @if($hasPayroll && $isAdmin)
+            @if($hasPayroll && $canViewPayroll)
             <div class="flex-1 min-w-[180px] bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm transition-all">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Payroll Disbursed</span>
@@ -62,7 +62,7 @@
             </div>
             @endif
 
-            @if($isAdmin)
+            @if($canViewEmployees || $canViewAttendance)
             <div class="flex-1 min-w-[180px] bg-primary p-5 rounded-xl shadow-sm relative overflow-hidden transition-all">
                 <div class="relative z-10">
                     <span class="text-[9px] font-bold uppercase tracking-wider text-white/80">System Health</span>
@@ -79,7 +79,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <!-- Left Side: Main Tables and Charts -->
             <div class="lg:col-span-8 space-y-6">
-                @if($isAdmin)
+                @if($canViewEmployees)
                 <!-- Employee Overview Table -->
                 <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm overflow-hidden">
                     <div class="p-4 border-b border-outline-variant/5 flex items-center justify-between">
@@ -341,7 +341,7 @@
                 <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm">
                     <div class="flex justify-between items-center mb-6">
                         <h4 class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant">Pending Tasks</h4>
-                        @if($hasLeave)
+                        @if($hasLeave && ($canApproveLeave || auth()->user()->can('view-own-leave')))
                         <a href="{{ route('leave.requests.index') }}" class="text-[9px] font-bold text-primary hover:underline uppercase tracking-wider">View All</a>
                         @endif
                     </div>
@@ -362,7 +362,7 @@
                     </div>
                 </div>
 
-                @if($isAdmin)
+                @if($canViewEmployees || $canViewAttendance || $canViewLeave)
                 <!-- Recent Activity Feed -->
                 <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-sm">
                     <h4 class="text-[9px] font-bold uppercase tracking-wider mb-6 text-on-surface-variant">System Activity</h4>
