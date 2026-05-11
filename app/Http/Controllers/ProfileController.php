@@ -108,9 +108,13 @@ class ProfileController extends Controller
      */
     public function updateMainImage(Request $request): RedirectResponse
     {
+        $currentUser = $request->user();
+        
         // Only allow admins or the employee themselves to update their profile
-        if (!$request->user()->hasRole('superadmin') && !$request->user()->can('manage-employees')) {
-            if ($user->employee && $user->employee->id !== auth()->user()->employee?->id) {
+        if (!$currentUser->can('manage-employees')) {
+            // Logic for self-update or check if they are trying to update someone else
+            // For now, if they don't have manage-employees, we check if the request is for themselves
+            if ($request->employee_id && $currentUser->employee?->id != $request->employee_id) {
                 abort(403, 'Unauthorized action.');
             }
         }
