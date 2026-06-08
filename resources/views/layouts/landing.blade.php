@@ -16,9 +16,9 @@
     <!-- Scripts & Styles -->
     @vite(['resources/css/app.css', 'resources/css/landing.css', 'resources/js/app.js'])
 </head>
-<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed" x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20) ? true : false">
     <!-- TopNavBar -->
-    <nav class="landing-nav">
+    <nav class="landing-nav" :class="{ 'scrolled': scrolled }">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-12">
                 <a href="/" class="text-2xl font-extrabold tracking-tight font-headline text-primary">
