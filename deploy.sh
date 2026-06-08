@@ -14,11 +14,15 @@ fi
 
 # 3. Build containers and start in detached mode
 echo "🏗️ Building and starting Docker containers..."
-docker-compose up -d --build
+docker compose up -d --build
 
 # 4. Install PHP dependencies
 echo "📦 Installing Composer dependencies..."
 docker exec hrms_app composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
+# 4.5 Generate App Key if missing
+echo "🔑 Generating App Key (if missing)..."
+docker exec hrms_app php artisan key:generate --no-interaction --force || true
 
 # 5. Run Migrations
 echo "🔄 Running Database Migrations (PostgreSQL)..."
