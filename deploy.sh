@@ -18,6 +18,7 @@ docker compose up -d --build
 
 # 4. Install PHP dependencies
 echo "📦 Installing Composer dependencies..."
+docker exec hrms_app git config --global --add safe.directory /var/www
 docker exec hrms_app composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
 # 4.5 Generate App Key if missing
