@@ -2,12 +2,11 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold font-sans tracking-tight">Designations</h2>
-                <p class="text-[10px] font-bold mt-1 opacity-50 uppercase tracking-widest leading-none">Define and manage organizational roles & salary grades</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Designations</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Define and manage organizational roles & salary grades.</p>
             </div>
-            <button onclick="add_designation_modal.showModal()" class="btn btn-primary btn-sm rounded-lg shadow-sm border-none bg-primary hover:bg-primary-focus transition-all group px-4">
-                <span class="material-symbols-outlined text-base group-hover:rotate-90 transition-transform duration-300">add</span> 
-                <span class="text-[10px] font-black uppercase tracking-widest">New Designation</span>
+            <button onclick="add_designation_modal.showModal()" class="btn btn-primary btn-sm rounded-xl px-5 shadow-sm shadow-primary/20">
+                <span class="material-symbols-outlined text-base">add</span> Add Designation
             </button>
         </div>
     </x-slot>

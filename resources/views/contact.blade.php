@@ -24,7 +24,8 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
             <!-- Contact Form -->
             <div class="lg:col-span-7 bg-surface-container-lowest p-10 md:p-12 rounded-[2.5rem] shadow-xl border border-outline-variant/10">
-                <form class="space-y-8">
+                <form action="/contact" method="POST" class="space-y-8">
+                    @csrf
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="space-y-3">
                             <label class="text-xs font-bold text-on-surface uppercase tracking-widest font-label">Full Name</label>

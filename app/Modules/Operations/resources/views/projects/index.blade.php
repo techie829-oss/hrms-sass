@@ -2,11 +2,11 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold">Projects</h2>
-                <p class="text-xs font-medium mt-1 opacity-70">Manage your tenant projects and milestones.</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Projects</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Manage your tenant projects and milestones.</p>
             </div>
             <div class="flex gap-2">
-                <a href="{{ route('operations.projects.create') }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('operations.projects.create') }}" class="btn btn-primary btn-sm rounded-xl px-5 shadow-sm shadow-primary/20">
                     <span class="material-symbols-outlined text-base">add</span>
                     New Project
                 </a>
@@ -16,7 +16,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($projects as $project)
-                <div class="card bg-base-100 shadow-xl border border-base-200">
+                <div class="card-crm">
                     <div class="card-body">
                         <div class="flex justify-between items-start">
                             <h2 class="card-title text-lg">{{ $project->name }}</h2>

@@ -2,11 +2,11 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold">Contacts</h2>
-                <p class="text-xs font-medium mt-1 opacity-70">Manage people associated with your client accounts.</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Contacts</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Manage people associated with your client accounts.</p>
             </div>
             <div class="flex gap-2">
-                <a href="{{ route('operations.contacts.create') }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('operations.contacts.create') }}" class="btn btn-primary btn-sm rounded-xl px-5 shadow-sm shadow-primary/20">
                     <span class="material-symbols-outlined text-base">add</span>
                     New Contact
                 </a>

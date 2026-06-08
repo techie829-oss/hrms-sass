@@ -2,11 +2,11 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold">Clients</h2>
-                <p class="text-xs font-medium mt-1 opacity-70">Manage external partners and organizations.</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Clients</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Manage external partners and organizations.</p>
             </div>
             <div class="flex gap-2">
-                <button onclick="add_client_modal.showModal()" class="btn btn-primary btn-sm">
+                <button onclick="add_client_modal.showModal()" class="btn btn-primary btn-sm rounded-xl px-5 shadow-sm shadow-primary/20">
                     <span class="material-symbols-outlined text-base">person_add</span>
                     Add Client
                 </button>
@@ -14,7 +14,7 @@
         </div>
     </x-slot>
 
-    <div class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
+    <div class="table-crm">
             <div class="overflow-x-auto">
                 <table class="table table-zebra">
                     <thead>

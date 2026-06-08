@@ -2,11 +2,11 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold">Timesheets</h2>
-                <p class="text-xs font-medium mt-1 opacity-70">Log and track time spent on project tasks.</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Timesheets</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Log and track time spent on project tasks.</p>
             </div>
             <div class="flex gap-2">
-                <button onclick="log_time_modal.showModal()" class="btn btn-primary btn-sm">
+                <button onclick="log_time_modal.showModal()" class="btn btn-primary btn-sm rounded-xl px-5 shadow-sm shadow-primary/20">
                     <span class="material-symbols-outlined text-base">timer</span>
                     Log Time
                 </button>
@@ -50,7 +50,7 @@
 
             <!-- Timesheet table -->
             <div class="lg:col-span-3">
-                <div class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
+                <div class="table-crm">
                     <div class="overflow-x-auto">
                         <table class="table table-zebra">
                             <thead>

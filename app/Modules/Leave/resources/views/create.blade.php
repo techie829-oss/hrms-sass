@@ -37,13 +37,19 @@
                             @php $employee = $employees->first(); @endphp
                             <div class="form-control w-full">
                                 <label class="text-[10px] font-black uppercase tracking-widest text-base-content/40 mb-2 ml-1">Applying For</label>
+                                @if($employee)
                                 <div class="px-5 py-3.5 bg-primary/5 rounded-2xl border border-primary/10 text-sm font-bold flex items-center gap-3">
                                     <div class="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center text-xs">
                                         {{ strtoupper(substr($employee->first_name, 0, 1)) }}
                                     </div>
                                     {{ $employee->first_name }} {{ $employee->last_name }}
-                                    <input type="hidden" name="employee_id" value="{{ $employee->id ?? '' }}">
+                                    <input type="hidden" name="employee_id" value="{{ $employee->id }}">
                                 </div>
+                                @else
+                                <div class="px-5 py-3.5 bg-error/5 rounded-2xl border border-error/10 text-sm font-bold flex items-center gap-3 text-error">
+                                    No employee profile linked to your account. Please contact HR.
+                                </div>
+                                @endif
                             </div>
                         @endif
 

@@ -2,8 +2,8 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold text-base-content/90 tracking-tight">Holiday Calendar</h2>
-                <p class="text-xs font-medium mt-0.5 opacity-50">Official company holidays and restricted days off.</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Holiday Calendar</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Official company holidays and restricted days off.</p>
             </div>
             <div class="flex items-center gap-2">
                 @can('manage-holidays')
@@ -30,7 +30,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($holidays as $holiday)
-            <div class="bg-base-100 rounded-[32px] p-6 border border-base-200 shadow-sm hover:shadow-md transition-all group relative">
+            <div class="card-crm p-6 group relative hover:border-primary/30">
                 @can('manage-holidays')
                 <form action="{{ route('leave.holidays.destroy', $holiday->id) }}" method="POST" class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     @csrf

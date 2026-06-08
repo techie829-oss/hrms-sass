@@ -52,8 +52,8 @@
                         Designing the future of organizational excellence through intentional architecture and human-centric design.
                     </p>
                     <div class="flex gap-4">
-                        <a class="p-2 bg-surface-container text-on-surface rounded-lg hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-sm">public</span></a>
-                        <a class="p-2 bg-surface-container text-on-surface rounded-lg hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-sm">alternate_email</span></a>
+                        <a class="p-2 bg-surface-container text-on-surface rounded-lg hover:bg-primary hover:text-white transition-all" href="/"><span class="material-symbols-outlined text-sm">public</span></a>
+                        <a class="p-2 bg-surface-container text-on-surface rounded-lg hover:bg-primary hover:text-white transition-all" href="/"><span class="material-symbols-outlined text-sm">alternate_email</span></a>
                     </div>
                 </div>
                 <div class="md:col-span-2">
@@ -75,15 +75,15 @@
                 <div class="md:col-span-2">
                     <h5 class="font-bold text-on-surface mb-6 uppercase tracking-widest text-[10px]">Legal</h5>
                     <ul class="space-y-4">
-                        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
-                        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+                        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="/">Privacy Policy</a></li>
+                        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="/">Terms of Service</a></li>
                     </ul>
                 </div>
                 <div class="md:col-span-2">
                     <h5 class="font-bold text-on-surface mb-6 uppercase tracking-widest text-[10px]">Social</h5>
                     <ul class="space-y-4">
-                        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">LinkedIn</a></li>
-                        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Twitter</a></li>
+                        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="/">LinkedIn</a></li>
+                        <li><a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="/">Twitter</a></li>
                     </ul>
                 </div>
             </div>

@@ -64,7 +64,7 @@ class RazorpayController extends Controller
 
         if (!$isValid) {
             Log::error('Razorpay Signature Verification Failed', $request->all());
-            return redirect()->route('tenants.show', $tenant->id)
+            return redirect()->route('admin.tenants.show', $tenant->id)
                 ->with('error', 'Payment verification failed. Please contact support.');
         }
 
@@ -83,7 +83,7 @@ class RazorpayController extends Controller
             ]
         );
 
-        return redirect()->route('tenants.show', $tenant->id)
+        return redirect()->route('admin.tenants.show', $tenant->id)
             ->with('success', 'Subscription activated successfully!');
     }
 }

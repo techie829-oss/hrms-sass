@@ -10,19 +10,7 @@ use Illuminate\Support\Facades\Route;
 // 1. Foundation: Central Host Identification
 $centralHost = parse_url(config('app.url'), PHP_URL_HOST) ?? config('app.url');
 
-// 2. Global Authentication Routes (Available on ALL domains)
-// This ensures route('login') always uses the current request's host.
-Route::middleware(['web'])->group(function () {
-    require __DIR__.'/auth.php';
-    
-    // Emergency Logout GET Route
-    Route::get('/force-logout', function () {
-        auth()->logout();
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
-        return redirect('/login');
-    });
-});
+// 2. Removed Global Authentication Routes from here to disable central domain login
 
 // 3. Central Landing Site (hrms.test)
 Route::domain($centralHost)->middleware(['web'])->group(function () {
@@ -42,6 +30,18 @@ Route::domain($centralHost)->middleware(['web'])->group(function () {
 });
 
 // 4. Super Admin Panel (app.hrms.test)
+Route::domain('app.' . $centralHost)->middleware(['web'])->group(function () {
+    // Auth routes for Super Admin
+    require __DIR__.'/auth.php';
+    
+    Route::get('/force-logout', function () {
+        auth()->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/login');
+    });
+});
+
 Route::domain('app.' . $centralHost)->middleware(['web', 'auth', 'scope.roles', 'superadmin'])->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
@@ -57,6 +57,8 @@ Route::domain('app.' . $centralHost)->middleware(['web', 'auth', 'scope.roles', 
     Route::patch('tenants/{tenant}/toggle-status', [TenantController::class, 'toggleStatus'])->name('admin.tenants.toggle-status');
     Route::patch('tenants/{tenant}/update-plan', [TenantController::class, 'updatePlan'])->name('admin.tenants.update-plan');
     Route::patch('tenants/{tenant}/toggle-module', [TenantController::class, 'toggleModule'])->name('admin.tenants.toggle-module');
+    Route::get('tenants/{tenant}/checkout/{plan:slug}', [RazorpayController::class, 'checkout'])->name('admin.tenants.checkout');
+    Route::post('tenants/{tenant}/verify/{plan:slug}', [RazorpayController::class, 'verify'])->name('admin.tenants.verify');
 
     Route::resource('plans', \App\Http\Controllers\Admin\PlanController::class)->only(['index', 'edit', 'update'])->names('admin.plans');
     Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class)->names('admin.roles');

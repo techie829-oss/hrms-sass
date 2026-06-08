@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="text-xl font-bold text-on-surface">Reports & Analytics</h2>
+            <h2 class="text-xl font-bold text-on-surface tracking-tight">Reports & Analytics</h2>
             <div class="flex gap-2">
                 <span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-widest italic opacity-50">Enterprise Insights</span>
             </div>

@@ -2,15 +2,15 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold">Payroll Dashboard</h2>
-                <p class="text-xs font-medium mt-1 opacity-70">Manage payroll cycles and salary distributions.</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Payroll Dashboard</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Manage payroll cycles and salary distributions.</p>
             </div>
             <div class="flex gap-2">
                 @can('manage-payroll')
                 <a href="{{ route('payroll.components.index') }}" class="btn btn-ghost btn-sm btn-outline">
                     <span class="material-symbols-outlined text-base">settings</span> Components
                 </a>
-                <a href="{{ route('payroll.create') }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('payroll.create') }}" class="btn btn-primary btn-sm rounded-xl px-5 shadow-sm shadow-primary/20">
                     <span class="material-symbols-outlined text-base">add</span> New Payroll Run
                 </a>
                 @endcan
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
+    <div class="table-crm">
         <x-table :headers="['Payroll Run', 'Period', 'Status', 'Employees', 'Net Salary', 'Actions']" :striped="false">
             @forelse($runs as $run)
                 <tr class="hover:bg-base-200/50 transition-colors border-b border-base-200">

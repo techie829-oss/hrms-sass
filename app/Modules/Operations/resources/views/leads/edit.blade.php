@@ -53,7 +53,7 @@
                             <select name="assigned_to" class="select select-bordered w-full">
                                 <option value="">Unassigned</option>
                                 @foreach($employees as $employee)
-                                    <option value="{{ $employee->id }}" {{ old('assigned_to', $lead->assigned_to) == $employee->id ? 'selected' : '' }}>{{ $employee->name }}</option>
+                                    <option value="{{ $employee->id }}" {{ old('assigned_to', $lead->assigned_to) == $employee->id ? 'selected' : '' }}>{{ $employee->full_name }}</option>
                                 @endforeach
                             </select>
                         </div>

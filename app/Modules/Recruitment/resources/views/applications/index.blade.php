@@ -2,8 +2,8 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold">Candidates Pipeline</h2>
-                <p class="text-xs font-medium mt-1 opacity-70">Track and manage all job applicants.</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Candidates Pipeline</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Track and manage all job applicants.</p>
             </div>
         </div>
     </x-slot>
@@ -39,7 +39,7 @@
         ];
     @endphp
 
-    <div class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
+    <div class="table-crm">
         <div class="p-5 border-b border-base-200 bg-base-200/30 flex justify-between items-center">
             <h3 class="font-bold text-sm">Applications</h3>
             <span class="text-[10px] font-bold opacity-50 uppercase tracking-wider">{{ $applications->total() }} Total</span>

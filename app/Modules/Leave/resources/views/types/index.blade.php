@@ -2,8 +2,8 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold text-base-content/90 tracking-tight">Leave Types</h2>
-                <p class="text-xs font-medium mt-0.5 opacity-50">Configure categories and quotas for employee time-off.</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Leave Types</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Configure categories and quotas for employee time-off.</p>
             </div>
             <div class="flex items-center gap-3">
                 <a href="{{ route('leave.requests.index') }}" class="btn btn-ghost btn-sm btn-outline border-base-300 rounded-xl px-3">
@@ -18,7 +18,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         @forelse($leaveTypes as $type)
-            <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden hover:border-primary/30 transition-all group flex flex-col h-full">
+            <div class="card-crm hover:border-primary/30 group flex flex-col h-full">
                 <div class="card-body p-8 flex-1">
                     <div class="flex items-center justify-between mb-6">
                         <div class="w-12 h-12 rounded-[22px] bg-primary/10 text-primary flex items-center justify-center border border-primary/20">

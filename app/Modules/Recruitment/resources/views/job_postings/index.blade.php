@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold">Recruitment Pipeline</h2>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Recruitment Pipeline</h2>
                 <p class="text-sm opacity-70 mt-1">Manage job postings and track candidates.</p>
             </div>
             <div class="flex gap-3">

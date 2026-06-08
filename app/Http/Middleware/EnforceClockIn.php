@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use App\Modules\Attendance\Models\AttendanceLog;
 use App\Modules\Attendance\Models\AttendancePolicy;
 use App\Modules\Attendance\Models\AttendanceRoleEnforcement;
@@ -19,28 +20,40 @@ class EnforceClockIn
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = $request->user();
-
-        // 1. If not authenticated or has no employee profile, continue
-        if (!$user || !$user->employee) {
+        // 1. Skip entirely for logout and central domain requests
+        if ($request->is('logout') || $request->routeIs('logout')) {
             return $next($request);
         }
 
-        // 2. If the Attendance module is disabled for this tenant, bypass entirely
-        $tenant = function_exists('saas_tenant') ? saas_tenant() : null;
-        if ($tenant) {
-            $attendanceEnabled = DB::table('tenant_modules')
-                ->join('modules', 'modules.id', '=', 'tenant_modules.module_id')
-                ->where('tenant_modules.tenant_id', $tenant->id)
-                ->where('modules.slug', 'attendance')
-                ->where('tenant_modules.enabled', true)
-                ->exists();
-            if (!$attendanceEnabled) {
-                return $next($request);
-            }
+        $user = $request->user();
+        if (!$user) {
+            return $next($request);
         }
 
-        // 3. Fetch the company-level policy enforce clock-in setting
+        // 2. Only proceed if we are in a tenant context and the employees table exists
+        $tenant = function_exists('saas_tenant') ? saas_tenant() : null;
+        if (!$tenant || !Schema::hasTable('employees')) {
+            return $next($request);
+        }
+
+        // 3. If has no employee profile, continue
+        if (!$user->employee) {
+            return $next($request);
+        }
+
+        // 4. If the Attendance module is disabled for this tenant, bypass entirely
+        $attendanceEnabled = DB::table('tenant_modules')
+            ->join('modules', 'modules.id', '=', 'tenant_modules.module_id')
+            ->where('tenant_modules.tenant_id', $tenant->id)
+            ->where('modules.slug', 'attendance')
+            ->where('tenant_modules.enabled', true)
+            ->exists();
+
+        if (!$attendanceEnabled) {
+            return $next($request);
+        }
+
+        // 5. Fetch the company-level policy enforce clock-in setting
         $policy = AttendancePolicy::where('is_active', true)->first();
         $companyEnforced = $policy ? (bool)$policy->enforce_clockin : false;
 

@@ -4,7 +4,8 @@
 
 @section('content')
 <!-- Pricing Hero -->
-<section x-data="{ yearly: true }" class="py-20 md:py-32 px-6 md:px-12 bg-gradient-to-br from-surface-container-low to-surface overflow-hidden">
+<div x-data="{ yearly: true }">
+<section class="py-20 md:py-32 px-6 md:px-12 bg-gradient-to-br from-surface-container-low to-surface overflow-hidden">
     <div class="max-w-7xl mx-auto text-center space-y-6 md:space-y-8 relative z-10">
         <div class="inline-flex items-center px-4 py-1.5 bg-primary/10 text-primary rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase shadow-xl border border-primary/10">
             Hybrid Infrastructure
@@ -131,6 +132,7 @@
         </div>
     </div>
 </section>
+</div>
 
 <!-- Module Add-ons -->
 <section class="py-32 px-6 md:px-12 bg-surface-container-low border-y border-outline-variant/15">

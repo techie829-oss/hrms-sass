@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="text-xl font-bold text-on-surface">Employee Goals</h2>
+            <h2 class="text-xl font-bold text-on-surface tracking-tight">Employee Goals</h2>
             <div class="flex gap-2">
                 @can('create', \App\Modules\Performance\Models\Goal::class)
                     <button onclick="goal_modal.showModal()" class="btn btn-sm btn-primary border-none rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">

@@ -2,10 +2,10 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold">Departments</h2>
-                <p class="text-xs font-medium mt-1 opacity-70">Manage and define your organizational departments.</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Departments</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Manage and define your organizational departments.</p>
             </div>
-            <button onclick="add_department_modal.showModal()" class="btn btn-primary btn-sm">
+            <button onclick="add_department_modal.showModal()" class="btn btn-primary btn-sm rounded-xl px-5 shadow-sm shadow-primary/20">
                 <span class="material-symbols-outlined text-base">add</span> Add Department
             </button>
         </div>

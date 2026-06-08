@@ -2,8 +2,8 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold text-base-content/90 tracking-tight">Attendance Logs</h2>
-                <p class="text-xs font-medium mt-0.5 opacity-50">Track and manage employee daily presence.</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Attendance Logs</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Track and manage employee daily presence.</p>
             </div>
             <div class="flex items-center gap-3">
                 @php
@@ -36,7 +36,7 @@
 
     <div class="flex flex-col gap-6">
         <!-- Filters Area -->
-        <div class="card bg-base-100 shadow-sm border border-base-200/60 rounded-3xl overflow-visible">
+        <div class="card-crm overflow-visible">
             <div class="p-4 flex flex-wrap items-center justify-between gap-4">
                 <form action="{{ route('attendance.index') }}" method="GET" class="flex flex-wrap items-center gap-3">
                     <input type="hidden" name="view" value="{{ $view }}">
@@ -89,7 +89,7 @@
                             </div>
                         </div>
 
-                        <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
+                        <div class="table-crm">
                             <x-table :headers="['Employee', 'Entries', 'First In', 'Last Out', 'Status', 'Total Work Hours', 'Actions']" :striped="false">
                                 @foreach($dateLogs->groupBy('employee_id') as $employeeId => $empLogs)
                                     @php
@@ -106,11 +106,15 @@
                                         <td class="py-4 px-6">
                                             <div class="flex items-center gap-4">
                                                 <div class="avatar {{ !$employee->profile_photo ? 'placeholder' : '' }}">
-                                                    <div class="bg-gradient-to-tr from-primary/10 to-primary/5 text-primary rounded-[18px] w-11 h-11 font-black text-xs border border-primary/10 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
+                                                    <div class="bg-gradient-to-tr from-primary/10 to-primary/5 text-primary rounded-[18px] w-11 h-11 font-black text-xs flex items-center justify-center border border-primary/10 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
                                                         @if($employee->profile_photo)
                                                             <img src="{{ asset('storage/' . $employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
                                                         @else
-                                                            {{ strtoupper(substr($employee->first_name, 0, 1) . substr($employee->last_name, 0, 1)) }}
+                                                            @php
+                                                                $nameParts = explode(' ', $employee->full_name ?? 'U');
+                                                                $initials = strtoupper(substr($nameParts[0], 0, 1) . (isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : ''));
+                                                            @endphp
+                                                            {{ $initials }}
                                                         @endif
                                                     </div>
                                                 </div>
@@ -195,9 +199,9 @@
                                                     <span class="material-symbols-outlined text-lg">visibility</span>
                                                 </a>
                                                 @if($entryCount > 1)
-                                                <div class="dropdown dropdown-end">
-                                                    <label tabindex="0" class="btn btn-ghost btn-sm btn-square rounded-2xl text-base-content/40 hover:text-base-content hover:bg-base-200 transition-all">
-                                                        <span class="material-symbols-outlined text-lg">more_vert</span>
+                                                <div class="dropdown dropdown-end flex items-center justify-center">
+                                                    <label tabindex="0" class="btn btn-ghost btn-sm btn-square rounded-2xl text-base-content/40 hover:text-base-content hover:bg-base-200 transition-all flex items-center justify-center">
+                                                        <span class="material-symbols-outlined text-lg leading-none">more_vert</span>
                                                     </label>
                                                     <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-2xl bg-base-100 rounded-2xl border border-base-200 w-48 mt-2">
                                                         <li class="menu-title text-[9px] font-black uppercase opacity-40">Daily Entries</li>

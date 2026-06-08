@@ -2,15 +2,15 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold">Employee Directory</h2>
-                <p class="text-xs font-medium mt-1 opacity-70">Manage your team and organizational structure.</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Employee Directory</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Manage your team and organizational structure.</p>
             </div>
             <div class="flex gap-2">
-                <button class="btn btn-ghost btn-sm">
+                <button class="btn btn-ghost btn-sm border-outline-variant/20 rounded-xl px-4">
                     <span class="material-symbols-outlined text-base">filter_list</span> Filters
                 </button>
                 @can('create', App\Modules\HR\Models\Employee::class)
-                <a href="{{ route('hr.employees.create') }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('hr.employees.create') }}" class="btn btn-primary btn-sm rounded-xl px-5 shadow-sm shadow-primary/20">
                     <span class="material-symbols-outlined text-base">person_add</span> Add Employee
                 </a>
                 @endcan
@@ -18,8 +18,8 @@
         </div>
     </x-slot>
 
-    <div class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
-        <div class="p-4 border-b border-base-200 bg-base-200/50">
+    <div class="card-crm">
+        <div class="card-crm-header">
             <div class="relative max-w-md">
                 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 opacity-50 text-base">search</span>
                 <input type="text" placeholder="Search by name, ID or email..." class="input input-sm input-bordered w-full pl-10 focus:outline-none">
@@ -27,8 +27,8 @@
         </div>
 
         <div class="overflow-x-auto">
-            <table class="table table-zebra w-full">
-                <thead class="bg-base-200/50 text-[10px] uppercase font-bold tracking-wider">
+            <table class="table-crm">
+                <thead>
                     <tr>
                         <th>Employee</th>
                         <th>Contact Info</th>
@@ -142,7 +142,7 @@
         </div>
 
         @if($employees->hasPages())
-            <div class="p-4 border-t border-base-200">
+            <div class="p-4 border-t border-outline-variant/10 bg-surface-container-lowest">
                 {{ $employees->links() }}
             </div>
         @endif

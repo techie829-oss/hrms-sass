@@ -2,8 +2,8 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold text-base-content/90 tracking-tight">Comp-Off Claims</h2>
-                <p class="text-xs font-medium mt-0.5 opacity-50">Earned time-off for working extra days or holidays.</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Comp-Off Claims</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Earned time-off for working extra days or holidays.</p>
             </div>
             <div class="flex items-center gap-2">
                 @can('manage-comp-off')
@@ -34,7 +34,7 @@
         </a>
     </div>
 
-    <div class="bg-base-100 rounded-[32px] shadow-sm border border-base-200 overflow-hidden">
+    <div class="table-crm">
         <x-table :headers="['Employee', 'Worked On', 'Duration', 'Reason', 'Status', 'Settlement', 'Actions']" :striped="false">
             @forelse($requests as $request)
                 <tr class="hover:bg-base-200/50 transition-colors border-b border-base-200">

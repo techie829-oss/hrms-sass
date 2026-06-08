@@ -15,13 +15,16 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('styles')
     </head>
-    <body class="font-body text-on-surface antialiased bg-surface">
-        <div class="min-h-screen bg-surface">
+    <body class="font-body text-on-surface antialiased bg-surface selection:bg-primary selection:text-white">
+        <!-- Elevated Glass Background Pattern -->
+        <div class="fixed inset-0 z-[-1] bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/5 via-surface to-surface"></div>
+
+        <div class="min-h-screen">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-surface-container-lowest border-b border-outline-variant/10">
+                <header class="bg-surface/60 backdrop-blur-md border-b border-outline-variant/10 sticky top-16 z-40">
                     <div class="max-w-7xl mx-auto py-5 px-6">
                         <div class="text-xl font-bold text-on-surface">
                             {{ $header }}

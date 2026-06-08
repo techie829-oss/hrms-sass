@@ -2,8 +2,8 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-xl font-bold text-base-content/90 tracking-tight">Leave Management</h2>
-                <p class="text-xs font-medium mt-0.5 opacity-50">Track and manage employee time-off requests.</p>
+                <h2 class="text-xl font-bold text-on-surface tracking-tight">Leave Management</h2>
+                <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Track and manage employee time-off requests.</p>
             </div>
             <div class="flex items-center gap-2">
                 @can('manage-settings')
@@ -36,7 +36,7 @@
         </a>
     </div>
 
-    <div class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
+    <div class="table-crm">
         <x-table :headers="['Employee', 'Leave Type', 'Start Date', 'End Date', 'Days', 'Status', 'Actions']" :striped="false">
             @forelse($requests as $request)
                 <tr class="hover:bg-base-200/50 transition-colors border-b border-base-200">
