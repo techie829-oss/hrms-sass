@@ -35,7 +35,7 @@ docker exec hrms_app php artisan optimize:clear
 docker exec hrms_app php artisan view:cache
 docker exec hrms_app php artisan config:cache
 docker exec hrms_app php artisan event:cache
-docker exec hrms_app php artisan route:cache
+# docker exec hrms_app php artisan route:cache
 
 # 7. Restart queue workers (Horizon)
 echo "⚡ Restarting Horizon / Queue Workers..."
