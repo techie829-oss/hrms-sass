@@ -1,0 +1,93 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: hrms-app:latest
+    container_name: hrms_app
+    restart: unless-stopped
+    working_dir: /var/www
+    environment:
+      - APP_ENV=${APP_ENV:-production}
+      - APP_DEBUG=${APP_DEBUG:-false}
+    volumes:
+      - .:/var/www
+    depends_on:
+      - db
+      - redis
+    networks:
+      - hrms_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: hrms_nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - hrms_network
+
+  db:
+    image: postgres:15-alpine
+    container_name: hrms_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-hrms}
+      POSTGRES_USER: ${DB_USERNAME:-hrms_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+    volumes:
+      - hrms_pgdata:/var/lib/postgresql/data
+    networks:
+      - hrms_network
+
+  redis:
+    image: redis:alpine
+    container_name: hrms_redis
+    restart: unless-stopped
+    volumes:
+      - hrms_redisdata:/data
+    networks:
+      - hrms_network
+
+  queue:
+    image: hrms-app:latest
+    container_name: hrms_queue
+    restart: unless-stopped
+    working_dir: /var/www
+    command: php artisan horizon
+    volumes:
+      - .:/var/www
+    networks:
+      - hrms_network
+    depends_on:
+      - app
+      - redis
+      - db
+
+  scheduler:
+    image: hrms-app:latest
+    container_name: hrms_scheduler
+    restart: unless-stopped
+    working_dir: /var/www
+    command: php artisan schedule:work
+    volumes:
+      - .:/var/www
+    networks:
+      - hrms_network
+    depends_on:
+      - app
+      - redis
+      - db
+
+networks:
+  hrms_network:
+    driver: bridge
+
+volumes:
+  hrms_pgdata:
+  hrms_redisdata:
