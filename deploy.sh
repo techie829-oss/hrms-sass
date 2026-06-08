@@ -21,6 +21,11 @@ echo "📦 Installing Composer dependencies..."
 docker exec -u root hrms_app git config --global --add safe.directory /var/www
 docker exec -u root hrms_app composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
+# 4.2 Build frontend assets
+echo "🎨 Building frontend assets..."
+npm install
+npm run build
+
 # 4.5 Generate App Key if missing
 echo "🔑 Generating App Key (if missing)..."
 docker exec hrms_app php artisan key:generate --no-interaction --force || true
