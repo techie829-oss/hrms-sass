@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->trustProxies(at: '*');
         // Use our custom, trait-based schema isolation middleware (Prepend for early identification)
         $middleware->prepend(\App\Http\Middleware\CustomIdentifyTenant::class);
         $middleware->alias([

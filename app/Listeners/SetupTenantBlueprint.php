@@ -31,11 +31,7 @@ class SetupTenantBlueprint
         $managerRole = Role::firstOrCreate(['name' => RoleConstants::TMANAGER, 'guard_name' => 'web', 'tenant_id' => $tenant->id]);
         $staffRole = Role::firstOrCreate(['name' => RoleConstants::TSTAFF, 'guard_name' => 'web', 'tenant_id' => $tenant->id]);
 
-        // Note: tadmin gets ALL available permissions. Using syncPermissions ensures
-        // it is always up-to-date even if called when some permissions don't exist yet.
-        $adminRole->syncPermissions(Permission::all());
-
-        $managerRole->givePermissionTo([
+        $managerPermissions = [
             'view dashboard', 
             'view employees', 'create employees', 'edit employees',
             'manage attendance', 'view attendance',
@@ -44,11 +40,23 @@ class SetupTenantBlueprint
             'view payroll',
             'view timesheet', 'manage timesheet',
             'view performance',
-        ]);
+        ];
 
-        $staffRole->givePermissionTo([
+        $staffPermissions = [
             'view dashboard',
-        ]);
+        ];
+
+        $allPermissions = array_unique(array_merge($managerPermissions, $staffPermissions));
+        foreach ($allPermissions as $perm) {
+            Permission::firstOrCreate(['name' => $perm, 'guard_name' => 'web']);
+        }
+
+        // Note: tadmin gets ALL available permissions. Using syncPermissions ensures
+        // it is always up-to-date even if called when some permissions don't exist yet.
+        $adminRole->syncPermissions(Permission::all());
+
+        $managerRole->syncPermissions($managerPermissions);
+        $staffRole->syncPermissions($staffPermissions);
 
         // 3. Create/Update the primary admin user for this tenant
         $adminEmail = $tenant->email;

@@ -81,15 +81,15 @@
             <div class="lg:col-span-8 space-y-6">
                 @if($canViewEmployees)
                 <!-- Employee Overview Table -->
-                <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm overflow-hidden">
-                    <div class="p-4 border-b border-outline-variant/5 flex items-center justify-between">
+                <div class="card-crm">
+                    <div class="card-crm-header">
                         <h3 class="font-bold text-xs uppercase tracking-wider text-on-surface">Employee Directory</h3>
                         @if($hasHr)
                         <a href="{{ route('hr.employees.index') }}" class="text-[9px] font-bold text-primary hover:underline uppercase tracking-wider">View All</a>
                         @endif
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="table table-xs table-zebra w-full">
+                        <table class="table-crm">
                             <thead>
                                 <tr class="text-on-surface-variant/70 border-b border-outline-variant/5">
                                     <th class="py-3 px-5">Name</th>
@@ -109,7 +109,6 @@
                                             </div>
                                             <div>
                                                 <div class="font-bold text-on-surface">{{ $employee->first_name }} {{ $employee->last_name }}</div>
-                                                <div class="text-[9px] opacity-60">{{ $employee->email }}</div>
                                             </div>
                                         </div>
                                     </td>
@@ -177,11 +176,11 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- My Recent Attendance -->
-                        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm overflow-hidden">
-                            <div class="p-4 border-b border-outline-variant/5">
+                        <div class="card-crm">
+                            <div class="card-crm-header">
                                 <h3 class="font-bold text-[10px] uppercase tracking-wider text-on-surface">My Recent Attendance</h3>
                             </div>
-                            <div class="p-4 space-y-4">
+                            <div class="card-crm-body space-y-4">
                                 @forelse($myRecentAttendance ?? [] as $log)
                                 <div class="flex items-center justify-between">
                                     <div class="flex flex-col">
@@ -202,11 +201,11 @@
                         </div>
 
                         <!-- Company Policy or Info -->
-                        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm overflow-hidden">
-                            <div class="p-4 border-b border-outline-variant/5">
+                        <div class="card-crm">
+                            <div class="card-crm-header">
                                 <h3 class="font-bold text-[10px] uppercase tracking-wider text-on-surface">Quick Info</h3>
                             </div>
-                            <div class="p-6 text-center">
+                            <div class="card-crm-body text-center">
                                 <span class="material-symbols-outlined text-primary/40 text-4xl mb-2">info</span>
                                 <p class="text-[10px] text-on-surface-variant italic">Stay updated with latest company news and policies here.</p>
                             </div>

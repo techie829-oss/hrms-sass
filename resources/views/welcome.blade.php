@@ -12,7 +12,7 @@
 
 <div class="relative z-10">
     <!-- Hero Section -->
-    <section class="landing-hero bg-transparent">
+    <section class="landing-hero">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <div class="lg:col-span-7">
                 <div class="reveal inline-flex items-center gap-2 px-3 py-1 mb-6 md:mb-8 rounded-full bg-surface-container-high/50 backdrop-blur-md border border-primary/20 shadow-xl">
@@ -36,8 +36,70 @@
                 </div>
             </div>
             <div class="lg:col-span-5 relative mt-12 lg:mt-0 reveal reveal-delay-400">
-                <div class="w-full aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl bg-surface-container-lowest/80 backdrop-blur-xl border border-white/40 p-2 transform lg:rotate-2 hover:rotate-0 transition-transform duration-700 animate-[float_6s_ease-in-out_infinite]">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiSFE24h9pkSEz2X87ZhwkiHwD1uHcGFmzK93mdOxA373fcK1kj1PIirFwxxJrpi1F-6WABhxBjDgXPbMvXLhxzvrm2oSsE7sicFKnqJzlMHlHOOaaAUYmzYYiPWEPsFBavQCqdtuvf_SHvEwEmdGhGGg0uxdPWp5jincupFeTcJLh9zWNtXiu4Y1KAaIAbUldDl5xZQA1zhBlx1r5zwruDJ6w3pjUg7Iq8kXcLamdCbk0UDA6ycJi5Ju5rhqO9kt4EVfUSECI5IBm" alt="Strategic HR Dashboard" class="w-full h-full object-cover rounded-[2rem] shadow-inner">
+                <div class="animate-[float_6s_ease-in-out_infinite]">
+                    <div class="w-full aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl bg-surface-container-lowest/80 backdrop-blur-xl border border-white/40 p-4 transform lg:rotate-2 hover:rotate-0 transition-transform duration-700 flex flex-col gap-4">
+                        <!-- Mockup Top Bar -->
+                        <div class="flex items-center justify-between border-b border-outline-variant/10 pb-4">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-error"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                            </div>
+                            <div class="h-6 w-32 bg-surface-container rounded-full animate-pulse"></div>
+                        </div>
+                        
+                        <!-- Mockup Content -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-gradient-to-br from-primary/10 to-transparent p-4 rounded-2xl border border-primary/20">
+                                <div class="text-[10px] uppercase font-bold text-primary mb-1">Active Staff</div>
+                                <div class="text-2xl font-extrabold text-on-surface">2,405</div>
+                                <div class="mt-2 h-1 w-full bg-surface-container rounded-full overflow-hidden">
+                                    <div class="h-full bg-primary w-3/4"></div>
+                                </div>
+                            </div>
+                            <div class="bg-gradient-to-br from-tertiary/10 to-transparent p-4 rounded-2xl border border-tertiary/20">
+                                <div class="text-[10px] uppercase font-bold text-tertiary mb-1">Payroll Run</div>
+                                <div class="text-2xl font-extrabold text-on-surface">$1.2M</div>
+                                <div class="mt-2 h-1 w-full bg-surface-container rounded-full overflow-hidden">
+                                    <div class="h-full bg-tertiary w-1/2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1 bg-surface-container-low rounded-2xl p-4 border border-outline-variant/10 relative overflow-hidden">
+                            <div class="text-xs font-bold text-on-surface-variant mb-4">Live Activity</div>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">JD</div>
+                                    <div class="flex-1 space-y-1">
+                                        <div class="h-2.5 w-full bg-surface-container-highest rounded-full"></div>
+                                        <div class="h-2 w-2/3 bg-surface-container rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-tertiary/20 flex items-center justify-center text-tertiary text-xs font-bold">AS</div>
+                                    <div class="flex-1 space-y-1">
+                                        <div class="h-2.5 w-5/6 bg-surface-container-highest rounded-full"></div>
+                                        <div class="h-2 w-1/2 bg-surface-container rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center text-secondary text-xs font-bold">MK</div>
+                                    <div class="flex-1 space-y-1">
+                                        <div class="h-2.5 w-full bg-surface-container-highest rounded-full"></div>
+                                        <div class="h-2 w-3/4 bg-surface-container rounded-full"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Glassmorphic Overlay Graph -->
+                            <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-primary/10 to-transparent flex items-end">
+                                <svg class="w-full h-full text-primary opacity-50" viewBox="0 0 100 40" preserveAspectRatio="none">
+                                    <path d="M0,40 Q10,30 20,35 T40,20 T60,25 T80,10 T100,5 L100,40 Z" fill="currentColor"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- Floating Data Card -->
                 <div class="absolute -bottom-6 -left-4 md:-bottom-8 md:-left-12 p-5 md:p-6 bg-surface-container-lowest/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 max-w-[200px] md:max-w-[240px] animate-[float_8s_ease-in-out_infinite_reverse]">
@@ -58,8 +120,18 @@
     <section class="py-12 md:py-16 bg-surface-container-lowest/50 backdrop-blur-lg border-y border-outline-variant/15 overflow-hidden">
         <div class="max-w-7xl mx-auto px-6">
             <p class="text-center text-[10px] font-bold tracking-[0.2em] text-on-surface-variant uppercase mb-10 md:mb-12">Architecting growth for industry leaders</p>
-            <div class="marquee-container">
-                <div class="marquee-content opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+            <div class="marquee-container group">
+                <div class="marquee-content opacity-50 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 group-hover:[animation-play-state:paused]">
+                    <div class="text-on-surface font-headline font-extrabold text-2xl tracking-tighter mx-8">LUMINA</div>
+                    <div class="text-on-surface font-headline font-extrabold text-2xl tracking-tighter mx-8">FORGE</div>
+                    <div class="text-on-surface font-headline font-extrabold text-2xl tracking-tighter mx-8">AETHER</div>
+                    <div class="text-on-surface font-headline font-extrabold text-2xl tracking-tighter mx-8">ORBIT</div>
+                    <div class="text-on-surface font-headline font-extrabold text-2xl tracking-tighter mx-8">VELOCITY</div>
+                    <div class="text-on-surface font-headline font-extrabold text-2xl tracking-tighter mx-8">NEXUS</div>
+                    <div class="text-on-surface font-headline font-extrabold text-2xl tracking-tighter mx-8">LUMINA</div>
+                    <div class="text-on-surface font-headline font-extrabold text-2xl tracking-tighter mx-8">FORGE</div>
+                </div>
+                <div aria-hidden="true" class="marquee-content opacity-50 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 group-hover:[animation-play-state:paused]">
                     <div class="text-on-surface font-headline font-extrabold text-2xl tracking-tighter mx-8">LUMINA</div>
                     <div class="text-on-surface font-headline font-extrabold text-2xl tracking-tighter mx-8">FORGE</div>
                     <div class="text-on-surface font-headline font-extrabold text-2xl tracking-tighter mx-8">AETHER</div>
@@ -74,7 +146,7 @@
     </section>
 
     <!-- Feature Bento Grid -->
-    <section class="landing-section-spacing bg-transparent">
+    <section class="landing-section-spacing">
         <div class="max-w-7xl mx-auto px-6">
             <div class="mb-12 md:mb-16 space-y-4 reveal">
                 <h2 class="text-4xl md:text-6xl font-extrabold font-headline tracking-tight">Curation at <span class="landing-gradient-text">Scale.</span></h2>
@@ -96,8 +168,33 @@
                                 <span class="material-symbols-outlined bg-primary/10 rounded-full p-1 group-hover/link:translate-x-2 transition-transform">chevron_right</span>
                             </a>
                         </div>
-                        <div class="flex-1 w-full lg:max-w-sm rounded-xl overflow-hidden border border-outline-variant/20 shadow-2xl">
-                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAX-GkxOqG--KNIW-0vfPCNNpgbAaOpnqDjBUQ5XD4rwQVBEwHbABW1x7lAcwmWv9-pZ1hADpvgsj5bIYAowJ4rV6hqVmj8jDrrCDq6qU0Z6fBV0N9wArkA7qAywYS0tyI-3rRAgUcehQ7FOtOJl7nqLEC4GoJBB-8VDXIYaEYq7sr5Ne6o-x4WrKwRXs5QPOuAhGK3sdlBQ3zDHXzDxwX86KUkotvZulQ0mfwjD0aUyEkd0J34IOOFsMCTQwDY3kPKpYuYsGGFOze-" alt="Employee Directory" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <div class="flex-1 w-full lg:max-w-sm rounded-xl overflow-hidden border border-outline-variant/20 shadow-2xl bg-surface-container-lowest/80 backdrop-blur-sm p-4 group-hover:scale-105 transition-transform duration-700">
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-4 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
+                                    <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">AJ</div>
+                                    <div class="flex-1">
+                                        <div class="h-3 w-24 bg-on-surface/80 rounded mb-1.5"></div>
+                                        <div class="h-2 w-16 bg-on-surface-variant/50 rounded"></div>
+                                    </div>
+                                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                </div>
+                                <div class="flex items-center gap-4 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
+                                    <div class="w-10 h-10 rounded-full bg-tertiary/20 flex items-center justify-center text-tertiary font-bold">MR</div>
+                                    <div class="flex-1">
+                                        <div class="h-3 w-32 bg-on-surface/80 rounded mb-1.5"></div>
+                                        <div class="h-2 w-20 bg-on-surface-variant/50 rounded"></div>
+                                    </div>
+                                    <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                                </div>
+                                <div class="flex items-center gap-4 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors opacity-60">
+                                    <div class="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary font-bold">SL</div>
+                                    <div class="flex-1">
+                                        <div class="h-3 w-20 bg-on-surface/80 rounded mb-1.5"></div>
+                                        <div class="h-2 w-24 bg-on-surface-variant/50 rounded"></div>
+                                    </div>
+                                    <div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -140,8 +237,42 @@
                             Open Pipeline <span class="material-symbols-outlined bg-primary/10 rounded-full p-1 group-hover/link:translate-x-2 transition-transform">chevron_right</span>
                         </a>
                     </div>
-                    <div class="w-full md:w-72 overflow-hidden rounded-2xl shadow-2xl border border-white/40">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGzOtfyGlNKc_-LUzawTcSE4ZXMYrsrYMLtiDlh6Cec-KCC5SggxoLNWTtuVTa2fjfR63k4BFjI8ggPPpEFVs1ocECUve1sTIQd1Ip-HjoC5m_ATid0FybH7ZEqj4JuA2gfaRb-RMq4YLck5lia984D5xk3lRQTUd53EKsbPpMA8Ij5jAGBBHgwJxNaXQBETvvcGpdB31xWMETlwJ-Je9ejRL0GDHdscTngJ54ehw5bQPioIrU87maLk745IUmZ-hRZQxKnolFLUUJ" alt="Recruitment" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 hover:scale-105">
+                    <div class="w-full md:w-72 bg-surface-container-lowest/80 backdrop-blur-md rounded-2xl shadow-2xl border border-white/40 p-4 group-hover:scale-105 transition-transform duration-700">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-xs font-bold text-on-surface uppercase tracking-wider">Pipeline</div>
+                            <span class="material-symbols-outlined text-sm text-outline">more_horiz</span>
+                        </div>
+                        <div class="space-y-3">
+                            <!-- Card 1 -->
+                            <div class="bg-surface p-3 rounded-lg border border-outline-variant/10 shadow-sm">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div class="h-3 w-20 bg-on-surface/80 rounded"></div>
+                                    <span class="px-1.5 py-0.5 bg-primary/10 text-primary text-[8px] font-bold rounded uppercase">Interview</span>
+                                </div>
+                                <div class="h-2 w-12 bg-on-surface-variant/50 rounded mb-3"></div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex -space-x-2">
+                                        <div class="w-5 h-5 rounded-full bg-primary/20 border-2 border-surface"></div>
+                                        <div class="w-5 h-5 rounded-full bg-tertiary/20 border-2 border-surface"></div>
+                                    </div>
+                                    <span class="material-symbols-outlined text-[10px] text-outline">attach_file</span>
+                                </div>
+                            </div>
+                            <!-- Card 2 -->
+                            <div class="bg-surface p-3 rounded-lg border border-outline-variant/10 shadow-sm">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div class="h-3 w-16 bg-on-surface/80 rounded"></div>
+                                    <span class="px-1.5 py-0.5 bg-secondary/10 text-secondary text-[8px] font-bold rounded uppercase">Offer</span>
+                                </div>
+                                <div class="h-2 w-14 bg-on-surface-variant/50 rounded mb-3"></div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex -space-x-2">
+                                        <div class="w-5 h-5 rounded-full bg-secondary/20 border-2 border-surface"></div>
+                                    </div>
+                                    <span class="material-symbols-outlined text-[10px] text-outline">check_circle</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -149,7 +280,7 @@
     </section>
 
     <!-- Dashboard Detail Section -->
-    <section class="landing-section-spacing bg-transparent px-6 overflow-hidden">
+    <section class="landing-section-spacing px-6 overflow-hidden">
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
             <div class="lg:w-1/2 space-y-10 md:space-y-12 reveal">
                 <h2 class="text-4xl md:text-6xl font-extrabold font-headline tracking-tight text-on-surface">One Interface.<br class="hidden md:block"><span class="landing-gradient-text">Infinite Control.</span></h2>
@@ -178,8 +309,27 @@
                 </div>
             </div>
             <div class="lg:w-1/2 relative mt-12 lg:mt-0 reveal reveal-delay-200">
-                <div class="bg-surface-container-lowest/80 backdrop-blur-xl p-3 rounded-[3rem] shadow-2xl transform lg:rotate-3 hover:rotate-0 transition-transform duration-700 border border-white/50">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJPZxP1PPzCKuXPenzg9wJwy5R9VqjAYCCV5VizG7o883_3THlwTR1toegI2_rzrJ1gYNgIv0d4mYK7TRF4_lLSviNEYxw7sLBoufl2_GpxKCQ2DGnxZLinYfWJBbfolte582XcoKzkZqPUrm1VMJqeX8QIEz4LfZhpeQDuHR7K9k2ZDwvpDRMdAoZNfV_GtHihVavHaUvwa_IGN1yDJ7RbRvxO5f6bBGIUq35M-7Zb-DX97oYBhVjhaKqYk9di2thcB7-hwOEY69f" alt="Advanced Analytics" class="rounded-[2.5rem] w-full h-auto shadow-inner">
+                <div class="animate-[float_7s_ease-in-out_infinite_reverse]">
+                    <div class="bg-surface-container-lowest/80 backdrop-blur-xl p-6 rounded-[3rem] shadow-2xl transform lg:rotate-3 hover:rotate-0 transition-transform duration-700 border border-white/50 w-full aspect-video flex flex-col justify-between">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-[10px] font-bold text-outline uppercase tracking-wider mb-1">Growth Matrix</div>
+                                <div class="text-3xl font-extrabold text-on-surface font-headline">+142%</div>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary">
+                                <span class="material-symbols-outlined">trending_up</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-end justify-between h-32 gap-2 mt-6">
+                            <div class="w-1/6 bg-primary/20 rounded-t-lg h-[30%] hover:bg-primary/40 transition-colors relative group"><div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface text-on-surface text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity font-bold shadow">Jan</div></div>
+                            <div class="w-1/6 bg-primary/30 rounded-t-lg h-[45%] hover:bg-primary/50 transition-colors relative group"><div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface text-on-surface text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity font-bold shadow">Feb</div></div>
+                            <div class="w-1/6 bg-primary/40 rounded-t-lg h-[35%] hover:bg-primary/60 transition-colors relative group"><div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface text-on-surface text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity font-bold shadow">Mar</div></div>
+                            <div class="w-1/6 bg-primary/60 rounded-t-lg h-[60%] hover:bg-primary/70 transition-colors relative group"><div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface text-on-surface text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity font-bold shadow">Apr</div></div>
+                            <div class="w-1/6 bg-tertiary/60 rounded-t-lg h-[80%] hover:bg-tertiary/80 transition-colors relative group"><div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface text-on-surface text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity font-bold shadow">May</div></div>
+                            <div class="w-1/6 bg-gradient-to-t from-primary to-tertiary rounded-t-lg h-[100%] hover:brightness-110 transition-all relative group"><div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface text-on-surface text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity font-bold shadow">Jun</div></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -243,7 +393,7 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section class="landing-section-spacing bg-transparent px-6 relative z-10">
+    <section class="landing-section-spacing px-6 relative z-10">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16 md:mb-20 space-y-4 reveal">
                 <h2 class="text-4xl md:text-6xl font-extrabold font-headline tracking-tight text-on-surface">Echoes of Success</h2>
@@ -296,7 +446,14 @@
                             <span class="material-symbols-outlined transition-transform duration-300" :class="open ? 'rotate-180' : ''">expand_more</span>
                         </div>
                     </button>
-                    <div x-show="open" x-collapse.duration.300ms x-cloak>
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-300 transform"
+                         x-transition:enter-start="opacity-0 -translate-y-2"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         x-transition:leave="transition ease-in duration-200 transform"
+                         x-transition:leave-start="opacity-100 translate-y-0"
+                         x-transition:leave-end="opacity-0 -translate-y-2"
+                         x-cloak>
                         <p class="mt-6 text-on-surface-variant leading-relaxed text-base font-medium">Most teams are fully onboarded within 7-14 business days, depending on the complexity of legacy data migration and existing infrastructure.</p>
                     </div>
                 </div>
@@ -308,7 +465,14 @@
                             <span class="material-symbols-outlined transition-transform duration-300" :class="open ? 'rotate-180' : ''">expand_more</span>
                         </div>
                     </button>
-                    <div x-show="open" x-collapse.duration.300ms x-cloak>
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-300 transform"
+                         x-transition:enter-start="opacity-0 -translate-y-2"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         x-transition:leave="transition ease-in duration-200 transform"
+                         x-transition:leave-start="opacity-100 translate-y-0"
+                         x-transition:leave-end="opacity-0 -translate-y-2"
+                         x-cloak>
                         <p class="mt-6 text-on-surface-variant leading-relaxed text-base font-medium">We use enterprise-grade AES-256 encryption and are SOC2 Type II compliant to ensure absolute sanctuary for your data at every level.</p>
                     </div>
                 </div>
@@ -320,7 +484,14 @@
                             <span class="material-symbols-outlined transition-transform duration-300" :class="open ? 'rotate-180' : ''">expand_more</span>
                         </div>
                     </button>
-                    <div x-show="open" x-collapse.duration.300ms x-cloak>
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-300 transform"
+                         x-transition:enter-start="opacity-0 -translate-y-2"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         x-transition:leave="transition ease-in duration-200 transform"
+                         x-transition:leave-start="opacity-100 translate-y-0"
+                         x-transition:leave-end="opacity-0 -translate-y-2"
+                         x-cloak>
                         <p class="mt-6 text-on-surface-variant leading-relaxed text-base font-medium">Yes, we offer a robust API and pre-built connectors for major ERP and accounting suites like SAP, Oracle, and Tally.</p>
                     </div>
                 </div>
