@@ -7,34 +7,39 @@
     |--------------------------------------------------------------------------
     | CRM Core Component Patterns
     |--------------------------------------------------------------------------
+    | Updated for Minimal & Clean Corporate Theme
     */
 
     .card-crm {
-        @apply bg-surface-container-lowest border border-outline-variant/10 rounded-xl shadow-sm overflow-hidden;
+        @apply bg-surface-container-lowest border border-outline rounded-lg shadow-sm overflow-hidden;
     }
 
     .card-crm-header {
-        @apply p-4 border-b border-outline-variant/10 flex items-center justify-between bg-surface-container-lowest;
+        @apply p-4 border-b border-outline flex items-center justify-between bg-surface-container-lowest;
     }
 
     .card-crm-body {
-        @apply p-6;
+        @apply p-5;
     }
 
     .table-crm {
-        @apply table table-sm table-zebra w-full;
+        @apply table table-sm w-full; /* Removed table-zebra for a cleaner look */
     }
 
     .table-crm thead th {
-        @apply text-[10px] font-bold uppercase tracking-wider text-on-surface-variant bg-surface-container-low/50 py-3 px-4;
+        @apply text-[10px] font-bold uppercase tracking-wider text-on-surface-variant bg-surface-container-low border-b border-outline py-3 px-4;
     }
 
     .table-crm tbody td {
-        @apply py-3 px-4 text-sm align-middle;
+        @apply py-3 px-4 text-sm align-middle border-b border-outline-variant;
+    }
+
+    .table-crm tbody tr:last-child td {
+        @apply border-b-0;
     }
 
     .stat-crm {
-        @apply stat bg-surface-container-lowest border border-outline-variant/10 rounded-xl p-4 md:p-6;
+        @apply stat bg-surface-container-lowest border border-outline rounded-lg p-4 md:p-5;
     }
 
     .stat-value-crm {
@@ -54,16 +59,16 @@
     }
 
     .input-crm {
-        @apply input input-sm rounded-lg w-full bg-surface-container-lowest/50 focus:bg-white;
+        @apply input input-sm border border-outline rounded-md w-full bg-surface-container-lowest focus:bg-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
     }
 
     /* Trix Content Display Styles */
-    .trix-content h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
-    .trix-content h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; }
-    .trix-content h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .trix-content h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--color-on-surface); }
+    .trix-content h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--color-on-surface); }
+    .trix-content h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--color-on-surface); }
     .trix-content ul { list-style-type: disc; margin-left: 1.25rem; margin-bottom: 1rem; }
     .trix-content ol { list-style-type: decimal; margin-left: 1.25rem; margin-bottom: 1rem; }
-    .trix-content blockquote { border-left-width: 4px; border-color: #3b82f64d; padding-left: 1rem; font-style: italic; margin: 1rem 0; }
-    .trix-content pre { background-color: #f3f4f6; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 1rem 0; font-family: monospace; font-size: 0.875rem; }
-    .trix-content a { color: #2563eb; text-decoration: underline; }
+    .trix-content blockquote { border-left-width: 4px; border-color: var(--color-primary); padding-left: 1rem; font-style: italic; margin: 1rem 0; color: var(--color-on-surface-variant); }
+    .trix-content pre { background-color: var(--color-surface-container-low); padding: 1rem; border-radius: 0.375rem; overflow-x: auto; margin: 1rem 0; font-family: monospace; font-size: 0.875rem; border: 1px solid var(--color-outline); }
+    .trix-content a { color: var(--color-primary); text-decoration: underline; }
 }
