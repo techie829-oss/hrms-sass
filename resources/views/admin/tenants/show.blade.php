@@ -20,19 +20,6 @@
         </div>
     </x-slot>
 
-    {{-- Alerts --}}
-    @if(session('success'))
-        <div class="alert alert-success shadow-sm mb-6">
-            <span class="material-symbols-outlined">check_circle</span>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-error shadow-sm mb-6">
-            <span class="material-symbols-outlined">warning</span>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
