@@ -191,243 +191,6 @@
                 </div>
             </div>
 
-            <!-- Card D: Shift Management -->
-            <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
-                <div class="card-body p-8 md:p-10 space-y-6">
-                    <div class="flex items-center gap-4 border-b border-base-200/60 pb-6">
-                        <div class="w-12 h-12 rounded-[22px] bg-success/10 flex items-center justify-center border border-success/20">
-                            <span class="material-symbols-outlined text-success text-2xl">work_history</span>
-                        </div>
-                        <div>
-                            <h3 class="font-black text-base text-base-content/90 tracking-tight">Shift Management</h3>
-                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Specific Timing Templates: Assign these to employees to override default company hours.</p>
-                        </div>
-                    </div>
-
-                    <!-- Existing Shifts List -->
-                    @if($shifts->isNotEmpty())
-                    <div class="space-y-2">
-                        <p class="text-[10px] font-black uppercase tracking-widest opacity-40">Active Shifts</p>
-                        @foreach($shifts as $shift)
-                        <div class="flex items-center justify-between bg-surface-container-low p-4 rounded-2xl border border-outline-variant/10 group hover:border-success/30 transition-all">
-                            <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-xl bg-success/10 flex items-center justify-center border border-success/20">
-                                    <span class="material-symbols-outlined text-sm text-success">schedule</span>
-                                </div>
-                                <div>
-                                    <div class="flex items-center gap-2">
-                                        <h4 class="font-black text-xs text-on-surface">{{ $shift->name }}</h4>
-                                        @if($shift->is_default) <span class="badge badge-xs badge-success font-black uppercase tracking-tighter">Default</span> @endif
-                                        @if($shift->is_overnight) <span class="badge badge-xs badge-warning font-black uppercase tracking-tighter">Overnight</span> @endif
-                                    </div>
-                                    <p class="text-[10px] opacity-60 font-mono mt-0.5">
-                                        {{ \Carbon\Carbon::parse($shift->start_time)->format('h:i A') }}
-                                        → {{ \Carbon\Carbon::parse($shift->end_time)->format('h:i A') }}
-                                        &nbsp;·&nbsp; {{ $shift->grace_minutes }}min grace
-                                        &nbsp;·&nbsp; {{ $shift->half_day_hours }}h half-day
-                                        @if($shift->min_hours_full_day)
-                                            &nbsp;·&nbsp; <span class="text-info font-black">{{ $shift->min_hours_full_day }}h full-day</span>
-                                        @endif
-                                    </p>
-                                </div>
-                            </div>
-                            <form action="{{ route('attendance.shifts.delete', $shift) }}" method="POST" onsubmit="return confirm('Delete this shift?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="btn btn-ghost btn-xs text-error opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <span class="material-symbols-outlined text-sm">delete</span>
-                                </button>
-                            </form>
-                        </div>
-                        @endforeach
-                    </div>
-                    @else
-                    <div class="text-center py-6 opacity-40">
-                        <span class="material-symbols-outlined text-4xl">calendar_add_on</span>
-                        <p class="text-xs font-black uppercase tracking-widest mt-2">No shifts created yet</p>
-                    </div>
-                    @endif
-
-                    <!-- Add New Shift Form -->
-                    <div class="bg-surface-container-low p-6 rounded-[2rem] border border-dashed border-success/30">
-                        <p class="text-[10px] font-black uppercase tracking-widest opacity-50 mb-4">Add New Shift</p>
-                        <form action="{{ route('attendance.shifts.store') }}" method="POST" class="space-y-4">
-                            @csrf
-                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                <div class="col-span-2 md:col-span-1 space-y-1">
-                                    <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Shift Name</label>
-                                    <input type="text" name="name" placeholder="e.g. Morning Shift" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
-                                </div>
-                                <div class="space-y-1">
-                                    <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Start Time</label>
-                                    <input type="time" name="start_time" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
-                                </div>
-                                <div class="space-y-1">
-                                    <label class="text-[9px] font-black uppercase tracking-wider opacity-50">End Time</label>
-                                    <input type="time" name="end_time" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
-                                </div>
-                                <div class="space-y-1">
-                                    <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Grace (min)</label>
-                                    <input type="number" name="grace_minutes" value="15" min="0" max="120" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
-                                </div>
-                                <div class="space-y-1">
-                                    <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Half Day (hrs)</label>
-                                    <input type="number" name="half_day_hours" value="4" min="1" max="12" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
-                                </div>
-                                <div class="space-y-1">
-                                    <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Full Day Min (hrs)
-                                        <span class="text-info/70 normal-case font-medium ml-1">(optional)</span>
-                                    </label>
-                                    <input type="number" name="min_hours_full_day" placeholder="e.g. 8" min="1" max="24" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" />
-                                </div>
-                                <div class="flex items-end gap-6 pb-1">
-                                    <label class="flex items-center gap-2 cursor-pointer">
-                                        <input type="checkbox" name="is_default" class="checkbox checkbox-success checkbox-xs rounded" />
-                                        <span class="text-[9px] font-black uppercase tracking-wider opacity-60">Set Default</span>
-                                    </label>
-                                    <label class="flex items-center gap-2 cursor-pointer">
-                                        <input type="checkbox" name="is_overnight" class="checkbox checkbox-warning checkbox-xs rounded" />
-                                        <span class="text-[9px] font-black uppercase tracking-wider opacity-60">Overnight</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="flex justify-end pt-4">
-                                <button type="submit" class="btn btn-success btn-sm rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-lg shadow-success/20">
-                                    <span class="material-symbols-outlined text-sm">add</span> Create Shift
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 2: Role-Level Enforcements -->
-            <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
-                <div class="card-body p-8 md:p-10 space-y-6">
-                    <div class="flex items-center gap-4 border-b border-base-200/60 pb-6">
-                        <div class="w-12 h-12 rounded-[22px] bg-secondary/10 flex items-center justify-center border border-secondary/20">
-                            <span class="material-symbols-outlined text-secondary text-2xl">shield_person</span>
-                        </div>
-                        <div>
-                            <h3 class="font-black text-base text-base-content/90 tracking-tight">Role-Level Defaults</h3>
-                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Granular Control: Force clock-in for specific roles (e.g. Interns) and exempt others (e.g. Directors).</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 gap-3">
-                        <div class="flex items-center justify-between px-6 opacity-40">
-                            <span class="text-[8px] font-black uppercase tracking-widest">Role Name</span>
-                            <div class="flex items-center gap-6">
-                                <span class="text-[8px] font-black uppercase tracking-widest w-32 text-center">Enforce Mode</span>
-                                <span class="text-[8px] font-black uppercase tracking-widest w-32 text-center">Multi In/Out</span>
-                            </div>
-                        </div>
-                        @foreach($roles as $role)
-                            <div class="flex items-center justify-between bg-surface-container-low p-5 rounded-2xl border border-outline-variant/10 hover:border-secondary/20 transition-all group">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center">
-                                        <span class="material-symbols-outlined text-sm text-secondary">person</span>
-                                    </div>
-                                    <div>
-                                        <label for="role_{{ $role->id }}" class="font-black text-xs uppercase tracking-wider text-on-surface cursor-pointer select-none group-hover:text-secondary transition-colors">{{ $role->name }}</label>
-                                        <p class="text-[10px] opacity-60">Apply settings to all users with this role.</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex items-center gap-6">
-                                    <div class="w-32 flex justify-center">
-                                        <select name="roles[{{ $role->id }}]" class="select select-bordered select-sm w-full text-[10px] font-black uppercase tracking-wider rounded-xl bg-surface-container-lowest">
-                                            <option value="0" {{ ($roleEnforcements[$role->id] ?? '0') === '0' ? 'selected' : '' }}>Inherit</option>
-                                            <option value="1" {{ ($roleEnforcements[$role->id] ?? '') === '1' ? 'selected' : '' }}>Force</option>
-                                            <option value="2" {{ ($roleEnforcements[$role->id] ?? '') === '2' ? 'selected' : '' }}>Exempt</option>
-                                        </select>
-                                    </div>
-                                    <div class="w-32 flex justify-center">
-                                        <select name="multi_roles[{{ $role->id }}]" class="select select-bordered select-sm w-full text-[10px] font-black uppercase tracking-wider rounded-xl bg-surface-container-lowest">
-                                            <option value="0" {{ ($multiRoleEnforcements[$role->id] ?? '0') === '0' ? 'selected' : '' }}>Inherit</option>
-                                            <option value="1" {{ ($multiRoleEnforcements[$role->id] ?? '') === '1' ? 'selected' : '' }}>Allow</option>
-                                            <option value="2" {{ ($multiRoleEnforcements[$role->id] ?? '') === '2' ? 'selected' : '' }}>Disallow</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3: Employee-Level Exclusions & Overrides -->
-            <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
-                <div class="card-body p-8 md:p-10 space-y-6">
-                    <div class="flex items-center gap-4 border-b border-base-200/60 pb-6">
-                        <div class="w-12 h-12 rounded-[22px] bg-tertiary/10 flex items-center justify-center border border-tertiary/20">
-                            <span class="material-symbols-outlined text-tertiary text-2xl">person_search</span>
-                        </div>
-                        <div>
-                            <h3 class="font-black text-base text-base-content/90 tracking-tight">Individual Employee Exclusions</h3>
-                            <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Final Override: Explicitly force or exempt specific staff members, ignoring all other rules.</p>
-                        </div>
-                    </div>
-
-                    <div class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
-                        <div class="flex items-center justify-between px-6 opacity-40 mb-2">
-                            <span class="text-[8px] font-black uppercase tracking-widest">Employee</span>
-                            <div class="flex items-center gap-8">
-                                <span class="text-[8px] font-black uppercase tracking-widest w-40 text-center">Enforcement Mode</span>
-                                <span class="text-[8px] font-black uppercase tracking-widest w-40 text-center">Multi In/Out</span>
-                                <span class="text-[8px] font-black uppercase tracking-widest w-24 text-center">Flexible</span>
-                            </div>
-                        </div>
-                        @foreach($employees as $employee)
-                            <div class="flex items-center justify-between gap-4 bg-surface-container-low p-4 rounded-2xl border border-outline-variant/10 hover:border-tertiary/20 transition-all group">
-                                <div class="flex items-center gap-3">
-                                    <div class="avatar {{ !$employee->profile_photo ? 'placeholder' : '' }}">
-                                        <div class="bg-tertiary/10 text-tertiary rounded-xl w-10 h-10 font-bold text-xs border border-tertiary/10 group-hover:bg-tertiary group-hover:text-white transition-colors overflow-hidden">
-                                            @if($employee->profile_photo)
-                                                <img src="{{ asset('storage/' . $employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
-                                            @else
-                                                {{ strtoupper(substr($employee->first_name, 0, 1) . substr($employee->last_name, 0, 1)) }}
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-black text-xs text-on-surface group-hover:text-tertiary transition-colors">{{ $employee->full_name }}</h4>
-                                        <p class="text-[10px] opacity-60 tracking-wider font-bold">{{ $employee->employee_id }}</p>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-center gap-6">
-                                    <div class="w-40">
-                                        <select name="employees[{{ $employee->id }}]" class="select select-bordered select-sm w-full text-[10px] font-black uppercase tracking-wider rounded-xl bg-surface-container-lowest">
-                                            <option value="0" {{ ($employeeEnforcements[$employee->id] ?? '0') === '0' ? 'selected' : '' }}>Inherit Default</option>
-                                            <option value="1" {{ ($employeeEnforcements[$employee->id] ?? '') === '1' ? 'selected' : '' }}>Force Required</option>
-                                            <option value="2" {{ ($employeeEnforcements[$employee->id] ?? '') === '2' ? 'selected' : '' }}>Exempt / Bypass</option>
-                                        </select>
-                                    </div>
-                                    <div class="w-40">
-                                        <select name="multi_employees[{{ $employee->id }}]" class="select select-bordered select-sm w-full text-[10px] font-black uppercase tracking-wider rounded-xl bg-surface-container-lowest">
-                                            <option value="0" {{ ($employeeMultiEnforcements[$employee->id] ?? '0') === '0' ? 'selected' : '' }}>Inherit Default</option>
-                                            <option value="1" {{ ($employeeMultiEnforcements[$employee->id] ?? '') === '1' ? 'selected' : '' }}>Allow Multi</option>
-                                            <option value="2" {{ ($employeeMultiEnforcements[$employee->id] ?? '') === '2' ? 'selected' : '' }}>Disallow Multi</option>
-                                        </select>
-                                    </div>
-                                    {{-- Flexible Toggle: only min_hours matters, no late/early leave penalty --}}
-                                    <div class="w-24 flex justify-center">
-                                        <label class="flex flex-col items-center gap-1 cursor-pointer">
-                                            <input type="checkbox"
-                                                name="flexible_employees[{{ $employee->id }}]"
-                                                value="1"
-                                                class="checkbox checkbox-info checkbox-sm rounded-lg"
-                                                {{ ($employeeFlexible[$employee->id] ?? false) ? 'checked' : '' }} />
-                                            <span class="text-[8px] font-black uppercase tracking-wider text-info/60">Hours Only</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-
             <!-- Submit Section -->
             <div class="flex justify-end gap-4 pt-6 border-t border-base-200/60 mt-6">
                 <a href="{{ route('attendance.index') }}" class="btn btn-ghost rounded-xl font-bold uppercase tracking-widest text-[10px] px-8">Discard Changes</a>
@@ -436,5 +199,114 @@
                 </button>
             </div>
         </form>
+
+        <!-- Card D: Shift Management (Moved outside main form to avoid nested forms) -->
+        <div class="card bg-base-100 shadow-xl shadow-base-content/5 border border-base-200/60 rounded-[32px] overflow-hidden">
+            <div class="card-body p-8 md:p-10 space-y-6">
+                <div class="flex items-center gap-4 border-b border-base-200/60 pb-6">
+                    <div class="w-12 h-12 rounded-[22px] bg-success/10 flex items-center justify-center border border-success/20">
+                        <span class="material-symbols-outlined text-success text-2xl">work_history</span>
+                    </div>
+                    <div>
+                        <h3 class="font-black text-base text-base-content/90 tracking-tight">Shift Management</h3>
+                        <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1">Specific Timing Templates: Assign these to employees to override default company hours.</p>
+                    </div>
+                </div>
+
+                <!-- Existing Shifts List -->
+                @if($shifts->isNotEmpty())
+                <div class="space-y-2">
+                    <p class="text-[10px] font-black uppercase tracking-widest opacity-40">Active Shifts</p>
+                    @foreach($shifts as $shift)
+                    <div class="flex items-center justify-between bg-surface-container-low p-4 rounded-2xl border border-outline-variant/10 group hover:border-success/30 transition-all">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-success/10 flex items-center justify-center border border-success/20">
+                                <span class="material-symbols-outlined text-sm text-success">schedule</span>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h4 class="font-black text-xs text-on-surface">{{ $shift->name }}</h4>
+                                    @if($shift->is_default) <span class="badge badge-xs badge-success font-black uppercase tracking-tighter">Default</span> @endif
+                                    @if($shift->is_overnight) <span class="badge badge-xs badge-warning font-black uppercase tracking-tighter">Overnight</span> @endif
+                                </div>
+                                <p class="text-[10px] opacity-60 font-mono mt-0.5">
+                                    {{ \Carbon\Carbon::parse($shift->start_time)->format('h:i A') }}
+                                    → {{ \Carbon\Carbon::parse($shift->end_time)->format('h:i A') }}
+                                    &nbsp;·&nbsp; {{ $shift->grace_minutes }}min grace
+                                    &nbsp;·&nbsp; {{ $shift->half_day_hours }}h half-day
+                                    @if($shift->min_hours_full_day)
+                                        &nbsp;·&nbsp; <span class="text-info font-black">{{ $shift->min_hours_full_day }}h full-day</span>
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                        <form action="{{ route('attendance.shifts.delete', $shift) }}" method="POST" onsubmit="return confirm('Delete this shift?')">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="btn btn-ghost btn-xs text-error opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span class="material-symbols-outlined text-sm">delete</span>
+                            </button>
+                        </form>
+                    </div>
+                    @endforeach
+                </div>
+                @else
+                <div class="text-center py-6 opacity-40">
+                    <span class="material-symbols-outlined text-4xl">calendar_add_on</span>
+                    <p class="text-xs font-black uppercase tracking-widest mt-2">No shifts created yet</p>
+                </div>
+                @endif
+
+                <!-- Add New Shift Form -->
+                <div class="bg-surface-container-low p-6 rounded-[2rem] border border-dashed border-success/30">
+                    <p class="text-[10px] font-black uppercase tracking-widest opacity-50 mb-4">Add New Shift</p>
+                    <form action="{{ route('attendance.shifts.store') }}" method="POST" class="space-y-4">
+                        @csrf
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            <div class="col-span-2 md:col-span-1 space-y-1">
+                                <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Shift Name</label>
+                                <input type="text" name="name" placeholder="e.g. Morning Shift" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Start Time</label>
+                                <input type="time" name="start_time" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[9px] font-black uppercase tracking-wider opacity-50">End Time</label>
+                                <input type="time" name="end_time" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Grace (min)</label>
+                                <input type="number" name="grace_minutes" value="15" min="0" max="120" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Half Day (hrs)</label>
+                                <input type="number" name="half_day_hours" value="4" min="1" max="12" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" required />
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[9px] font-black uppercase tracking-wider opacity-50">Full Day Min (hrs)
+                                    <span class="text-info/70 normal-case font-medium ml-1">(optional)</span>
+                                </label>
+                                <input type="number" name="min_hours_full_day" placeholder="e.g. 8" min="1" max="24" class="input input-bordered input-sm w-full rounded-xl font-bold text-xs bg-surface-container-lowest" />
+                            </div>
+                            <div class="flex items-end gap-6 pb-1">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" name="is_default" class="checkbox checkbox-success checkbox-xs rounded" />
+                                    <span class="text-[9px] font-black uppercase tracking-wider opacity-60">Set Default</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" name="is_overnight" class="checkbox checkbox-warning checkbox-xs rounded" />
+                                    <span class="text-[9px] font-black uppercase tracking-wider opacity-60">Overnight</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="flex justify-end pt-4">
+                            <button type="submit" class="btn btn-success btn-sm rounded-xl font-black uppercase tracking-widest text-[10px] px-8 shadow-lg shadow-success/20">
+                                <span class="material-symbols-outlined text-sm">add</span> Create Shift
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </x-app-layout>
