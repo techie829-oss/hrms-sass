@@ -1,32 +1,32 @@
 @theme {
-    /* Colors - Corporate Slate/Blue Palette */
+    /* Colors - School ERP Palette */
     
-    /* Primary: Deep Corporate Blue */
-    --color-primary: #1e3a8a; /* Blue 900 */
-    --color-primary-dim: #1e40af; /* Blue 800 */
+    /* Primary: Blue (Default) */
+    --color-primary: #3b82f6; /* Blue 500 */
+    --color-primary-dim: #2563eb; /* Blue 600 */
     --color-on-primary: #ffffff;
     --color-primary-container: #eff6ff; /* Blue 50 */
-    --color-on-primary-container: #172554; /* Blue 950 */
+    --color-on-primary-container: #1e3a8a; /* Blue 900 */
     
-    /* Secondary: Slate Grays for softer actions */
-    --color-secondary: #475569; /* Slate 600 */
-    --color-secondary-dim: #334155; /* Slate 700 */
+    /* Secondary: Slate */
+    --color-secondary: #64748b; /* Slate 500 */
+    --color-secondary-dim: #475569; /* Slate 600 */
     --color-on-secondary: #ffffff;
-    --color-secondary-container: #f1f5f9; /* Slate 100 */
+    --color-secondary-container: #f8fafc; /* Slate 50 */
     --color-on-secondary-container: #0f172a; /* Slate 900 */
     
-    /* Tertiary: Subdued accents */
-    --color-tertiary: #64748b; /* Slate 500 */
-    --color-tertiary-dim: #475569; /* Slate 600 */
+    /* Tertiary/Accent: Amber */
+    --color-tertiary: #f59e0b; /* Amber 500 */
+    --color-tertiary-dim: #d97706; /* Amber 600 */
     --color-on-tertiary: #ffffff;
-    --color-tertiary-container: #f8fafc; /* Slate 50 */
-    --color-on-tertiary-container: #1e293b; /* Slate 800 */
+    --color-tertiary-container: #fef3c7; /* Amber 50 */
+    --color-on-tertiary-container: #b45309; /* Amber 700 */
     
-    /* Surface: Minimalist Whites and subtle grays */
-    --color-surface: #ffffff;
-    --color-surface-dim: #f8fafc; /* Slate 50 */
+    /* Surface: Off-whites */
+    --color-surface: #f8fafc; /* Slate 50 */
+    --color-surface-dim: #f1f5f9; /* Slate 100 */
     --color-on-surface: #0f172a; /* Slate 900 */
-    --color-surface-variant: #f1f5f9; /* Slate 100 */
+    --color-surface-variant: #e2e8f0; /* Slate 200 */
     --color-on-surface-variant: #475569; /* Slate 600 */
     --color-surface-container-lowest: #ffffff;
     --color-surface-container-low: #f8fafc; /* Slate 50 */
@@ -34,12 +34,12 @@
     --color-surface-container-high: #e2e8f0; /* Slate 200 */
     --color-surface-container-highest: #cbd5e1; /* Slate 300 */
 
-    /* Outlines & Borders: Very subtle */
-    --color-outline: #e2e8f0; /* Slate 200 */
-    --color-outline-variant: #f1f5f9; /* Slate 100 */
+    /* Outlines & Borders */
+    --color-outline: #cbd5e1; /* Slate 300 */
+    --color-outline-variant: #e2e8f0; /* Slate 200 */
     
     /* Error: Standard Red */
-    --color-error: #dc2626; /* Red 600 */
+    --color-error: #ef4444; /* Red 500 */
     --color-on-error: #ffffff;
     --color-error-container: #fef2f2; /* Red 50 */
     --color-on-error-container: #7f1d1d; /* Red 900 */
@@ -49,3 +49,4 @@
     --font-body: "Inter", sans-serif;
     --font-label: "Inter", sans-serif;
 }
+
