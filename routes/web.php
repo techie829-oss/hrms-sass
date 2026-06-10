@@ -31,9 +31,6 @@ Route::domain($centralHost)->middleware(['web'])->group(function () {
 
 // 4. Super Admin Panel (app.hrms.test)
 Route::domain('app.' . $centralHost)->middleware(['web'])->group(function () {
-    // Auth routes for Super Admin
-    require __DIR__.'/auth.php';
-    
     Route::get('/force-logout', function () {
         auth()->logout();
         request()->session()->invalidate();
@@ -78,6 +75,8 @@ Route::middleware(['web', 'auth', 'scope.roles'])->group(function () {
 
 // 6. Tenant Subdomain & General Fallback (handled by CustomIdentifyTenant middleware)
 Route::middleware(['web'])->group(function () {
+    // Auth routes for all domains (Tenants & Central)
+    require __DIR__.'/auth.php';
     
     // Catch-all for Root Domain logic
     Route::get('/', function () {
