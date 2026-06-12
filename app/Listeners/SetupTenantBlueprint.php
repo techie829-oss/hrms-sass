@@ -32,18 +32,23 @@ class SetupTenantBlueprint
         $staffRole = Role::firstOrCreate(['name' => RoleConstants::TSTAFF, 'guard_name' => 'web', 'tenant_id' => $tenant->id]);
 
         $managerPermissions = [
-            'view dashboard', 
-            'view employees', 'create employees', 'edit employees',
-            'manage attendance', 'view attendance',
-            'approve leave', 'create leave', 'cancel leave',
-            'view reports',
-            'view payroll',
-            'view timesheet', 'manage timesheet',
-            'view performance',
+            'view_dashboard', 
+            'view_employees', 'create_employees', 'edit_employees',
+            'manage_attendance', 'view_attendance',
+            'approve_leave', 'create_leave', 'cancel_leave',
+            'view_reports',
+            'view_payroll',
+            'view_timesheet', 'manage_timesheet',
+            'view_performance',
+            'view_leads', 'manage_leads',
+            'view_projects', 'manage_projects',
+            'view_tasks', 'manage_tasks',
         ];
 
         $staffPermissions = [
-            'view dashboard',
+            'view_dashboard',
+            'view_attendance',
+            'view_timesheet',
         ];
 
         $allPermissions = array_unique(array_merge($managerPermissions, $staffPermissions));

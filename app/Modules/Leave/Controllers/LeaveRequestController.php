@@ -10,6 +10,7 @@ use App\Modules\Leave\Models\CompOffRequest;
 use App\Modules\HR\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Core\Constants\PermissionConstants;
 
 class LeaveRequestController extends BaseController
 {
@@ -35,7 +36,7 @@ class LeaveRequestController extends BaseController
         $query = LeaveRequest::with(['employee', 'leaveType']);
 
         // Staff can only see their own requests unless they have broader view permissions
-        if (!$user->can('approve-leave')) {
+        if (!$user->can(PermissionConstants::APPROVE_LEAVE)) {
             $employee = $user->employee;
             $query->where('employee_id', $employee->id ?? 0);
         }
@@ -57,7 +58,7 @@ class LeaveRequestController extends BaseController
         $leaveTypes = LeaveType::where('is_active', true)->get();
         $user = Auth::user();
         
-        $isAdmin = $user->can('approve-leave');
+        $isAdmin = $user->can(PermissionConstants::APPROVE_LEAVE);
         $employees = $isAdmin 
             ? Employee::active()->get() 
             : Employee::where('user_id', $user->id)->get();
@@ -92,7 +93,7 @@ class LeaveRequestController extends BaseController
         ]);
 
         // Security check: Staff cannot apply for others
-        if (!$request->user()->can('approve-leave')) {
+        if (!$request->user()->can(PermissionConstants::APPROVE_LEAVE)) {
             $validated['employee_id'] = $request->user()->employee?->id;
         }
 

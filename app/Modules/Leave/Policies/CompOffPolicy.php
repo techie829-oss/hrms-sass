@@ -5,17 +5,22 @@ namespace App\Modules\Leave\Policies;
 use App\Models\User;
 use App\Modules\Leave\Models\CompOffRequest;
 use Illuminate\Auth\Access\Response;
+use App\Core\Constants\PermissionConstants;
 
 class CompOffPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyPermission(['view-comp-off', 'manage-comp-off', 'view-own-comp-off']);
+        return $user->hasAnyPermission([
+            PermissionConstants::VIEW_COMP_OFF,
+            PermissionConstants::MANAGE_COMP_OFF,
+            PermissionConstants::VIEW_OWN_COMP_OFF,
+        ]);
     }
 
     public function manage(User $user): bool
     {
-        return $user->hasPermissionTo('manage-comp-off');
+        return $user->hasPermissionTo(PermissionConstants::MANAGE_COMP_OFF);
     }
 
     public function view(User $user, CompOffRequest $compOffRequest): bool
@@ -24,11 +29,11 @@ class CompOffPolicy
             return false;
         }
 
-        if ($user->hasPermissionTo('manage-comp-off')) {
+        if ($user->hasPermissionTo(PermissionConstants::MANAGE_COMP_OFF)) {
             return true;
         }
 
-        if ($user->hasPermissionTo('view-own-comp-off')) {
+        if ($user->hasPermissionTo(PermissionConstants::VIEW_OWN_COMP_OFF)) {
             return $user->employee?->id === $compOffRequest->employee_id;
         }
 
@@ -37,16 +42,16 @@ class CompOffPolicy
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create-comp-off');
+        return $user->hasPermissionTo(PermissionConstants::CREATE_COMP_OFF);
     }
 
     public function update(User $user, CompOffRequest $compOffRequest): bool
     {
-        return $user->hasPermissionTo('manage-comp-off') && $user->employee?->id !== $compOffRequest->employee_id;
+        return $user->hasPermissionTo(PermissionConstants::MANAGE_COMP_OFF) && $user->employee?->id !== $compOffRequest->employee_id;
     }
 
     public function delete(User $user, CompOffRequest $compOffRequest): bool
     {
-        return $user->hasPermissionTo('manage-comp-off');
+        return $user->hasPermissionTo(PermissionConstants::MANAGE_COMP_OFF);
     }
 }

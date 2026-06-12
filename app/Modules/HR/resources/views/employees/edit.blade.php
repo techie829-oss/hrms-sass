@@ -2,11 +2,11 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
-                <h2 class="text-2xl font-bold">Edit Employee Profile</h2>
-                <p class="text-sm opacity-70 mt-1">Update information for {{ $employee->full_name }}.</p>
+                <h2 class="text-xl font-bold text-slate-900">Edit Employee Profile</h2>
+                <p class="text-xs text-slate-500 mt-1">Update information for {{ $employee->full_name }}.</p>
             </div>
-            <a href="{{ route('hr.employees.show', $employee->id) }}" class="btn btn-ghost btn-sm">
-                <span class="material-symbols-outlined">arrow_back</span> Back
+            <a href="{{ route('hr.employees.show', $employee->id) }}" class="btn btn-ghost btn-sm border-outline-variant/20 rounded-xl px-4">
+                <span class="material-symbols-outlined text-base">arrow_back</span> Back
             </a>
         </div>
     </x-slot>
@@ -17,29 +17,29 @@
             @method('PUT')
             
             <!-- Personal Section -->
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
-                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-slate-900 border-b border-slate-100 pb-4 mb-5 flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary">person</span>
                         Personal Information
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">First Name <span class="text-error">*</span></span></label>
-                            <input type="text" name="first_name" required value="{{ old('first_name', $employee->first_name) }}" class="input input-bordered w-full" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">First Name <span class="text-rose-500">*</span></label>
+                            <input type="text" name="first_name" required value="{{ old('first_name', $employee->first_name) }}" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 placeholder-slate-400/75 transition-all shadow-sm bg-white" />
                             @error('first_name') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Last Name <span class="text-error">*</span></span></label>
-                            <input type="text" name="last_name" required value="{{ old('last_name', $employee->last_name) }}" class="input input-bordered w-full" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Last Name <span class="text-rose-500">*</span></label>
+                            <input type="text" name="last_name" required value="{{ old('last_name', $employee->last_name) }}" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 placeholder-slate-400/75 transition-all shadow-sm bg-white" />
                             @error('last_name') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Gender</span></label>
-                            <select name="gender" class="select select-bordered w-full">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Gender</label>
+                            <select name="gender" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 bg-white transition-all shadow-sm">
                                 <option value="" disabled selected>Select</option>
                                 <option value="male" {{ old('gender', $employee->gender) == 'male' ? 'selected' : '' }}>Male</option>
                                 <option value="female" {{ old('gender', $employee->gender) == 'female' ? 'selected' : '' }}>Female</option>
@@ -49,40 +49,39 @@
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Date of Birth</span></label>
-                            <input type="date" name="date_of_birth" value="{{ old('date_of_birth', $employee->date_of_birth?->format('Y-m-d')) }}" class="input input-bordered w-full" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Date of Birth</label>
+                            <input type="date" name="date_of_birth" value="{{ old('date_of_birth', $employee->date_of_birth?->format('Y-m-d')) }}" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 transition-all shadow-sm bg-white" />
                             @error('date_of_birth') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Company Email (Login ID) <span class="text-error">*</span></span></label>
-                            <input type="email" name="email" required value="{{ old('email', $employee->email) }}" class="input input-bordered w-full" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Company Email (Login ID) <span class="text-rose-500">*</span></label>
+                            <input type="email" name="email" required value="{{ old('email', $employee->email) }}" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 placeholder-slate-400/75 transition-all shadow-sm bg-white" />
                             @error('email') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Personal Email</span></label>
-                            <input type="email" name="personal_email" value="{{ old('personal_email', $employee->personal_email) }}" class="input input-bordered w-full" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Personal Email</label>
+                            <input type="email" name="personal_email" value="{{ old('personal_email', $employee->personal_email) }}" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 placeholder-slate-400/75 transition-all shadow-sm bg-white" />
                             @error('personal_email') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Mobile Number</span></label>
-                            <div class="flex gap-2">
-                                <input type="text" name="country_code" value="{{ old('country_code', $employee->country_code ?? '+91') }}" class="input input-bordered w-24 text-center" />
-                                <input type="text" name="phone" value="{{ old('phone', $employee->phone) }}" class="input input-bordered w-full" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Mobile Number</label>
+                            <div class="flex gap-2 mt-1">
+                                <input type="text" name="country_code" value="{{ old('country_code', $employee->country_code ?? '+91') }}" class="w-24 text-center border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 placeholder-slate-400/75 bg-white transition-all shadow-sm" />
+                                <input type="text" name="phone" value="{{ old('phone', $employee->phone) }}" class="flex-1 min-w-0 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 placeholder-slate-400/75 bg-white transition-all shadow-sm" />
                             </div>
                             @error('phone') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Employee ID <span class="text-error">*</span></span></label>
-                            <input type="text" name="employee_id" required value="{{ old('employee_id', $employee->employee_id) }}" class="input input-bordered w-full uppercase" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Employee ID <span class="text-rose-500">*</span></label>
+                            <input type="text" name="employee_id" required value="{{ old('employee_id', $employee->employee_id) }}" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 placeholder-slate-400/75 transition-all shadow-sm uppercase bg-white" />
                             @error('employee_id') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
                     </div>
@@ -90,23 +89,23 @@
             </div>
 
             <!-- Employment Section -->
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
-                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-slate-900 border-b border-slate-100 pb-4 mb-5 flex items-center gap-2">
                         <span class="material-symbols-outlined text-secondary">work</span>
                         Employment Details
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Joining Date <span class="text-error">*</span></span></label>
-                            <input type="date" name="date_of_joining" required value="{{ old('date_of_joining', $employee->date_of_joining?->format('Y-m-d')) }}" class="input input-bordered w-full" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Joining Date <span class="text-rose-500">*</span></label>
+                            <input type="date" name="date_of_joining" required value="{{ old('date_of_joining', $employee->date_of_joining?->format('Y-m-d')) }}" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 transition-all shadow-sm bg-white" />
                             @error('date_of_joining') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Department</span></label>
-                            <select name="department_id" class="select select-bordered w-full">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Department</label>
+                            <select name="department_id" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 bg-white transition-all shadow-sm">
                                 <option disabled selected>Select Department</option>
                                 @foreach($departments as $dept)
                                     <option value="{{ $dept->id }}" {{ old('department_id', $employee->department_id) == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
@@ -116,8 +115,8 @@
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Designation</span></label>
-                            <select name="designation_id" class="select select-bordered w-full">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Designation</label>
+                            <select name="designation_id" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 bg-white transition-all shadow-sm">
                                 <option disabled selected>Select Designation</option>
                                 @foreach($designations as $desig)
                                     <option value="{{ $desig->id }}" {{ old('designation_id', $employee->designation_id) == $desig->id ? 'selected' : '' }}>{{ $desig->name }}</option>
@@ -127,8 +126,8 @@
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Employment Type</span></label>
-                            <select name="employment_type" class="select select-bordered w-full">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Employment Type</label>
+                            <select name="employment_type" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 bg-white transition-all shadow-sm">
                                 <option value="full_time" {{ old('employment_type', $employee->employment_type) === 'full_time' ? 'selected' : '' }}>Full Time</option>
                                 <option value="part_time" {{ old('employment_type', $employee->employment_type) === 'part_time' ? 'selected' : '' }}>Part Time</option>
                                 <option value="contract" {{ old('employment_type', $employee->employment_type) === 'contract' ? 'selected' : '' }}>Contract</option>
@@ -139,8 +138,8 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Status</span></label>
-                            <select name="status" class="select select-bordered w-full">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Status</label>
+                            <select name="status" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 bg-white transition-all shadow-sm">
                                 <option value="active" {{ old('status', $employee->status) === 'active' ? 'selected' : '' }}>Active</option>
                                 <option value="on_leave" {{ old('status', $employee->status) === 'on_leave' ? 'selected' : '' }}>On Leave</option>
                                 <option value="inactive" {{ old('status', $employee->status) === 'inactive' ? 'selected' : '' }}>Inactive</option>
@@ -150,17 +149,19 @@
                         </div>
 
                         <div class="form-control w-full">
-                            <div class="label"><span class="label-text font-bold">Monthly Basic Salary <span class="text-error">*</span></span></div>
-                            <label class="input input-bordered flex items-center gap-2 w-full">
-                                <span class="opacity-50 font-bold">₹</span>
-                                <input type="number" step="0.01" name="basic_salary" required value="{{ old('basic_salary', $employee->basic_salary) }}" class="w-full" />
-                            </label>
+                            <div class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Monthly Basic Salary <span class="text-rose-500">*</span></div>
+                            <div class="flex rounded-xl shadow-sm mt-1">
+                                <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-slate-200 bg-slate-50 text-slate-500 text-sm font-bold">
+                                    ₹
+                                </span>
+                                <input type="number" step="0.01" name="basic_salary" required value="{{ old('basic_salary', $employee->basic_salary) }}" class="flex-1 min-w-0 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 px-3.5 py-1.5 text-sm text-gray-900 placeholder-slate-400/75 bg-white transition-all" />
+                            </div>
                             @error('basic_salary') <div class="label"><span class="label-text-alt text-error">{{ $message }}</span></div> @enderror
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Reporting To (Manager)</span></label>
-                            <select name="reporting_to" class="select select-bordered w-full">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Reporting To (Manager)</label>
+                            <select name="reporting_to" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 bg-white transition-all shadow-sm">
                                 <option value="">None (Top Level)</option>
                                 @foreach($employees as $emp)
                                     <option value="{{ $emp->id }}" {{ old('reporting_to', $employee->reporting_to) == $emp->id ? 'selected' : '' }}>{{ $emp->full_name }} ({{ $emp->employee_id }})</option>
@@ -169,34 +170,33 @@
                             @error('reporting_to') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
                     </div>
-
                 </div>
             </div>
 
             <!-- Identity & Documents Section -->
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
-                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-slate-900 border-b border-slate-100 pb-4 mb-5 flex items-center gap-2">
                         <span class="material-symbols-outlined text-warning">badge</span>
                         Identity & Documents
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">PAN Number</span></label>
-                            <input type="text" name="pan_number" value="{{ old('pan_number', $employee->pan_number) }}" class="input input-bordered w-full uppercase" placeholder="ABCDE1234F" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">PAN Number</label>
+                            <input type="text" name="pan_number" value="{{ old('pan_number', $employee->pan_number) }}" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 placeholder-slate-400/75 transition-all shadow-sm uppercase bg-white" placeholder="ABCDE1234F" />
                             @error('pan_number') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Aadhar Number</span></label>
-                            <input type="text" name="aadhar_number" value="{{ old('aadhar_number', $employee->aadhar_number) }}" class="input input-bordered w-full" placeholder="1234 5678 9012" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Aadhar Number</label>
+                            <input type="text" name="aadhar_number" value="{{ old('aadhar_number', $employee->aadhar_number) }}" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 placeholder-slate-400/75 transition-all shadow-sm bg-white" placeholder="1234 5678 9012" />
                             @error('aadhar_number') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Passport Number</span></label>
-                            <input type="text" name="passport_number" value="{{ old('passport_number', $employee->passport_number) }}" class="input input-bordered w-full uppercase" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Passport Number</label>
+                            <input type="text" name="passport_number" value="{{ old('passport_number', $employee->passport_number) }}" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 transition-all shadow-sm uppercase bg-white" />
                             @error('passport_number') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
                     </div>
@@ -204,23 +204,23 @@
             </div>
 
             <!-- Address Section -->
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
-                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-slate-900 border-b border-slate-100 pb-4 mb-5 flex items-center gap-2">
                         <span class="material-symbols-outlined text-info">home</span>
                         Address Details
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Current Address</span></label>
-                            <textarea name="current_address" class="textarea textarea-bordered h-24 w-full" placeholder="Enter current residential address">{{ old('current_address', $employee->current_address) }}</textarea>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Current Address</label>
+                            <textarea name="current_address" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-2 text-sm text-gray-900 placeholder-slate-400/75 transition-all shadow-sm h-24 bg-white" placeholder="Enter current residential address">{{ old('current_address', $employee->current_address) }}</textarea>
                             @error('current_address') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Permanent Address</span></label>
-                            <textarea name="permanent_address" class="textarea textarea-bordered h-24 w-full" placeholder="Enter permanent address">{{ old('permanent_address', $employee->permanent_address) }}</textarea>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Permanent Address</label>
+                            <textarea name="permanent_address" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-2 text-sm text-gray-900 placeholder-slate-400/75 transition-all shadow-sm h-24 bg-white" placeholder="Enter permanent address">{{ old('permanent_address', $employee->permanent_address) }}</textarea>
                             @error('permanent_address') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
                     </div>
@@ -228,29 +228,29 @@
             </div>
 
             <!-- Emergency Contact Section -->
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
-                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-slate-900 border-b border-slate-100 pb-4 mb-5 flex items-center gap-2">
                         <span class="material-symbols-outlined text-error">emergency</span>
                         Emergency Contact
                     </h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Contact Name</span></label>
-                            <input type="text" name="emergency_contact_name" value="{{ old('emergency_contact_name', $employee->emergency_contact_name) }}" class="input input-bordered w-full" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Contact Name</label>
+                            <input type="text" name="emergency_contact_name" value="{{ old('emergency_contact_name', $employee->emergency_contact_name) }}" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 transition-all shadow-sm bg-white" />
                             @error('emergency_contact_name') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Relationship</span></label>
-                            <input type="text" name="emergency_contact_relation" value="{{ old('emergency_contact_relation', $employee->emergency_contact_relation) }}" class="input input-bordered w-full" placeholder="e.g. Spouse, Parent" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Relationship</label>
+                            <input type="text" name="emergency_contact_relation" value="{{ old('emergency_contact_relation', $employee->emergency_contact_relation) }}" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 placeholder-slate-400/75 transition-all shadow-sm bg-white" placeholder="e.g. Spouse, Parent" />
                             @error('emergency_contact_relation') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
 
                         <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Contact Number</span></label>
-                            <input type="text" name="emergency_contact_phone" value="{{ old('emergency_contact_phone', $employee->emergency_contact_phone) }}" class="input input-bordered w-full" />
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Contact Number</label>
+                            <input type="text" name="emergency_contact_phone" value="{{ old('emergency_contact_phone', $employee->emergency_contact_phone) }}" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 transition-all shadow-sm bg-white" />
                             @error('emergency_contact_phone') <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label> @enderror
                         </div>
                     </div>
@@ -258,32 +258,141 @@
             </div>
 
             <!-- Role & System Settings -->
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
-                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
-                        <span class="material-symbols-outlined text-tertiary">settings</span>
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-slate-900 border-b border-slate-100 pb-4 mb-5 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">settings</span>
                         Role & System Settings
                     </h3>
-                        <div class="form-control w-full">
-                            <label class="label"><span class="label-text font-bold">Daily Clock-In Enforcement</span></label>
-                            <select name="checkin_required" class="select select-bordered w-full">
-                                <option value="" {{ old('checkin_required', $employee->user?->checkin_required) === null ? 'selected' : '' }}>Default (Inherit from Company/Role)</option>
-                                <option value="1" {{ old('checkin_required', $employee->user?->checkin_required) === 1 || old('checkin_required', $employee->user?->checkin_required) === '1' ? 'selected' : '' }}>Force Require Clock-In</option>
-                                <option value="0" {{ old('checkin_required', $employee->user?->checkin_required) === 0 || old('checkin_required', $employee->user?->checkin_required) === '0' ? 'selected' : '' }}>Exempt (Bypass Enforcement)</option>
-                            </select>
-                            <label class="label">
-                                <span class="label-text-alt opacity-70">Control whether this specific employee is forced to clock-in or exempted, regardless of general system defaults.</span>
-                            </label>
+                    
+                    @if($employee->user_id && $employee->user)
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div class="form-control w-full">
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">User Role <span class="text-rose-500">*</span></label>
+                                <select name="role_id" id="role_id" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 bg-white transition-all shadow-sm">
+                                    <option value="" disabled>Select Role</option>
+                                    @php
+                                        $userRoleId = $employee->user->roles->first()?->id;
+                                    @endphp
+                                    @foreach($roles as $role)
+                                        <option value="{{ $role->id }}" {{ old('role_id', $userRoleId) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
+
+                        @php
+                            $userPermissions = $employee->user->permissions->pluck('name')->toArray();
+                            $groupedPermissions = $permissions->groupBy(function($permission) {
+                                $parts = explode(' ', $permission->name);
+                                return $parts[1] ?? 'general';
+                            });
+                        @endphp
+                        <div class="col-span-2 mb-6">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Direct User Permissions (Optional)</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-slate-50/50 p-6 rounded-xl border border-slate-200">
+                                @foreach($groupedPermissions as $group => $groupPerms)
+                                    <div class="space-y-2">
+                                        <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wide border-b border-slate-200/60 pb-1.5">{{ ucfirst($group) }}</h4>
+                                        <div class="space-y-1.5">
+                                            @foreach($groupPerms as $perm)
+                                                <label class="flex items-center text-xs text-slate-700 select-none cursor-pointer hover:text-slate-900 transition-colors">
+                                                    <input type="checkbox" name="permissions[]" value="{{ $perm->name }}" {{ in_array($perm->name, old('permissions', $userPermissions)) ? 'checked' : '' }} class="rounded border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 mr-2" />
+                                                    {{ ucfirst($perm->name) }}
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <p class="text-[10px] text-slate-500 mt-2">Check to assign specific permissions directly to this user, bypassing their role settings.</p>
+                        </div>
+                    @else
+                        <div class="flex items-start gap-4 bg-primary-50/50 p-5 rounded-xl border border-primary-100 mb-6">
+                            <input type="hidden" name="create_login" value="0">
+                            <input type="checkbox" id="create_login" name="create_login" value="1"
+                                class="mt-1 rounded border-primary-300 text-primary-600 shadow-sm focus:ring-primary-500"
+                                onchange="document.getElementById('login_fields').classList.toggle('hidden', !this.checked)" />
+                            <div>
+                                <label for="create_login" class="font-semibold text-sm cursor-pointer select-none text-primary-900">
+                                    Create Login Account
+                                </label>
+                                <p class="text-xs text-primary-700/70 mt-1">
+                                    Enable system login access for this employee with a role and password.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div id="login_fields" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Assign Role <span class="text-rose-500">*</span></label>
+                                <select name="role_id" id="role_id" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 bg-white transition-all shadow-sm">
+                                    <option value="" disabled selected>Select Role</option>
+                                    @foreach($roles as $role)
+                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Login Password <span class="text-rose-500">*</span></label>
+                                <input type="text" name="login_password" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 placeholder-slate-400/75 transition-all shadow-sm" placeholder="Min 8 characters" value="password" />
+                                <p class="mt-2 text-xs text-slate-500">Default: password (ask employee to change)</p>
+                            </div>
+
+                            @php
+                                $groupedPermissions = $permissions->groupBy(function($permission) {
+                                    $parts = explode(' ', $permission->name);
+                                    return $parts[1] ?? 'general';
+                                });
+                            @endphp
+                            <div class="col-span-2 mt-2">
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Direct User Permissions (Optional)</label>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-slate-50/50 p-6 rounded-xl border border-slate-200">
+                                    @foreach($groupedPermissions as $group => $groupPerms)
+                                        <div class="space-y-2">
+                                            <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wide border-b border-slate-200/60 pb-1.5">{{ ucfirst($group) }}</h4>
+                                            <div class="space-y-1.5">
+                                                @foreach($groupPerms as $perm)
+                                                    <label class="flex items-center text-xs text-slate-700 select-none cursor-pointer hover:text-slate-900 transition-colors">
+                                                        <input type="checkbox" name="permissions[]" value="{{ $perm->name }}" class="rounded border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 mr-2" />
+                                                        {{ ucfirst($perm->name) }}
+                                                    </label>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <p class="text-[10px] text-slate-500 mt-2">Check to assign specific permissions directly to this user, bypassing their role settings.</p>
+                            </div>
+                        </div>
+                    @endif
+
+                    @php
+                        $employeeEnforcement = \App\Modules\Attendance\Models\AttendanceEmployeeEnforcement::where('employee_id', $employee->id)->first();
+                        $currentCheckinRequired = $employeeEnforcement ? ($employeeEnforcement->enforce_kiosk == 1 ? '1' : '0') : '';
+                    @endphp
+                    <div class="form-control w-full">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Daily Clock-In Enforcement</label>
+                        <select name="checkin_required" class="mt-1 block w-full border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-sm text-gray-900 bg-white transition-all shadow-sm">
+                            <option value="" {{ old('checkin_required', $currentCheckinRequired) === '' ? 'selected' : '' }}>Default (Inherit from Company/Role)</option>
+                            <option value="1" {{ old('checkin_required', $currentCheckinRequired) === '1' ? 'selected' : '' }}>Force Require Clock-In</option>
+                            <option value="0" {{ old('checkin_required', $currentCheckinRequired) === '0' ? 'selected' : '' }}>Exempt (Bypass Enforcement)</option>
+                        </select>
+                        <p class="text-xs text-slate-500 mt-2">
+                            Control whether this specific employee is forced to clock-in or exempted, regardless of general system defaults.
+                        </p>
                     </div>
                 </div>
             </div>
 
             <!-- Submit -->
-            <div class="flex justify-end gap-2 mt-8">
-                <a href="{{ route('hr.employees.show', $employee->id) }}" class="btn btn-ghost">Cancel</a>
-                <button type="submit" class="btn btn-primary">
-                    <span class="material-symbols-outlined">save</span> Update Employee
+            <div class="flex justify-end gap-3 pt-4">
+                <a href="{{ route('hr.employees.show', $employee->id) }}" class="inline-flex justify-center py-2 px-4 border border-slate-300 rounded-xl shadow-sm text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+                    Cancel
+                </a>
+                <button type="submit" class="inline-flex justify-center py-2 px-6 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+                    Update Employee
                 </button>
             </div>
         </form>

@@ -4,6 +4,7 @@ namespace App\Modules\Attendance\Policies;
 
 use App\Models\User;
 use App\Modules\Attendance\Models\AttendanceLog;
+use App\Core\Constants\PermissionConstants;
 
 class AttendanceLogPolicy
 {
@@ -12,7 +13,7 @@ class AttendanceLogPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view-attendance');
+        return $user->hasPermissionTo(PermissionConstants::VIEW_ATTENDANCE);
     }
 
     /**
@@ -25,12 +26,12 @@ class AttendanceLogPolicy
         }
 
         // Managers can view all
-        if ($user->hasPermissionTo('manage-attendance')) {
+        if ($user->hasPermissionTo(PermissionConstants::MANAGE_ATTENDANCE)) {
             return true;
         }
 
         // Staff can only view their own
-        if ($user->hasPermissionTo('view-attendance')) {
+        if ($user->hasPermissionTo(PermissionConstants::VIEW_ATTENDANCE)) {
             return $user->employee?->id === $attendanceLog->employee_id;
         }
 
@@ -42,7 +43,7 @@ class AttendanceLogPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('manage-attendance');
+        return $user->hasPermissionTo(PermissionConstants::MANAGE_ATTENDANCE);
     }
 
     /**
@@ -54,7 +55,7 @@ class AttendanceLogPolicy
             return false;
         }
 
-        return $user->hasPermissionTo('manage-attendance');
+        return $user->hasPermissionTo(PermissionConstants::MANAGE_ATTENDANCE);
     }
 
     /**
@@ -66,6 +67,6 @@ class AttendanceLogPolicy
             return false;
         }
 
-        return $user->hasPermissionTo('manage-attendance');
+        return $user->hasPermissionTo(PermissionConstants::MANAGE_ATTENDANCE);
     }
 }

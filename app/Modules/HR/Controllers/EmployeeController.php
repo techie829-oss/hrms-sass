@@ -23,15 +23,27 @@ class EmployeeController extends BaseController
     public function index(Request $request)
     {
         $filters = $request->only(['department_id', 'status', 'employment_type']);
+        $search = $request->input('search');
         
         $employees = \App\Modules\HR\Models\Employee::with(['department', 'designation', 'user.roles', 'todayAttendance'])
+            ->when($search, function($q) use ($search) {
+                $q->where(function($query) use ($search) {
+                    $query->where('first_name', 'like', "%{$search}%")
+                          ->orWhere('last_name', 'like', "%{$search}%")
+                          ->orWhere('employee_id', 'like', "%{$search}%")
+                          ->orWhere('email', 'like', "%{$search}%");
+                });
+            })
             ->when($filters['department_id'] ?? null, fn($q, $id) => $q->where('department_id', $id))
             ->when($filters['status'] ?? null, fn($q, $status) => $q->where('status', $status))
             ->when($filters['employment_type'] ?? null, fn($q, $type) => $q->where('employment_type', $type))
             ->latest()
-            ->paginate(15);
+            ->paginate(15)
+            ->withQueryString();
 
-        return view('hr::employees.index', compact('employees'));
+        $departments = Department::all();
+
+        return view('hr::employees.index', compact('employees', 'departments'));
     }
 
     /**
@@ -43,7 +55,8 @@ class EmployeeController extends BaseController
         $designations = \App\Modules\HR\Models\Designation::all();
         $roles = Role::where('tenant_id', saas_tenant('id'))->get();
         $employees = \App\Modules\HR\Models\Employee::active()->get();
-        return view('hr::employees.create', compact('departments', 'designations', 'roles', 'employees'))->with($request->all());
+        $permissions = \Spatie\Permission\Models\Permission::all();
+        return view('hr::employees.create', compact('departments', 'designations', 'roles', 'employees', 'permissions'))->with($request->all());
     }
 
     /**
@@ -80,6 +93,8 @@ class EmployeeController extends BaseController
             'create_login' => ['nullable', 'boolean'],
             'role_id' => ['nullable', 'exists:roles,id'],
             'login_password' => ['nullable', 'string', 'min:8'],
+            'permissions' => ['nullable', 'array'],
+            'permissions.*' => ['exists:permissions,name'],
         ]);
 
         $employee = $this->employeeService->create($validated);
@@ -103,9 +118,19 @@ class EmployeeController extends BaseController
             if ($request->filled('role_id')) {
                 $role = Role::find($request->role_id);
                 if ($role) {
-                    setPermissionsTeamId(saas_tenant('id'));
+                    if (function_exists('setPermissionsTeamId')) {
+                        setPermissionsTeamId(saas_tenant('id'));
+                    }
                     $user->syncRoles([$role]);
                 }
+            }
+
+            // Sync user-level permissions
+            if ($request->has('permissions')) {
+                if (function_exists('setPermissionsTeamId')) {
+                    setPermissionsTeamId(saas_tenant('id'));
+                }
+                $user->syncPermissions($request->input('permissions', []));
             }
         }
 
@@ -136,8 +161,9 @@ class EmployeeController extends BaseController
         $designations = \App\Modules\HR\Models\Designation::all();
         $roles = Role::where('tenant_id', saas_tenant('id'))->get();
         $employees = \App\Modules\HR\Models\Employee::active()->where('id', '!=', $id)->get();
+        $permissions = \Spatie\Permission\Models\Permission::all();
 
-        return view('hr::employees.edit', compact('employee', 'departments', 'designations', 'roles', 'employees'));
+        return view('hr::employees.edit', compact('employee', 'departments', 'designations', 'roles', 'employees', 'permissions'));
     }
 
     /**
@@ -171,9 +197,73 @@ class EmployeeController extends BaseController
             'status' => ['required', Rule::in(['active', 'inactive', 'on_leave', 'terminated', 'resigned'])],
             'basic_salary' => ['required', 'numeric', 'min:0'],
             'checkin_required' => ['nullable', 'string', 'in:0,1,'],
+            'role_id' => ['nullable', 'exists:roles,id'],
+            'create_login' => ['nullable', 'boolean'],
+            'login_password' => ['nullable', 'string', 'min:8'],
+            'permissions' => ['nullable', 'array'],
+            'permissions.*' => ['exists:permissions,name'],
         ]);
 
+        $employee = $this->employeeService->findOrFail($id);
+
         $this->employeeService->update($id, $validated);
+
+        // Handle Role & Permissions update for existing login
+        if ($employee->user_id) {
+            $user = User::find($employee->user_id);
+            if ($user) {
+                if ($request->filled('role_id')) {
+                    $role = Role::find($request->role_id);
+                    if ($role) {
+                        if (function_exists('setPermissionsTeamId')) {
+                            setPermissionsTeamId(saas_tenant('id'));
+                        }
+                        $user->syncRoles([$role]);
+                    }
+                }
+                
+                if ($request->has('permissions')) {
+                    if (function_exists('setPermissionsTeamId')) {
+                        setPermissionsTeamId(saas_tenant('id'));
+                    }
+                    $user->syncPermissions($request->input('permissions', []));
+                }
+            }
+        }
+        // Handle new login creation & Permissions sync
+        elseif ($request->boolean('create_login')) {
+            $user = User::where('email', $validated['email'])->first();
+            if (!$user) {
+                $user = User::create([
+                    'tenant_id' => saas_tenant('id'),
+                    'name' => $validated['first_name'] . ' ' . $validated['last_name'],
+                    'email' => $validated['email'],
+                    'password' => Hash::make($request->input('login_password', 'password')),
+                    'email_verified_at' => now(),
+                ]);
+            }
+            // Link employee to user
+            $employee->update(['user_id' => $user->id]);
+
+            // Assign role if selected
+            if ($request->filled('role_id')) {
+                $role = Role::find($request->role_id);
+                if ($role) {
+                    if (function_exists('setPermissionsTeamId')) {
+                        setPermissionsTeamId(saas_tenant('id'));
+                    }
+                    $user->syncRoles([$role]);
+                }
+            }
+
+            // Sync user-level permissions
+            if ($request->has('permissions')) {
+                if (function_exists('setPermissionsTeamId')) {
+                    setPermissionsTeamId(saas_tenant('id'));
+                }
+                $user->syncPermissions($request->input('permissions', []));
+            }
+        }
 
         return redirect()->route('hr.employees.index')
             ->with('success', 'Employee updated successfully.');
@@ -279,5 +369,67 @@ class EmployeeController extends BaseController
         ]);
 
         return back()->with('success', 'Password updated successfully.');
+    }
+
+    /**
+     * Store a bank account for the employee.
+     */
+    public function storeBankAccount(Request $request, $employeeId)
+    {
+        $validated = $request->validate([
+            'bank_name' => 'required|string|max:255',
+            'ifsc_code' => 'required|string|max:20',
+            'account_number' => 'required|string|max:50',
+            'branch_name' => 'nullable|string|max:255',
+            'account_type' => 'required|string|in:savings,current',
+            'is_primary' => 'nullable|boolean',
+        ]);
+
+        $employee = $this->employeeService->findOrFail($employeeId);
+
+        // If is_primary is selected, mark all other bank accounts as not primary
+        if ($request->boolean('is_primary')) {
+            \App\Modules\HR\Models\EmployeeBankAccount::where('employee_id', $employee->id)
+                ->update(['is_primary' => false]);
+        }
+
+        // If this is the employee's first bank account, make it primary automatically
+        $hasAccounts = \App\Modules\HR\Models\EmployeeBankAccount::where('employee_id', $employee->id)->exists();
+        $isPrimary = $request->boolean('is_primary') || !$hasAccounts;
+
+        \App\Modules\HR\Models\EmployeeBankAccount::create([
+            'tenant_id' => saas_tenant('id'),
+            'employee_id' => $employee->id,
+            'bank_name' => $validated['bank_name'],
+            'ifsc_code' => strtoupper($validated['ifsc_code']),
+            'account_number' => $validated['account_number'],
+            'branch_name' => $validated['branch_name'] ?? null,
+            'account_type' => $validated['account_type'],
+            'is_primary' => $isPrimary,
+        ]);
+
+        return back()->with('success', 'Bank details added successfully.');
+    }
+
+    /**
+     * Delete a bank account for the employee.
+     */
+    public function destroyBankAccount($employeeId, $bankAccountId)
+    {
+        $bankAccount = \App\Modules\HR\Models\EmployeeBankAccount::where('employee_id', $employeeId)
+            ->findOrFail($bankAccountId);
+
+        $wasPrimary = $bankAccount->is_primary;
+        $bankAccount->delete();
+
+        // If the deleted account was primary, set another account as primary if exists
+        if ($wasPrimary) {
+            $nextAccount = \App\Modules\HR\Models\EmployeeBankAccount::where('employee_id', $employeeId)->first();
+            if ($nextAccount) {
+                $nextAccount->update(['is_primary' => true]);
+            }
+        }
+
+        return back()->with('success', 'Bank details removed successfully.');
     }
 }

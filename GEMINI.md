@@ -271,3 +271,110 @@ protected function isAccessible(User $user, ?string $path = null): bool
 - IMPORTANT: Activate `tailwindcss-development` every time you're working with a Tailwind CSS or styling-related task.
 
 </laravel-boost-guidelines>
+
+<hrms-saas-memory>
+=== HRMS SaaS — Core Architectural Decisions ===
+
+## Project Context
+This is a **Multi-Tenant HRMS SaaS** application. Each company is a "Tenant" with its own
+isolated schema/data. The primary test tenant is `dedicated-corp` (URL: dedicated-corp.hrms.test).
+
+---
+
+## Permission System — STRICT RULES
+
+### 1. Format: ALWAYS snake_case
+- All permissions are stored in **lowercase with underscores** (`snake_case`).
+- Format rule: `strtolower(preg_replace('/[\s\-]+/', '_', trim($name)))`
+- Examples: `view_dashboard`, `manage_attendance`, `approve_leave`, `view_own_timesheet`
+- NEVER use hyphens (`view-dashboard`) or spaces (`view dashboard`). They are WRONG.
+
+### 2. Permission Controller Auto-Normalizes
+- `PermissionController@store` and `@update` automatically normalize user input.
+- So even if SuperAdmin types `"Manage  Projects"`, it saves as `manage_projects`.
+
+### 3. Seeder is the Single Source of Truth
+- ALL permissions MUST be declared in `database/seeders/RoleSeeder.php`.
+- **RULE: Whenever a new Policy is created OR a new `@can()` / `hasPermissionTo()` check
+  is added anywhere in code, the corresponding permission MUST be added to `RoleSeeder.php` first.**
+- Permissions are grouped by module (Dashboard, HR, Attendance, Leave, etc.) with comments.
+- Run `php artisan db:seed --class=RoleSeeder` to sync new permissions to the database.
+
+---
+
+## Role Architecture
+
+### SaaS-Level Roles (tenant_id = NULL) — Platform management
+| Role | Description |
+|---|---|
+| `sadmin` | Super Admin — full platform access |
+| `smanager` | SaaS Manager |
+| `sstaff` | SaaS Support Staff |
+
+### Tenant-Level Roles (tenant_id = REQUIRED) — Per-company
+| Role | Description |
+|---|---|
+| `tadmin` | Tenant Admin / Company Owner — full access within their tenant |
+| `tmanager` | HR/Ops Manager — manages employees, attendance, projects, tasks, timesheets |
+| `tstaff` | Regular Employee — self-service only (view own data, submit leave etc.) |
+
+---
+
+## How Permissions Work (Tenant Isolation)
+
+- **Permissions are GLOBAL** — stored once in the `permissions` table, shared across tenants.
+- **Role → Permission mapping is TENANT-SPECIFIC** — each tenant gets its own copy of
+  `tmanager`/`tstaff` roles via `App\Listeners\SetupTenantBlueprint` (triggered on tenant creation).
+- Use `setPermissionsTeamId($tenantId)` before any permission check in tenant context.
+- **Direct User Override** — Tenant Admin can grant/revoke individual permissions on a
+  per-user basis from the Employee edit page (Direct Permissions checkboxes).
+
+---
+
+## Role → Permission Matrix (Key assignments)
+
+### `tadmin` → ALL permissions
+### `tmanager` → Operational management:
+  `view_dashboard`, `view_employees`, `create_employees`, `edit_employees`,
+  `manage_attendance`, `view_attendance`, `approve_leave`, `create_leave`, `cancel_leave`,
+  `view_reports`, `view_payroll`, `view_timesheet`, `manage_timesheet`, `view_performance`,
+  `manage_performance`, `view_leads`, `manage_leads`, `view_projects`, `manage_projects`,
+  `view_tasks`, `manage_tasks`, `manage_holidays`, `manage_comp_off`, `view_recruitment`, `manage_recruitment`
+
+### `tstaff` → Self-service only:
+  `view_dashboard`, `view_own_attendance`, `view_own_leave`, `create_leave`, `cancel_leave`,
+  `view_own_timesheet`, `view_own_performance`, `view_projects`, `view_tasks`
+
+---
+
+## Sidebar Module Access
+
+- Sidebar visibility has TWO layers of guard:
+  1. **Module-level:** `$moduleManager->tenantHasAccess($module, $tenant)` — checks if the
+     module is enabled for that tenant. Managed from SuperAdmin panel.
+  2. **Permission-level:** `@can('view_projects')` etc. — checks if the logged-in user
+     has the specific permission.
+- Both must pass for a sidebar link to be visible.
+- All `@can()` in `sidebar.blade.php` use `snake_case` permissions.
+
+---
+
+## Key Files Reference
+| File | Purpose |
+|---|---|
+| `app/Core/Constants/RoleConstants.php` | Role name constants (`TADMIN`, `TMANAGER`, `TSTAFF`) |
+| `database/seeders/RoleSeeder.php` | **Master list of ALL permissions** — update here first |
+| `app/Listeners/SetupTenantBlueprint.php` | Clones roles & assigns permissions on tenant creation |
+| `app/Http/Controllers/Admin/PermissionController.php` | Auto-normalizes to snake_case on save |
+| `resources/views/layouts/sidebar.blade.php` | Navigation with module + permission guards |
+
+---
+
+## Testing Accounts (dedicated-corp tenant)
+| Email | Role | Password |
+|---|---|---|
+| `manager@dedicated.com` | `tmanager` | (set during creation) |
+| `staff@dedicated.com` | `tstaff` | (set during creation) |
+
+</hrms-saas-memory>
+

@@ -5,6 +5,7 @@ namespace App\Modules\Leave\Policies;
 use App\Models\User;
 use App\Modules\Leave\Models\LeaveRequest;
 use App\Core\Constants\RoleConstants;
+use App\Core\Constants\PermissionConstants;
 
 class LeavePolicy
 {
@@ -13,7 +14,11 @@ class LeavePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyPermission(['view-leave', 'approve-leave', 'create-leave', 'view-own-leave']);
+        return $user->hasAnyPermission([
+            PermissionConstants::VIEW_OWN_LEAVE,
+            PermissionConstants::APPROVE_LEAVE,
+            PermissionConstants::CREATE_LEAVE,
+        ]);
     }
 
     /**
@@ -26,11 +31,14 @@ class LeavePolicy
         }
 
         // Staff can only view their own if they have view-own-leave
-        if ($user->hasPermissionTo('view-own-leave') && !$user->hasPermissionTo('approve-leave')) {
+        if ($user->hasPermissionTo(PermissionConstants::VIEW_OWN_LEAVE) && !$user->hasPermissionTo(PermissionConstants::APPROVE_LEAVE)) {
             return $user->employee?->id === $leaveRequest->employee_id;
         }
 
-        return $user->hasAnyPermission(['approve-leave', 'view-leave']);
+        return $user->hasAnyPermission([
+            PermissionConstants::APPROVE_LEAVE,
+            PermissionConstants::VIEW_OWN_LEAVE,
+        ]);
     }
 
     /**
@@ -38,7 +46,7 @@ class LeavePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create-leave');
+        return $user->hasPermissionTo(PermissionConstants::CREATE_LEAVE);
     }
 
     /**
@@ -55,7 +63,7 @@ class LeavePolicy
             return false;
         }
 
-        return $user->hasPermissionTo('approve-leave');
+        return $user->hasPermissionTo(PermissionConstants::APPROVE_LEAVE);
     }
 
     /**
@@ -72,6 +80,6 @@ class LeavePolicy
             return $leaveRequest->status === 'pending';
         }
 
-        return $user->hasPermissionTo('cancel-leave');
+        return $user->hasPermissionTo(PermissionConstants::CANCEL_LEAVE);
     }
 }

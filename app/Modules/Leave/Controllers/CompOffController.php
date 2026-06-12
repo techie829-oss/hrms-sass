@@ -8,6 +8,7 @@ use App\Modules\HR\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Core\Constants\PermissionConstants;
 
 class CompOffController extends BaseController
 {
@@ -25,7 +26,7 @@ class CompOffController extends BaseController
         
         $query = CompOffRequest::with('employee');
         
-        if (!$user->can('manage-comp-off')) {
+        if (!$user->can(PermissionConstants::MANAGE_COMP_OFF)) {
             $query->where('employee_id', $user->employee?->id);
         }
 

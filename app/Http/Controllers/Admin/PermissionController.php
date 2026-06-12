@@ -40,7 +40,7 @@ class PermissionController extends Controller
         ]);
 
         Permission::create([
-            'name' => strtolower($validated['name']),
+            'name' => strtolower(preg_replace('/[\s\-]+/', '_', trim($validated['name']))),
             'description' => $validated['description'],
             'guard_name' => 'web',
         ]);
@@ -67,7 +67,7 @@ class PermissionController extends Controller
         ]);
 
         $permission->update([
-            'name' => strtolower($validated['name']),
+            'name' => strtolower(preg_replace('/[\s\-]+/', '_', trim($validated['name']))),
             'description' => $validated['description'],
         ]);
 

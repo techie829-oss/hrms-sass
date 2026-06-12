@@ -4,6 +4,7 @@ namespace App\Modules\HR\Policies;
 
 use App\Models\User;
 use App\Modules\HR\Models\Employee;
+use App\Core\Constants\PermissionConstants;
 
 class EmployeePolicy
 {
@@ -25,7 +26,7 @@ class EmployeePolicy
     public function viewAny(User $user): bool
     {
         $this->scopeTeam($user);
-        return $user->hasPermissionTo('view-employees');
+        return $user->hasPermissionTo(PermissionConstants::VIEW_EMPLOYEES);
     }
 
     /**
@@ -40,7 +41,7 @@ class EmployeePolicy
 
         $this->scopeTeam($user);
 
-        if ($user->hasPermissionTo('view-employees')) {
+        if ($user->hasPermissionTo(PermissionConstants::VIEW_EMPLOYEES)) {
             return true;
         }
 
@@ -53,7 +54,7 @@ class EmployeePolicy
     public function create(User $user): bool
     {
         $this->scopeTeam($user);
-        return $user->hasPermissionTo('create-employees');
+        return $user->hasPermissionTo(PermissionConstants::CREATE_EMPLOYEES);
     }
 
     /**
@@ -68,7 +69,7 @@ class EmployeePolicy
 
         $this->scopeTeam($user);
 
-        if ($user->hasPermissionTo('edit-employees')) {
+        if ($user->hasPermissionTo(PermissionConstants::EDIT_EMPLOYEES)) {
             return true;
         }
 
@@ -87,6 +88,6 @@ class EmployeePolicy
 
         $this->scopeTeam($user);
 
-        return $user->hasPermissionTo('delete-employees');
+        return $user->hasPermissionTo(PermissionConstants::DELETE_EMPLOYEES);
     }
 }

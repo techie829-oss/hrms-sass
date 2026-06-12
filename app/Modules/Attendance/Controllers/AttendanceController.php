@@ -6,6 +6,7 @@ use App\Core\BaseController;
 use App\Modules\Attendance\Services\AttendanceService;
 use Illuminate\Http\Request;
 use App\Modules\Attendance\Models\AttendanceLog;
+use App\Core\Constants\PermissionConstants;
 
 class AttendanceController extends BaseController
 {
@@ -19,8 +20,8 @@ class AttendanceController extends BaseController
     public function index(Request $request)
     {
         $user = auth()->user();
-        $canViewAll = $user->can('view-attendance');
-        $canViewOwn = $user->can('view-own-attendance');
+        $canViewAll = $user->can(PermissionConstants::VIEW_ATTENDANCE);
+        $canViewOwn = $user->can(PermissionConstants::VIEW_OWN_ATTENDANCE);
 
         if (!$canViewAll && !$canViewOwn) {
             abort(403, 'You do not have permission to view attendance logs.');
@@ -113,7 +114,7 @@ class AttendanceController extends BaseController
             ->get();
 
         $user = auth()->user();
-        $canViewAll = $user->can('view-all-attendance');
+        $canViewAll = $user->can(PermissionConstants::VIEW_ALL_ATTENDANCE);
 
         return view('attendance::show', compact('log', 'allLogs', 'canViewAll'));
     }
