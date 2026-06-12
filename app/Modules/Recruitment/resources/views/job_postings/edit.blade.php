@@ -17,9 +17,9 @@
             @method('PUT')
             
             <!-- Basic Details -->
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
-                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">
                         <span class="material-symbols-outlined text-primary">work</span>
                         Basic Details
                     </h3>
@@ -53,9 +53,9 @@
             </div>
 
             <!-- Description Section -->
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
-                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">
                         <span class="material-symbols-outlined text-secondary">description</span>
                         Description & Requirements
                     </h3>
@@ -77,9 +77,9 @@
             </div>
 
             <!-- Parameters Section -->
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
-                    <h3 class="card-title text-lg border-b border-base-200 pb-2 mb-4">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">
                         <span class="material-symbols-outlined text-accent">settings</span>
                         Listing Parameters
                     </h3>

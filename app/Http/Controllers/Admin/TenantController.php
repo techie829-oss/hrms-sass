@@ -22,9 +22,15 @@ class TenantController extends Controller
     /**
      * Display a listing of tenants.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tenants = Tenant::with('domains')->latest()->paginate(10);
+        $query = Tenant::with('domains')->latest();
+
+        if ($request->get('filter') === 'archived') {
+            $query->onlyTrashed();
+        }
+
+        $tenants = $query->paginate(10)->withQueryString();
 
         return view('admin.tenants.index', compact('tenants'));
     }
@@ -49,6 +55,8 @@ class TenantController extends Controller
             'subdomain' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:tenants,slug'],
             'mode' => ['required', Rule::in(['shared', 'dedicated'])],
             'plan_id' => ['required', 'string'],
+        ], [
+            'subdomain.unique' => 'This subdomain is already registered or currently archived. Subdomains cannot be reused for security reasons.',
         ]);
 
         $host = parse_url(config('app.url'), PHP_URL_HOST) ?? config('app.url');
@@ -188,5 +196,27 @@ class TenantController extends Controller
 
         return redirect()->route('admin.tenants.index')
             ->with('success', 'Tenant removed from system.');
+    }
+
+    /**
+     * Restore a soft-deleted tenant.
+     */
+    public function restore($id)
+    {
+        $tenant = Tenant::withTrashed()->findOrFail($id);
+        $tenant->restore();
+
+        return back()->with('success', "Tenant '{$tenant->name}' restored successfully.");
+    }
+
+    /**
+     * Permanently delete a tenant.
+     */
+    public function forceDelete($id)
+    {
+        $tenant = Tenant::withTrashed()->findOrFail($id);
+        $tenant->forceDelete();
+
+        return back()->with('success', "Tenant permanently deleted.");
     }
 }

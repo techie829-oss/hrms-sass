@@ -25,33 +25,33 @@
     </x-slot>
 
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="card bg-base-100 shadow-sm border border-base-200">
-            <div class="card-body p-6">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+            <div class="p-6">
                 <p class="text-[9px] font-bold uppercase tracking-wider opacity-70 mb-2">Gross Distribution</p>
                 <h3 class="text-xl font-bold">₹{{ number_format($run->total_gross, 2) }}</h3>
             </div>
         </div>
-        <div class="card bg-base-100 shadow-sm border border-base-200">
-            <div class="card-body p-6">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+            <div class="p-6">
                 <p class="text-[9px] font-bold uppercase tracking-wider opacity-70 mb-2">Total Deductions</p>
                 <h3 class="text-xl font-bold text-error">₹{{ number_format($run->total_deductions, 2) }}</h3>
             </div>
         </div>
-        <div class="card bg-base-100 shadow-sm border border-base-200">
-            <div class="card-body p-6">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+            <div class="p-6">
                 <p class="text-[9px] font-bold uppercase tracking-wider opacity-70 mb-2">Net Payout</p>
                 <h3 class="text-xl font-bold text-primary">₹{{ number_format($run->total_net, 2) }}</h3>
             </div>
         </div>
-        <div class="card bg-base-100 shadow-sm border border-base-200">
-            <div class="card-body p-6">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+            <div class="p-6">
                 <p class="text-[9px] font-bold uppercase tracking-wider opacity-70 mb-2">Payment Date</p>
                 <h3 class="text-xl font-bold">{{ $run->pay_date->format('M d, Y') }}</h3>
             </div>
         </div>
     </div>
 
-    <div class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden mb-12">
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden mb-12">
         <div class="p-6 border-b border-base-200 flex justify-between items-center bg-base-200/30">
             <h3 class="font-bold text-lg">Employee Individual Records</h3>
             <div class="text-[10px] font-bold uppercase tracking-wider opacity-40">Showing {{ $payslips->count() }} Records</div>

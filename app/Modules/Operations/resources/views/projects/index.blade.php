@@ -16,10 +16,10 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($projects as $project)
-                <div class="card-crm">
-                    <div class="card-body">
+                <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                    <div class="p-6">
                         <div class="flex justify-between items-start">
-                            <h2 class="card-title text-lg">{{ $project->name }}</h2>
+                            <h2 class="text-lg font-bold text-slate-900">{{ $project->name }}</h2>
                             <div class="badge {{ 
                                 $project->status === 'completed' ? 'badge-success' : 
                                 ($project->status === 'in_progress' ? 'badge-info' : 'badge-ghost') 
@@ -51,7 +51,7 @@
                             <progress class="progress progress-primary w-full" value="{{ $project->tasks->count() > 0 ? ($project->tasks->where('status', 'done')->count() / $project->tasks->count()) * 100 : 0 }}" max="100"></progress>
                         </div>
 
-                        <div class="card-actions justify-end mt-4">
+                        <div class="flex justify-end mt-4">
                             <a href="{{ route('operations.projects.show', $project) }}" class="btn btn-sm btn-ghost">View Details</a>
                         </div>
                     </div>

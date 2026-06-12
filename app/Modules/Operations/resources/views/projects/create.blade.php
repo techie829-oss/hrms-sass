@@ -13,8 +13,8 @@
             <h1 class="text-2xl font-bold">New Project</h1>
         </div>
 
-        <div class="card bg-base-100 shadow-xl border border-base-200">
-            <div class="card-body">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+            <div class="p-6">
                 <form action="{{ route('operations.projects.store') }}" method="POST">
                     @csrf
                     
@@ -67,7 +67,7 @@
                         </div>
                     </div>
 
-                    <div class="card-actions justify-end mt-10">
+                    <div class="flex justify-end mt-10">
                         <a href="{{ route('operations.projects.index') }}" class="btn btn-ghost">Cancel</a>
                         <button type="submit" class="btn btn-primary px-8">Create Project</button>
                     </div>

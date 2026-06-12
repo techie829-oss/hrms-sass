@@ -22,8 +22,8 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Lead Insights -->
         <div class="lg:col-span-2 space-y-6">
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
                     <h3 class="font-bold text-lg mb-4">Lead Details</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -55,8 +55,8 @@
 
             <!-- Linked Projects (if any converted) -->
             @if($lead->projects->count() > 0)
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
                     <h3 class="font-bold text-lg mb-4">Converted Projects</h3>
                     <div class="space-y-4">
                         @foreach($lead->projects as $project)
@@ -79,8 +79,8 @@
 
         <!-- Sidebar / Actions -->
         <div class="lg:col-span-1 space-y-6">
-            <div class="card bg-primary text-primary-content shadow-lg">
-                <div class="card-body">
+            <div class="bg-indigo-600 text-white rounded-xl shadow-sm">
+                <div class="p-6">
                     <h3 class="font-bold">Next Steps</h3>
                     <p class="text-sm opacity-80">Track conversion progress and follow up with the customer.</p>
                     <div class="mt-4 space-y-2">
@@ -92,8 +92,8 @@
                 </div>
             </div>
 
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
                     <h3 class="font-bold text-sm mb-4">Timeline</h3>
                     <ul class="steps steps-vertical text-xs">
                         <li class="step step-primary">Lead Created ({{ $lead->created_at->format('M d') }})</li>

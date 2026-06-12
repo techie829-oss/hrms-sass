@@ -16,8 +16,8 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($contacts as $contact)
-            <div class="card bg-base-100 shadow-xl border border-base-200 hover:border-primary/30 transition-all">
-                <div class="card-body">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm hover:border-indigo-300 transition-all">
+                <div class="p-6">
                     <div class="flex items-center gap-4">
                         <div class="avatar placeholder">
                             <div class="bg-primary-focus text-primary-content rounded-full w-12">
@@ -25,7 +25,7 @@
                             </div>
                         </div>
                         <div>
-                            <h2 class="card-title text-base">{{ $contact->name }}</h2>
+                            <h2 class="text-base font-bold text-slate-900">{{ $contact->name }}</h2>
                             <p class="text-xs font-medium opacity-60">{{ $contact->job_title ?? 'Contact Person' }}</p>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                         </div>
                     </div>
 
-                    <div class="card-actions justify-end mt-6 pt-4 border-t border-base-200">
+                    <div class="flex justify-end mt-6 pt-4 border-t border-slate-200">
                         <div class="flex gap-1">
                             <a href="{{ route('operations.contacts.edit', $contact) }}" class="btn btn-sm btn-ghost btn-square">
                                 <span class="material-symbols-outlined text-base">edit</span>

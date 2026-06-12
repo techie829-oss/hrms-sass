@@ -2,25 +2,25 @@
     /* Colors - School ERP Palette */
     
     /* Primary: Blue (Default) */
-    --color-primary: #3b82f6; /* Blue 500 */
-    --color-primary-dim: #2563eb; /* Blue 600 */
+    --color-primary: var(--color-primary-500, #3b82f6);
+    --color-primary-dim: var(--color-primary-600, #2563eb);
     --color-on-primary: #ffffff;
-    --color-primary-container: #eff6ff; /* Blue 50 */
-    --color-on-primary-container: #1e3a8a; /* Blue 900 */
+    --color-primary-container: var(--color-primary-50, #eff6ff);
+    --color-on-primary-container: var(--color-primary-900, #1e3a8a);
     
     /* Secondary: Slate */
-    --color-secondary: #64748b; /* Slate 500 */
-    --color-secondary-dim: #475569; /* Slate 600 */
+    --color-secondary: var(--color-secondary-500, #64748b);
+    --color-secondary-dim: var(--color-secondary-600, #475569);
     --color-on-secondary: #ffffff;
-    --color-secondary-container: #f8fafc; /* Slate 50 */
-    --color-on-secondary-container: #0f172a; /* Slate 900 */
+    --color-secondary-container: var(--color-secondary-50, #f8fafc);
+    --color-on-secondary-container: var(--color-secondary-900, #0f172a);
     
     /* Tertiary/Accent: Amber */
-    --color-tertiary: #f59e0b; /* Amber 500 */
-    --color-tertiary-dim: #d97706; /* Amber 600 */
+    --color-tertiary: var(--color-accent-500, #f59e0b);
+    --color-tertiary-dim: var(--color-accent-600, #d97706);
     --color-on-tertiary: #ffffff;
-    --color-tertiary-container: #fef3c7; /* Amber 50 */
-    --color-on-tertiary-container: #b45309; /* Amber 700 */
+    --color-tertiary-container: var(--color-accent-50, #fef3c7);
+    --color-on-tertiary-container: var(--color-accent-700, #b45309);
     
     /* Surface: Off-whites */
     --color-surface: #f8fafc; /* Slate 50 */
@@ -39,7 +39,7 @@
     --color-outline-variant: #e2e8f0; /* Slate 200 */
     
     /* Error: Standard Red */
-    --color-error: #ef4444; /* Red 500 */
+    --color-error: var(--color-error, #ef4444);
     --color-on-error: #ffffff;
     --color-error-container: #fef2f2; /* Red 50 */
     --color-on-error-container: #7f1d1d; /* Red 900 */
@@ -49,4 +49,5 @@
     --font-body: "Inter", sans-serif;
     --font-label: "Inter", sans-serif;
 }
+
 

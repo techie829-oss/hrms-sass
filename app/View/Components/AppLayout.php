@@ -12,6 +12,9 @@ class AppLayout extends Component
      */
     public function render(): View
     {
+        if (saas_tenant('id')) {
+            return view('layouts.tenant.app');
+        }
         return view('layouts.app');
     }
 }

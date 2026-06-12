@@ -17,7 +17,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <!-- Sidebar Filters -->
         <div class="lg:col-span-1">
-            <div class="card bg-base-100 shadow-sm border border-base-200">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
                 <div class="card-body p-4 lg:p-6">
                     <h3 class="font-bold text-xs uppercase text-base-content/50 mb-6 flex items-center gap-2">
                         <span class="material-symbols-outlined text-sm">filter_list</span>

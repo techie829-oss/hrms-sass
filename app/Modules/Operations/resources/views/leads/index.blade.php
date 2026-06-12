@@ -16,11 +16,11 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($leads as $lead)
-            <div class="card bg-base-100 shadow-xl border border-base-200 hover:border-primary/30 transition-all">
-                <div class="card-body">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm hover:border-indigo-300 transition-all">
+                <div class="p-6">
                     <div class="flex justify-between items-start">
                         <div>
-                            <h2 class="card-title text-lg">{{ $lead->name }}</h2>
+                            <h2 class="text-lg font-bold text-slate-900">{{ $lead->name }}</h2>
                             <p class="text-xs font-medium opacity-60">{{ $lead->company_name ?? 'Individual' }}</p>
                         </div>
                         <div class="badge {{ 
@@ -51,7 +51,7 @@
                         </div>
                     </div>
 
-                    <div class="card-actions justify-end mt-6 pt-4 border-t border-base-200">
+                    <div class="flex justify-end mt-6 pt-4 border-t border-slate-200">
                         <div class="flex gap-1">
                             <a href="{{ route('operations.leads.edit', $lead) }}" class="btn btn-sm btn-ghost btn-square">
                                 <span class="material-symbols-outlined text-base">edit</span>

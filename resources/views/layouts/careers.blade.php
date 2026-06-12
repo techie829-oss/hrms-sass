@@ -13,6 +13,32 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <!-- Static Theme Colors -->
+        <style>
+            :root {
+                --color-primary-50: #eff6ff;
+                --color-primary-100: #dbeafe;
+                --color-primary-500: #3b82f6;
+                --color-primary-600: #2563eb;
+                --color-primary-700: #1d4ed8;
+                --color-primary-900: #1e3a8a;
+                --color-secondary-50: #f8fafc;
+                --color-secondary-100: #f1f5f9;
+                --color-secondary-500: #64748b;
+                --color-secondary-600: #475569;
+                --color-secondary-700: #334155;
+                --color-secondary-900: #0f172a;
+                --color-accent-50: #fef3c7;
+                --color-accent-500: #f59e0b;
+                --color-accent-600: #d97706;
+                --color-accent-700: #b45309;
+                --color-success: #10b981;
+                --color-warning: #f59e0b;
+                --color-error: #ef4444;
+                --color-info: #3b82f6;
+            }
+        </style>
     </head>
     <body class="font-body text-on-surface antialiased bg-surface-container-lowest">
         <!-- Top navbar -->

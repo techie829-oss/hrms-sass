@@ -57,6 +57,11 @@ class DashboardController extends Controller
             'hasAttendance' => $this->moduleManager->tenantHasAccess('attendance', $tenantId),
             'hasLeave' => $this->moduleManager->tenantHasAccess('leave', $tenantId),
             'hasPayroll' => $this->moduleManager->tenantHasAccess('payroll', $tenantId),
+            'hasRecruitment' => $this->moduleManager->tenantHasAccess('recruitment', $tenantId),
+            'hasOperations' => $this->moduleManager->tenantHasAccess('operations', $tenantId),
+            'hasPerformance' => $this->moduleManager->tenantHasAccess('performance', $tenantId),
+            'hasReports' => $this->moduleManager->tenantHasAccess('reports', $tenantId),
+            'dashboardRoute' => 'tenant.dashboard',
             'currentUserAttendance' => null,
             'assignedShift' => null,
         ];
@@ -177,6 +182,6 @@ class DashboardController extends Controller
                 ->sum('total_net');
         }
 
-        return view('dashboard', $data);
+        return view('tenant.dashboard', $data);
     }
 }

@@ -15,31 +15,13 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('styles')
 
-        <!-- Static Theme Colors -->
-        <style>
-            :root {
-                --color-primary-50: #eff6ff;
-                --color-primary-100: #dbeafe;
-                --color-primary-500: #3b82f6;
-                --color-primary-600: #2563eb;
-                --color-primary-700: #1d4ed8;
-                --color-primary-900: #1e3a8a;
-                --color-secondary-50: #f8fafc;
-                --color-secondary-100: #f1f5f9;
-                --color-secondary-500: #64748b;
-                --color-secondary-600: #475569;
-                --color-secondary-700: #334155;
-                --color-secondary-900: #0f172a;
-                --color-accent-50: #fef3c7;
-                --color-accent-500: #f59e0b;
-                --color-accent-600: #d97706;
-                --color-accent-700: #b45309;
-                --color-success: #10b981;
-                --color-warning: #f59e0b;
-                --color-error: #ef4444;
-                --color-info: #3b82f6;
-            }
+        <!-- Alpine.js -->
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+        <!-- Dynamic Theme Colors -->
+        {!! app(\App\Services\ColorPaletteService::class)->generateInlineCSS() !!}
+
+        <style>
             .bg-primary-50 { background-color: var(--color-primary-50) !important; }
             .bg-primary-100 { background-color: var(--color-primary-100) !important; }
             .bg-primary-500 { background-color: var(--color-primary-500) !important; }
@@ -70,6 +52,18 @@
             .bg-accent-50 { background-color: var(--color-accent-50) !important; }
             .text-accent-600 { color: var(--color-accent-600) !important; }
 
+            /* Custom Select styling for clean, consistent inputs */
+            .content-area select {
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+                background-repeat: no-repeat;
+                background-position: right 0.75rem center;
+                background-size: 0.9rem;
+                padding-right: 2.25rem;
+            }
+
             /* Layout Architecture */
             body {
                 overflow-x: hidden;
@@ -79,8 +73,8 @@
             .sidebar {
                 height: 100vh;
                 overflow-y: auto;
-                background-color: #0f172a; /* Slate 900 for premium HRMS look */
-                border-right: 1px solid #1e293b;
+                background-color: #ffffff; /* White background for clean ERP design */
+                border-right: 1px solid #e2e8f0; /* Light border */
                 transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 position: fixed;
                 top: 0;
@@ -181,7 +175,7 @@
 
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
-            @include('layouts.sidebar')
+            @include('layouts.tenant.sidebar')
         </div>
 
         <!-- Content Area -->

@@ -6,7 +6,7 @@
                 <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Manage payroll cycles and salary distributions.</p>
             </div>
             <div class="flex gap-2">
-                @can('manage-payroll')
+                @can('manage_payroll')
                 <a href="{{ route('payroll.components.index') }}" class="btn btn-ghost btn-sm btn-outline">
                     <span class="material-symbols-outlined text-base">settings</span> Components
                 </a>
@@ -19,22 +19,22 @@
     </x-slot>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="card bg-base-100 shadow-sm border border-base-200">
-            <div class="card-body p-6">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+            <div class="p-6">
                 <p class="text-[10px] font-bold uppercase tracking-wider opacity-70 mb-2">Total Gross Disbursed</p>
                 <h3 class="text-2xl font-bold">₹{{ number_format($runs->sum('total_gross'), 2) }}</h3>
             </div>
         </div>
         
-        <div class="card bg-base-100 shadow-sm border border-base-200">
-            <div class="card-body p-6">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+            <div class="p-6">
                 <p class="text-[10px] font-bold uppercase tracking-wider opacity-70 mb-2">Total Employees Paid</p>
                 <h3 class="text-2xl font-bold">{{ $runs->sum('total_employees') }}</h3>
             </div>
         </div>
 
-        <div class="card bg-base-100 shadow-sm border border-base-200">
-            <div class="card-body p-6">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+            <div class="p-6">
                 <p class="text-[10px] font-bold uppercase tracking-wider opacity-70 mb-2">Net Distribution</p>
                 <h3 class="text-2xl font-bold text-primary">₹{{ number_format($runs->sum('total_net'), 2) }}</h3>
             </div>

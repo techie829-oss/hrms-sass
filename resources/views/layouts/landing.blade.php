@@ -15,6 +15,32 @@
 
     <!-- Scripts & Styles -->
     @vite(['resources/css/app.css', 'resources/css/landing.css', 'resources/js/app.js'])
+
+    <!-- Static Theme Colors -->
+    <style>
+        :root {
+            --color-primary-50: #eff6ff;
+            --color-primary-100: #dbeafe;
+            --color-primary-500: #3b82f6;
+            --color-primary-600: #2563eb;
+            --color-primary-700: #1d4ed8;
+            --color-primary-900: #1e3a8a;
+            --color-secondary-50: #f8fafc;
+            --color-secondary-100: #f1f5f9;
+            --color-secondary-500: #64748b;
+            --color-secondary-600: #475569;
+            --color-secondary-700: #334155;
+            --color-secondary-900: #0f172a;
+            --color-accent-50: #fef3c7;
+            --color-accent-500: #f59e0b;
+            --color-accent-600: #d97706;
+            --color-accent-700: #b45309;
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-error: #ef4444;
+            --color-info: #3b82f6;
+        }
+    </style>
 </head>
 <body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed" x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20) ? true : false">
     <!-- TopNavBar -->
@@ -33,6 +59,12 @@
                 </div>
             </div>
             <div class="flex items-center gap-4">
+                @auth
+                    <a href="{{ route('dashboard') }}" class="px-5 py-2 text-sm font-bold text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors shadow-sm">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}" class="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">Log in</a>
+                    <a href="{{ route('register') }}" class="px-5 py-2 text-sm font-bold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors shadow-sm">Register</a>
+                @endauth
                 <a href="/contact" class="px-6 py-2.5 text-sm font-bold text-on-primary rounded-xl hover:opacity-90 transition-all shadow-xl bg-gradient-to-br from-primary to-tertiary">Book a Demo</a>
             </div>
         </div>

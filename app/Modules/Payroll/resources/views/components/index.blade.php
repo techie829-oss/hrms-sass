@@ -2,107 +2,141 @@
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-3xl font-black font-headline tracking-tight text-on-surface uppercase tracking-tighter">Treasury Definitions</h2>
-                <p class="text-sm text-on-surface-variant font-medium mt-1">Configure individual fiscal components for salary architecture.</p>
+                <h2 class="text-xl font-bold text-slate-900 tracking-tight">Salary Components</h2>
+                <p class="text-xs font-medium text-slate-500 mt-0.5">Configure individual earnings and deductions for salary architecture.</p>
             </div>
-            <div class="flex gap-3">
-                <button onclick="document.getElementById('add_component_modal').showModal()" class="btn btn-primary bg-gradient-to-br from-primary to-tertiary border-none rounded-xl font-bold text-xs uppercase tracking-widest px-6 shadow-lg">
-                    <span class="material-symbols-outlined text-lg">add_circle</span> Define Component
+            <div class="flex gap-2">
+                <button onclick="add_component_modal.showModal()" class="btn btn-primary btn-sm rounded-xl px-5 shadow-sm shadow-primary/20 flex items-center gap-1.5 font-bold uppercase tracking-wider text-[10px]">
+                    <span class="material-symbols-outlined text-sm font-bold">add_circle</span> Define Component
                 </button>
-                <a href="{{ route('payroll.index') }}" class="btn btn-ghost border-outline-variant/20 rounded-xl font-bold text-xs uppercase tracking-widest px-6">
-                    Back to Registry
+                <a href="{{ route('payroll.index') }}" class="btn btn-ghost btn-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 rounded-xl px-4 flex items-center gap-1.5 font-bold uppercase tracking-wider text-[10px]">
+                    <span class="material-symbols-outlined text-sm font-bold">arrow_back</span> Back to Registry
                 </a>
             </div>
         </div>
     </x-slot>
 
-    <div class="bg-surface-container-lowest rounded-[2.5rem] border border-outline-variant/15 shadow-xl overflow-hidden">
-        <x-table :headers="['Component', 'Code', 'Type', 'Calc Type', 'Default', 'Taxable', 'Actions']" :striped="false">
-            @forelse($components as $component)
-                <tr class="hover:bg-primary/5 transition-colors border-b border-outline-variant/5">
-                    <td class="py-5 px-8">
-                        <div class="font-black text-on-surface text-sm uppercase tracking-tight">{{ $component->name }}</div>
-                    </td>
-                    <td>
-                        <div class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant opacity-60">{{ $component->code }}</div>
-                    </td>
-                    <td>
-                        <span class="badge {{ $component->type === 'earning' ? 'badge-success' : 'badge-error' }} text-white font-black text-[8px] px-3 py-2 uppercase tracking-widest shadow-sm">
-                            {{ $component->type }}
-                        </span>
-                    </td>
-                    <td>
-                        <div class="text-xs font-bold text-on-surface uppercase tracking-widest">{{ $component->calculation_type }}</div>
-                    </td>
-                    <td>
-                        <div class="text-sm font-black text-on-surface tracking-tighter">
-                            {{ $component->calculation_type === 'percentage' ? $component->default_amount . '%' : '₹' . number_format($component->default_amount, 2) }}
-                        </div>
-                    </td>
-                    <td>
-                        <div class="flex items-center gap-2">
-                            <span class="material-symbols-outlined text-sm {{ $component->is_taxable ? 'text-success' : 'text-on-surface-variant/20' }}">
-                                {{ $component->is_taxable ? 'verified_user' : 'disabled_by_default' }}
-                            </span>
-                            <span class="text-[9px] font-black uppercase tracking-widest opacity-40">{{ $component->is_taxable ? 'Taxable' : 'Exempt' }}</span>
-                        </div>
-                    </td>
-                    <td class="text-right px-8">
-                        <button class="btn btn-ghost btn-xs btn-square rounded-lg hover:bg-primary/10 hover:text-primary">
-                            <span class="material-symbols-outlined text-sm">edit_note</span>
-                        </button>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="7" class="py-20 text-center opacity-30">
-                        <span class="material-symbols-outlined text-6xl">account_tree</span>
-                        <p class="font-headline font-black text-lg uppercase tracking-tighter mt-4">No Components Defined</p>
-                    </td>
-                </tr>
-            @endforelse
-        </x-table>
+    <!-- Components Table Container -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="table-zebra w-full text-left">
+                <thead class="bg-base-200/50 text-[10px] font-bold uppercase tracking-wider">
+                    <tr>
+                        <th class="px-6 py-4">Component Name</th>
+                        <th class="px-6 py-4">Code</th>
+                        <th class="px-6 py-4">Type</th>
+                        <th class="px-6 py-4">Calculation Path</th>
+                        <th class="px-6 py-4">Default Value</th>
+                        <th class="px-6 py-4">Taxability</th>
+                        <th class="px-6 py-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($components as $component)
+                        <tr class="text-xs hover:bg-base-200/20 group">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-sm text-slate-900">{{ $component->name }}</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="font-mono bg-slate-100 text-slate-700 px-2 py-0.5 rounded-lg border border-slate-200/60 font-bold text-[10px] uppercase">{{ $component->code }}</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                @php
+                                    $typeClasses = [
+                                        'earning' => 'bg-emerald-50 text-emerald-700 border-emerald-200/60',
+                                        'deduction' => 'bg-rose-50 text-rose-700 border-rose-200/60',
+                                    ];
+                                    $badgeClass = $typeClasses[$component->type] ?? 'bg-slate-100 text-slate-700 border-slate-200';
+                                @endphp
+                                <span class="badge border {{ $badgeClass }} font-bold text-[8px] uppercase tracking-wider px-2 py-1.5 rounded-md">
+                                    {{ $component->type }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 font-semibold text-slate-600 uppercase tracking-wider text-[10px]">
+                                {{ str_replace('_', ' ', $component->calculation_type) }}
+                            </td>
+                            <td class="px-6 py-4 font-bold text-slate-900">
+                                {{ $component->calculation_type === 'percentage' ? $component->default_amount . '%' : '₹' . number_format($component->default_amount, 2) }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-base {{ $component->is_taxable ? 'text-success' : 'text-slate-300' }}">
+                                        {{ $component->is_taxable ? 'verified_user' : 'disabled_by_default' }}
+                                    </span>
+                                    <span class="text-[9px] font-bold uppercase tracking-wider opacity-60">{{ $component->is_taxable ? 'Taxable' : 'Exempt' }}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button class="btn btn-ghost btn-xs btn-square rounded-xl hover:bg-slate-100" title="Edit (Coming soon)">
+                                    <span class="material-symbols-outlined text-sm">edit</span>
+                                </button>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="py-20 text-center">
+                                <div class="flex flex-col items-center gap-4 opacity-40">
+                                    <span class="material-symbols-outlined text-6xl">account_tree</span>
+                                    <p class="font-bold text-sm">No salary components defined yet.</p>
+                                    <button onclick="add_component_modal.showModal()" class="btn btn-ghost btn-sm btn-outline">Define First Component</button>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <!-- Add Component Modal -->
-    <dialog id="add_component_modal" class="modal">
-        <div class="modal-box bg-surface-container-lowest rounded-[3rem] p-12 shadow-2xl border border-outline-variant/15 text-left max-w-2xl">
-            <h3 class="font-black font-headline text-3xl mb-8 text-on-surface tracking-tighter uppercase">Define New Component</h3>
-            <form action="{{ route('payroll.components.store') }}" method="POST" class="space-y-6">
+    <!-- Define Component Modal -->
+    <dialog id="add_component_modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box bg-base-100 rounded-2xl border border-base-200 shadow-xl max-w-lg p-6">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 focus:outline-none">✕</button>
+            </form>
+
+            <h3 class="text-sm font-bold uppercase tracking-wider text-primary flex items-center gap-2 mb-6">
+                <span class="material-symbols-outlined text-base font-bold">add_circle</span>
+                Define New Component
+            </h3>
+
+            <form action="{{ route('payroll.components.store') }}" method="POST" class="space-y-4">
                 @csrf
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="space-y-2">
-                        <x-input-label for="name" :value="__('Name')" />
-                        <x-text-input id="name" name="name" type="text" class="block w-full" required placeholder="e.g., Basic Salary" />
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-control w-full">
+                        <label class="label text-[10px] font-bold uppercase opacity-60">Component Name</label>
+                        <input type="text" name="name" required placeholder="e.g. Basic Salary" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" />
                     </div>
-                    <div class="space-y-2">
-                        <x-input-label for="code" :value="__('System Code')" />
-                        <x-text-input id="code" name="code" type="text" class="block w-full" required placeholder="BASIC" />
+
+                    <div class="form-control w-full">
+                        <label class="label text-[10px] font-bold uppercase opacity-60">System Code</label>
+                        <input type="text" name="code" required placeholder="e.g. BASIC" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm uppercase" />
                     </div>
-                    <div class="space-y-2">
-                        <x-input-label for="type" :value="__('Entry Type')" />
-                        <select name="type" class="w-full bg-surface-container-low border-transparent focus:border-primary focus:ring-0 rounded-2xl p-4 text-on-surface font-bold uppercase tracking-widest text-xs" required>
+
+                    <div class="form-control w-full">
+                        <label class="label text-[10px] font-bold uppercase opacity-60">Entry Type</label>
+                        <select name="type" required class="select select-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white transition-all shadow-sm">
                             <option value="earning">Earning</option>
                             <option value="deduction">Deduction</option>
                         </select>
                     </div>
-                    <div class="space-y-2">
-                        <x-input-label for="calculation_type" :value="__('Calculation Path')" />
-                        <select name="calculation_type" class="w-full bg-surface-container-low border-transparent focus:border-primary focus:ring-0 rounded-2xl p-4 text-on-surface font-bold uppercase tracking-widest text-xs" required>
+
+                    <div class="form-control w-full">
+                        <label class="label text-[10px] font-bold uppercase opacity-60">Calculation Path</label>
+                        <select name="calculation_type" required class="select select-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white transition-all shadow-sm">
                             <option value="fixed">Fixed Amount</option>
                             <option value="percentage">Percentage Based</option>
                         </select>
                     </div>
-                </div>
 
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="space-y-2">
-                        <x-input-label for="default_amount" :value="__('Default Value / %')" />
-                        <x-text-input id="default_amount" name="default_amount" type="number" step="0.01" class="block w-full" required />
+                    <div class="form-control w-full">
+                        <label class="label text-[10px] font-bold uppercase opacity-60">Default Value / %</label>
+                        <input type="number" name="default_amount" step="0.01" required placeholder="e.g. 50.00" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" />
                     </div>
-                    <div class="space-y-2">
-                        <x-input-label for="percentage_base" :value="__('% Calculated On')" />
-                        <select name="percentage_base" class="w-full bg-surface-container-low border-transparent focus:border-primary focus:ring-0 rounded-2xl p-4 text-on-surface font-bold uppercase tracking-widest text-xs">
+
+                    <div class="form-control w-full">
+                        <label class="label text-[10px] font-bold uppercase opacity-60">% Calculated On</label>
+                        <select name="percentage_base" class="select select-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white transition-all shadow-sm">
                             <option value="">None (Fixed)</option>
                             <option value="BASIC">Basic Salary</option>
                             <option value="GROSS">Gross Salary</option>
@@ -110,22 +144,28 @@
                     </div>
                 </div>
 
-                <div class="flex items-center gap-6 bg-surface-container-low p-6 rounded-2xl">
-                    <div class="flex items-center gap-3">
-                        <input type="checkbox" name="is_taxable" value="1" class="checkbox checkbox-primary rounded-lg" checked>
-                        <span class="text-xs font-black uppercase tracking-widest">Subject to Taxation</span>
-                    </div>
-                    <div class="flex items-center gap-3 border-l border-outline-variant/20 pl-6">
-                        <input type="checkbox" name="is_mandatory" value="1" class="checkbox checkbox-primary rounded-lg">
-                        <span class="text-xs font-black uppercase tracking-widest">Mandatory</span>
-                    </div>
+                <div class="bg-slate-50/50 p-4 rounded-xl border border-slate-200/60 flex items-center justify-start gap-6 mt-4">
+                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                        <input type="checkbox" name="is_taxable" value="1" class="checkbox checkbox-primary checkbox-sm rounded-md" checked />
+                        <span class="text-[10px] font-bold uppercase opacity-70">Subject to Taxation</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                        <input type="checkbox" name="is_mandatory" value="1" class="checkbox checkbox-primary checkbox-sm rounded-md" />
+                        <span class="text-[10px] font-bold uppercase opacity-70">Mandatory</span>
+                    </label>
                 </div>
 
-                <div class="flex gap-4 pt-4">
-                    <button type="submit" class="flex-1 btn btn-primary rounded-2xl font-black uppercase tracking-[0.2em] text-xs h-auto py-5 shadow-lg">Record Definition</button>
-                    <form method="dialog" class="flex-none"><button class="btn btn-ghost rounded-2xl font-bold uppercase tracking-widest text-xs px-8">Abort</button></form>
+                <div class="flex gap-2 justify-end pt-4">
+                    <button type="button" onclick="add_component_modal.close()" class="btn btn-ghost btn-sm rounded-xl text-xs uppercase font-bold tracking-wider">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm rounded-xl text-xs uppercase font-bold tracking-wider flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">save</span>
+                        Save Definition
+                    </button>
                 </div>
             </form>
         </div>
+        <form method="dialog" class="modal-backdrop bg-base-900/40 backdrop-blur-xs">
+            <button>close</button>
+        </form>
     </dialog>
 </x-app-layout>

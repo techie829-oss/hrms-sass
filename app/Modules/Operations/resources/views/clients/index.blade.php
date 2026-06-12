@@ -115,7 +115,7 @@
                     <label class="label"><span class="label-text font-bold">Address & Notes</span></label>
                     <x-editor name="address" placeholder="Office address and client notes..." />
                 </div>
-                <div class="card-actions justify-end">
+                <div class="flex justify-end">
                     <button type="submit" class="btn btn-primary btn-block">Register Client</button>
                 </div>
             </form>

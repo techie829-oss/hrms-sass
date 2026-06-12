@@ -49,10 +49,12 @@
         </div>
     </x-slot>
 
-    @if(session('success'))
-        <div class="alert alert-success mb-6 text-sm font-semibold">
-            <span class="material-symbols-outlined">check_circle</span> {{ session('success') }}
-        </div>
+    @if(false) {{-- handled globally by app layout --}}
+        @if(session('success'))
+            <div class="alert alert-success mb-6 text-sm font-semibold">
+                <span class="material-symbols-outlined">check_circle</span> {{ session('success') }}
+            </div>
+        @endif
     @endif
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -61,8 +63,8 @@
         <div class="lg:col-span-2 space-y-6">
 
             {{-- Interview Timeline --}}
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body p-0">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-0">
                     <div class="p-5 border-b border-base-200 bg-base-200/30 flex justify-between items-center">
                         <h3 class="font-bold text-sm flex items-center gap-2">
                             <span class="material-symbols-outlined text-primary text-base">event</span> Interviews
@@ -126,8 +128,8 @@
 
             {{-- Cover Letter --}}
             @if($application->cover_letter)
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
                     <h3 class="text-xs font-bold text-primary uppercase tracking-widest mb-3">Cover Letter</h3>
                     <p class="text-sm leading-relaxed whitespace-pre-line">{{ $application->cover_letter }}</p>
                 </div>
@@ -137,8 +139,8 @@
 
         {{-- Right Sidebar: Candidate Info --}}
         <div class="space-y-6">
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
                     <div class="flex items-center gap-4 mb-4">
                         <div class="avatar placeholder">
                             <div class="bg-secondary/10 text-secondary rounded-xl w-14 h-14 font-bold text-lg">
@@ -177,8 +179,8 @@
                 </div>
             </div>
 
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
                     <h3 class="text-xs font-bold text-primary uppercase tracking-widest border-b border-base-200 pb-3 mb-4">Job Posting</h3>
                     <p class="font-bold text-sm">{{ $application->jobPosting->title }}</p>
                     <p class="text-xs opacity-60 mt-1">{{ $application->jobPosting->location ?? 'Remote' }} · {{ str_replace('_', ' ', $application->jobPosting->employment_type) }}</p>
@@ -188,8 +190,8 @@
 
             {{-- Danger Zone --}}
             @if($application->status !== 'rejected' && $application->status !== 'hired')
-            <div class="card bg-base-100 shadow-sm border border-error/20">
-                <div class="card-body">
+            <div class="bg-white border border-red-200 rounded-xl shadow-sm">
+                <div class="p-6">
                     <h3 class="text-xs font-bold text-error uppercase tracking-widest mb-3">Actions</h3>
                     <form action="{{ route('recruitment.applications.status', $application->id) }}" method="POST" class="flex gap-2">
                         @csrf

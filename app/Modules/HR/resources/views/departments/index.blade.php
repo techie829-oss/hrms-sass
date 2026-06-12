@@ -20,8 +20,8 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         @forelse($departments as $department)
-            <div class="card bg-surface-container-lowest shadow-sm border border-outline-variant/10 hover:border-primary/30 transition-all flex flex-col justify-between min-h-[160px] rounded-xl overflow-hidden">
-                <div class="card-body p-5">
+            <div class="bg-white shadow-sm border border-slate-200 hover:border-primary/50 transition-all flex flex-col justify-between min-h-[160px] rounded-xl overflow-hidden">
+                <div class="p-5">
                     <div class="flex items-center justify-between mb-4">
                         <div class="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-[10px] uppercase tracking-wider">
                             {{ $department->code }}
@@ -71,16 +71,16 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="form-control">
                                 <label class="label py-1"><span class="label-text text-[10px] font-bold uppercase tracking-wider opacity-60">Department Name</span></label>
-                                <input name="name" type="text" class="input input-sm input-bordered focus:input-primary rounded-lg text-xs" required value="{{ $department->name }}" />
+                                <input name="name" type="text" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-xs text-gray-900 bg-white transition-all shadow-sm" required value="{{ $department->name }}" />
                             </div>
                             <div class="form-control">
                                 <label class="label py-1"><span class="label-text text-[10px] font-bold uppercase tracking-wider opacity-60">Dept Code</span></label>
-                                <input name="code" type="text" class="input input-sm input-bordered focus:input-primary rounded-lg text-xs uppercase" required value="{{ $department->code }}" />
+                                <input name="code" type="text" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-xs text-gray-900 bg-white transition-all shadow-sm uppercase" required value="{{ $department->code }}" />
                             </div>
                         </div>
                         <div class="form-control">
                             <label class="label py-1"><span class="label-text text-[10px] font-bold uppercase tracking-wider opacity-60">Description</span></label>
-                            <textarea name="description" class="textarea textarea-bordered focus:textarea-primary rounded-lg text-xs" rows="3">{{ $department->description }}</textarea>
+                            <textarea name="description" class="textarea border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-2 text-xs text-gray-900 bg-white transition-all shadow-sm" rows="3">{{ $department->description }}</textarea>
                         </div>
                         <div class="pt-2">
                             <button type="submit" class="btn btn-primary btn-sm w-full rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">Sync Changes</button>
@@ -116,16 +116,16 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                     <div class="form-control">
                         <label class="label py-1"><span class="label-text text-[10px] font-bold uppercase tracking-wider opacity-60">Department Name</span></label>
-                        <input name="name" type="text" class="input input-sm input-bordered focus:input-primary rounded-lg text-xs" required placeholder="e.g. Engineering" />
+                        <input name="name" type="text" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-xs text-gray-900 bg-white transition-all shadow-sm" required placeholder="e.g. Engineering" />
                     </div>
                     <div class="form-control">
                         <label class="label py-1"><span class="label-text text-[10px] font-bold uppercase tracking-wider opacity-60">Dept Code</span></label>
-                        <input name="code" type="text" class="input input-sm input-bordered focus:input-primary rounded-lg text-xs uppercase" required placeholder="e.g. ENG" />
+                        <input name="code" type="text" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-1.5 text-xs text-gray-900 bg-white transition-all shadow-sm uppercase" required placeholder="e.g. ENG" />
                     </div>
                 </div>
                 <div class="form-control text-left">
                     <label class="label py-1"><span class="label-text text-[10px] font-bold uppercase tracking-wider opacity-60">Description</span></label>
-                    <textarea name="description" class="textarea textarea-bordered focus:textarea-primary rounded-lg text-xs" rows="3" placeholder="Scope and mission..."></textarea>
+                    <textarea name="description" class="textarea border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl px-3.5 py-2 text-xs text-gray-900 bg-white transition-all shadow-sm" rows="3" placeholder="Scope and mission..."></textarea>
                 </div>
                 <div class="pt-2">
                     <button type="submit" class="btn btn-primary btn-sm w-full rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">Initialize Department</button>

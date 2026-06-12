@@ -25,6 +25,11 @@ class Tenant extends Model
         'status',
         'email',
         'contact_no',
+        'theme_colors',
+    ];
+
+    protected $casts = [
+        'theme_colors' => 'array',
     ];
 
     protected static function booted(): void

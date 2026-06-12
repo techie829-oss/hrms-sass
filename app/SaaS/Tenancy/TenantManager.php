@@ -47,6 +47,7 @@ class TenantManager
             'schema' => $schema,
             'plan_id' => $data['plan_id'] ?? 'basic',
             'status' => 'active',
+            'theme_colors' => $data['theme_colors'] ?? null,
         ]);
 
         // 3. Create Domain

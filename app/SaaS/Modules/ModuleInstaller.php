@@ -19,9 +19,19 @@ class ModuleInstaller
         $seederClass = "App\\Modules\\{$moduleName}\\Database\\Seeders\\{$moduleName}SettingsSeeder";
 
         if (class_exists($seederClass)) {
-            $seeder = new $seederClass();
-            if (method_exists($seeder, 'run')) {
-                $seeder->run($tenant->id);
+            // Set the TenantContext so HasDynamicSchema works
+            $context = app(\App\SaaS\Tenancy\TenantContext::class);
+            $previousTenant = $context->getTenant();
+            $context->setTenant($tenant);
+
+            try {
+                $seeder = new $seederClass();
+                if (method_exists($seeder, 'run')) {
+                    $seeder->run($tenant->id);
+                }
+            } finally {
+                // Return to previous tenant context
+                $context->setTenant($previousTenant);
             }
         }
 

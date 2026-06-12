@@ -11,22 +11,22 @@
                 @endphp
 
                 @if($showCalendarToggle)
-                <div class="join bg-base-200/50 p-1 rounded-2xl border border-base-300/50 shadow-sm">
-                    <a href="{{ request()->fullUrlWithQuery(['view' => 'list']) }}" class="join-item btn btn-sm {{ $view == 'list' ? 'btn-primary shadow-lg border-primary' : 'btn-ghost border-transparent' }} gap-2 px-4 transition-all rounded-xl">
-                        <span class="material-symbols-outlined text-sm">view_list</span> List
+                <div class="inline-flex p-0.5 bg-slate-100 rounded-xl border border-slate-200">
+                    <a href="{{ request()->fullUrlWithQuery(['view' => 'list']) }}" class="rounded-lg px-3 py-1 text-[11px] font-semibold transition-all {{ $view == 'list' ? 'bg-white text-primary shadow-sm border border-slate-200/60' : 'bg-transparent text-slate-500 hover:text-slate-800' }}">
+                        List
                     </a>
-                    <a href="{{ request()->fullUrlWithQuery(['view' => 'calendar']) }}" class="join-item btn btn-sm {{ $view == 'calendar' ? 'btn-primary shadow-lg border-primary' : 'btn-ghost border-transparent' }} gap-2 px-4 transition-all rounded-xl">
-                        <span class="material-symbols-outlined text-sm">calendar_view_month</span> Calendar
+                    <a href="{{ request()->fullUrlWithQuery(['view' => 'calendar']) }}" class="rounded-lg px-3 py-1 text-[11px] font-semibold transition-all {{ $view == 'calendar' ? 'bg-white text-primary shadow-sm border border-slate-200/60' : 'bg-transparent text-slate-500 hover:text-slate-800' }}">
+                        Calendar
                     </a>
                 </div>
                 @endif
-                @can('manage-attendance')
+                @can('manage_attendance')
                 <div class="flex gap-2">
-                    <a href="{{ route('attendance.settings') }}" class="btn btn-ghost btn-sm btn-outline border-base-300 rounded-xl px-3">
+                    <a href="{{ route('attendance.settings') }}" class="btn btn-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-3 shadow-sm flex items-center justify-center">
                         <span class="material-symbols-outlined text-base">settings</span>
                     </a>
-                    <a href="{{ route('attendance.create') }}" class="btn btn-primary btn-sm rounded-xl px-4 shadow-lg shadow-primary/20">
-                        <span class="material-symbols-outlined text-base">add</span> Manual Log
+                    <a href="{{ route('attendance.create') }}" class="btn btn-primary btn-sm rounded-xl px-4 shadow-sm shadow-primary/20 text-white font-semibold text-xs flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-sm">add</span> Manual Log
                     </a>
                 </div>
                 @endcan
@@ -36,33 +36,33 @@
 
     <div class="flex flex-col gap-6">
         <!-- Filters Area -->
-        <div class="card-crm overflow-visible">
-            <div class="p-4 flex flex-wrap items-center justify-between gap-4">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-visible">
+            <div class="p-3.5 flex flex-wrap items-center justify-between gap-4">
                 <form action="{{ route('attendance.index') }}" method="GET" class="flex flex-wrap items-center gap-3">
                     <input type="hidden" name="view" value="{{ $view }}">
                     
-                    @can('view-all-attendance')
+                    @can('view_all_attendance')
                     <div class="relative group">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 opacity-40 text-lg group-focus-within:text-primary transition-colors">search</span>
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search employee..." class="input input-bordered input-sm w-full max-w-[200px] pl-10 pr-10 py-2 text-xs rounded-2xl focus:border-primary transition-all">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search employee..." class="w-full max-w-[200px] pl-8 pr-3 py-1.5 text-xs border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-xl bg-white text-slate-900 placeholder-slate-400 transition-all shadow-sm">
                     </div>
                     @endcan
 
                     <div class="flex items-center gap-2">
-                        <input type="month" name="month" value="{{ request('month', date('Y-m')) }}" class="input input-bordered input-sm text-xs rounded-2xl focus:border-primary transition-all">
-                        <button type="submit" class="btn btn-primary btn-sm rounded-2xl px-5 font-bold shadow-md shadow-primary/10">Filter</button>
+                        <input type="month" name="month" value="{{ request('month', date('Y-m')) }}" class="px-3 py-1.5 text-xs border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-xl bg-white text-slate-900 transition-all shadow-sm">
+                        <button type="submit" class="btn btn-primary btn-xs rounded-xl px-4 py-1.5 h-auto text-white font-semibold text-xs shadow-sm shadow-primary/10">Filter</button>
                         @if(request()->hasAny(['search', 'month', 'date']))
-                        <a href="{{ route('attendance.index', ['view' => $view]) }}" class="btn btn-ghost btn-sm rounded-2xl text-error/70 hover:bg-error/10 px-3">
-                            <span class="material-symbols-outlined text-base">close_small</span>
+                        <a href="{{ route('attendance.index', ['view' => $view]) }}" class="btn btn-ghost btn-xs rounded-xl text-rose-600 hover:bg-rose-50 px-2 py-1.5 h-auto flex items-center justify-center">
+                            <span class="material-symbols-outlined text-xs">close</span>
                         </a>
                         @endif
                     </div>
                 </form>
 
-                <div class="flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.15em] opacity-40">
-                    <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-success ring-4 ring-success/10"></span> Present</div>
-                    <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-warning ring-4 ring-warning/10"></span> Late</div>
-                    <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-error ring-4 ring-error/10"></span> Absent</div>
+                <div class="flex items-center gap-4 text-[10px] font-semibold text-slate-500">
+                    <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 ring-4 ring-emerald-50"></span> Present</div>
+                    <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500 ring-4 ring-amber-50"></span> Late</div>
+                    <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500 ring-4 ring-rose-50"></span> Absent</div>
                 </div>
             </div>
         </div>
@@ -74,162 +74,166 @@
             <div class="flex flex-col gap-10">
                 @forelse($logs->groupBy(fn($l) => $l->date->format('Y-m-d')) as $date => $dateLogs)
                     <div class="flex flex-col gap-4">
-                        <div class="flex items-center gap-4 px-4">
-                            <div class="h-12 w-12 rounded-[22px] bg-gradient-to-br from-primary to-primary-focus text-white flex flex-col items-center justify-center shadow-xl shadow-primary/20 border border-white/20">
-                                <span class="text-[9px] font-black uppercase tracking-tighter opacity-80 leading-none">{{ \Carbon\Carbon::parse($date)->format('M') }}</span>
-                                <span class="text-xl font-black leading-none mt-1">{{ \Carbon\Carbon::parse($date)->format('d') }}</span>
+                        <div class="flex items-center gap-4 px-1">
+                            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-primary/80 text-white flex flex-col items-center justify-center shadow-sm shadow-primary/20">
+                                <span class="text-[9px] font-bold uppercase tracking-wider opacity-90 leading-none">{{ \Carbon\Carbon::parse($date)->format('M') }}</span>
+                                <span class="text-lg font-extrabold leading-none mt-1.5">{{ \Carbon\Carbon::parse($date)->format('d') }}</span>
                             </div>
                             <div>
-                                <h3 class="font-black text-base text-base-content/90 tracking-tight leading-none">{{ \Carbon\Carbon::parse($date)->format('l') }}</h3>
-                                <p class="text-[10px] font-black uppercase tracking-widest opacity-40 mt-1.5">{{ \Carbon\Carbon::parse($date)->format('jS M, Y') }}</p>
+                                <h3 class="font-bold text-sm text-slate-800 tracking-tight leading-none">{{ \Carbon\Carbon::parse($date)->format('l') }}</h3>
+                                <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mt-1.5">{{ \Carbon\Carbon::parse($date)->format('jS M, Y') }}</p>
                             </div>
-                            <div class="h-px flex-1 bg-gradient-to-r from-base-300/60 to-transparent ml-4"></div>
-                            <div class="px-4 py-1.5 rounded-2xl bg-base-200/50 border border-base-300/30 text-[10px] font-black uppercase tracking-widest opacity-60">
+                            <div class="h-px flex-1 bg-gradient-to-r from-slate-200 to-transparent ml-4"></div>
+                            <div class="px-3 py-1 rounded-xl bg-slate-50 border border-slate-200/60 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                                 {{ count($dateLogs->groupBy('employee_id')) }} Employees
                             </div>
                         </div>
 
-                        <div class="table-crm">
-                            <x-table :headers="['Employee', 'Entries', 'First In', 'Last Out', 'Status', 'Total Work Hours', 'Actions']" :striped="false">
-                                @foreach($dateLogs->groupBy('employee_id') as $employeeId => $empLogs)
-                                    @php
-                                        $firstLog = $empLogs->sortBy('check_in')->first();
-                                        $lastLog = $empLogs->sortByDesc('check_out')->first();
-                                        $employee = $firstLog->employee;
-                                        $entryCount = count($empLogs);
-                                        
-                                        // Find summary for this employee on this date
-                                        $summary = $summaries->where('date', $date)->where('employee_id', $employeeId)->first();
-                                        $totalWorkedHours = $summary ? $summary->total_worked_hours : $empLogs->sum('worked_hours');
-                                    @endphp
-                                    <tr class="hover:bg-base-200/30 transition-all border-b border-base-200 last:border-0 group">
-                                        <td class="py-4 px-6">
-                                            <div class="flex items-center gap-4">
-                                                <div class="avatar {{ !$employee->profile_photo ? 'placeholder' : '' }}">
-                                                    <div class="bg-gradient-to-tr from-primary/10 to-primary/5 text-primary rounded-[18px] w-11 h-11 font-black text-xs flex items-center justify-center border border-primary/10 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
-                                                        @if($employee->profile_photo)
-                                                            <img src="{{ asset('storage/' . $employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
-                                                        @else
-                                                            @php
-                                                                $nameParts = explode(' ', $employee->full_name ?? 'U');
-                                                                $initials = strtoupper(substr($nameParts[0], 0, 1) . (isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : ''));
-                                                            @endphp
-                                                            {{ $initials }}
-                                                        @endif
+                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+                            <div class="table-crm">
+                                <x-table :headers="['Employee', 'Entries', 'First In', 'Last Out', 'Status', 'Total Work Hours', 'Actions']" :striped="false">
+                                    @foreach($dateLogs->groupBy('employee_id') as $employeeId => $empLogs)
+                                        @php
+                                            $firstLog = $empLogs->sortBy('check_in')->first();
+                                            $lastLog = $empLogs->sortByDesc('check_out')->first();
+                                            $employee = $firstLog->employee;
+                                            $entryCount = count($empLogs);
+                                            
+                                            // Find summary for this employee on this date
+                                            $summary = $summaries->where('date', $date)->where('employee_id', $employeeId)->first();
+                                            $totalWorkedHours = $summary ? $summary->total_worked_hours : $empLogs->sum('worked_hours');
+                                        @endphp
+                                        <tr class="hover:bg-slate-50/50 transition-all border-b border-slate-100 last:border-0 group">
+                                            <td class="py-3 px-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="avatar {{ !$employee->profile_photo ? 'placeholder' : '' }}">
+                                                        <div class="bg-slate-100 text-slate-700 rounded-xl w-9 h-9 font-bold text-xs flex items-center justify-center border border-slate-200/60 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
+                                                            @if($employee->profile_photo)
+                                                                <img src="{{ asset('storage/' . $employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
+                                                            @else
+                                                                @php
+                                                                    $nameParts = explode(' ', $employee->full_name ?? 'U');
+                                                                    $initials = strtoupper(substr($nameParts[0], 0, 1) . (isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : ''));
+                                                                @endphp
+                                                                {{ $initials }}
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-bold text-xs text-slate-700">{{ $employee->full_name }}</div>
+                                                        <div class="text-[9px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">{{ $employee->employee_id }}</div>
                                                     </div>
                                                 </div>
-                                                <div>
-                                                    <div class="font-black text-sm text-base-content/80">{{ $employee->full_name }}</div>
-                                                    <div class="text-[9px] font-black uppercase tracking-[0.15em] opacity-30 group-hover:opacity-60 transition-opacity">{{ $employee->employee_id }}</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="flex flex-col gap-1">
-                                                <span class="badge badge-sm rounded-lg font-black text-[9px] bg-base-200 border-base-300/50 text-base-content/60">
-                                                    {{ $entryCount }} {{ $entryCount > 1 ? 'Entries' : 'Entry' }}
-                                                </span>
-                                                @if($summary && count($summary->tags ?? []) > 1)
-                                                    <span class="text-[8px] font-black text-info uppercase tracking-widest px-1">Multi-Session</span>
-                                                @endif
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="flex flex-col gap-0.5">
-                                                <span class="text-xs font-black text-success/80">
-                                                    {{ $firstLog->check_in ? $firstLog->check_in->format('h:i A') : '--:--' }}
-                                                </span>
-                                                @if($summary && in_array('late_arrived', $summary->tags ?? []))
-                                                    <span class="text-[9px] font-black text-warning uppercase leading-none">Late Arrived</span>
-                                                @endif
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="flex flex-col gap-0.5">
-                                                <span class="text-xs font-black text-error/80">
-                                                    {{ $lastLog->check_out ? $lastLog->check_out->format('h:i A') : '--:--' }}
-                                                </span>
-                                                @if($summary && in_array('checkout_missing', $summary->tags ?? []))
-                                                    <span class="text-[9px] font-black text-error uppercase leading-none animate-pulse">Missing</span>
-                                                @elseif($summary && in_array('early_leave', $summary->tags ?? []))
-                                                    <span class="text-[9px] font-black text-orange-600 uppercase leading-none">Early Leave</span>
-                                                @endif
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="flex flex-wrap gap-2">
-                                                @php
-                                                    $typeMap = [
-                                                        'full_day'    => ['l' => 'Full Day', 'c' => 'bg-green-100 text-green-800 border-green-300'],
-                                                        'half_day'    => ['l' => 'Half Day', 'c' => 'bg-blue-100 text-blue-800 border-blue-300'],
-                                                        'quarter_day' => ['l' => 'Short Day', 'c' => 'bg-amber-100 text-amber-800 border-amber-300'],
-                                                        'absent'      => ['l' => 'Absent', 'c' => 'bg-red-100 text-red-800 border-red-300'],
-                                                    ];
-                                                    $t = $summary ? ($typeMap[$summary->day_type] ?? null) : null;
-                                                @endphp
-                                                @if($t)
-                                                    <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border {{ $t['c'] }}">
-                                                        {{ $t['l'] }}
+                                            </td>
+                                            <td class="py-3 px-4">
+                                                <div class="flex flex-col gap-1">
+                                                    <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200/40">
+                                                        {{ $entryCount }} {{ $entryCount > 1 ? 'Entries' : 'Entry' }}
                                                     </span>
-                                                @else
-                                                    <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border bg-base-200 text-base-content/60 border-base-300">
-                                                        Pending
-                                                    </span>
-                                                @endif
-                                                
-                                                @if($summary && in_array('overtime', $summary->tags ?? []))
-                                                    <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border bg-purple-100 text-purple-800 border-purple-300">
-                                                        Overtime
-                                                    </span>
-                                                @endif
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="flex flex-col gap-1.5">
-                                                <div class="flex items-center justify-between px-1">
-                                                    <span class="text-xs font-black">{{ $summary ? $summary->formatted_hours : number_format($totalWorkedHours, 1) . 'h' }}</span>
-                                                    <span class="text-[9px] font-black opacity-30">{{ min(round(($totalWorkedHours / 8) * 100), 100) }}%</span>
+                                                    @if($summary && count($summary->tags ?? []) > 1)
+                                                        <span class="text-[8px] font-bold text-sky-600 uppercase tracking-wider">Multi-Session</span>
+                                                    @endif
                                                 </div>
-                                                <progress class="progress progress-primary w-24 h-1.5 shadow-sm" value="{{ min(($totalWorkedHours / 8) * 100, 100) }}" max="100"></progress>
-                                            </div>
-                                        </td>
-                                        <td class="text-right px-6">
-                                            <div class="flex justify-end gap-2">
-                                                <a href="{{ route('attendance.show', $firstLog->id) }}" class="btn btn-ghost btn-sm btn-square rounded-2xl text-primary/60 hover:text-primary hover:bg-primary/10 transition-all">
-                                                    <span class="material-symbols-outlined text-lg">visibility</span>
-                                                </a>
-                                                @if($entryCount > 1)
-                                                <div class="dropdown dropdown-end flex items-center justify-center">
-                                                    <label tabindex="0" class="btn btn-ghost btn-sm btn-square rounded-2xl text-base-content/40 hover:text-base-content hover:bg-base-200 transition-all flex items-center justify-center">
-                                                        <span class="material-symbols-outlined text-lg leading-none">more_vert</span>
-                                                    </label>
-                                                    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-2xl bg-base-100 rounded-2xl border border-base-200 w-48 mt-2">
-                                                        <li class="menu-title text-[9px] font-black uppercase opacity-40">Daily Entries</li>
-                                                        @foreach($empLogs as $elog)
-                                                            <li>
-                                                                <a class="text-[10px] font-bold py-2">
-                                                                    {{ $elog->check_in?->format('h:i A') }} - {{ $elog->check_out?->format('h:i A') ?? '...' }}
-                                                                    <span class="ml-auto text-[9px] opacity-50">{{ $elog->worked_hours }}h</span>
-                                                                </a>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
+                                            </td>
+                                            <td class="py-3 px-4">
+                                                <div class="flex flex-col">
+                                                    <span class="text-xs font-bold text-slate-700">
+                                                        {{ $firstLog->check_in ? $firstLog->check_in->format('h:i A') : '--:--' }}
+                                                    </span>
+                                                    @if($summary && in_array('late_arrived', $summary->tags ?? []))
+                                                        <span class="text-[9px] font-bold text-amber-600 uppercase leading-none mt-0.5">Late</span>
+                                                    @endif
                                                 </div>
-                                                @endif
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </x-table>
+                                            </td>
+                                            <td class="py-3 px-4">
+                                                <div class="flex flex-col">
+                                                    <span class="text-xs font-bold text-slate-700">
+                                                        {{ $lastLog->check_out ? $lastLog->check_out->format('h:i A') : '--:--' }}
+                                                    </span>
+                                                    @if($summary && in_array('checkout_missing', $summary->tags ?? []))
+                                                        <span class="text-[9px] font-bold text-rose-500 uppercase leading-none mt-0.5">Missing Out</span>
+                                                    @elseif($summary && in_array('early_leave', $summary->tags ?? []))
+                                                        <span class="text-[9px] font-bold text-orange-500 uppercase leading-none mt-0.5">Early Leave</span>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                            <td class="py-3 px-4">
+                                                <div class="flex flex-wrap gap-1">
+                                                    @php
+                                                        $typeMap = [
+                                                            'full_day'    => ['l' => 'Full Day', 'c' => 'bg-emerald-50 text-emerald-700 border-emerald-200'],
+                                                            'half_day'    => ['l' => 'Half Day', 'c' => 'bg-blue-50 text-blue-700 border-blue-200'],
+                                                            'quarter_day' => ['l' => 'Short Day', 'c' => 'bg-amber-50 text-amber-700 border-amber-200'],
+                                                            'absent'      => ['l' => 'Absent', 'c' => 'bg-rose-50 text-rose-700 border-rose-200'],
+                                                        ];
+                                                        $t = $summary ? ($typeMap[$summary->day_type] ?? null) : null;
+                                                    @endphp
+                                                    @if($t)
+                                                        <span class="px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border {{ $t['c'] }}">
+                                                            {{ $t['l'] }}
+                                                        </span>
+                                                    @else
+                                                        <span class="px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border bg-slate-50 text-slate-500 border-slate-200">
+                                                            Pending
+                                                        </span>
+                                                    @endif
+                                                    
+                                                    @if($summary && in_array('overtime', $summary->tags ?? []))
+                                                        <span class="px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider border bg-indigo-50 text-indigo-700 border-indigo-200">
+                                                            Overtime
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                            <td class="py-3 px-4">
+                                                <div class="flex flex-col gap-1 w-24">
+                                                    <div class="flex items-center justify-between text-[10px]">
+                                                        <span class="font-bold text-slate-700">{{ $summary ? $summary->formatted_hours : number_format($totalWorkedHours, 1) . 'h' }}</span>
+                                                        <span class="font-semibold text-slate-400">{{ min(round(($totalWorkedHours / 8) * 100), 100) }}%</span>
+                                                    </div>
+                                                    <div class="w-full bg-slate-100 rounded-full h-1">
+                                                        <div class="bg-primary h-1 rounded-full" style="width: {{ min(($totalWorkedHours / 8) * 100, 100) }}%"></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="py-3 px-4 text-right">
+                                                <div class="flex justify-end gap-1">
+                                                    <a href="{{ route('attendance.show', $firstLog->id) }}" class="p-1 text-slate-400 hover:text-primary transition-all">
+                                                        <span class="material-symbols-outlined text-lg">visibility</span>
+                                                    </a>
+                                                    @if($entryCount > 1)
+                                                    <div class="dropdown dropdown-end">
+                                                        <label tabindex="0" class="p-1 text-slate-400 hover:text-slate-600 cursor-pointer transition-all">
+                                                            <span class="material-symbols-outlined text-lg">more_vert</span>
+                                                        </label>
+                                                        <ul tabindex="0" class="dropdown-content z-[1] menu p-1.5 shadow-lg bg-white rounded-xl border border-slate-200 w-44 mt-1">
+                                                            <li class="menu-title text-[9px] font-bold uppercase tracking-wider text-slate-400 px-2 py-1">Daily Entries</li>
+                                                            @foreach($empLogs as $elog)
+                                                                <li>
+                                                                    <a class="text-[10px] font-semibold text-slate-600 hover:bg-slate-50 rounded-lg py-1.5 px-2 flex justify-between">
+                                                                        <span>{{ $elog->check_in?->format('h:i A') }} - {{ $elog->check_out?->format('h:i A') ?? '...' }}</span>
+                                                                        <span class="text-slate-400 font-bold">{{ $elog->worked_hours }}h</span>
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </x-table>
+                            </div>
                         </div>
                     </div>
                 @empty
-                    <div class="card bg-base-100 border border-base-200 border-dashed rounded-[40px] p-24 flex flex-col items-center justify-center opacity-30 grayscale">
-                        <div class="w-20 h-20 rounded-[32px] bg-base-200 flex items-center justify-center mb-6">
-                            <span class="material-symbols-outlined text-4xl">calendar_today</span>
+                    <div class="bg-white border border-slate-200 border-dashed rounded-xl p-20 flex flex-col items-center justify-center text-slate-400 shadow-sm">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-4 text-slate-400">
+                            <span class="material-symbols-outlined text-3xl">calendar_today</span>
                         </div>
-                        <h4 class="font-black text-sm uppercase tracking-[0.2em]">No Records Found</h4>
-                        <p class="text-[10px] font-bold mt-2">Try adjusting your search or date filters</p>
+                        <h4 class="font-bold text-xs uppercase tracking-wider">No Records Found</h4>
+                        <p class="text-[10px] font-semibold mt-1">Try adjusting your search or date filters</p>
                     </div>
                 @endforelse
             </div>

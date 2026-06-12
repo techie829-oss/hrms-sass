@@ -14,8 +14,8 @@
     <div class="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Main Form -->
         <div class="lg:col-span-2">
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body p-8">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-8">
                     <form action="{{ route('operations.tasks.update', $task) }}" method="POST">
                         @csrf
                         @method('PUT')
@@ -87,8 +87,8 @@
         <!-- Meta Sidebar -->
         <div class="space-y-6">
             <!-- Status Card -->
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
                     <h3 class="font-bold text-xs uppercase text-base-content/50 mb-4">Current Status</h3>
                     <form action="{{ route('operations.tasks.update', $task) }}" method="POST">
                         @csrf

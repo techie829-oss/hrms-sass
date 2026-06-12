@@ -53,8 +53,8 @@
                 </div>
 
                 <!-- Description -->
-                <div class="card bg-base-100 shadow-sm border border-base-200">
-                    <div class="card-body">
+                <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                    <div class="p-6">
                         <h3 class="font-bold text-lg mb-4">Project Overview</h3>
                         <div class="text-base-content/80 trix-content">
                             {!! $project->description ?: 'No overview provided.' !!}
@@ -74,8 +74,8 @@
                 </div>
 
                 <!-- Tasks Kanban Lite -->
-                <div class="card bg-base-100 shadow-sm border border-base-200">
-                    <div class="card-body p-0">
+                <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                    <div class="p-0">
                         <div class="flex justify-between items-center p-6 border-b border-base-200">
                             <h3 class="font-bold text-lg">Task Board</h3>
                             <button onclick="task_modal.showModal()" class="btn btn-primary btn-sm">Add Task</button>
@@ -90,8 +90,8 @@
                                     </div>
                                     <div class="space-y-3">
                                         @foreach($project->tasks->where('status', $status) as $task)
-                                            <div class="card bg-base-100 shadow-sm border border-base-200 cursor-pointer hover:border-primary/30 transition-colors">
-                                                <div class="card-body p-4">
+                                            <div class="bg-white border border-slate-200 rounded-xl shadow-sm cursor-pointer hover:border-indigo-300 transition-colors">
+                                                <div class="p-4">
                                                     <div class="flex justify-between mb-2">
                                                         <span class="badge badge-xs text-[10px] {{ 
                                                             $task->priority === 'urgent' ? 'badge-error' : 
@@ -128,8 +128,8 @@
             <!-- Sidebar Info -->
             <div class="space-y-8">
                 <!-- Client Card -->
-                <div class="card bg-primary text-primary-content shadow-lg">
-                    <div class="card-body">
+                <div class="bg-indigo-600 text-white rounded-xl shadow-sm">
+                    <div class="p-6">
                         <h3 class="text-xs font-bold uppercase opacity-70">Client Information</h3>
                         @if($project->client)
                             <p class="text-xl font-bold mt-2">{{ $project->client->name }}</p>
@@ -152,8 +152,8 @@
                 </div>
 
                 <!-- Recent Activity -->
-                <div class="card bg-base-100 shadow-sm border border-base-200">
-                    <div class="card-body pt-6 px-6 pb-2">
+                <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                    <div class="pt-6 px-6 pb-2">
                         <h3 class="font-bold text-lg mb-4">Latest Timesheets</h3>
                         <div class="space-y-6">
                             @forelse($project->timesheets->take(5) as $log)
@@ -172,7 +172,7 @@
                                 <p class="text-center py-4 text-base-content/40 text-sm italic">No hours logged yet.</p>
                             @endforelse
                         </div>
-                        <div class="card-actions justify-center mt-2">
+                        <div class="flex justify-center mt-2">
                              <button class="btn btn-ghost btn-sm btn-block">View All Logs</button>
                         </div>
                     </div>
@@ -223,7 +223,7 @@
                         @endforeach
                     </x-rich-select>
                 </div>
-                <div class="card-actions justify-end">
+                <div class="flex justify-end">
                     <button type="submit" class="btn btn-primary btn-block">Create Task</button>
                 </div>
             </form>

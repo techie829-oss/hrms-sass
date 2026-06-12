@@ -1,35 +1,32 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-                <h2 class="text-3xl font-black font-headline tracking-tight text-on-surface">Access Roles</h2>
-                <p class="text-sm text-on-surface-variant font-medium mt-1">Manage global system roles and their
-                    permissions.</p>
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Access Roles</h2>
+                <p class="text-sm text-slate-500 mt-1">Manage global system roles and their permissions.</p>
             </div>
-            <div class="flex items-center gap-4">
+            <div class="flex flex-wrap items-center gap-3">
                 <form action="{{ route('admin.roles.index') }}" method="GET" class="flex items-center gap-2" id="filterForm">
                     <div class="relative">
-                        <select name="context" onchange="document.getElementById('filterForm').submit()" class="select select-bordered rounded-xl border-outline-variant/30 bg-surface-container-low text-sm font-medium focus:outline-none focus:border-primary w-48 appearance-none pl-4 pr-10">
+                        <select name="context" onchange="document.getElementById('filterForm').submit()" class="block w-full rounded-lg border-0 py-2 pl-3 pr-10 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-white appearance-none">
                             <option value="">All Contexts</option>
                             <option value="global" {{ request('context') === 'global' ? 'selected' : '' }}>Global (Blueprints)</option>
                             @foreach($contexts as $tenantContext)
                                 <option value="{{ $tenantContext }}" {{ request('context') === $tenantContext ? 'selected' : '' }}>Tenant: {{ $tenantContext }}</option>
                             @endforeach
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-on-surface-variant">
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
                             <span class="material-symbols-outlined text-sm">expand_more</span>
                         </div>
                     </div>
                 </form>
                 
-                <a href="{{ route('admin.permissions.index') }}"
-                    class="btn btn-outline border-primary/30 text-primary hover:bg-primary/5 hover:text-primary rounded-xl font-bold text-xs uppercase tracking-widest px-6 shadow-sm">
-                    <span class="material-symbols-outlined text-lg">admin_panel_settings</span> Manage Permissions
+                <a href="{{ route('admin.permissions.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg font-semibold text-xs text-slate-700 uppercase tracking-widest shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                    <span class="material-symbols-outlined text-sm mr-2">admin_panel_settings</span> Manage Permissions
                 </a>
 
-                <a href="{{ route('admin.roles.create') }}"
-                    class="btn btn-primary bg-gradient-to-br from-primary to-tertiary border-none rounded-xl font-bold text-xs uppercase tracking-widest px-6 shadow-lg">
-                    <span class="material-symbols-outlined text-lg">shield_person</span> Create Role
+                <a href="{{ route('admin.roles.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                    <span class="material-symbols-outlined text-sm mr-2">shield_person</span> Create Role
                 </a>
             </div>
         </div>
@@ -48,67 +45,60 @@
         $tableHeaders = ['Role Name', 'Context', 'Guard', 'Permissions', 'Users Assigned', 'Actions'];
     @endphp
 
-    <div class="bg-surface-container-lowest rounded-[2.5rem] border border-outline-variant/15 shadow-xl overflow-hidden">
+    <div class="card bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
         <x-table :headers="$tableHeaders" :striped="false">
             @forelse($roles as $role)
-                <tr class="hover:bg-primary/5 transition-colors border-b border-outline-variant/5 group">
-                    <td class="py-6 px-8">
-                        <div class="flex items-center gap-4">
-                            <div class="avatar placeholder">
-                                <div
-                                    class="bg-primary/10 text-primary rounded-2xl w-12 h-12 font-black text-sm shadow-xl border border-primary/10 flex items-center justify-center">
-                                    <span class="material-symbols-outlined text-xl">
-                                        {{ $roleIconMap[strtolower($role->name)] ?? 'shield' }}
-                                    </span>
-                                </div>
+                <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 group">
+                    <td class="py-4 px-6">
+                        <div class="flex items-center gap-3">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
+                                <span class="material-symbols-outlined text-lg">
+                                    {{ $roleIconMap[strtolower($role->name)] ?? 'shield' }}
+                                </span>
                             </div>
-                            <div
-                                class="font-black text-on-surface text-base uppercase tracking-wider group-hover:text-primary transition-colors">
-                                {{ str_replace('_', ' ', $role->name) }}</div>
+                            <div class="font-bold text-slate-900 text-sm tracking-wide">
+                                {{ str_replace('_', ' ', $role->name) }}
+                            </div>
                         </div>
                     </td>
-                    <td class="py-6 px-8">
+                    <td class="py-4 px-6">
                         @if(is_null($role->tenant_id))
-                            <span class="badge badge-primary font-bold text-[10px] uppercase tracking-widest px-3 py-3 h-auto border-none bg-primary/10 text-primary">
-                                <span class="material-symbols-outlined text-[12px] mr-1">public</span> Global
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">
+                                <span class="material-symbols-outlined text-[14px] mr-1">public</span> Global
                             </span>
                         @else
-                            <span class="badge badge-secondary font-bold text-[10px] uppercase tracking-widest px-3 py-3 h-auto border-none bg-secondary/10 text-secondary">
-                                <span class="material-symbols-outlined text-[12px] mr-1">domain</span> {{ $role->tenant_id }}
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-100">
+                                <span class="material-symbols-outlined text-[14px] mr-1">domain</span> {{ $role->tenant_id }}
                             </span>
                         @endif
                     </td>
-                    <td class="py-6 px-8">
-                        <span
-                            class="badge badge-ghost font-mono text-[10px] uppercase tracking-widest px-3 py-3 h-auto border-none bg-outline-variant/10">
+                    <td class="py-4 px-6">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono bg-slate-100 text-slate-600 border border-slate-200">
                             {{ $role->guard_name }}
                         </span>
                     </td>
-                    <td class="py-6 px-8">
+                    <td class="py-4 px-6">
                         <div class="flex items-center gap-2">
-                            <span class="text-xl font-black text-primary">{{ $role->permissions_count }}</span>
-                            <span
-                                class="text-[9px] text-on-surface-variant uppercase tracking-[0.2em] font-black opacity-60">Permissions</span>
+                            <span class="text-lg font-bold text-indigo-600">{{ $role->permissions_count }}</span>
+                            <span class="text-xs text-slate-500 font-medium">Permissions</span>
                         </div>
                     </td>
-                    <td class="py-6 px-8">
+                    <td class="py-4 px-6">
                         <div class="flex items-center gap-2">
-                            <span class="text-xl font-black text-secondary">{{ $role->users_count }}</span>
-                            <span
-                                class="text-[9px] text-on-surface-variant uppercase tracking-[0.2em] font-black opacity-60">Users</span>
+                            <span class="text-lg font-bold text-slate-700">{{ $role->users_count }}</span>
+                            <span class="text-xs text-slate-500 font-medium">Users</span>
                         </div>
                     </td>
-                    <td class="text-right px-8 py-6">
+                    <td class="text-right px-6 py-4">
                         <div class="flex justify-end gap-2">
-                            <a href="{{ route('admin.roles.edit', $role->id) }}"
-                                class="btn btn-ghost btn-sm btn-square rounded-xl hover:bg-secondary/10 hover:text-secondary group-hover:scale-110 transition-transform" title="Edit Role">
+                            <a href="{{ route('admin.roles.edit', $role->id) }}" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors" title="Edit Role">
                                 <span class="material-symbols-outlined text-sm">edit</span>
                             </a>
                             @if(!in_array(strtolower($role->name), [\App\Core\Constants\RoleConstants::SADMIN, \App\Core\Constants\RoleConstants::SMANAGER, \App\Core\Constants\RoleConstants::TADMIN, \App\Core\Constants\RoleConstants::TSTAFF]))
                                 <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to permanently delete this role?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-ghost btn-sm btn-square rounded-xl hover:bg-error/10 hover:text-error group-hover:scale-110 transition-transform text-error" title="Delete Role">
+                                    <button type="submit" class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors" title="Delete Role">
                                         <span class="material-symbols-outlined text-sm">delete</span>
                                     </button>
                                 </form>
@@ -118,10 +108,10 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="py-20 text-center">
-                        <div class="flex flex-col items-center gap-4 opacity-40">
-                            <span class="material-symbols-outlined text-6xl">security</span>
-                            <p class="font-headline font-bold text-lg">No roles found.</p>
+                    <td colspan="6" class="py-12 text-center">
+                        <div class="flex flex-col items-center gap-3">
+                            <span class="material-symbols-outlined text-4xl text-slate-300">security</span>
+                            <p class="font-medium text-slate-500 text-sm">No roles found.</p>
                         </div>
                     </td>
                 </tr>

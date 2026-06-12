@@ -39,7 +39,24 @@ class EmployeeService extends BaseService
             $data['user_id'] = $user->id;
             $data['tenant_id'] = saas_tenant('id');
 
+            $checkinRequired = $data['checkin_required'] ?? null;
+            unset($data['checkin_required'], $data['create_login'], $data['role_id'], $data['login_password']);
+
             $employee = $this->repository->create($data);
+
+            // Create enforcement record if specified
+            if ($checkinRequired !== null && $checkinRequired !== '') {
+                $enforceKiosk = ($checkinRequired == '1') ? 1 : 2; // 1 = Force, 2 = Exempt
+                \App\Modules\Attendance\Models\AttendanceEmployeeEnforcement::updateOrCreate(
+                    [
+                        'tenant_id' => saas_tenant('id'),
+                        'employee_id' => $employee->id,
+                    ],
+                    [
+                        'enforce_kiosk' => $enforceKiosk,
+                    ]
+                );
+            }
 
             // 4. Dispatch Event
             \App\Modules\HR\Events\EmployeeCreated::dispatch($employee);
@@ -69,6 +86,26 @@ class EmployeeService extends BaseService
                 if (!empty($userUpdate)) {
                     \App\Models\User::where('id', $employee->user_id)->update($userUpdate);
                 }
+            }
+
+            // Sync checkin_required (AttendanceEmployeeEnforcement)
+            if (array_key_exists('checkin_required', $data)) {
+                $checkinRequired = $data['checkin_required'];
+                if ($checkinRequired !== null && $checkinRequired !== '') {
+                    $enforceKiosk = ($checkinRequired == '1') ? 1 : 2; // 1 = Force, 2 = Exempt
+                    \App\Modules\Attendance\Models\AttendanceEmployeeEnforcement::updateOrCreate(
+                        [
+                            'tenant_id' => saas_tenant('id'),
+                            'employee_id' => $employee->id,
+                        ],
+                        [
+                            'enforce_kiosk' => $enforceKiosk,
+                        ]
+                    );
+                } else {
+                    \App\Modules\Attendance\Models\AttendanceEmployeeEnforcement::where('employee_id', $employee->id)->delete();
+                }
+                unset($data['checkin_required']);
             }
 
             return $this->repository->update($id, $data);

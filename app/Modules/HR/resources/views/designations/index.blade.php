@@ -15,8 +15,8 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($designations as $designation)
-            <div class="card bg-surface-container-lowest shadow-sm border border-outline-variant/10 hover:border-primary/30 transition-all flex flex-col justify-between min-h-[200px] rounded-2xl overflow-hidden group/card relative">
-                <div class="card-body p-6">
+            <div class="bg-white shadow-sm border border-slate-200 hover:border-primary/50 transition-all flex flex-col justify-between min-h-[200px] rounded-xl overflow-hidden group/card relative">
+                <div class="p-6">
                     <div class="flex items-start justify-between mb-4">
                         <div class="flex flex-col">
                             <span class="text-[9px] font-black text-primary uppercase tracking-[2px] mb-1 leading-none">{{ $designation->department->name ?? 'Unassigned' }}</span>
@@ -80,15 +80,15 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="form-control">
                                     <label class="label py-1"><span class="label-text text-[9px] font-black uppercase tracking-widest opacity-50">Role Title</span></label>
-                                    <input name="name" type="text" class="input input-sm h-10 bg-surface-container-low border-outline-variant/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl text-xs font-bold" required value="{{ $designation->name }}" />
+                                    <input name="name" type="text" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" required value="{{ $designation->name }}" />
                                 </div>
                                 <div class="form-control">
                                     <label class="label py-1"><span class="label-text text-[9px] font-black uppercase tracking-widest opacity-50">Role Code</span></label>
-                                    <input name="code" type="text" class="input input-sm h-10 bg-surface-container-low border-outline-variant/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl text-xs font-bold uppercase" required value="{{ $designation->code }}" />
+                                    <input name="code" type="text" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm uppercase" required value="{{ $designation->code }}" />
                                 </div>
                                 <div class="form-control">
                                     <label class="label py-1"><span class="label-text text-[9px] font-black uppercase tracking-widest opacity-50">Assigned Department</span></label>
-                                    <select name="department_id" class="select select-sm h-10 bg-surface-container-low border-outline-variant/10 focus:border-primary rounded-xl text-xs font-bold" required>
+                                    <select name="department_id" class="select select-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white transition-all shadow-sm" required>
                                         @foreach($departments as $dept)
                                             <option value="{{ $dept->id }}" {{ $designation->department_id == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
                                         @endforeach
@@ -106,21 +106,21 @@
                                     <label class="label py-1"><span class="label-text text-[9px] font-black uppercase tracking-widest opacity-50">Min Salary (Annual)</span></label>
                                     <div class="relative">
                                         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold opacity-30">₹</span>
-                                        <input name="min_salary" type="number" class="input input-sm h-10 w-full pl-7 bg-surface-container-low border-outline-variant/10 focus:border-primary rounded-xl text-xs font-bold" value="{{ (int)$designation->min_salary }}" />
+                                        <input name="min_salary" type="number" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full pl-7 text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" value="{{ (int)$designation->min_salary }}" />
                                     </div>
                                 </div>
                                 <div class="form-control">
                                     <label class="label py-1"><span class="label-text text-[9px] font-black uppercase tracking-widest opacity-50">Max Salary (Annual)</span></label>
                                     <div class="relative">
                                         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold opacity-30">₹</span>
-                                        <input name="max_salary" type="number" class="input input-sm h-10 w-full pl-7 bg-surface-container-low border-outline-variant/10 focus:border-primary rounded-xl text-xs font-bold" value="{{ (int)$designation->max_salary }}" />
+                                        <input name="max_salary" type="number" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full pl-7 text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" value="{{ (int)$designation->max_salary }}" />
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-control">
                                 <label class="label py-1"><span class="label-text text-[9px] font-black uppercase tracking-widest opacity-50">Responsibility Scope</span></label>
-                                <textarea name="description" class="textarea h-24 bg-surface-container-low border-outline-variant/10 focus:border-primary rounded-xl text-xs font-bold p-4 leading-relaxed whitespace-pre-wrap">{{ $designation->description }}</textarea>
+                                <textarea name="description" class="textarea border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm p-4 leading-relaxed whitespace-pre-wrap">{{ $designation->description }}</textarea>
                             </div>
 
                             <div class="pt-2">
@@ -163,15 +163,15 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="form-control">
                         <label class="label py-1"><span class="label-text text-[9px] font-black uppercase tracking-widest opacity-50">Role Title</span></label>
-                        <input name="name" type="text" class="input input-sm h-10 bg-surface-container-low border-outline-variant/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl text-xs font-bold" required placeholder="e.g. Senior Analyst" />
+                        <input name="name" type="text" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" required placeholder="e.g. Senior Analyst" />
                     </div>
                     <div class="form-control">
                         <label class="label py-1"><span class="label-text text-[9px] font-black uppercase tracking-widest opacity-50">Role Code</span></label>
-                        <input name="code" type="text" class="input input-sm h-10 bg-surface-container-low border-outline-variant/10 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl text-xs font-bold uppercase" required placeholder="e.g. SR-ANL" />
+                        <input name="code" type="text" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm uppercase" required placeholder="e.g. SR-ANL" />
                     </div>
                     <div class="form-control">
                         <label class="label py-1"><span class="label-text text-[9px] font-black uppercase tracking-widest opacity-50">Target Department</span></label>
-                        <select name="department_id" class="select select-sm h-10 bg-surface-container-low border-outline-variant/10 focus:border-primary rounded-xl text-xs font-bold text-on-surface" required>
+                        <select name="department_id" class="select select-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white transition-all shadow-sm" required>
                             <option value="" disabled selected>Select Department</option>
                             @foreach($departments as $dept)
                                 <option value="{{ $dept->id }}">{{ $dept->name }}</option>
@@ -190,21 +190,21 @@
                         <label class="label py-1"><span class="label-text text-[9px] font-black uppercase tracking-widest opacity-50">Min Salary (Annual)</span></label>
                         <div class="relative">
                             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold opacity-30">₹</span>
-                            <input name="min_salary" type="number" class="input input-sm h-10 w-full pl-7 bg-surface-container-low border-outline-variant/10 focus:border-primary rounded-xl text-xs font-bold" placeholder="500000" />
+                            <input name="min_salary" type="number" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full pl-7 text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" placeholder="500000" />
                         </div>
                     </div>
                     <div class="form-control">
                         <label class="label py-1"><span class="label-text text-[9px] font-black uppercase tracking-widest opacity-50">Max Salary (Annual)</span></label>
                         <div class="relative">
                             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold opacity-30">₹</span>
-                            <input name="max_salary" type="number" class="input input-sm h-10 w-full pl-7 bg-surface-container-low border-outline-variant/10 focus:border-primary rounded-xl text-xs font-bold" placeholder="1200000" />
+                            <input name="max_salary" type="number" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full pl-7 text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" placeholder="1200000" />
                         </div>
                     </div>
                 </div>
 
                 <div class="form-control">
                     <label class="label py-1"><span class="label-text text-[9px] font-black uppercase tracking-widest opacity-50">Scope of Responsibility</span></label>
-                    <textarea name="description" class="textarea h-24 bg-surface-container-low border-outline-variant/10 focus:border-primary rounded-xl text-xs font-bold p-4 leading-relaxed" placeholder="Define primary objectives of this role..."></textarea>
+                    <textarea name="description" class="textarea border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" placeholder="Define primary objectives of this role..."></textarea>
                 </div>
 
                 <div class="pt-2">

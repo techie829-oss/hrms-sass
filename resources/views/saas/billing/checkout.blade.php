@@ -1,9 +1,16 @@
 <x-app-layout>
-    <div class="min-h-screen flex items-center justify-center bg-surface-container-lowest">
-        <div class="text-center space-y-4">
-            <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"></div>
-            <h2 class="text-xl font-bold text-on-surface">Redirecting to Secure Payment...</h2>
-            <p class="text-sm text-on-surface-variant">Please do not refresh the page or click back.</p>
+    <div class="min-h-screen flex items-center justify-center bg-slate-50">
+        <div class="card bg-white border border-slate-200 rounded-xl shadow-sm p-10 max-w-md w-full text-center space-y-6">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-50 text-indigo-600 mb-2">
+                <svg class="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-xl font-bold text-slate-900 tracking-tight">Redirecting to Secure Payment</h2>
+                <p class="text-sm text-slate-500 mt-2">Please do not refresh the page or click back.</p>
+            </div>
         </div>
     </div>
 
@@ -34,7 +41,7 @@
                 "contact": "{{ $tenant->contact_no }}"
             },
             "theme": {
-                "color": "#6750A4"
+                "color": "#4f46e5"
             }
         };
         var rzp1 = new Razorpay(options);

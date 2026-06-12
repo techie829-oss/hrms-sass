@@ -40,8 +40,8 @@
         
         <!-- Left Column: Applicants -->
         <div class="lg:col-span-2 space-y-6">
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body p-0">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-0">
                     <div class="p-6 border-b border-base-200 flex justify-between items-center bg-base-200/50">
                         <h3 class="text-sm font-bold flex items-center gap-2">
                             <span class="material-symbols-outlined text-primary">groups</span>
@@ -90,8 +90,8 @@
 
         <!-- Right Column: Posting Details -->
         <div class="space-y-6">
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
                     <h3 class="text-xs font-bold text-primary uppercase tracking-widest border-b border-base-200 pb-3 mb-4">Posting Details</h3>
                     
                     <div class="space-y-4">
@@ -111,8 +111,8 @@
                 </div>
             </div>
 
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
                     <h3 class="text-xs font-bold text-primary uppercase tracking-widest border-b border-base-200 pb-3 mb-4">Job Description</h3>
                     <div class="prose prose-sm max-w-none">
                         {!! nl2br(e($posting->description)) !!}

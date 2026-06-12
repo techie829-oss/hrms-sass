@@ -66,8 +66,8 @@
 
                 <!-- Application Form Sidebar -->
                 <div class="lg:col-span-2">
-                    <div class="card bg-surface-container shadow-xl border border-outline-variant/30 sticky top-24">
-                        <div class="card-body p-6">
+                    <div class="bg-white border border-slate-200 rounded-xl shadow-sm sticky top-24">
+                        <div class="p-6">
                             <h3 class="text-xl font-bold mb-6 text-on-surface">Apply for this Position</h3>
                             
                             @if ($errors->any())

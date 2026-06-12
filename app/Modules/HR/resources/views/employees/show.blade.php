@@ -30,7 +30,7 @@
         <!-- Sidebar: Basic Info & Actions -->
         <div class="lg:col-span-1 space-y-6">
             <!-- Profile Card -->
-            <div class="card bg-base-100 shadow-sm border border-base-200 text-center overflow-hidden">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm text-center overflow-hidden">
                 {{-- Banner / Cover Photo Section --}}
                 <div class="h-24 relative bg-primary/5">
                     @if($employee->cover_photo)
@@ -40,7 +40,7 @@
                     @endif
                 </div>
                 
-                <div class="card-body -mt-12 relative">
+                <div class="p-6 -mt-12 relative">
                     <div class="avatar {{ !$employee->profile_photo ? 'placeholder' : '' }} mb-4 mx-auto">
                         <div class="bg-primary/10 text-primary rounded-2xl w-24 h-24 font-bold text-2xl overflow-hidden">
                             @if($employee->profile_photo)
@@ -92,8 +92,8 @@
             @endif
 
             <!-- Contact Info -->
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-6">
                     <h4 class="text-[10px] font-bold uppercase tracking-widest mb-4 opacity-50">Contact Information</h4>
                     <div class="space-y-4">
                         <div class="flex items-center gap-3">
@@ -130,8 +130,8 @@
 
         <!-- Main Content: Detailed Tabs -->
         <div class="lg:col-span-2 space-y-6">
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body p-0">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                <div class="p-0">
                     <div role="tablist" class="tabs tabs-bordered bg-base-200/50 pt-2 px-4 rounded-t-2xl">
                         <!-- Overview Tab -->
                         <input type="radio" name="employee_tabs" role="tab" class="tab text-[10px] font-bold uppercase tracking-widest [--tab-border-color:theme(colors.primary)] [--tab-bg:theme(colors.base-100)]" aria-label="Overview" {{ session('success') && str_contains(session('success'), 'Document') ? '' : 'checked="checked"' }} />
@@ -274,7 +274,7 @@
                                     
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         @forelse($employee->goals as $goal)
-                                            <div class="card bg-base-100 shadow-sm border border-base-200 p-4">
+                                            <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-4">
                                                 <div class="flex justify-between items-start mb-2">
                                                     <h6 class="text-xs font-bold">{{ $goal->title }}</h6>
                                                     <span class="text-[10px] font-bold text-primary">{{ $goal->progress_percentage }}%</span>
@@ -449,12 +449,12 @@
                                         @csrf
                                         <div class="form-control w-full">
                                             <label class="label text-[10px] font-bold uppercase opacity-60">Document Title</label>
-                                            <input type="text" name="title" required placeholder="e.g. Offer Letter, Passport" class="input input-bordered w-full text-xs rounded-xl" />
+                                            <input type="text" name="title" required placeholder="e.g. Offer Letter, Passport" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" />
                                         </div>
 
                                         <div class="form-control w-full">
                                             <label class="label text-[10px] font-bold uppercase opacity-60">Document Type</label>
-                                            <select name="document_type" required class="select select-bordered w-full text-xs rounded-xl">
+                                            <select name="document_type" required class="select select-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white transition-all shadow-sm">
                                                 <option value="offer_letter">Offer Letter</option>
                                                 <option value="experience">Experience Letter</option>
                                                 <option value="certificate">Degree/Certificate</option>
@@ -465,7 +465,7 @@
 
                                         <div class="form-control w-full">
                                             <label class="label text-[10px] font-bold uppercase opacity-60">Choose File (Max 5MB)</label>
-                                            <input type="file" name="document_file" required class="file-input file-input-bordered file-input-sm w-full text-xs rounded-xl" accept=".pdf,.docx,.jpg,.jpeg,.png" />
+                                            <input type="file" name="document_file" required class="file-input file-input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white transition-all shadow-sm" accept=".pdf,.docx,.jpg,.jpeg,.png" />
                                         </div>
 
                                         <div class="flex gap-2 justify-end pt-4">
@@ -500,7 +500,7 @@
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     @forelse($employee->bankAccounts as $bank)
-                                        <div class="card bg-base-100 shadow-sm border border-base-200 p-6 relative group overflow-hidden">
+                                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 relative group overflow-hidden">
                                             @if($bank->is_primary)
                                                 <div class="absolute top-0 right-0">
                                                     <div class="bg-primary text-[8px] font-bold text-white px-3 py-1 uppercase tracking-widest rounded-bl-xl shadow-sm">Primary</div>
@@ -533,8 +533,11 @@
                                             </div>
 
                                             <div class="mt-6 flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button class="btn btn-ghost btn-xs text-error font-bold uppercase tracking-wider">Remove</button>
-                                                <button class="btn btn-ghost btn-xs text-primary font-bold uppercase tracking-wider">Edit</button>
+                                                <form action="{{ route('hr.employees.bank-accounts.destroy', [$employee->id, $bank->id]) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to remove this bank account?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-ghost btn-xs text-error font-bold uppercase tracking-wider">Remove</button>
+                                                </form>
                                             </div>
                                         </div>
                                     @empty
@@ -548,7 +551,7 @@
                                 </div>
                             </div>
 
-                            <!-- Add Bank Modal (Placeholder for now) -->
+                            <!-- Add Bank Modal -->
                             <dialog id="add_bank_modal" class="modal modal-bottom sm:modal-middle">
                                 <div class="modal-box bg-base-100 rounded-3xl border border-base-200 shadow-2xl max-w-lg p-8">
                                     <form method="dialog">
@@ -560,25 +563,46 @@
                                         Add Bank Details
                                     </h3>
 
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div class="form-control w-full">
-                                            <label class="label text-[10px] font-bold uppercase opacity-60">Bank Name</label>
-                                            <input type="text" placeholder="e.g. HDFC Bank" class="input input-bordered w-full text-sm rounded-xl h-12" />
+                                    <form action="{{ route('hr.employees.bank-accounts.store', $employee->id) }}" method="POST" class="space-y-4">
+                                        @csrf
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div class="form-control w-full">
+                                                <label class="label text-[10px] font-bold uppercase opacity-60">Bank Name</label>
+                                                <input type="text" name="bank_name" required placeholder="e.g. HDFC Bank" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" />
+                                            </div>
+                                            <div class="form-control w-full">
+                                                <label class="label text-[10px] font-bold uppercase opacity-60">IFSC Code</label>
+                                                <input type="text" name="ifsc_code" required placeholder="e.g. HDFC0001234" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm uppercase" />
+                                            </div>
+                                            <div class="form-control w-full">
+                                                <label class="label text-[10px] font-bold uppercase opacity-60">Account Number</label>
+                                                <input type="text" name="account_number" required placeholder="Enter full account number" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" />
+                                            </div>
+                                            <div class="form-control w-full">
+                                                <label class="label text-[10px] font-bold uppercase opacity-60">Branch Name</label>
+                                                <input type="text" name="branch_name" placeholder="e.g. Main Branch" class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" />
+                                            </div>
+                                            <div class="form-control w-full">
+                                                <label class="label text-[10px] font-bold uppercase opacity-60">Account Type</label>
+                                                <select name="account_type" required class="select select-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white transition-all shadow-sm">
+                                                    <option value="savings">Savings</option>
+                                                    <option value="current">Current</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-control w-full flex items-center justify-start flex-row gap-2 mt-6">
+                                                <input type="checkbox" name="is_primary" value="1" class="checkbox checkbox-primary checkbox-sm rounded-lg" id="is_primary_checkbox" />
+                                                <label for="is_primary_checkbox" class="text-[10px] font-bold uppercase opacity-60 cursor-pointer">Set as Primary</label>
+                                            </div>
                                         </div>
-                                        <div class="form-control w-full">
-                                            <label class="label text-[10px] font-bold uppercase opacity-60">IFSC Code</label>
-                                            <input type="text" placeholder="e.g. HDFC0001234" class="input input-bordered w-full text-sm rounded-xl h-12 uppercase" />
-                                        </div>
-                                        <div class="form-control w-full md:col-span-2">
-                                            <label class="label text-[10px] font-bold uppercase opacity-60">Account Number</label>
-                                            <input type="text" placeholder="Enter full account number" class="input input-bordered w-full text-sm rounded-xl h-12" />
-                                        </div>
-                                    </div>
 
-                                    <div class="mt-10 flex gap-3 justify-end">
-                                        <button type="button" onclick="add_bank_modal.close()" class="btn btn-ghost btn-sm rounded-xl px-6 font-bold uppercase tracking-wider text-[10px]">Cancel</button>
-                                        <button type="button" class="btn btn-primary btn-sm rounded-xl px-6 font-bold uppercase tracking-wider text-[10px] shadow-lg shadow-primary/20">Save Details</button>
-                                    </div>
+                                        <div class="flex gap-2 justify-end pt-4">
+                                            <button type="button" onclick="add_bank_modal.close()" class="btn btn-ghost btn-sm rounded-xl text-xs uppercase font-bold tracking-wider">Cancel</button>
+                                            <button type="submit" class="btn btn-primary btn-sm rounded-xl text-xs uppercase font-bold tracking-wider flex items-center gap-2">
+                                                <span class="material-symbols-outlined text-sm">save</span>
+                                                Save Details
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                                 <form method="dialog" class="modal-backdrop bg-base-900/60 backdrop-blur-md"><button>close</button></form>
                             </dialog>
@@ -605,12 +629,12 @@
                 @csrf
                 <div class="form-control w-full">
                     <label class="label text-[10px] font-bold uppercase opacity-60">New Password</label>
-                    <input type="password" name="password" required class="input input-bordered w-full text-xs rounded-xl" placeholder="Min 8 characters" />
+                    <input type="password" name="password" required class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" placeholder="Min 8 characters" />
                 </div>
 
                 <div class="form-control w-full">
                     <label class="label text-[10px] font-bold uppercase opacity-60">Confirm Password</label>
-                    <input type="password" name="password_confirmation" required class="input input-bordered w-full text-xs rounded-xl" placeholder="Repeat new password" />
+                    <input type="password" name="password_confirmation" required class="input input-sm border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 rounded-xl w-full text-xs bg-white placeholder-slate-400/75 transition-all shadow-sm" placeholder="Repeat new password" />
                 </div>
 
                 <div class="flex gap-2 justify-end pt-4">

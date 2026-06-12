@@ -12,8 +12,8 @@
     </x-slot>
 
     <div class="max-w-4xl mx-auto">
-        <div class="card bg-base-100 shadow-xl border border-base-200">
-            <div class="card-body">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+            <div class="p-6">
                 <form action="{{ route('operations.leads.store') }}" method="POST" class="space-y-6">
                     @csrf
                     
@@ -72,7 +72,7 @@
                         <textarea name="description" class="textarea textarea-bordered h-24" placeholder="Additional details about the lead...">{{ old('description') }}</textarea>
                     </div>
 
-                    <div class="card-actions justify-end mt-6">
+                    <div class="flex justify-end mt-6">
                         <button type="submit" class="btn btn-primary px-8">Create Lead</button>
                     </div>
                 </form>

@@ -27,8 +27,8 @@
             <div class="space-y-4">
                 @forelse($postings as $posting)
                     <a href="{{ route('tenant.careers.show', ['job_posting' => $posting->share_key]) }}" class="block group">
-                        <div class="card bg-base-100 border border-outline-variant/30 shadow-sm hover:shadow-md hover:border-primary/50 transition-all duration-300">
-                            <div class="card-body p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-400 transition-all duration-300">
+                            <div class="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
                                 <div>
                                     <h3 class="text-xl font-bold group-hover:text-primary transition-colors">{{ $posting->title }}</h3>
                                     <div class="flex flex-wrap items-center gap-3 mt-3 text-sm font-medium opacity-80">

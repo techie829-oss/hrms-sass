@@ -12,8 +12,8 @@
     </x-slot>
 
     <div class="max-w-3xl mx-auto">
-        <div class="card bg-base-100 shadow-sm border border-base-200">
-            <div class="card-body p-6 md:p-8">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+            <div class="p-6 md:p-8">
                 <form action="{{ route('payroll.store') }}" method="POST" class="space-y-6">
                     @csrf
                     

@@ -69,6 +69,10 @@
         @apply input input-sm border border-outline-variant rounded-lg w-full bg-surface-container-lowest focus:bg-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
     }
 
+    .select-crm {
+        @apply select select-sm border border-outline-variant rounded-lg w-full bg-surface-container-lowest focus:bg-white focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary font-normal;
+    }
+
     /* Trix Content Display Styles */
     .trix-content h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--color-on-surface); }
     .trix-content h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--color-on-surface); }

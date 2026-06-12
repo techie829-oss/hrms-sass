@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <a href="{{ route('attendance.index') }}" class="btn btn-ghost btn-xs btn-circle">
+                <a href="{{ route('attendance.index') }}" class="btn btn-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-2.5 shadow-sm flex items-center justify-center">
                     <span class="material-symbols-outlined text-sm">arrow_back</span>
                 </a>
                 <h2 class="text-xl font-bold text-on-surface">Attendance Kiosk</h2>
@@ -20,13 +20,13 @@
     })" x-init="init()">
         
         {{-- Kiosk Disabled Overlay --}}
-        <div x-show="!isKioskEnabled" class="bg-surface-container-lowest rounded-2xl border-2 border-error p-10 text-center shadow-2xl" x-cloak>
-            <span class="material-symbols-outlined text-6xl text-error mb-4">block</span>
-            <h2 class="text-2xl font-black text-on-surface uppercase tracking-widest">Kiosk Access Disabled</h2>
-            <p class="text-xs font-bold text-on-surface-variant opacity-60 mt-2">
+        <div x-show="!isKioskEnabled" class="bg-white rounded-2xl border border-slate-200 p-10 text-center shadow-sm" x-cloak>
+            <span class="material-symbols-outlined text-5xl text-rose-500 mb-4">block</span>
+            <h2 class="text-xl font-bold text-slate-800 uppercase tracking-wider">Kiosk Access Disabled</h2>
+            <p class="text-xs font-semibold text-slate-400 mt-2">
                 The attendance kiosk has been disabled by the administrator for this policy.
             </p>
-            <a href="{{ route('attendance.index') }}" class="btn btn-outline btn-sm mt-6 rounded-xl font-black uppercase tracking-widest px-8">
+            <a href="{{ route('attendance.index') }}" class="btn btn-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl mt-6 px-8 shadow-sm text-xs font-semibold inline-block">
                 Go to Attendance Logs
             </a>
         </div>
@@ -36,29 +36,29 @@
         {{-- Main Kiosk Card --}}
         <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 shadow-xl overflow-hidden">
             {{-- Header Strip --}}
-            <div class="bg-gradient-to-r from-primary/10 via-secondary/5 to-accent/10 p-6 border-b border-outline-variant/5">
+            <div class="bg-gradient-to-r from-primary/10 via-secondary/5 to-accent/10 p-6 border-b border-slate-100">
                 <div class="flex items-center gap-5">
-                    <div class="w-16 h-16 rounded-2xl bg-surface-container-lowest border-2 border-surface-container-lowest shadow-lg flex items-center justify-center overflow-hidden">
+                    <div class="w-16 h-16 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center overflow-hidden">
                         @if($user->employee?->profile_photo)
                             <img src="{{ asset('storage/' . $user->employee->profile_photo) }}" class="w-full h-full object-cover" />
                         @else
-                            <span class="material-symbols-outlined text-3xl text-primary/40">person</span>
+                            <span class="material-symbols-outlined text-3xl text-slate-400">person</span>
                         @endif
                     </div>
                     <div>
-                        <h3 class="text-lg font-black text-on-surface">{{ $user->name }}</h3>
-                        <p class="text-[10px] font-bold text-on-surface-variant opacity-60 uppercase tracking-widest mt-0.5">
+                        <h3 class="text-lg font-bold text-slate-800">{{ $user->name }}</h3>
+                        <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-0.5">
                             {{ $employee?->designation?->name ?? 'Employee' }} · {{ $employee?->department?->name ?? 'General' }}
                         </p>
-                        <p class="text-[9px] font-bold text-on-surface-variant/40 uppercase tracking-widest mt-1">
+                        <p class="text-[9px] font-semibold text-slate-400 uppercase tracking-wider mt-1">
                             ID: {{ $employee?->employee_id ?? 'N/A' }}
                         </p>
                     </div>
                     <div class="ml-auto text-right">
-                        <div class="text-3xl font-black text-on-surface" id="main-clock">--:--</div>
-                        <div class="text-[9px] font-bold text-on-surface-variant opacity-40 uppercase tracking-widest">{{ now()->format('l, d M Y') }}</div>
+                        <div class="text-3xl font-extrabold text-slate-800" id="main-clock">--:--</div>
+                        <div class="text-[9px] font-semibold text-slate-400 uppercase tracking-wider">{{ now()->format('l, d M Y') }}</div>
                         @if($shift)
-                            <div class="mt-1 badge badge-primary badge-outline text-[8px] font-black px-2 py-0.5 h-auto uppercase">
+                            <div class="mt-1 px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-[8px] font-bold text-primary uppercase inline-block">
                                 {{ $shift->name }} · {{ \Carbon\Carbon::parse($shift->start_time)->format('h:i A') }} - {{ \Carbon\Carbon::parse($shift->end_time)->format('h:i A') }}
                             </div>
                         @endif
@@ -115,10 +115,10 @@
                         @if(!$todayLog || ($isMultiEnabled && $todayLog->check_out))
                             {{-- Ready to Clock In --}}
                             <div class="flex flex-col items-center gap-4 text-center">
-                                <div class="w-20 h-20 rounded-full bg-success/10 border-4 border-success/20 flex items-center justify-center animate-pulse">
-                                    <span class="material-symbols-outlined text-4xl text-success">login</span>
+                                <div class="w-20 h-20 rounded-full bg-emerald-50 border-4 border-emerald-100 flex items-center justify-center animate-pulse">
+                                    <span class="material-symbols-outlined text-4xl text-emerald-600">login</span>
                                 </div>
-                                <h4 class="text-sm font-black text-on-surface uppercase tracking-widest">Ready to Clock In</h4>
+                                <h4 class="text-sm font-bold text-slate-700 uppercase tracking-wider">Ready to Clock In</h4>
                                 
                                 <form action="{{ route('attendance.clock-in') }}" method="POST" x-ref="clockInForm" @submit.prevent="captureAndSubmit($event)">
                                     @csrf
@@ -126,7 +126,7 @@
                                     <input type="hidden" name="longitude" x-model="longitude">
                                     <input type="hidden" name="device_info" x-model="deviceInfo">
                                     <input type="hidden" name="photo" x-model="photoData">
-                                    <button type="submit" class="btn btn-success btn-lg rounded-2xl font-black text-sm uppercase tracking-widest gap-3 px-12 h-16 shadow-lg transition-all duration-300 hover:scale-105 group"
+                                    <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl font-bold text-sm uppercase tracking-wider gap-3 px-12 py-4 shadow-md shadow-emerald-500/20 transition-all duration-300 hover:scale-105 flex items-center justify-center"
                                         :disabled="isSecureContext && ((requireLocation && !locationReady) || (requirePhoto && !cameraReady))">
                                         <span class="material-symbols-outlined text-2xl" x-show="!isSecureContext || ((!requireLocation || locationReady) && (!requirePhoto || cameraReady))">fingerprint</span>
                                         <span class="loading loading-spinner loading-xs" x-show="isSecureContext && (((requireLocation && !locationReady) && !locationError) || ((requirePhoto && !cameraReady) && !cameraError))"></span>
@@ -138,12 +138,12 @@
                         @elseif($todayLog && !$todayLog->check_out)
                             {{-- Currently Working --}}
                             <div class="flex flex-col items-center gap-4 text-center">
-                                <div class="w-20 h-20 rounded-full bg-warning/10 border-4 border-warning/20 flex items-center justify-center">
-                                    <span class="material-symbols-outlined text-4xl text-warning">schedule</span>
+                                <div class="w-20 h-20 rounded-full bg-amber-50 border-4 border-amber-100 flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-4xl text-amber-500">schedule</span>
                                 </div>
-                                <h4 class="text-sm font-black text-on-surface uppercase tracking-widest">Currently Working</h4>
+                                <h4 class="text-sm font-bold text-slate-700 uppercase tracking-wider">Currently Working</h4>
                                 
-                                <button @click="showConfirmOut = true" class="btn btn-error btn-lg rounded-2xl font-black text-sm uppercase tracking-widest gap-3 px-12 h-16 shadow-lg text-white transition-all duration-300 hover:scale-105"
+                                <button @click="showConfirmOut = true" class="w-full bg-rose-500 hover:bg-rose-600 text-white rounded-2xl font-bold text-sm uppercase tracking-wider gap-3 px-12 py-4 shadow-md shadow-rose-500/20 transition-all duration-300 hover:scale-105 flex items-center justify-center"
                                     :disabled="isSecureContext && ((requireLocation && !locationReady) || (requirePhoto && !cameraReady))">
                                     <span class="material-symbols-outlined text-xl" x-show="!isSecureContext || ((!requireLocation || locationReady) && (!requirePhoto || cameraReady))">logout</span>
                                     <span x-text="!isSecureContext ? 'Clock Out (HTTP)' : ((requireLocation && !locationReady) || (requirePhoto && !cameraReady) ? 'Access Required' : 'Clock Out Now')"></span>
@@ -161,27 +161,27 @@
                         @else
                             {{-- Day Completed --}}
                             <div class="flex flex-col items-center gap-4 text-center">
-                                <div class="w-20 h-20 rounded-full bg-primary/10 border-4 border-primary/20 flex items-center justify-center">
+                                <div class="w-20 h-20 rounded-full bg-primary/5 border-4 border-primary/10 flex items-center justify-center">
                                     <span class="material-symbols-outlined text-4xl text-primary">task_alt</span>
                                 </div>
-                                <h4 class="text-sm font-black text-on-surface uppercase tracking-widest">Day Completed</h4>
-                                <div class="badge badge-primary badge-outline uppercase text-[10px] font-black h-8 px-6">Total Worked: {{ $todayLog->worked_hours }}h</div>
+                                <h4 class="text-sm font-bold text-slate-700 uppercase tracking-wider">Day Completed</h4>
+                                <div class="px-4 py-1.5 rounded-xl bg-primary/10 border border-primary/20 text-xs font-bold text-primary uppercase">Total Worked: {{ $todayLog->worked_hours }}h</div>
                             </div>
                         @endif
 
                         {{-- Secure Context Permission Overlay --}}
                         <template x-if="isSecureContext">
                             <div x-show="(requireLocation && locationError) || (requirePhoto && cameraError)" 
-                                 class="absolute inset-0 bg-surface-container-lowest/95 backdrop-blur-sm z-30 flex flex-col items-center justify-center p-6 text-center"
+                                 class="absolute inset-0 bg-white/95 backdrop-blur-sm z-30 flex flex-col items-center justify-center p-6 text-center"
                                  x-transition x-cloak>
-                                <span class="material-symbols-outlined text-3xl text-error mb-2">security_update_warning</span>
-                                <h3 class="text-xs font-black uppercase tracking-widest mb-1">Access Required</h3>
-                                <p class="text-[9px] font-bold text-on-surface-variant opacity-60 mb-4 max-w-[200px]">Camera & Location permissions are required.</p>
-                                <button @click="retryAccess()" class="btn btn-primary btn-sm w-full rounded-xl font-black uppercase tracking-widest text-[9px] h-9">Try Again</button>
+                                <span class="material-symbols-outlined text-3xl text-rose-500 mb-2">security_update_warning</span>
+                                <h3 class="text-xs font-bold uppercase tracking-wider mb-1">Access Required</h3>
+                                <p class="text-[9px] font-semibold text-slate-400 mb-4 max-w-[200px]">Camera & Location permissions are required.</p>
+                                <button @click="retryAccess()" class="btn btn-primary btn-sm w-full rounded-xl font-bold uppercase tracking-wider text-[10px] h-9">Try Again</button>
                                 
                                 @if(config('app.debug'))
                                     <button @click="latitude='26.8467'; longitude='80.9462'; photoData='debug_bypass'; $nextTick(() => { if($refs.clockInForm) $refs.clockInForm.submit(); if($refs.clockOutForm) $refs.clockOutForm.submit(); })" 
-                                        class="btn btn-ghost btn-xs text-[8px] font-black uppercase text-warning mt-4 hover:bg-warning/5">Skip & Continue (Debug)</button>
+                                        class="btn btn-ghost btn-xs text-[8px] font-bold uppercase text-amber-500 mt-4 hover:bg-amber-50/5">Skip & Continue (Debug)</button>
                                 @endif
                             </div>
                         </template>
@@ -192,12 +192,12 @@
 
         {{-- Device Info & Location Cards --}}
         <div class="flex flex-wrap gap-4">
-            <div class="flex-1 min-w-[280px] bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm p-5">
+            <div class="flex-1 min-w-[280px] bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <div class="flex items-center gap-2 mb-3">
                     <span class="material-symbols-outlined text-sm text-primary">location_on</span>
-                    <h4 class="text-[10px] font-black uppercase tracking-widest opacity-80">Location</h4>
-                    <span class="ml-auto badge badge-xs text-[7px] font-black px-2 h-auto uppercase"
-                          :class="locationReady ? 'badge-success text-white' : (locationError ? 'badge-error text-white' : 'badge-warning')"
+                    <h4 class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Location</h4>
+                    <span class="ml-auto px-2 py-0.5 rounded-full text-[8px] font-bold border"
+                          :class="locationReady ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : (locationError ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-amber-50 text-amber-700 border-amber-200')"
                           x-text="locationReady ? 'Acquired' : (locationError ? 'Denied' : 'Insecure Connection')"></span>
                 </div>
                 <div class="space-y-2">
@@ -212,84 +212,74 @@
                 </div>
             </div>
 
-            <div class="flex-1 min-w-[280px] bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm p-5">
+            <div class="flex-1 min-w-[280px] bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <div class="flex items-center gap-2 mb-3">
-                    <span class="material-symbols-outlined text-sm text-secondary">wifi</span>
-                    <h4 class="text-[10px] font-black uppercase tracking-widest opacity-80">Network</h4>
-                    <span class="ml-auto badge badge-success badge-xs text-[7px] font-black px-2 h-auto text-white uppercase">Active</span>
+                    <span class="material-symbols-outlined text-sm text-slate-500">wifi</span>
+                    <h4 class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Network</h4>
+                    <span class="ml-auto px-2 py-0.5 rounded-full text-[8px] font-bold border bg-emerald-50 text-emerald-700 border-emerald-200">Active</span>
                 </div>
                 <div class="space-y-2">
-                    <div class="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg">
-                        <span class="text-[9px] font-bold opacity-40 uppercase">IP Address</span>
-                        <span class="text-[10px] font-black text-on-surface font-mono">{{ request()->ip() }}</span>
+                    <div class="flex justify-between items-center bg-slate-50 px-3 py-2 rounded-xl border border-slate-200/40">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase">IP Address</span>
+                        <span class="text-[10px] font-bold text-slate-700 font-mono">{{ request()->ip() }}</span>
                     </div>
-                    <div class="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg">
-                        <span class="text-[9px] font-bold opacity-40 uppercase">Protocol</span>
-                        <span class="text-[10px] font-black text-on-surface font-mono uppercase">{{ request()->secure() ? 'HTTPS' : 'HTTP' }}</span>
+                    <div class="flex justify-between items-center bg-slate-50 px-3 py-2 rounded-xl border border-slate-200/40">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase">Protocol</span>
+                        <span class="text-[10px] font-bold text-slate-700 font-mono uppercase">{{ request()->secure() ? 'HTTPS' : 'HTTP' }}</span>
                     </div>
                 </div>
             </div>
 
-            <div class="flex-1 min-w-[280px] bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm p-5">
+            <div class="flex-1 min-w-[280px] bg-white rounded-xl border border-slate-200 shadow-sm p-5">
                 <div class="flex items-center gap-2 mb-3">
-                    <span class="material-symbols-outlined text-sm text-accent">devices</span>
-                    <h4 class="text-[10px] font-black uppercase tracking-widest opacity-80">Device</h4>
+                    <span class="material-symbols-outlined text-sm text-slate-500">devices</span>
+                    <h4 class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Device</h4>
                 </div>
                 <div class="space-y-2">
-                    <div class="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg">
-                        <span class="text-[9px] font-bold opacity-40 uppercase">Platform</span>
-                        <span class="text-[10px] font-black text-on-surface font-mono truncate max-w-[150px]" x-text="platform"></span>
+                    <div class="flex justify-between items-center bg-slate-50 px-3 py-2 rounded-xl border border-slate-200/40">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase">Platform</span>
+                        <span class="text-[10px] font-bold text-slate-700 font-mono truncate max-w-[150px]" x-text="platform"></span>
                     </div>
-                    <div class="flex justify-between items-center bg-surface-container-low px-3 py-2 rounded-lg">
-                        <span class="text-[9px] font-bold opacity-40 uppercase">Browser</span>
-                        <span class="text-[10px] font-black text-on-surface font-mono" x-text="browserName"></span>
+                    <div class="flex justify-between items-center bg-slate-50 px-3 py-2 rounded-xl border border-slate-200/40">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase">Browser</span>
+                        <span class="text-[10px] font-bold text-slate-700 font-mono" x-text="browserName"></span>
                     </div>
                 </div>
             </div>
         </div>
 
         {{-- Recent Attendance History --}}
-        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm overflow-hidden">
-            <div class="p-4 border-b border-outline-variant/5 bg-surface-container-low/20 flex items-center justify-between">
-                <h3 class="font-bold text-[10px] uppercase tracking-wider text-on-surface opacity-80 flex items-center gap-2">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div class="p-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+                <h3 class="font-bold text-[10px] uppercase tracking-wider text-slate-700 flex items-center gap-2">
                     <span class="material-symbols-outlined text-sm">history</span> Recent Attendance
                 </h3>
-                <a href="{{ route('attendance.index') }}" class="text-[9px] font-black text-primary uppercase tracking-widest hover:underline">View All →</a>
+                <a href="{{ route('attendance.index') }}" class="text-[9px] font-bold text-primary uppercase tracking-wider hover:underline">View All →</a>
             </div>
-            <div class="overflow-x-auto">
-                <table class="table table-xs w-full">
-                    <thead>
-                        <tr class="bg-surface-container-low/30">
-                            <th class="text-[8px] font-black uppercase tracking-widest opacity-60">Date</th>
-                            <th class="text-[8px] font-black uppercase tracking-widest opacity-60 text-center">In</th>
-                            <th class="text-[8px] font-black uppercase tracking-widest opacity-60 text-center">Out</th>
-                            <th class="text-[8px] font-black uppercase tracking-widest opacity-60 text-center">Hours</th>
-                            <th class="text-[8px] font-black uppercase tracking-widest opacity-60 text-center">Status</th>
-                            <th class="text-[8px] font-black uppercase tracking-widest opacity-60 text-center">OT</th>
+            <div class="table-crm">
+                <x-table :headers="['Date', 'In', 'Out', 'Hours', 'Status', 'OT']" :striped="false">
+                    @forelse($recentLogs as $log)
+                        <tr class="hover:bg-slate-50/50 transition-colors border-b border-slate-100 last:border-0">
+                            <td class="text-[11px] font-bold text-slate-700">{{ $log->date->format('D, d M') }}</td>
+                            <td class="text-center text-[11px] font-bold text-emerald-600">{{ $log->check_in ? \Carbon\Carbon::parse($log->check_in)->format('h:i A') : '—' }}</td>
+                            <td class="text-center text-[11px] font-bold text-rose-500">{{ $log->check_out ? \Carbon\Carbon::parse($log->check_out)->format('h:i A') : '—' }}</td>
+                            <td class="text-center text-[11px] font-bold text-slate-700">{{ number_format($log->worked_hours ?? 0, 1) }}h</td>
+                            <td class="text-center font-bold">
+                                @php
+                                    $statColor = $log->status === 'present' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : ($log->status === 'late' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-rose-50 text-rose-700 border-rose-200');
+                                @endphp
+                                <span class="px-2 py-0.5 rounded-full text-[8px] font-bold border uppercase {{ $statColor }}">
+                                    {{ $log->status }}{{ $log->is_late ? ' (' . $log->late_minutes . 'm)' : '' }}
+                                </span>
+                            </td>
+                            <td class="text-center text-[11px] font-bold text-slate-500 {{ ($log->overtime_minutes ?? 0) > 0 ? '' : 'opacity-35' }}">{{ $log->overtime_minutes ?? 0 }}m</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($recentLogs as $log)
-                            <tr class="hover:bg-surface-container-low/20 transition-colors">
-                                <td class="text-[10px] font-bold text-on-surface">{{ $log->date->format('D, d M') }}</td>
-                                <td class="text-center text-[10px] font-bold text-success">{{ $log->check_in ? \Carbon\Carbon::parse($log->check_in)->format('h:i A') : '—' }}</td>
-                                <td class="text-center text-[10px] font-bold text-error">{{ $log->check_out ? \Carbon\Carbon::parse($log->check_out)->format('h:i A') : '—' }}</td>
-                                <td class="text-center text-[10px] font-black text-on-surface">{{ number_format($log->worked_hours ?? 0, 1) }}h</td>
-                                <td class="text-center">
-                                    <span class="badge badge-xs text-[7px] font-black px-2 py-0.5 h-auto uppercase
-                                        {{ $log->status === 'present' ? 'badge-success text-white' : ($log->status === 'late' ? 'badge-warning' : 'badge-error text-white') }}">
-                                        {{ $log->status }}{{ $log->is_late ? ' (' . $log->late_minutes . 'm)' : '' }}
-                                    </span>
-                                </td>
-                                <td class="text-center text-[10px] font-bold text-secondary {{ ($log->overtime_minutes ?? 0) > 0 ? '' : 'opacity-30' }}">{{ $log->overtime_minutes ?? 0 }}m</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center py-6 text-[10px] font-bold opacity-40 italic uppercase">No recent attendance records</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center py-6 text-[10px] font-semibold text-slate-400 italic uppercase">No recent attendance records</td>
+                        </tr>
+                    @endforelse
+                </x-table>
             </div>
         </div>
         </div>
@@ -298,20 +288,20 @@
         <div x-show="showConfirmOut" 
              class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
              x-transition x-cloak>
-            <div class="bg-surface-container-lowest w-full max-w-sm rounded-3xl shadow-2xl border border-outline-variant/10 overflow-hidden" @click.away="showConfirmOut = false">
-                <div class="p-8 text-center">
-                    <div class="w-16 h-16 rounded-full bg-error/10 flex items-center justify-center mx-auto mb-6">
-                        <span class="material-symbols-outlined text-3xl text-error">logout</span>
+            <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl border border-slate-200 overflow-hidden" @click.away="showConfirmOut = false">
+                <div class="p-6 text-center">
+                    <div class="w-16 h-16 rounded-full bg-rose-50 flex items-center justify-center mx-auto mb-4 border border-rose-100">
+                        <span class="material-symbols-outlined text-3xl text-rose-500">logout</span>
                     </div>
-                    <h3 class="text-lg font-black text-on-surface uppercase tracking-widest mb-2">Confirm Clock Out</h3>
-                    <p class="text-xs font-medium text-on-surface-variant opacity-60 leading-relaxed mb-8">
+                    <h3 class="text-base font-bold text-slate-700 uppercase tracking-wider mb-2">Confirm Clock Out</h3>
+                    <p class="text-xs font-semibold text-slate-400 leading-relaxed mb-6">
                         Are you sure you want to end your session? This will record your final attendance for today.
                     </p>
                     <div class="grid grid-cols-2 gap-3">
-                        <button @click="showConfirmOut = false" class="btn btn-ghost btn-md rounded-2xl font-black uppercase tracking-widest text-[10px]">
+                        <button @click="showConfirmOut = false" class="btn btn-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-4 py-2 h-auto text-xs font-semibold select-none">
                             Cancel
                         </button>
-                        <button @click="confirmClockOut()" class="btn btn-error btn-md rounded-2xl font-black uppercase tracking-widest text-[10px] text-white shadow-lg shadow-error/20">
+                        <button @click="confirmClockOut()" class="btn btn-sm bg-rose-500 hover:bg-rose-600 text-white border-none rounded-xl px-4 py-2 h-auto text-xs font-semibold shadow-sm select-none">
                             Yes, Clock Out
                         </button>
                     </div>

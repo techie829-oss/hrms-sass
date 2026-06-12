@@ -52,8 +52,8 @@
         </div>
 
         <!-- Job Postings List -->
-        <div class="card bg-base-100 shadow-sm border border-base-200">
-            <div class="card-body p-0">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+            <div class="p-0">
                 <div class="p-6 border-b border-base-200 flex justify-between items-center bg-base-200/50">
                     <h3 class="text-sm font-bold uppercase tracking-widest">Active Job Postings</h3>
                 </div>

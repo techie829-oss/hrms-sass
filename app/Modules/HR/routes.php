@@ -10,6 +10,8 @@ Route::name('hr.')->middleware(['auth', 'role:tadmin|tmanager'])->group(function
     Route::get('employees/{employee}/documents/{document}/download', [EmployeeController::class, 'downloadDocument'])->name('employees.documents.download');
     Route::delete('employees/{employee}/documents/{document}', [EmployeeController::class, 'destroyDocument'])->name('employees.documents.destroy');
     Route::post('employees/{employee}/change-password', [EmployeeController::class, 'changePassword'])->name('employees.change-password');
+    Route::post('employees/{employee}/bank-accounts', [EmployeeController::class, 'storeBankAccount'])->name('employees.bank-accounts.store');
+    Route::delete('employees/{employee}/bank-accounts/{bank_account}', [EmployeeController::class, 'destroyBankAccount'])->name('employees.bank-accounts.destroy');
 
     Route::resource('employees', EmployeeController::class);
     Route::resource('departments', DepartmentController::class);

@@ -12,8 +12,8 @@
     </x-slot>
 
     <div class="max-w-4xl mx-auto">
-        <div class="card bg-base-100 shadow-xl border border-base-200">
-            <div class="card-body">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+            <div class="p-6">
                 <form action="{{ route('operations.leads.update', $lead) }}" method="POST" class="space-y-6">
                     @csrf
                     @method('PUT')
@@ -64,7 +64,7 @@
                         <textarea name="description" class="textarea textarea-bordered h-24">{{ old('description', $lead->description) }}</textarea>
                     </div>
 
-                    <div class="card-actions justify-between mt-6">
+                    <div class="flex justify-between mt-6">
                         <form action="{{ route('operations.leads.destroy', $lead) }}" method="POST" onsubmit="return confirm('Delete this lead?')">
                             @csrf @method('DELETE')
                             <button type="submit" class="btn btn-ghost text-error">Delete Lead</button>

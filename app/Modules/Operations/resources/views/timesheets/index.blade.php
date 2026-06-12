@@ -30,8 +30,8 @@
                     </div>
                 </div>
 
-                <div class="card bg-base-100 shadow-sm border border-base-200">
-                    <div class="card-body">
+                <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
+                    <div class="p-6">
                         <h3 class="font-bold text-sm uppercase text-base-content/50 mb-4">Filters</h3>
                         <!-- Add filter form controls here -->
                         <div class="space-y-4">
