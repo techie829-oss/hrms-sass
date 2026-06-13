@@ -134,7 +134,7 @@ class ClockController extends BaseController
 
             if ($now->greaterThan($graceTime)) {
                 $isLate = true;
-                $lateMinutes = $now->diffInMinutes($startTime);
+                $lateMinutes = (int) abs($now->diffInMinutes($startTime));
             }
         }
 
@@ -228,7 +228,7 @@ class ClockController extends BaseController
             $endTime = Carbon::parse($targetEndTime)->setDate($today->year, $today->month, $today->day);
             
             if ($checkOutTime->greaterThan($endTime)) {
-                $overtimeMinutes = $checkOutTime->diffInMinutes($endTime);
+                $overtimeMinutes = (int) abs($checkOutTime->diffInMinutes($endTime));
             }
         }
 
