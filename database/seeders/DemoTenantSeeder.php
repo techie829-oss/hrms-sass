@@ -85,29 +85,30 @@ class DemoTenantSeeder extends Seeder
         // ── 6. Designations ────────────────────────────────────────────────
         $this->command->info('🏷️  Seeding Designations...');
         $designations = [
-            ['title' => 'CEO',                    'department_code' => 'OPS',   'level' => 1],
-            ['title' => 'CTO',                    'department_code' => 'ENG',   'level' => 1],
-            ['title' => 'HR Manager',             'department_code' => 'HR',    'level' => 2],
-            ['title' => 'Senior Software Engineer','department_code' => 'ENG',  'level' => 3],
-            ['title' => 'Software Engineer',       'department_code' => 'ENG',  'level' => 4],
-            ['title' => 'Junior Developer',        'department_code' => 'ENG',  'level' => 5],
-            ['title' => 'Sales Manager',           'department_code' => 'SALES','level' => 2],
-            ['title' => 'Sales Executive',         'department_code' => 'SALES','level' => 4],
-            ['title' => 'Marketing Manager',       'department_code' => 'MKT',  'level' => 2],
-            ['title' => 'Content Writer',          'department_code' => 'MKT',  'level' => 5],
-            ['title' => 'Accountant',              'department_code' => 'FIN',  'level' => 4],
-            ['title' => 'Finance Manager',         'department_code' => 'FIN',  'level' => 2],
+            ['name' => 'CEO',                     'code' => 'CEO',  'department_code' => 'OPS',   'level' => 1],
+            ['name' => 'CTO',                     'code' => 'CTO',  'department_code' => 'ENG',   'level' => 1],
+            ['name' => 'HR Manager',              'code' => 'HRM',  'department_code' => 'HR',    'level' => 2],
+            ['name' => 'Senior Software Engineer', 'code' => 'SSE', 'department_code' => 'ENG',  'level' => 3],
+            ['name' => 'Software Engineer',        'code' => 'SE',  'department_code' => 'ENG',  'level' => 4],
+            ['name' => 'Junior Developer',         'code' => 'JD',  'department_code' => 'ENG',  'level' => 5],
+            ['name' => 'Sales Manager',            'code' => 'SM',  'department_code' => 'SALES','level' => 2],
+            ['name' => 'Sales Executive',          'code' => 'SE2', 'department_code' => 'SALES','level' => 4],
+            ['name' => 'Marketing Manager',        'code' => 'MM',  'department_code' => 'MKT',  'level' => 2],
+            ['name' => 'Content Writer',           'code' => 'CW',  'department_code' => 'MKT',  'level' => 5],
+            ['name' => 'Accountant',               'code' => 'ACC', 'department_code' => 'FIN',  'level' => 4],
+            ['name' => 'Finance Manager',          'code' => 'FM',  'department_code' => 'FIN',  'level' => 2],
         ];
 
         $desigMap = [];
         foreach ($designations as $desig) {
             $dept = $deptMap[$desig['department_code']];
-            $desigMap[$desig['title']] = Designation::firstOrCreate(
-                ['tenant_id' => $tenant->id, 'title' => $desig['title']],
+            $desigMap[$desig['name']] = Designation::firstOrCreate(
+                ['tenant_id' => $tenant->id, 'code' => $desig['code']],
                 [
                     'tenant_id'     => $tenant->id,
+                    'name'          => $desig['name'],
+                    'code'          => $desig['code'],
                     'department_id' => $dept->id,
-                    'level'         => $desig['level'],
                     'is_active'     => true,
                 ]
             );
@@ -138,7 +139,7 @@ class DemoTenantSeeder extends Seeder
         $managerRole = Role::where('name', RoleConstants::TMANAGER)->where('tenant_id', $tenant->id)->first();
 
         $employees = [
-            ['emp_id' => 'DEMO-001', 'first' => 'Arjun',   'last' => 'Sharma',    'email' => 'arjun@demo.com',   'dept' => 'ENG',   'desig' => 'Senior Software Engineer', 'salary' => 85000,  'role' => 'manager', 'joining' => '-2 years'],
+            ['emp_id' => 'DEMO-001', 'first' => 'Arjun',   'last' => 'Sharma',    'email' => 'arjun@demo.com',   'dept' => 'ENG',   'desig' => 'Senior Software Engineer',  'salary' => 85000,  'role' => 'manager', 'joining' => '-2 years'],
             ['emp_id' => 'DEMO-002', 'first' => 'Priya',   'last' => 'Verma',     'email' => 'priya@demo.com',   'dept' => 'HR',    'desig' => 'HR Manager',              'salary' => 75000,  'role' => 'manager', 'joining' => '-18 months'],
             ['emp_id' => 'DEMO-003', 'first' => 'Ravi',    'last' => 'Kumar',     'email' => 'ravi@demo.com',    'dept' => 'ENG',   'desig' => 'Software Engineer',       'salary' => 60000,  'role' => 'staff',   'joining' => '-1 year'],
             ['emp_id' => 'DEMO-004', 'first' => 'Sneha',   'last' => 'Patel',     'email' => 'sneha@demo.com',   'dept' => 'SALES', 'desig' => 'Sales Executive',         'salary' => 45000,  'role' => 'staff',   'joining' => '-8 months'],
