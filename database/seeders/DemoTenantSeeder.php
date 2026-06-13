@@ -743,13 +743,19 @@ class DemoTenantSeeder extends Seeder
                 for ($d = 5; $d >= 1; $d--) {
                     $date = now()->subDays($d)->toDateString();
                     if (now()->subDays($d)->isWeekend()) continue;
+                    $hours = round(rand(2, 6) + rand(0,1) * 0.5, 1);
+                    $start_time = now()->subDays($d)->setTime(9, 0, 0); // Start at 9 AM
+                    $end_time = (clone $start_time)->addMinutes($hours * 60);
+
                     DB::table('shared.timesheets')->insertOrIgnore([
                         'tenant_id'   => $this->tenant->id,
                         'employee_id' => $assignedTo,
                         'project_id'  => $projectId,
                         'task_id'     => $taskId,
                         'date'        => $date,
-                        'hours'       => round(rand(2, 6) + rand(0,1) * 0.5, 1),
+                        'start_time'  => $start_time->format('H:i:s'),
+                        'end_time'    => $end_time->format('H:i:s'),
+                        'hours'       => $hours,
                         'description' => "Working on: $title",
                         'status'      => 'approved',
                         'approved_by' => $this->userMap['DEMO-001']->id ?? null,

@@ -71,7 +71,11 @@
                                             <div class="text-[10px] opacity-50 font-bold uppercase">{{ $log->date->format('l') }}</div>
                                         </td>
                                         <td>
-                                            <div class="text-xs font-bold">{{ $log->start_time ? $log->start_time->format('H:i') : '--:--' }} - {{ $log->end_time ? $log->end_time->format('H:i') : '--:--' }}</div>
+                                        @if($log->start_time && $log->end_time)
+                                            <div class="text-xs font-bold">{{ $log->start_time->format('H:i') }} - {{ $log->end_time->format('H:i') }}</div>
+                                        @else
+                                            <div class="text-xs font-bold text-slate-400">Duration Only</div>
+                                        @endif
                                         </td>
                                         <td>
                                             @if($log->project)

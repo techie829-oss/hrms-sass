@@ -52,6 +52,15 @@
             .bg-accent-50 { background-color: var(--color-accent-50) !important; }
             .text-accent-600 { color: var(--color-accent-600) !important; }
 
+            ::selection {
+                background-color: var(--color-primary-600) !important;
+                color: #ffffff !important;
+            }
+            ::-moz-selection {
+                background-color: var(--color-primary-600) !important;
+                color: #ffffff !important;
+            }
+
             /* Custom Select styling for clean, consistent inputs */
             .content-area select {
                 appearance: none;
@@ -169,7 +178,7 @@
             }
         </style>
     </head>
-    <body class="font-body text-gray-900 antialiased bg-gray-50 selection:bg-primary-600 selection:text-white">
+    <body class="font-body text-gray-900 antialiased bg-gray-50">
         <!-- Sidebar Overlay for Mobile -->
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
