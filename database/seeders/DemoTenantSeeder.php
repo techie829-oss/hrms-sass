@@ -118,19 +118,27 @@ class DemoTenantSeeder extends Seeder
         // ── 7. Leave Types ─────────────────────────────────────────────────
         $this->command->info('🏖️  Seeding Leave Types...');
         $leaveTypes = [
-            ['name' => 'Casual Leave',    'code' => 'CL',  'days_allowed' => 12, 'color' => '#3B82F6'],
-            ['name' => 'Sick Leave',      'code' => 'SL',  'days_allowed' => 10, 'color' => '#EF4444'],
-            ['name' => 'Earned Leave',    'code' => 'EL',  'days_allowed' => 15, 'color' => '#10B981'],
-            ['name' => 'Maternity Leave', 'code' => 'ML',  'days_allowed' => 90, 'color' => '#8B5CF6'],
-            ['name' => 'Paternity Leave', 'code' => 'PL',  'days_allowed' => 15, 'color' => '#F59E0B'],
-            ['name' => 'Loss of Pay',     'code' => 'LOP', 'days_allowed' => 0,  'color' => '#6B7280'],
+            ['name' => 'Casual Leave',    'code' => 'CL',  'max_days_per_year' => 12, 'is_paid' => true],
+            ['name' => 'Sick Leave',      'code' => 'SL',  'max_days_per_year' => 10, 'is_paid' => true],
+            ['name' => 'Earned Leave',    'code' => 'EL',  'max_days_per_year' => 15, 'is_paid' => true],
+            ['name' => 'Maternity Leave', 'code' => 'ML',  'max_days_per_year' => 90, 'is_paid' => true],
+            ['name' => 'Paternity Leave', 'code' => 'PL',  'max_days_per_year' => 15, 'is_paid' => true],
+            ['name' => 'Loss of Pay',     'code' => 'LOP', 'max_days_per_year' => 0,  'is_paid' => false],
         ];
 
         $leaveTypeMap = [];
         foreach ($leaveTypes as $lt) {
             $leaveTypeMap[$lt['code']] = LeaveType::firstOrCreate(
                 ['tenant_id' => $tenant->id, 'code' => $lt['code']],
-                array_merge($lt, ['tenant_id' => $tenant->id, 'is_active' => true, 'is_paid' => $lt['code'] !== 'LOP'])
+                [
+                    'tenant_id'         => $tenant->id,
+                    'name'              => $lt['name'],
+                    'code'              => $lt['code'],
+                    'max_days_per_year' => $lt['max_days_per_year'],
+                    'is_paid'           => $lt['is_paid'],
+                    'is_active'         => true,
+                    'requires_approval' => true,
+                ]
             );
         }
 
@@ -216,13 +224,13 @@ class DemoTenantSeeder extends Seeder
                 AttendanceLog::firstOrCreate(
                     ['tenant_id' => $tenant->id, 'employee_id' => $employee->id, 'date' => $date],
                     [
-                        'tenant_id'   => $tenant->id,
-                        'employee_id' => $employee->id,
-                        'date'        => $date,
-                        'check_in'    => $checkIn,
-                        'check_out'   => $checkOut,
-                        'status'      => 'present',
-                        'work_hours'  => round($checkOut->diffInMinutes($checkIn) / 60, 2),
+                        'tenant_id'    => $tenant->id,
+                        'employee_id'  => $employee->id,
+                        'date'         => $date,
+                        'check_in'     => $checkIn,
+                        'check_out'    => $checkOut,
+                        'status'       => 'present',
+                        'worked_hours' => round($checkOut->diffInMinutes($checkIn) / 60, 2),
                     ]
                 );
                 $attendanceCount++;
@@ -262,7 +270,7 @@ class DemoTenantSeeder extends Seeder
                     'leave_type_id' => $leaveType->id,
                     'start_date'    => $startDate,
                     'end_date'      => $endDate,
-                    'days_count'    => $scenario['days'],
+                    'total_days'    => $scenario['days'],
                     'reason'        => 'Demo leave request for ' . $leaveType->name,
                     'status'        => $scenario['status'],
                     'approved_by'   => in_array($scenario['status'], ['approved', 'rejected']) ? ($adminUser?->id) : null,
