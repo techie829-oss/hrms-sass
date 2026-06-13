@@ -79,7 +79,7 @@ class AttendanceSummaryService
                 $actualIn = Carbon::parse($firstIn);
                 if ($actualIn->greaterThan($expected->copy()->addMinutes($graceMinutes))) {
                     $isLate = true;
-                    $lateMinutes = $actualIn->diffInMinutes($expected);
+                    $lateMinutes = (int) abs($actualIn->diffInMinutes($expected));
                 }
             }
 
@@ -90,9 +90,9 @@ class AttendanceSummaryService
                     $expected  = Carbon::parse($targetEndTime)->setDateFrom($date);
                     $actualOut = Carbon::parse($lastOut);
                     if ($actualOut->greaterThan($expected)) {
-                        $overtimeMinutes = $actualOut->diffInMinutes($expected);
+                        $overtimeMinutes = (int) abs($actualOut->diffInMinutes($expected));
                     } elseif ($actualOut->lessThan($expected->copy()->subMinutes($earlyLeaveMin))) {
-                        $earlyLeaveMinutes = $actualOut->diffInMinutes($expected);
+                        $earlyLeaveMinutes = (int) abs($actualOut->diffInMinutes($expected));
                     }
                 }
             }
