@@ -24,12 +24,13 @@ class DemoTenantSeeder extends Seeder
     {
         $this->command->info('🏢 Creating Demo Tenant...');
 
-        // ── 1. Drop if already exists ──────────────────────────────────────
-        $existing = Tenant::find('demo');
+        // ── 1. Drop if already exists (including soft-deleted) ────────────
+        $existing = Tenant::withTrashed()->find('demo');
         if ($existing) {
-            $existing->domains()->delete();
-            $existing->delete();
+            $existing->domains()->forceDelete();
+            $existing->forceDelete();
             DB::statement('DROP SCHEMA IF EXISTS "shared" CASCADE');
+            DB::statement('CREATE SCHEMA IF NOT EXISTS "shared"');
             $this->command->warn('Old demo tenant removed. Re-creating...');
         }
 
