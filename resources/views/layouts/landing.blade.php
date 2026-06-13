@@ -63,7 +63,6 @@
                     <a href="{{ route('dashboard') }}" class="px-5 py-2 text-sm font-bold text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors shadow-sm">Dashboard</a>
                 @else
                     <a href="{{ route('login') }}" class="text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors">Log in</a>
-                    <a href="{{ route('register') }}" class="px-5 py-2 text-sm font-bold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors shadow-sm">Register</a>
                 @endauth
                 <a href="/contact" class="px-6 py-2.5 text-sm font-bold text-on-primary rounded-xl hover:opacity-90 transition-all shadow-xl bg-gradient-to-br from-primary to-tertiary">Book a Demo</a>
             </div>
