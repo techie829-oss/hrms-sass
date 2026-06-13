@@ -568,7 +568,7 @@ class DemoTenantSeeder extends Seeder
             'month'            => $month,
             'year'             => $year,
             'pay_date'         => Carbon::createFromDate($year, $month, 1)->endOfMonth()->toDateString(),
-            'status'           => 'processed',
+            'status'           => 'completed',
             'total_employees'  => count($this->empMap),
             'total_gross'      => $totalGross,
             'total_deductions' => $totalDed,
