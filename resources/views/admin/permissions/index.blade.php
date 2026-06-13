@@ -79,7 +79,11 @@
                             </td>
                             <td class="py-4 px-6">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 border border-slate-200 uppercase tracking-wider">
-                                    {{ explode('-', $permission->name)[1] ?? 'general' }}
+                                    @php
+                                        $parts = explode('_', $permission->name);
+                                        $group = end($parts);
+                                        echo $group === 'off' ? 'comp_off' : $group;
+                                    @endphp
                                 </span>
                             </td>
                             <td class="py-4 px-6">

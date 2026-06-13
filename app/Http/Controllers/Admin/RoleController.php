@@ -34,8 +34,9 @@ class RoleController extends Controller
     public function create()
     {
         $permissions = Permission::all()->groupBy(function($permission) {
-            $parts = explode('-', $permission->name);
-            return $parts[count($parts) - 1] ?? 'general';
+            $parts = explode('_', $permission->name);
+            $group = end($parts);
+            return $group === 'off' ? 'comp_off' : $group;
         });
         return view('admin.roles.create', compact('permissions'));
     }
@@ -60,8 +61,9 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         $permissions = Permission::all()->groupBy(function($permission) {
-            $parts = explode('-', $permission->name);
-            return $parts[count($parts) - 1] ?? 'general';
+            $parts = explode('_', $permission->name);
+            $group = end($parts);
+            return $group === 'off' ? 'comp_off' : $group;
         });
         
         $rolePermissions = $role->permissions->pluck('name')->toArray();
