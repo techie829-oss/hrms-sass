@@ -149,8 +149,25 @@
                             </td>
                             <td>
                                 <div class="text-sm font-medium">{{ $employee->department->name ?? 'Unassigned' }}</div>
-                                <div class="text-[10px] font-bold uppercase tracking-wider opacity-60 text-primary mt-1">
-                                    {{ $employee->user?->roles->first()?->name ?? 'No System Access' }}
+                                <div class="text-[10px] font-bold uppercase tracking-wider opacity-80 mt-1">
+                                    @if($employee->user)
+                                        @php
+                                            $roleName = $employee->user->roles->first()?->name;
+                                            $hasCustomPerms = $employee->user->permissions->count() > 0;
+                                        @endphp
+                                        @if($roleName)
+                                            <span class="text-primary">{{ $roleName }}</span>
+                                            @if($hasCustomPerms)
+                                                <span class="text-orange-500 ml-1">, Custom</span>
+                                            @endif
+                                        @elseif($hasCustomPerms)
+                                            <span class="text-orange-500">Custom Permissions Only</span>
+                                        @else
+                                            <span class="text-slate-400">No System Access</span>
+                                        @endif
+                                    @else
+                                        <span class="text-slate-400">No System Access</span>
+                                    @endif
                                 </div>
                             </td>
                             <td>
