@@ -310,9 +310,10 @@
                                     <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wide border-b border-slate-200/60 pb-1.5">{{ ucfirst($group) }}</h4>
                                     <div class="space-y-1.5">
                                         @foreach($groupPerms as $perm)
-                                            <label class="flex items-center text-xs text-slate-700 select-none cursor-pointer hover:text-slate-900 transition-colors">
-                                                <input type="checkbox" name="permissions[]" value="{{ $perm->name }}" class="rounded border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 mr-2" />
-                                                {{ ucfirst($perm->name) }}
+                                            <label class="flex items-center text-xs text-slate-700 select-none cursor-pointer hover:text-slate-900 transition-colors w-full">
+                                                <input type="checkbox" name="permissions[]" value="{{ $perm->name }}" class="rounded border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 mr-2 permission-checkbox" />
+                                                <span class="flex-1 truncate">{{ ucfirst($perm->name) }}</span>
+                                                <span class="ml-2 text-[9px] font-bold text-slate-500 bg-slate-200/80 px-1.5 py-0.5 rounded hidden role-badge">Role Default</span>
                                             </label>
                                         @endforeach
                                     </div>
@@ -356,4 +357,48 @@
             </div>
         </form>
     </div>
-</x-app-layout>
+</x-tenant-app-layout>
+
+@php
+    $rolePermMap = [];
+    foreach($roles as $role) {
+        $rolePermMap[$role->id] = $role->permissions->pluck('name')->toArray();
+    }
+@endphp
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const roleMap = @json($rolePermMap);
+        const roleSelect = document.getElementById('role_id');
+        const checkboxes = document.querySelectorAll('.permission-checkbox');
+
+        function updatePermissions() {
+            const roleId = roleSelect.value;
+            const rolePerms = roleMap[roleId] || [];
+
+            checkboxes.forEach(cb => {
+                const badge = cb.closest('label').querySelector('.role-badge');
+                
+                if (rolePerms.includes(cb.value)) {
+                    cb.checked = true;
+                    // We don't disable it completely so they can see it, but it's logically "readonly" 
+                    // Wait, if it's disabled, it doesn't submit, which is EXACTLY what we want (so it doesn't become a direct permission)
+                    cb.disabled = true; 
+                    cb.parentElement.classList.add('opacity-60');
+                    if (badge) badge.classList.remove('hidden');
+                } else {
+                    if (cb.disabled) {
+                        cb.checked = false;
+                        cb.disabled = false;
+                        cb.parentElement.classList.remove('opacity-60');
+                        if (badge) badge.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        if (roleSelect) {
+            roleSelect.addEventListener('change', updatePermissions);
+            updatePermissions();
+        }
+    });
+</script>
