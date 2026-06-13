@@ -581,7 +581,8 @@ class DemoTenantSeeder extends Seeder
         ]);
 
         // Payslips
-        foreach ($this->empMap as $i => $emp) {
+        $slipIndex = 1;
+        foreach ($this->empMap as $empId => $emp) {
             $basic    = $emp->basic_salary;
             $hra      = round($basic * 0.4);
             $ta = 2000; $ma = 1250; $sa = 5000;
@@ -593,7 +594,7 @@ class DemoTenantSeeder extends Seeder
                 'tenant_id'           => $this->tenant->id,
                 'payroll_run_id'      => $runId,
                 'employee_id'         => $emp->id,
-                'payslip_number'      => 'PAY-' . $year . $month . '-' . str_pad($i + 1, 3, '0', STR_PAD_LEFT),
+                'payslip_number'      => 'PAY-' . $year . str_pad($month, 2, '0', STR_PAD_LEFT) . '-' . str_pad($slipIndex++, 3, '0', STR_PAD_LEFT),
                 'month'               => $month,
                 'year'                => $year,
                 'working_days'        => 26,
