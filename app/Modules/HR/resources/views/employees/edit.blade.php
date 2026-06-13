@@ -285,7 +285,8 @@
                             $userPermissions = $employee->user->permissions->pluck('name')->toArray();
                             $groupedPermissions = $permissions->groupBy(function($permission) {
                                 $parts = explode('_', $permission->name);
-                                return $parts[1] ?? 'general';
+                                $group = end($parts);
+                                return $group === 'off' ? 'comp_off' : $group;
                             });
                         @endphp
                         <div class="col-span-2 mb-6">
@@ -343,7 +344,8 @@
                             @php
                                 $groupedPermissions = $permissions->groupBy(function($permission) {
                                     $parts = explode('_', $permission->name);
-                                    return $parts[1] ?? 'general';
+                                    $group = end($parts);
+                                    return $group === 'off' ? 'comp_off' : $group;
                                 });
                             @endphp
                             <div class="col-span-2 mt-2">
