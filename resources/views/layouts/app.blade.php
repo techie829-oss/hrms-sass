@@ -8,7 +8,7 @@
         <title>{{ config('app.name', 'HRMS Solutions') }}</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
         <!-- Scripts -->
@@ -145,22 +145,22 @@
 
             .card {
                 background: white;
-                border-radius: 1rem; /* rounded-2xl feel */
-                border: 1px solid #f1f5f9;
-                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+                border-radius: 1rem;
+                border: 1px solid #e2e8f0; /* slate-200 */
+                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
             }
 
             .stat-card {
                 background: white;
                 border-radius: 1rem;
-                border: 1px solid #f1f5f9;
-                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+                border: 1px solid #e2e8f0;
+                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
                 transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
             .stat-card:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             }
 
             /* Tablet responsive */
