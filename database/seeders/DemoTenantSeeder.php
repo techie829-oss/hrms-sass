@@ -824,8 +824,8 @@ class DemoTenantSeeder extends Seeder
             ['DEMO-003', 3.8, 'Good coder but needs to improve documentation.',   'completed'],
             ['DEMO-004', 4.0, 'Consistently hits sales targets.',                 'completed'],
             ['DEMO-007', 4.7, 'Outstanding leadership and client management.',    'completed'],
-            ['DEMO-008', 3.2, 'Still learning, shows good potential.',            'in_review'],
-            ['DEMO-011', 3.6, 'Good technical skills, needs more ownership.',     'in_review'],
+            ['DEMO-008', 3.2, 'Still learning, shows good potential.',            'pending'],
+            ['DEMO-011', 3.6, 'Good technical skills, needs more ownership.',     'pending'],
         ];
         foreach ($appraisals as [$empId, $score, $comments, $status]) {
             $emp = $this->empMap[$empId] ?? null;
