@@ -350,6 +350,10 @@ class ClockController extends BaseController
                 'early_leave_before_minutes'  => (int)$request->input('early_leave_before_minutes', 30),
                 'max_late_allowed_per_month'  => (int)$request->input('max_late_allowed_per_month', 3),
                 'auto_deduct_leave'           => $request->has('auto_deduct_leave'),
+                // Kiosk Settings
+                'is_kiosk_enabled'       => $request->has('is_kiosk_enabled'),
+                'kiosk_require_photo'    => $request->has('kiosk_require_photo'),
+                'kiosk_require_location' => $request->has('kiosk_require_location'),
             ]);
         }
 

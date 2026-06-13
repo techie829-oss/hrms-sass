@@ -210,6 +210,48 @@
 
                 <div class="h-px bg-slate-200/80"></div>
 
+                <!-- SECTION 3.5: KIOSK SETTINGS -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-1 pr-4">
+                        <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Kiosk Settings</h3>
+                        <p class="text-[11px] font-medium text-slate-500 mt-1.5 leading-relaxed">
+                            Manage the requirements for the Attendance Kiosk, such as location and photo verification.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-2">
+                        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5 space-y-6">
+                            <div class="flex items-center gap-6">
+                                <!-- Enable Kiosk -->
+                                <div class="flex flex-col space-y-1.5">
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Enable Kiosk</label>
+                                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 h-[34px]">
+                                        <input type="checkbox" id="is_kiosk_enabled" name="is_kiosk_enabled" class="checkbox checkbox-primary checkbox-xs rounded-md" value="1" {{ old('is_kiosk_enabled', $policy?->is_kiosk_enabled) ? 'checked' : '' }} />
+                                        <label for="is_kiosk_enabled" class="text-[10px] font-bold text-slate-600 cursor-pointer">Allow Kiosk Usage</label>
+                                    </div>
+                                </div>
+                                <!-- Require Photo -->
+                                <div class="flex flex-col space-y-1.5">
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Require Photo</label>
+                                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 h-[34px]">
+                                        <input type="checkbox" id="kiosk_require_photo" name="kiosk_require_photo" class="checkbox checkbox-primary checkbox-xs rounded-md" value="1" {{ old('kiosk_require_photo', $policy?->kiosk_require_photo) ? 'checked' : '' }} />
+                                        <label for="kiosk_require_photo" class="text-[10px] font-bold text-slate-600 cursor-pointer">Camera Verification</label>
+                                    </div>
+                                </div>
+                                <!-- Require Location -->
+                                <div class="flex flex-col space-y-1.5">
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Require Location</label>
+                                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 h-[34px]">
+                                        <input type="checkbox" id="kiosk_require_location" name="kiosk_require_location" class="checkbox checkbox-primary checkbox-xs rounded-md" value="1" {{ old('kiosk_require_location', $policy?->kiosk_require_location) ? 'checked' : '' }} />
+                                        <label for="kiosk_require_location" class="text-[10px] font-bold text-slate-600 cursor-pointer">GPS Verification</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-px bg-slate-200/80"></div>
+
                 <!-- SECTION 4: ROLE-LEVEL DEFAULTS -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-1 pr-4">
