@@ -26,7 +26,9 @@ class DatabaseSeeder extends Seeder
         if (!tenant()) {
             $this->call([
                 PlanSeeder::class,
+                RoleSeeder::class,
                 InternalUserSeeder::class,
+                DemoTenantSeeder::class,
             ]);
         }
 
