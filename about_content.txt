@@ -1,0 +1,208 @@
+
+        <!-- Hero Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold text-secondary-900 mb-4">About School ERP</h1>
+            <p class="text-xl text-secondary-600 max-w-3xl mx-auto">
+                We're on a mission to transform how schools manage their operations,
+                making education administration more efficient, transparent, and student-focused through our <a href="https://sklops.com/features" class="text-primary-600 hover:underline font-semibold">cloud-based School ERP</a>.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Vision -->
+<section class="py-24 bg-secondary-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="bg-white border border-secondary-100 rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                <div class="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-secondary-900 mb-4">Our Mission</h2>
+                <p class="text-secondary-600 leading-relaxed">
+                    To empower educational institutions with innovative technology solutions that streamline
+                    administrative processes, enhance communication, and ultimately improve student outcomes.
+                    We believe that when schools run efficiently, teachers can focus on what matters most: teaching.
+                </p>
+            </div>
+
+            <div class="bg-white border border-secondary-100 rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                <div class="w-16 h-16 bg-accent-100 rounded-2xl flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-secondary-900 mb-4">Our Vision</h2>
+                <p class="text-secondary-600 leading-relaxed">
+                    To become the leading School ERP solution globally, recognized for our commitment to
+                    innovation, reliability, and customer success. We envision a future where every school,
+                    regardless of size, can access <a href="https://sklops.com/pricing" class="text-primary-600 hover:underline font-semibold">enterprise-grade management tools</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Company Story -->
+<section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold text-secondary-900 mb-16 text-center">Our Story</h2>
+
+            <div class="relative max-w-5xl mx-auto px-4">
+                <div class="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-primary-200 via-accent-200 to-transparent"></div>
+
+                <div class="space-y-12">
+                    <div class="relative flex flex-col md:flex-row items-center">
+                        <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full bg-primary-500 border-4 border-white shadow-md z-10 transition-transform hover:scale-125"></div>
+                        <div class="md:hidden absolute left-4 w-4 h-4 rounded-full bg-primary-500 border-2 border-white shadow-sm z-10"></div>
+                        
+                        <div class="flex-1 md:pr-12 md:text-right mb-8 md:mb-0 ml-12 md:ml-0">
+                            <div class="bg-white p-8 rounded-3xl shadow-sm border border-secondary-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                                <span class="text-primary-600 font-bold text-xl mb-2 block">2018</span>
+                                <h3 class="text-xl font-bold text-secondary-900 mb-3">The Beginning</h3>
+                                <p class="text-secondary-600 leading-relaxed text-sm">
+                                    Founded by a team of educators and technologists who experienced firsthand the
+                                    challenges of managing school operations with outdated systems.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex-1 hidden md:block"></div>
+                    </div>
+
+                    <div class="relative flex flex-col md:flex-row items-center">
+                        <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full bg-accent-500 border-4 border-white shadow-md z-10 transition-transform hover:scale-125"></div>
+                        <div class="md:hidden absolute left-4 w-4 h-4 rounded-full bg-accent-500 border-2 border-white shadow-sm z-10"></div>
+                        
+                        <div class="flex-1 hidden md:block"></div>
+                        <div class="flex-1 md:pl-12 mb-8 md:mb-0 ml-12 md:ml-0">
+                            <div class="bg-white p-8 rounded-3xl shadow-sm border border-secondary-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                                <span class="text-accent-600 font-bold text-xl mb-2 block">2020</span>
+                                <h3 class="text-xl font-bold text-secondary-900 mb-3">First Major Release</h3>
+                                <p class="text-secondary-600 leading-relaxed text-sm">
+                                    Launched our <a href="https://sklops.com/features" class="text-primary-600 hover:underline font-semibold">comprehensive School ERP system</a>, serving our first 50 schools.
+                                    The feedback was overwhelming, and we knew we were on the right track.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative flex flex-col md:flex-row items-center">
+                        <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full bg-primary-500 border-4 border-white shadow-md z-10 transition-transform hover:scale-125"></div>
+                        <div class="md:hidden absolute left-4 w-4 h-4 rounded-full bg-primary-500 border-2 border-white shadow-sm z-10"></div>
+                        
+                        <div class="flex-1 md:pr-12 md:text-right mb-8 md:mb-0 ml-12 md:ml-0">
+                            <div class="bg-white p-8 rounded-3xl shadow-sm border border-secondary-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                                <span class="text-primary-600 font-bold text-xl mb-2 block">2022</span>
+                                <h3 class="text-xl font-bold text-secondary-900 mb-3">Multi-Tenancy Innovation</h3>
+                                <p class="text-secondary-600 leading-relaxed text-sm">
+                                    Introduced our revolutionary <a href="https://sklops.com/features" class="text-primary-600 hover:underline font-semibold">multi-tenancy architecture</a> with secure data isolation,
+                                    supporting institutions with custom domain mapping.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex-1 hidden md:block"></div>
+                    </div>
+
+                    <div class="relative flex flex-col md:flex-row items-center">
+                        <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full bg-primary-600 border-4 border-white shadow-xl z-20 transition-transform hover:scale-125 animate-pulse"></div>
+                        <div class="md:hidden absolute left-4 w-5 h-5 rounded-full bg-primary-600 border-2 border-white shadow-md z-10"></div>
+                        
+                        <div class="flex-1 hidden md:block"></div>
+                        <div class="flex-1 md:pl-12 ml-12 md:ml-0">
+                            <div class="bg-white p-8 rounded-3xl shadow-xl border border-primary-100 hover:-translate-y-1 transition-all duration-300 ring-4 ring-primary-50">
+                                <span class="text-primary-600 font-bold text-xl mb-2 block">2024</span>
+                                <h3 class="text-xl font-bold text-secondary-900 mb-3">Today & Beyond</h3>
+                                <p class="text-secondary-600 leading-relaxed text-sm">
+                                    Serving 500+ schools across India and expanding globally. We continue to
+                                    innovate, always keeping our customers' needs at the heart of everything we do.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Core Values -->
+<section class="py-24 bg-secondary-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-secondary-900 mb-16 text-center">Our Core Values</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-white p-8 rounded-3xl border border-secondary-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-center">
+                <div class="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-900 mb-3">Excellence</h3>
+                <p class="text-secondary-600 text-sm leading-relaxed">
+                    We strive for excellence in every product we build and every service we provide.
+                </p>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl border border-secondary-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-center">
+                <div class="w-16 h-16 bg-accent-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-900 mb-3">Collaboration</h3>
+                <p class="text-secondary-600 text-sm leading-relaxed">
+                    We believe in the power of collaboration with our customers, partners, and team.
+                </p>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl border border-secondary-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-center">
+                <div class="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-900 mb-3">Innovation</h3>
+                <p class="text-secondary-600 text-sm leading-relaxed">
+                    We continuously innovate to stay ahead of the curve and meet evolving needs.
+                </p>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl border border-secondary-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-center">
+                <div class="w-16 h-16 bg-accent-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-secondary-900 mb-3">Passion</h3>
+                <p class="text-secondary-600 text-sm leading-relaxed">
+                    We're passionate about education and committed to making a positive impact.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-24 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold text-secondary-900 mb-6">Join Us in Transforming Education</h2>
+        <p class="text-xl text-secondary-600 mb-8">
+            Be part of the revolution in school management technology.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="https://sklops.com/contact" class="btn-primary px-8 py-4 rounded-xl text-lg font-semibold shadow-lg">
+                Get in Touch
+            </a>
+            <a href="https://sklops.com/features" class="btn-secondary px-8 py-4 rounded-xl text-lg font-semibold">
+                Explore Features
+            </a>
+        </div>
+    </div>
+</section>
+    

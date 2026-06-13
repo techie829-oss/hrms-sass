@@ -18,10 +18,20 @@ Route::domain($centralHost)->middleware(['web'])->group(function () {
         return view('welcome');
     })->name('central.home');
 
-    Route::get('/pricing', fn() => view('pricing'));
-    Route::get('/modules', fn() => view('modules'));
-    Route::get('/about', fn() => view('about'));
-    Route::get('/contact', fn() => view('contact'));
+    Route::get('/pricing', fn() => view('core.pricing'))->name('central.pricing');
+    Route::get('/features', fn() => view('core.features'))->name('central.features');
+    Route::get('/about', fn() => view('core.about'))->name('central.about');
+    Route::get('/contact', fn() => view('core.contact'))->name('central.contact');
+
+    // Codebase-driven SEO Feature Landing Pages
+    Route::get('/hrms-software', fn() => view('features.hrms-software'))->name('features.hrms');
+    Route::get('/employee-management-system', fn() => view('features.employee-management-system'))->name('features.employee');
+    Route::get('/attendance-management-software', fn() => view('features.attendance-management-software'))->name('features.attendance');
+    Route::get('/leave-management-system', fn() => view('features.leave-management-system'))->name('features.leave');
+    Route::get('/payroll-software', fn() => view('features.payroll-software'))->name('features.payroll');
+    Route::get('/recruitment-software', fn() => view('features.recruitment-software'))->name('features.recruitment');
+    Route::get('/performance-management-software', fn() => view('features.performance-management-software'))->name('features.performance');
+    Route::get('/project-management-software', fn() => view('features.project-management-software'))->name('features.operations');
 
     // Tenant Selection Hub
     Route::middleware(['auth'])->get('/hub', [\App\Http\Controllers\SaaS\TenantHubController::class, 'index'])->name('saas.hub');

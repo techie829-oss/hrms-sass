@@ -1,0 +1,619 @@
+
+            <!-- Hero Section -->
+    <section class="relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-50 to-accent-50"></div>
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.1\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'2\' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20">
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+            <div class="text-center">
+                <div
+                    class="inline-flex items-center px-4 py-2 rounded-full bg-accent-100 text-accent-700 text-sm font-medium mb-8 shadow-sm border border-accent-200">
+                    <svg class="w-4 h-4 mr-2 text-accent-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M14.615 1.595a.75.75 0 0 1 .359.852L12.982 9.75h7.268a.75.75 0 0 1 .548 1.262l-10.5 11.25a.75.75 0 0 1-1.272-.71l1.992-7.302H3.75a.75.75 0 0 1-.548-1.262l10.5-11.25a.75.75 0 0 1 .913-.143Z" clip-rule="evenodd"/>
+</svg>                    Empowering Schools & Educators
+                </div>
+
+                <!-- Main Heading -->
+                <h1 class="text-4xl md:text-6xl font-bold text-secondary-900 mb-6 leading-tight">
+                    Complete
+                    <span class="text-primary-600">School Management</span>
+                    <br>System
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="text-xl md:text-2xl text-secondary-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    Complete School Management System. Streamline operations, enhance learning, and manage your school
+                    efficiently with our <a href="https://sklops.com/features" class="text-primary-600 hover:underline font-semibold">comprehensive ERP solution</a>.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <a href="https://demo.sklops.com" target="_blank"
+                        class="px-8 py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 flex items-center justify-center">
+                        <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd"/>
+</svg>                        View Live Demo
+                    </a>
+                    <a href="https://sklops.com/register"
+                        class="btn-primary px-8 py-4 rounded-xl text-lg font-semibold shadow-lg">
+                        Get Started
+                    </a>
+                </div>
+
+                <!-- Access Information -->
+                <div
+                    class="glass-card rounded-2xl p-6 mb-8 max-w-2xl mx-auto transform hover:scale-[1.01] transition-all duration-300">
+                    <h3 class="text-lg font-semibold text-secondary-900 mb-3">Experience Our Platform</h3>
+                    <div class="text-sm text-secondary-600 space-y-2">
+                        <p><strong>Main:</strong> Visit <code
+                                class="bg-secondary-100 px-2 py-1 rounded">sklops.com</code> to
+                            access your school portal</p>
+                                                <p class="text-xs text-secondary-500 mt-3 pt-3 border-t border-secondary-200">
+                            <svg class="w-4 h-4 inline mr-1 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/>
+</svg>                            <strong>Your Dedicated Portal:</strong> Each school gets its own private website address (e.g., <code
+                                class="bg-secondary-100 px-1 rounded">schoolname.sklops.com</code>)
+                            with completely secure data and custom branding.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Trust Indicators -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-8 text-secondary-500">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-success mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/>
+</svg>                        <span>Trusted by 100+ Schools</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-success mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/>
+</svg>                        <span>100% Data Security</span>
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-success mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd"/>
+</svg>                        <span>Dedicated Onboarding Support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Stats Section -->
+    <section class="relative z-10 -mt-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 bg-white rounded-3xl p-8 md:p-12 shadow-2xl border border-secondary-100">
+                <div class="text-center">
+                    <div class="text-3xl md:text-5xl font-extrabold text-primary-600 mb-2">20+</div>
+                    <div class="text-sm md:text-base font-semibold text-secondary-500 uppercase tracking-wider">Powerful Modules</div>
+                </div>
+                <div class="text-center border-l border-secondary-100">
+                    <div class="text-3xl md:text-5xl font-extrabold text-primary-600 mb-2">100%</div>
+                    <div class="text-sm md:text-base font-semibold text-secondary-500 uppercase tracking-wider">Secure Data</div>
+                </div>
+                <div class="text-center border-l border-secondary-100">
+                    <div class="text-3xl md:text-5xl font-extrabold text-primary-600 mb-2">40%</div>
+                    <div class="text-sm md:text-base font-semibold text-secondary-500 uppercase tracking-wider">Less Paperwork</div>
+                </div>
+                <div class="text-center border-l border-secondary-100">
+                    <div class="text-3xl md:text-5xl font-extrabold text-primary-600 mb-2">0</div>
+                    <div class="text-sm md:text-base font-semibold text-secondary-500 uppercase tracking-wider">Hidden Costs</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Value Proposition -->
+    <section class="py-24 bg-secondary-50 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold text-secondary-900 mb-4 tracking-tight">
+                    Why Choose <span class="text-primary-600">Our Platform?</span>
+                </h2>
+                <p class="text-xl text-secondary-600 max-w-3xl mx-auto">
+                    Built specifically for real school operations, with everything you need in one place.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Point 1 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-secondary-100 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-primary-100 rounded-2xl flex items-center justify-center mb-6 text-primary-600">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/>
+</svg>                    </div>
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">All-in-One Management</h3>
+                    <p class="text-secondary-600 leading-relaxed">
+                        Manage everything from one centralized place. Core school academics, Library, Hostel, and Transport operations are seamlessly integrated.
+                    </p>
+                </div>
+
+                <!-- Point 2 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-secondary-100 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center mb-6 text-green-600">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>
+</svg>                    </div>
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">No Junk Features</h3>
+                    <p class="text-secondary-600 leading-relaxed">
+                        Our software is ready with real school requirement operations. No unnecessary clutter&mdash;just powerful tools that schools actually use daily.
+                    </p>
+                </div>
+
+                <!-- Point 3 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-secondary-100 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center mb-6 text-purple-600">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/>
+</svg>                    </div>
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">Multi-Language CMS</h3>
+                    <p class="text-secondary-600 leading-relaxed">
+                        We provide a built-in Content Management System (CMS) with multi-language support so you can manage your public website easily.
+                    </p>
+                </div>
+
+                <!-- Point 4 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-secondary-100 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center mb-6 text-orange-600">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/>
+</svg>                    </div>
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">Flexible Login Options</h3>
+                    <p class="text-secondary-600 leading-relaxed">
+                        Users can easily log in using their Mobile Number + Password or Email + Password for maximum convenience and security.
+                    </p>
+                </div>
+
+                <!-- Point 5 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-secondary-100 hover:shadow-lg transition-all duration-300 lg:col-span-2">
+                    <div class="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 text-blue-600">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
+</svg>                    </div>
+                    <h3 class="text-xl font-bold text-secondary-900 mb-3">Multi-User Management</h3>
+                    <p class="text-secondary-600 leading-relaxed">
+                        Manage a single user, a single student, or handle multi-user scenarios perfectly&mdash;like a parent managing multiple siblings from one account.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us (Persona Based) Section -->
+    <section class="py-24 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold text-secondary-900 mb-4 tracking-tight">
+                    Designed for <span class="text-primary-600">Every Stakeholder</span>
+                </h2>
+                <p class="text-xl text-secondary-600 max-w-3xl mx-auto">
+                    A unified platform that brings everyone together—from school administration to the living room.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- For Principals -->
+                <div class="relative group h-full flex flex-col">
+                    <div class="absolute inset-0 bg-primary-600 rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300 opacity-5"></div>
+                    <div class="relative bg-white border border-secondary-100 p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col flex-1">
+                        <div class="w-14 h-14 bg-primary-50 rounded-2xl flex items-center justify-center mb-6 text-primary-600">
+                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/>
+</svg>                        </div>
+                        <h3 class="text-2xl font-bold text-secondary-900 mb-4">For School Owners</h3>
+                        <ul class="space-y-3 flex-1">
+                            <li class="flex items-start text-secondary-600">
+                                <svg class="w-5 h-5 text-primary-600 mr-2 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd"/>
+</svg>                                <span>Real-time financial & academic dashboards</span>
+                            </li>
+                            <li class="flex items-start text-secondary-600">
+                                <svg class="w-5 h-5 text-primary-600 mr-2 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd"/>
+</svg>                                <span>Complete multi-school branch management</span>
+                            </li>
+                            <li class="flex items-start text-secondary-600">
+                                <svg class="w-5 h-5 text-primary-600 mr-2 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd"/>
+</svg>                                <span>Data-driven decision making with AI reports</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- For Teachers -->
+                <div class="relative group h-full flex flex-col">
+                    <div class="absolute inset-0 bg-accent-600 rounded-3xl transform -rotate-1 group-hover:-rotate-2 transition-transform duration-300 opacity-5"></div>
+                    <div class="relative bg-white border border-secondary-100 p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col flex-1">
+                        <div class="w-14 h-14 bg-accent-50 rounded-2xl flex items-center justify-center mb-6 text-accent-600">
+                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
+</svg>                        </div>
+                        <h3 class="text-2xl font-bold text-secondary-900 mb-4">For Teachers</h3>
+                        <ul class="space-y-3 flex-1">
+                            <li class="flex items-start text-secondary-600">
+                                <svg class="w-5 h-5 text-accent-600 mr-2 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd"/>
+</svg>                                <span>Automated attendance & mark entry</span>
+                            </li>
+                            <li class="flex items-start text-secondary-600">
+                                <svg class="w-5 h-5 text-accent-600 mr-2 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd"/>
+</svg>                                <span>Digital lesson planning & resource sharing</span>
+                            </li>
+                            <li class="flex items-start text-secondary-600">
+                                <svg class="w-5 h-5 text-accent-600 mr-2 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd"/>
+</svg>                                <span>Direct communication with parents</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- For Parents -->
+                <div class="relative group h-full flex flex-col">
+                    <div class="absolute inset-0 bg-primary-600 rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300 opacity-5"></div>
+                    <div class="relative bg-white border border-secondary-100 p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col flex-1">
+                        <div class="w-14 h-14 bg-primary-50 rounded-2xl flex items-center justify-center mb-6 text-primary-600">
+                            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819"/>
+</svg>                        </div>
+                        <h3 class="text-2xl font-bold text-secondary-900 mb-4">For Parents</h3>
+                        <ul class="space-y-3 flex-1">
+                            <li class="flex items-start text-secondary-600">
+                                <svg class="w-5 h-5 text-primary-600 mr-2 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd"/>
+</svg>                                <span>Mobile app for instant fee payments</span>
+                            </li>
+                            <li class="flex items-start text-secondary-600">
+                                <svg class="w-5 h-5 text-primary-600 mr-2 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd"/>
+</svg>                                <span>Real-time child tracking & attendance</span>
+                            </li>
+                            <li class="flex items-start text-secondary-600">
+                                <svg class="w-5 h-5 text-primary-600 mr-2 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd"/>
+</svg>                                <span>Instant notifications for exams & events</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-24 bg-secondary-900 relative overflow-hidden">
+        <!-- Abstract Background Shapes -->
+        <div class="absolute top-0 left-0 w-64 h-64 bg-primary-600 rounded-full filter blur-3xl opacity-10 -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-accent-600 rounded-full filter blur-3xl opacity-10 translate-x-1/3 translate-y-1/3"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">
+                    Bring Your School Online in <span class="text-primary-500">4 Steps</span>
+                </h2>
+                <p class="text-xl text-secondary-100 max-w-2xl mx-auto">
+                    We've simplified the digital transformation process so you can focus on what matters most—education.
+                </p>
+            </div>
+
+            <div class="relative">
+                <!-- Connecting Line (Desktop) -->
+                <div class="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-secondary-700 to-transparent -translate-y-1/2"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                    <!-- Step 1 -->
+                    <div class="relative group text-center">
+                        <div class="w-20 h-20 bg-secondary-800 border-2 border-secondary-700 rounded-full flex items-center justify-center mx-auto mb-8 relative z-10 group-hover:border-primary-500 transition-colors duration-300">
+                            <span class="text-2xl font-bold text-white">01</span>
+                            <div class="absolute inset-0 bg-primary-600 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 opacity-20"></div>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Request Demo</h3>
+                        <p class="text-secondary-100">Connect with our experts to see how our ERP fits your school's unique workflow.</p>
+                        <div class="mt-4 text-xs font-bold text-primary-500 uppercase tracking-widest">Schedule a personalized demo</div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="relative group text-center">
+                        <div class="w-20 h-20 bg-secondary-800 border-2 border-secondary-700 rounded-full flex items-center justify-center mx-auto mb-8 relative z-10 group-hover:border-primary-500 transition-colors duration-300">
+                            <span class="text-2xl font-bold text-white">02</span>
+                            <div class="absolute inset-0 bg-primary-600 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 opacity-20"></div>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">School Setup</h3>
+                        <p class="text-secondary-100">Your dedicated school portal is ready in just 10 minutes with custom branding.</p>
+                        <div class="mt-4 text-xs font-bold text-primary-500 uppercase tracking-widest">Your dedicated portal is set up</div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="relative group text-center">
+                        <div class="w-20 h-20 bg-secondary-800 border-2 border-secondary-700 rounded-full flex items-center justify-center mx-auto mb-8 relative z-10 group-hover:border-primary-500 transition-colors duration-300">
+                            <span class="text-2xl font-bold text-white">03</span>
+                            <div class="absolute inset-0 bg-primary-600 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300 opacity-20"></div>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Import Data</h3>
+                        <p class="text-secondary-100">Migrate easily. Upload students, teachers, and fee data directly from Excel.</p>
+                        <div class="mt-4 text-xs font-bold text-primary-500 uppercase tracking-widest">Seamless data migration</div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="relative group text-center">
+                        <div class="w-20 h-20 bg-primary-600 border-2 border-primary-500 rounded-full flex items-center justify-center mx-auto mb-8 relative z-10 shadow-lg shadow-primary-900/50">
+                            <span class="text-2xl font-bold text-white">04</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Go Live</h3>
+                        <p class="text-secondary-100">Start managing your school digitally and experience 100% paperless ops.</p>
+                        <div class="mt-4 text-xs font-bold text-primary-500 uppercase tracking-widest">Manage your school digitally</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-20 text-center">
+                <a href="https://demo.sklops.com" target="_blank" class="inline-flex items-center px-8 py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
+                    <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd"/>
+</svg>                    View Live Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-24 bg-white" x-data="{ activeFaq: 1 }">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold text-secondary-900 mb-4 tracking-tight">
+                    Frequently Asked <span class="text-primary-600">Questions</span>
+                </h2>
+                <p class="text-xl text-secondary-600">
+                    Everything you need to know about our school management system.
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ 1 -->
+                <div class="border border-secondary-100 rounded-2xl overflow-hidden transition-all duration-300" 
+                     :class="activeFaq === 1 ? 'shadow-lg border-primary-200' : 'hover:border-secondary-200'">
+                    <button @click="activeFaq = activeFaq === 1 ? null : 1" 
+                            class="w-full flex items-center justify-between p-6 text-left focus:outline-none">
+                        <span class="text-lg font-bold text-secondary-900" :class="activeFaq === 1 ? 'text-primary-600' : ''">
+                            Is our school's data secure and private?
+                        </span>
+                        <svg :class="activeFaq === 1 ? 'rotate-180 text-primary-600' : ''" class="w-5 h-5 text-secondary-400 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+</svg>                    </button>
+                    <div x-show="activeFaq === 1" x-collapse>
+                        <div class="px-6 pb-6 text-secondary-600 leading-relaxed">
+                            Yes, absolutely. We use an <a href="https://sklops.com/features" class="text-primary-600 hover:underline font-semibold">advanced cloud infrastructure</a> which means your school's data is logically isolated from every other school on our platform. Your data is encrypted at rest and in transit, ensuring 100% privacy and security.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="border border-secondary-100 rounded-2xl overflow-hidden transition-all duration-300" 
+                     :class="activeFaq === 2 ? 'shadow-lg border-primary-200' : 'hover:border-secondary-200'">
+                    <button @click="activeFaq = activeFaq === 2 ? null : 2" 
+                            class="w-full flex items-center justify-between p-6 text-left focus:outline-none">
+                        <span class="text-lg font-bold text-secondary-900" :class="activeFaq === 2 ? 'text-primary-600' : ''">
+                            Can we use our own school branding?
+                        </span>
+                        <svg :class="activeFaq === 2 ? 'rotate-180 text-primary-600' : ''" class="w-5 h-5 text-secondary-400 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+</svg>                    </button>
+                    <div x-show="activeFaq === 2" x-collapse>
+                        <div class="px-6 pb-6 text-secondary-600 leading-relaxed">
+                            Yes! Every school gets a custom subdomain (e.g., <code>your-school.erp.com</code>). You can upload your own logo, set your school's primary and secondary colors, and customize the interface to match your institution's identity perfectly. <a href="https://sklops.com/pricing" class="text-primary-600 hover:underline font-semibold">View our pricing plans</a> to see what's included.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="border border-secondary-100 rounded-2xl overflow-hidden transition-all duration-300" 
+                     :class="activeFaq === 3 ? 'shadow-lg border-primary-200' : 'hover:border-secondary-200'">
+                    <button @click="activeFaq = activeFaq === 3 ? null : 3" 
+                            class="w-full flex items-center justify-between p-6 text-left focus:outline-none">
+                        <span class="text-lg font-bold text-secondary-900" :class="activeFaq === 3 ? 'text-primary-600' : ''">
+                            How do we move our existing data into the system?
+                        </span>
+                        <svg :class="activeFaq === 3 ? 'rotate-180 text-primary-600' : ''" class="w-5 h-5 text-secondary-400 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+</svg>                    </button>
+                    <div x-show="activeFaq === 3" x-collapse>
+                        <div class="px-6 pb-6 text-secondary-600 leading-relaxed">
+                            Transitioning is easy. We provide <strong>smart Excel import tools</strong> that allow you to bulk-upload students, teachers, parents, and fee records in minutes. Our support team is also available to assist you with the initial data migration at no extra cost.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="border border-secondary-100 rounded-2xl overflow-hidden transition-all duration-300" 
+                     :class="activeFaq === 4 ? 'shadow-lg border-primary-200' : 'hover:border-secondary-200'">
+                    <button @click="activeFaq = activeFaq === 4 ? null : 4" 
+                            class="w-full flex items-center justify-between p-6 text-left focus:outline-none">
+                        <span class="text-lg font-bold text-secondary-900" :class="activeFaq === 4 ? 'text-primary-600' : ''">
+                            Is there a mobile app for parents and teachers?
+                        </span>
+                        <svg :class="activeFaq === 4 ? 'rotate-180 text-primary-600' : ''" class="w-5 h-5 text-secondary-400 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+</svg>                    </button>
+                    <div x-show="activeFaq === 4" x-collapse>
+                        <div class="px-6 pb-6 text-secondary-600 leading-relaxed">
+                            Our platform is a <strong>Mobile-First Progressive Web App (PWA)</strong>. It works seamlessly on any smartphone, tablet, or desktop browser. Parents can pay fees, check attendance, and receive notifications directly on their mobile devices without needing a separate app store download. <a href="https://sklops.com/features#communication" class="text-primary-600 hover:underline font-semibold">Explore our communication features</a>.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 5 -->
+                <div class="border border-secondary-100 rounded-2xl overflow-hidden transition-all duration-300" 
+                     :class="activeFaq === 5 ? 'shadow-lg border-primary-200' : 'hover:border-secondary-200'">
+                    <button @click="activeFaq = activeFaq === 5 ? null : 5" 
+                            class="w-full flex items-center justify-between p-6 text-left focus:outline-none">
+                        <span class="text-lg font-bold text-secondary-900" :class="activeFaq === 5 ? 'text-primary-600' : ''">
+                            What kind of support do you provide?
+                        </span>
+                        <svg :class="activeFaq === 5 ? 'rotate-180 text-primary-600' : ''" class="w-5 h-5 text-secondary-400 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+</svg>                    </button>
+                    <div x-show="activeFaq === 5" x-collapse>
+                        <div class="px-6 pb-6 text-secondary-600 leading-relaxed">
+                            We pride ourselves on our <strong>human-first support</strong>. Every school gets a dedicated account manager. You can reach us via WhatsApp, Email, or Live Chat 24/7. We also provide regular training sessions for your staff to ensure you get the most out of the system.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <p class="text-secondary-500 mb-4">Still have more questions?</p>
+                <a href="https://sklops.com/contact" class="text-primary-600 font-bold hover:text-primary-700 underline underline-offset-4">
+                    Contact our support team
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Overview Section -->
+    <section class="py-24 bg-secondary-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+                    Everything You Need to Run Your School
+                </h2>
+                <p class="text-xl text-secondary-600 max-w-3xl mx-auto">
+                    From student management to financial operations, our comprehensive platform covers all aspects of school
+                    administration.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                <div class="bg-white rounded-3xl overflow-hidden card-hover border border-secondary-100 hover:border-primary-200 shadow-sm flex flex-col">
+                    <div class="h-64 bg-secondary-100 relative group overflow-hidden">
+                        <a href="https://sklops.com/blog/library-management">
+                            <img src="https://sklops.com/images/marketing/library_marketing_1779604161421.png" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" alt="Complete Library Management">
+                        </a>
+                    </div>
+                    <div class="p-8 flex-1">
+                        <h3 class="text-xl font-semibold text-secondary-900 mb-3">
+                            <a href="https://sklops.com/blog/library-management" class="hover:text-primary-600 transition-colors">
+                                Complete Library Management
+                            </a>
+                        </h3>
+                        <p class="text-secondary-600">Automate your school library. Track books, manage issues and returns, and auto-calculate late fees seamlessly.</p>
+                    </div>
+                    <div class="px-8 pb-6">
+                        <a href="https://sklops.com/blog/library-management" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors">
+                            Learn More <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+                                <div class="bg-white rounded-3xl overflow-hidden card-hover border border-secondary-100 hover:border-primary-200 shadow-sm flex flex-col">
+                    <div class="h-64 bg-secondary-100 relative group overflow-hidden">
+                        <a href="https://sklops.com/blog/content-management-system">
+                            <img src="https://sklops.com/images/marketing/cms_marketing_1779604177762.png" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" alt="Powerful School CMS">
+                        </a>
+                    </div>
+                    <div class="p-8 flex-1">
+                        <h3 class="text-xl font-semibold text-secondary-900 mb-3">
+                            <a href="https://sklops.com/blog/content-management-system" class="hover:text-primary-600 transition-colors">
+                                Powerful School CMS
+                            </a>
+                        </h3>
+                        <p class="text-secondary-600">Take control of your school&#039;s online presence with our powerful Content Management System. Update news, galleries, and pages effortlessly.</p>
+                    </div>
+                    <div class="px-8 pb-6">
+                        <a href="https://sklops.com/blog/content-management-system" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors">
+                            Learn More <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+                                <div class="bg-white rounded-3xl overflow-hidden card-hover border border-secondary-100 hover:border-primary-200 shadow-sm flex flex-col">
+                    <div class="h-64 bg-secondary-100 relative group overflow-hidden">
+                        <a href="https://sklops.com/blog/admin-dashboard-features">
+                            <img src="https://sklops.com/images/marketing/dashboard_marketing_1779604195117.png" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" alt="Data-Driven Admin Dashboard">
+                        </a>
+                    </div>
+                    <div class="p-8 flex-1">
+                        <h3 class="text-xl font-semibold text-secondary-900 mb-3">
+                            <a href="https://sklops.com/blog/admin-dashboard-features" class="hover:text-primary-600 transition-colors">
+                                Data-Driven Admin Dashboard
+                            </a>
+                        </h3>
+                        <p class="text-secondary-600">Get real-time insights with a comprehensive admin dashboard. Monitor attendance, fee collections, and academic performance at a glance.</p>
+                    </div>
+                    <div class="px-8 pb-6">
+                        <a href="https://sklops.com/blog/admin-dashboard-features" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors">
+                            Learn More <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+                                <div class="bg-white rounded-3xl overflow-hidden card-hover border border-secondary-100 hover:border-primary-200 shadow-sm flex flex-col">
+                    <div class="h-64 bg-secondary-100 relative group overflow-hidden">
+                        <a href="https://sklops.com/blog/hostel-management">
+                            <img src="https://sklops.com/images/marketing/hostels_marketing_1779604211360.png" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" alt="Hostel &amp; Dormitory Administration">
+                        </a>
+                    </div>
+                    <div class="p-8 flex-1">
+                        <h3 class="text-xl font-semibold text-secondary-900 mb-3">
+                            <a href="https://sklops.com/blog/hostel-management" class="hover:text-primary-600 transition-colors">
+                                Hostel &amp; Dormitory Administration
+                            </a>
+                        </h3>
+                        <p class="text-secondary-600">Efficiently manage hostel rooms, bed allocations, wardens, and mess fees with our dedicated Hostel Management module.</p>
+                    </div>
+                    <div class="px-8 pb-6">
+                        <a href="https://sklops.com/blog/hostel-management" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors">
+                            Learn More <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+                                <div class="bg-white rounded-3xl overflow-hidden card-hover border border-secondary-100 hover:border-primary-200 shadow-sm flex flex-col">
+                    <div class="h-64 bg-secondary-100 relative group overflow-hidden">
+                        <a href="https://sklops.com/blog/transport-routes">
+                            <img src="https://sklops.com/images/marketing/routes_marketing_1779604229711.png" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" alt="Optimized Transport &amp; Routes">
+                        </a>
+                    </div>
+                    <div class="p-8 flex-1">
+                        <h3 class="text-xl font-semibold text-secondary-900 mb-3">
+                            <a href="https://sklops.com/blog/transport-routes" class="hover:text-primary-600 transition-colors">
+                                Optimized Transport &amp; Routes
+                            </a>
+                        </h3>
+                        <p class="text-secondary-600">Ensure student safety with advanced transport management. Map routes, track vehicles, and automate transport fee billing.</p>
+                    </div>
+                    <div class="px-8 pb-6">
+                        <a href="https://sklops.com/blog/transport-routes" class="inline-flex items-center text-primary-600 font-medium hover:text-primary-700 transition-colors">
+                            Learn More <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+                            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-bg">
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                Ready to Digitize Your Campus?
+            </h2>
+            <p class="text-xl text-primary-100 mb-8">
+                Join hundreds of schools already using our platform to streamline their operations and enhance learning
+                outcomes.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="https://demo.sklops.com" target="_blank"
+                    class="bg-gradient-to-r from-accent-400 to-accent-500 text-white border border-accent-400 px-8 py-4 rounded-xl text-lg font-bold hover:from-accent-500 hover:to-accent-600 transition-colors shadow-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+  <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd"/>
+</svg>                    View Live Demo
+                </a>
+                <a href="https://sklops.com/register"
+                    class="bg-white text-primary-600 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-50 transition-colors shadow-lg">
+                    Get Started Today
+                </a>
+            </div>
+        </div>
+    </section>
+    

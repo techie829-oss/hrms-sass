@@ -1,5 +1,6 @@
 @php
     use App\Core\Constants\RoleConstants;
+    use App\Core\Constants\PermissionConstants;
     $dashboardRoute = 'dashboard';
     if (saas_tenant()) {
         $dashboardRoute = 'tenant.dashboard';
@@ -45,15 +46,18 @@
                 $hasOperations = $moduleManager->tenantHasAccess('operations', $tenantId);
             @endphp
 
-            @if($hasHr && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
+            @if($hasHr && (Auth::user()->can(PermissionConstants::VIEW_EMPLOYEES) || Auth::user()->can(PermissionConstants::VIEW_DEPARTMENTS)))
                 <div class="pt-6 pb-2">
                     <p class="px-4 text-[10px] font-black tracking-widest text-white/40 uppercase">Workforce</p>
                 </div>
+                @can(PermissionConstants::VIEW_EMPLOYEES)
                 <a href="{{ route('hr.employees.index') }}"
                     class="flex items-center px-4 py-3 {{ request()->routeIs('hr.employees.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                     <span class="material-symbols-outlined text-[20px] mr-3">badge</span>
                     {{ __('Employees') }}
                 </a>
+                @endcan
+                @can(PermissionConstants::VIEW_DEPARTMENTS)
                 <a href="{{ route('hr.departments.index') }}"
                     class="flex items-center px-4 py-3 {{ request()->routeIs('hr.departments.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                     <span class="material-symbols-outlined text-[20px] mr-3">hub</span>
@@ -64,27 +68,28 @@
                     <span class="material-symbols-outlined text-[20px] mr-3">work</span>
                     {{ __('Designations') }}
                 </a>
+                @endcan
             @endif
 
-            @if(($hasAttendance || $hasLeave || $hasPayroll || $hasOperations) && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
+            @if(($hasAttendance && Auth::user()->can(PermissionConstants::VIEW_ATTENDANCE)) || ($hasLeave && Auth::user()->can(PermissionConstants::APPROVE_LEAVE)) || ($hasPayroll && Auth::user()->can(PermissionConstants::VIEW_PAYROLL)) || ($hasOperations && (Auth::user()->can(PermissionConstants::VIEW_LEADS) || Auth::user()->can(PermissionConstants::VIEW_PROJECTS) || Auth::user()->can(PermissionConstants::VIEW_TASKS) || Auth::user()->can(PermissionConstants::VIEW_TIMESHEET))))
                 <div class="pt-6 pb-2">
                     <p class="px-4 text-[10px] font-black tracking-widest text-white/40 uppercase">Operations</p>
                 </div>
-                @if($hasAttendance)
+                @if($hasAttendance && Auth::user()->can(PermissionConstants::VIEW_ATTENDANCE))
                 <a href="{{ route('attendance.index') }}"
-                    class="flex items-center px-4 py-3 {{ request()->routeIs('attendance.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
+                    class="flex items-center px-4 py-3 {{ request()->routeIs('attendance.*') && !request()->routeIs('attendance.kiosk') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                     <span class="material-symbols-outlined text-[20px] mr-3">event_available</span>
                     {{ __('Attendance') }}
                 </a>
                 @endif
-                @if($hasLeave)
+                @if($hasLeave && Auth::user()->can(PermissionConstants::APPROVE_LEAVE))
                 <a href="{{ route('leave.requests.index') }}"
                     class="flex items-center px-4 py-3 {{ request()->routeIs('leave.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                     <span class="material-symbols-outlined text-[20px] mr-3">event_busy</span>
                     {{ __('Leaves') }}
                 </a>
                 @endif
-                @if($hasPayroll)
+                @if($hasPayroll && Auth::user()->can(PermissionConstants::VIEW_PAYROLL))
                 <a href="{{ route('payroll.index') }}"
                     class="flex items-center px-4 py-3 {{ request()->routeIs('payroll.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                     <span class="material-symbols-outlined text-[20px] mr-3">payments</span>
@@ -92,28 +97,28 @@
                 </a>
                 @endif
                 @if($hasOperations)
-                @can('view_leads')
+                @can(PermissionConstants::VIEW_LEADS)
                 <a href="{{ route('operations.leads.index') }}"
                     class="flex items-center px-4 py-3 {{ request()->routeIs('operations.leads.*', 'operations.contacts.*', 'operations.clients.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                     <span class="material-symbols-outlined text-[20px] mr-3">business_center</span>
                     {{ __('Leads & Clients') }}
                 </a>
                 @endcan
-                @can('view_projects')
+                @can(PermissionConstants::VIEW_PROJECTS)
                 <a href="{{ route('operations.projects.index') }}"
                     class="flex items-center px-4 py-3 {{ request()->routeIs('operations.projects.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                     <span class="material-symbols-outlined text-[20px] mr-3">topic</span>
                     {{ __('Projects') }}
                 </a>
                 @endcan
-                @can('view_tasks')
+                @can(PermissionConstants::VIEW_TASKS)
                 <a href="{{ route('operations.tasks.index') }}"
                     class="flex items-center px-4 py-3 {{ request()->routeIs('operations.tasks.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                     <span class="material-symbols-outlined text-[20px] mr-3">assignment</span>
                     {{ __('Tasks') }}
                 </a>
                 @endcan
-                @can('view_timesheet')
+                @can(PermissionConstants::VIEW_TIMESHEET)
                 <a href="{{ route('operations.timesheets.index') }}"
                     class="flex items-center px-4 py-3 {{ request()->routeIs('operations.timesheets.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                     <span class="material-symbols-outlined text-[20px] mr-3">work_history</span>
@@ -123,18 +128,18 @@
                 @endif
             @endif
 
-            @if(($hasPerformance || $hasRecruitment) && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
+            @if(($hasPerformance && Auth::user()->can(PermissionConstants::VIEW_PERFORMANCE)) || ($hasRecruitment && Auth::user()->can(PermissionConstants::VIEW_RECRUITMENT)))
                 <div class="pt-6 pb-2">
                     <p class="px-4 text-[10px] font-black tracking-widest text-white/40 uppercase">Growth</p>
                 </div>
-                @if($hasPerformance)
+                @if($hasPerformance && Auth::user()->can(PermissionConstants::VIEW_PERFORMANCE))
                 <a href="{{ route('performance.dashboard') }}"
                     class="flex items-center px-4 py-3 {{ request()->routeIs('performance.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                     <span class="material-symbols-outlined text-[20px] mr-3">speed</span>
                     {{ __('Performance') }}
                 </a>
                 @endif
-                @if($hasRecruitment)
+                @if($hasRecruitment && Auth::user()->can(PermissionConstants::VIEW_RECRUITMENT))
                 <a href="{{ route('recruitment.dashboard') }}"
                     class="flex items-center px-4 py-3 {{ request()->routeIs('recruitment.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                     <span class="material-symbols-outlined text-[20px] mr-3">how_to_reg</span>
@@ -143,7 +148,7 @@
                 @endif
             @endif
 
-            @if($hasReports && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
+            @if($hasReports && Auth::user()->can(PermissionConstants::VIEW_REPORTS))
                 <div class="pt-6 pb-2">
                     <p class="px-4 text-[10px] font-black tracking-widest text-white/40 uppercase">Analytics</p>
                 </div>
@@ -155,19 +160,32 @@
             @endif
 
             <!-- Self Service (My Space) For Everyone -->
+            @if(($hasAttendance && Auth::user()->can(PermissionConstants::VIEW_OWN_ATTENDANCE)) || ($hasLeave && Auth::user()->can(PermissionConstants::VIEW_OWN_LEAVE)) || ($hasOperations && Auth::user()->can(PermissionConstants::VIEW_OWN_TIMESHEET) && !Auth::user()->can(PermissionConstants::VIEW_TIMESHEET)))
             <div class="pt-6 pb-2">
                 <p class="px-4 text-[10px] font-black tracking-widest text-white/40 uppercase">Self Service</p>
             </div>
+            @if($hasAttendance && Auth::user()->can(PermissionConstants::VIEW_OWN_ATTENDANCE))
             <a href="{{ route('attendance.kiosk') }}"
                 class="flex items-center px-4 py-3 {{ request()->routeIs('attendance.kiosk') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                 <span class="material-symbols-outlined text-[20px] mr-3">timer</span>
                 {{ __('My Attendance') }}
             </a>
+            @endif
+            @if($hasLeave && Auth::user()->can(PermissionConstants::VIEW_OWN_LEAVE))
             <a href="{{ route('leave.requests.index') }}"
-                class="flex items-center px-4 py-3 {{ request()->routeIs('leave.requests.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
+                class="flex items-center px-4 py-3 {{ request()->routeIs('leave.requests.*') && !Auth::user()->can(PermissionConstants::APPROVE_LEAVE) ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                 <span class="material-symbols-outlined text-[20px] mr-3">event_busy</span>
                 {{ __('My Leaves') }}
             </a>
+            @endif
+            @if($hasOperations && Auth::user()->can(PermissionConstants::VIEW_OWN_TIMESHEET) && !Auth::user()->can(PermissionConstants::VIEW_TIMESHEET))
+            <a href="{{ route('operations.timesheets.index') }}"
+                class="flex items-center px-4 py-3 {{ request()->routeIs('operations.timesheets.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
+                <span class="material-symbols-outlined text-[20px] mr-3">work_history</span>
+                {{ __('My Timesheets') }}
+            </a>
+            @endif
+            @endif
         @endif
 
         @if(!saas_tenant() && Auth::user()->hasRole(RoleConstants::SADMIN))

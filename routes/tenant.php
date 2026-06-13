@@ -59,7 +59,7 @@ Route::middleware([
             require app_path('Modules/Reports/routes.php');
         });
 
-        Route::middleware(['module.access:operations', 'role:tadmin|tmanager'])->prefix('operations')->name('operations.')->group(function () {
+        Route::middleware(['module.access:operations'])->prefix('operations')->name('operations.')->group(function () {
             require app_path('Modules/Operations/routes.php');
         });
 

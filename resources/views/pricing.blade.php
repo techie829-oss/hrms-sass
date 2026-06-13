@@ -1,4 +1,4 @@
-@extends('layouts.landing')
+@extends('layouts.marketing')
 
 @section('title', 'Pricing | HRMS Solutions')
 

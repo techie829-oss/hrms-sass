@@ -121,7 +121,7 @@
             <div class="pt-12 border-t border-outline-variant/15 flex flex-col md:flex-row justify-between items-center gap-6">
                 <p class="text-[11px] font-medium text-outline">© {{ date('Y') }} {{ config('app.name', 'HRMS Solutions') }}. All rights reserved.</p>
                 <div class="flex gap-8">
-                    <span class="text-[11px] font-bold text-primary uppercase tracking-widest">Kinetic Horizon v2.0</span>
+                    <span class="text-[11px] font-bold text-primary uppercase tracking-widest">Solidrix v2.0</span>
                 </div>
             </div>
         </div>
