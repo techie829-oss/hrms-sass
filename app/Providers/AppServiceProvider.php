@@ -90,7 +90,7 @@ class AppServiceProvider extends ServiceProvider
             $user->hasRole(RoleConstants::SADMIN)
         );
 
-        Gate::define('view_saas-analytics', fn($user) =>
+        Gate::define('view_saas_analytics', fn($user) =>
             $user->hasAnyRole([RoleConstants::SADMIN, RoleConstants::SMANAGER])
         );
 
@@ -100,7 +100,7 @@ class AppServiceProvider extends ServiceProvider
         );
 
         Gate::define('manage_payroll', fn($user) =>
-            $user->hasAnyPermission(['generate_payroll', 'view_payroll'])
+            $user->hasAnyPermission(['manage_payroll', 'view_payroll'])
         );
 
         Gate::define('manage_leave', fn($user) =>

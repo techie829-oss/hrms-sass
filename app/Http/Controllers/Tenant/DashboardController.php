@@ -31,7 +31,7 @@ class DashboardController extends Controller
         // Granular Permissions (Now automatically true for Admins via Gate::before)
         $canViewEmployees = $user->can('view_employees');
         $canViewAttendance = $user->can('view_attendance');
-        $canViewLeave = $user->can('view_leave');
+        $canViewLeave = $user->can('manage_leave') || $user->can('view_own_leave');
         $canViewPayroll = $user->can('view_payroll');
         $canApproveLeave = $user->can('approve_leave');
         
@@ -170,7 +170,7 @@ class DashboardController extends Controller
                         'is_completed' => false
                     ]);
                 }
-            } else if ($user->employee && $user->can('view_own-leave')) {
+            } else if ($user->employee && $user->can('view_own_leave')) {
                 // Staff view: Their own pending requests
                 $data['pendingLeaves'] = LeaveRequest::where('employee_id', $user->employee->id)->where('status', 'pending')->count();
             }
