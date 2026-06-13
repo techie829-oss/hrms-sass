@@ -144,7 +144,7 @@
                                 </div>
                                 <div class="text-[11px] font-bold opacity-70 mt-1">
                                     <span class="material-symbols-outlined text-[12px] align-middle opacity-50 mr-1">call</span>
-                                    {{ $employee->phone ? ($employee->country_code . ' ' . $employee->phone) : 'No phone' }}
+                                    {{ $employee->phone ? (str_starts_with($employee->phone, '+') ? $employee->phone : ($employee->country_code . ' ' . $employee->phone)) : 'No phone' }}
                                 </div>
                             </td>
                             <td>
