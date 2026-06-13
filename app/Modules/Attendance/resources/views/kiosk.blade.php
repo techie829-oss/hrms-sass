@@ -367,7 +367,7 @@
                     if (!this.requirePhoto || !this.isSecureContext) return;
                     try {
                         this.stream = await navigator.mediaDevices.getUserMedia({
-                            video: { width: 480, height: 480, facingMode: 'user' },
+                            video: { facingMode: 'user', width: { ideal: 480 }, height: { ideal: 480 } },
                             audio: false
                         });
                         this.$refs.cameraVideo.srcObject = this.stream;
