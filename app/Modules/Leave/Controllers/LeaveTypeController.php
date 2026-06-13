@@ -10,14 +10,14 @@ class LeaveTypeController extends BaseController
 {
     public function index()
     {
-        \Illuminate\Support\Facades\Gate::authorize('manage-settings');
+        \Illuminate\Support\Facades\Gate::authorize('manage_settings');
         $leaveTypes = LeaveType::all();
         return view('leave::types.index', compact('leaveTypes'));
     }
 
     public function store(Request $request)
     {
-        \Illuminate\Support\Facades\Gate::authorize('manage-settings');
+        \Illuminate\Support\Facades\Gate::authorize('manage_settings');
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'code' => ['required', 'string', 'max:10'],

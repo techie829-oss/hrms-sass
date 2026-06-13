@@ -29,11 +29,11 @@ class DashboardController extends Controller
         $user = auth()->user();
         
         // Granular Permissions (Now automatically true for Admins via Gate::before)
-        $canViewEmployees = $user->can('view-employees');
-        $canViewAttendance = $user->can('view-attendance');
-        $canViewLeave = $user->can('view-leave');
-        $canViewPayroll = $user->can('view-payroll');
-        $canApproveLeave = $user->can('approve-leave');
+        $canViewEmployees = $user->can('view_employees');
+        $canViewAttendance = $user->can('view_attendance');
+        $canViewLeave = $user->can('view_leave');
+        $canViewPayroll = $user->can('view_payroll');
+        $canApproveLeave = $user->can('approve_leave');
         
         $recentActivities = ($canViewEmployees || $canViewAttendance || $canViewLeave) 
             ? $this->activityService->getRecentActivities(5) 
@@ -170,7 +170,7 @@ class DashboardController extends Controller
                         'is_completed' => false
                     ]);
                 }
-            } else if ($user->employee && $user->can('view-own-leave')) {
+            } else if ($user->employee && $user->can('view_own-leave')) {
                 // Staff view: Their own pending requests
                 $data['pendingLeaves'] = LeaveRequest::where('employee_id', $user->employee->id)->where('status', 'pending')->count();
             }

@@ -47,8 +47,18 @@ class SetupTenantBlueprint
 
         $staffPermissions = [
             'view_dashboard',
-            'view_attendance',
-            'view_timesheet',
+            'view_own_attendance',
+            'view_own_leave',
+            'create_leave',
+            'cancel_leave',
+            'view_holidays',
+            'view_own_comp_off',
+            'create_comp_off',
+            'view_own_payroll',
+            'view_own_timesheet',
+            'manage_timesheet',
+            'view_own_performance',
+            'view_tasks',
         ];
 
         $allPermissions = array_unique(array_merge($managerPermissions, $staffPermissions));

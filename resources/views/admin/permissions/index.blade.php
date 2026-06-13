@@ -17,14 +17,14 @@
             <div class="card bg-white border border-slate-200 rounded-xl shadow-sm p-6 space-y-6">
                 <div>
                     <h3 class="text-lg font-bold text-slate-900 mb-1">New Permission</h3>
-                    <p class="text-xs text-slate-500 font-medium">Add a new access key. Use lower case and hyphens for words (e.g., <code class="bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-mono text-[10px]">view-timesheet</code>).</p>
+                    <p class="text-xs text-slate-500 font-medium">Add a new access key. Use lower case and hyphens for words (e.g., <code class="bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-mono text-[10px]">view_timesheet</code>).</p>
                 </div>
                 
                 <form action="{{ route('admin.permissions.store') }}" method="POST" class="space-y-5">
                     @csrf
                     <div class="space-y-2">
                         <x-input-label for="name" :value="__('Permission Name')" class="text-slate-700 font-semibold" />
-                        <x-text-input id="name" name="name" type="text" class="block w-full border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required placeholder="view-timesheet" />
+                        <x-text-input id="name" name="name" type="text" class="block w-full border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required placeholder="view_timesheet" />
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
 

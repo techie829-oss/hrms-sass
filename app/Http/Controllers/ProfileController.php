@@ -111,9 +111,9 @@ class ProfileController extends Controller
         $currentUser = $request->user();
         
         // Only allow admins or the employee themselves to update their profile
-        if (!$currentUser->can('manage-employees')) {
+        if (!$currentUser->can('manage_employees')) {
             // Logic for self-update or check if they are trying to update someone else
-            // For now, if they don't have manage-employees, we check if the request is for themselves
+            // For now, if they don't have manage_employees, we check if the request is for themselves
             if ($request->employee_id && $currentUser->employee?->id != $request->employee_id) {
                 abort(403, 'Unauthorized action.');
             }

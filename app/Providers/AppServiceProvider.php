@@ -90,33 +90,33 @@ class AppServiceProvider extends ServiceProvider
             $user->hasRole(RoleConstants::SADMIN)
         );
 
-        Gate::define('view-saas-analytics', fn($user) =>
+        Gate::define('view_saas-analytics', fn($user) =>
             $user->hasAnyRole([RoleConstants::SADMIN, RoleConstants::SMANAGER])
         );
 
         // ── Tenant-level Gates ────────────────────────────────────────────
-        Gate::define('manage-employees', fn($user) =>
-            $user->hasPermissionTo('view-employees')
+        Gate::define('manage_employees', fn($user) =>
+            $user->hasPermissionTo('view_employees')
         );
 
-        Gate::define('manage-payroll', fn($user) =>
-            $user->hasAnyPermission(['generate-payroll', 'view-payroll'])
+        Gate::define('manage_payroll', fn($user) =>
+            $user->hasAnyPermission(['generate_payroll', 'view_payroll'])
         );
 
-        Gate::define('manage-leave', fn($user) =>
-            $user->hasAnyPermission(['approve-leave', 'create-leave'])
+        Gate::define('manage_leave', fn($user) =>
+            $user->hasAnyPermission(['approve_leave', 'create_leave'])
         );
 
-        Gate::define('view-reports', fn($user) =>
-            $user->hasPermissionTo('view-reports')
+        Gate::define('view_reports', fn($user) =>
+            $user->hasPermissionTo('view_reports')
         );
 
-        Gate::define('manage-settings', fn($user) =>
+        Gate::define('manage_settings', fn($user) =>
             $user->hasRole(RoleConstants::TADMIN)
         );
 
-        Gate::define('manage-recruitment', fn($user) =>
-            $user->hasPermissionTo('manage-recruitment')
+        Gate::define('manage_recruitment', fn($user) =>
+            $user->hasPermissionTo('manage_recruitment')
         );
 
         // Staff can access the tenant space

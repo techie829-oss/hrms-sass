@@ -91,7 +91,7 @@
             @endif
 
             <!-- Pending Leaves -->
-            @if($hasLeave && ($canApproveLeave || auth()->user()->can('view-own-leave')))
+            @if($hasLeave && ($canApproveLeave || auth()->user()->can('view_own-leave')))
             <div class="group relative overflow-hidden rounded-2xl bg-white p-5 shadow-sm border border-gray-100 hover:border-amber-200 hover:shadow-md transition-all duration-300">
                 <div class="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-gradient-to-br from-amber-50 to-amber-100/50 transition-transform duration-500 group-hover:scale-150"></div>
                 <div class="relative flex items-center justify-between">
@@ -488,7 +488,7 @@
                 <div class="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
                     <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-3">
                         <h4 class="text-[11px] font-bold uppercase tracking-wider text-gray-500">Pending Tasks</h4>
-                        @if($hasLeave && ($canApproveLeave || auth()->user()->can('view-own-leave')))
+                        @if($hasLeave && ($canApproveLeave || auth()->user()->can('view_own-leave')))
                         <a href="{{ route('leave.requests.index') }}" class="text-[10px] font-semibold text-primary-600 hover:text-primary-700 bg-primary-50 px-2 py-1 rounded-md transition-colors">View All</a>
                         @endif
                     </div>

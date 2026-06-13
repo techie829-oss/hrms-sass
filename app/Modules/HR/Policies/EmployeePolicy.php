@@ -31,7 +31,7 @@ class EmployeePolicy
 
     /**
      * View a specific employee record.
-     * Allows if user has 'view-employees' permission OR is viewing their own record.
+     * Allows if user has 'view_employees' permission OR is viewing their own record.
      */
     public function view(User $user, Employee $employee): bool
     {

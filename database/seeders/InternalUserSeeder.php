@@ -23,15 +23,15 @@ class InternalUserSeeder extends Seeder
 
         // 1. Create Foundational Permissions
         $permissions = [
-            'view-dashboard',
-            'view-employees',
-            'manage-attendance',
-            'approve-leave',
-            'view-reports',
-            'manage-projects',
-            'manage-payroll',
-            'manage-performance',
-            'manage-recruitment',
+            'view_dashboard',
+            'view_employees',
+            'manage_attendance',
+            'approve_leave',
+            'view_reports',
+            'manage_projects',
+            'manage_payroll',
+            'manage_performance',
+            'manage_recruitment',
         ];
 
         foreach ($permissions as $name) {

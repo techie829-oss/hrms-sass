@@ -30,7 +30,7 @@ class LeavePolicy
             return false;
         }
 
-        // Staff can only view their own if they have view-own-leave
+        // Staff can only view their own if they have view_own-leave
         if ($user->hasPermissionTo(PermissionConstants::VIEW_OWN_LEAVE) && !$user->hasPermissionTo(PermissionConstants::APPROVE_LEAVE)) {
             return $user->employee?->id === $leaveRequest->employee_id;
         }
