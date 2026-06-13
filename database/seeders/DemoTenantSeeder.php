@@ -406,19 +406,19 @@ class DemoTenantSeeder extends Seeder
     {
         $this->command->info('💰 Salary Components...');
         $components = [
-            // name, code, type, calc_type, default_amount, pct_of, pct_base, taxable, mandatory
-            ['Basic Salary',          'BASIC', 'earning',   'fixed',      0,    null,    null,    true,  true],
-            ['House Rent Allowance',  'HRA',   'earning',   'percentage', 0,    'BASIC', 40,      true,  true],
-            ['Special Allowance',     'SA',    'earning',   'fixed',      5000, null,    null,    true,  false],
-            ['Transport Allowance',   'TA',    'earning',   'fixed',      2000, null,    null,    false, false],
-            ['Medical Allowance',     'MA',    'earning',   'fixed',      1250, null,    null,    false, false],
-            ['Performance Bonus',     'PB',    'earning',   'fixed',      0,    null,    null,    true,  false],
-            ['Provident Fund (EE)',   'PF',    'deduction', 'percentage', 0,    'BASIC', 12,      false, true],
-            ['Professional Tax',      'PT',    'deduction', 'fixed',      200,  null,    null,    false, true],
-            ['Income Tax (TDS)',       'TDS',   'deduction', 'fixed',      0,    null,    null,    false, false],
-            ['ESI (Employee)',        'ESI',   'deduction', 'percentage', 0,    'BASIC', 0.75,    false, false],
+            // name, code, type, calc_type, default_amount, pct_base, taxable, mandatory, order
+            ['Basic Salary',          'BASIC', 'earning',   'fixed',      0,    null, true,  true,  1],
+            ['House Rent Allowance',  'HRA',   'earning',   'percentage', 0,    40,   true,  true,  2],
+            ['Special Allowance',     'SA',    'earning',   'fixed',      5000, null, true,  false, 3],
+            ['Transport Allowance',   'TA',    'earning',   'fixed',      2000, null, false, false, 4],
+            ['Medical Allowance',     'MA',    'earning',   'fixed',      1250, null, false, false, 5],
+            ['Performance Bonus',     'PB',    'earning',   'fixed',      0,    null, true,  false, 6],
+            ['Provident Fund (EE)',   'PF',    'deduction', 'percentage', 0,    12,   false, true,  7],
+            ['Professional Tax',      'PT',    'deduction', 'fixed',      200,  null, false, true,  8],
+            ['Income Tax (TDS)',       'TDS',   'deduction', 'fixed',      0,    null, false, false, 9],
+            ['ESI (Employee)',        'ESI',   'deduction', 'percentage', 0,    0.75, false, false, 10],
         ];
-        foreach ($components as [$name, $code, $type, $calcType, $amount, $pctOf, $pctBase, $taxable, $mandatory]) {
+        foreach ($components as [$name, $code, $type, $calcType, $amount, $pctBase, $taxable, $mandatory, $order]) {
             DB::table('shared.salary_components')->insertOrIgnore([
                 'tenant_id'        => $this->tenant->id,
                 'name'             => $name,
@@ -426,12 +426,12 @@ class DemoTenantSeeder extends Seeder
                 'type'             => $type,
                 'calculation_type' => $calcType,
                 'default_amount'   => $amount,
-                'percentage_of'    => $pctOf,
+                'percentage_of'    => null,
                 'percentage_base'  => $pctBase,
                 'is_taxable'       => $taxable,
                 'is_mandatory'     => $mandatory,
                 'is_active'        => true,
-                'display_order'    => array_search([$name, $code, $type, $calcType, $amount, $pctOf, $pctBase, $taxable, $mandatory], $components),
+                'display_order'    => $order,
                 'created_at'       => now(),
                 'updated_at'       => now(),
             ]);
