@@ -87,13 +87,19 @@
 
                             <template x-if="isSecureContext">
                                 <div>
-                                    <div x-show="!cameraReady && !cameraError" class="absolute inset-0 flex items-center justify-center bg-black/80">
+                                    <div x-show="!requirePhoto" class="absolute inset-0 flex items-center justify-center bg-black/80">
+                                        <div class="text-center">
+                                            <span class="material-symbols-outlined text-3xl text-white/40">no_photography</span>
+                                            <p class="text-[8px] font-bold text-white/40 uppercase mt-1">Photo Not Required</p>
+                                        </div>
+                                    </div>
+                                    <div x-show="requirePhoto && !cameraReady && !cameraError" class="absolute inset-0 flex items-center justify-center bg-black/80">
                                         <div class="text-center">
                                             <span class="material-symbols-outlined text-3xl text-white/40 animate-pulse">videocam</span>
                                             <p id="camera-status-text" class="text-[8px] font-bold text-white/40 uppercase mt-1">Starting Camera...</p>
                                         </div>
                                     </div>
-                                    <div x-show="cameraError" class="absolute inset-0 flex items-center justify-center bg-black/80">
+                                    <div x-show="requirePhoto && cameraError" class="absolute inset-0 flex items-center justify-center bg-black/80">
                                         <div class="text-center px-4">
                                             <span class="material-symbols-outlined text-3xl text-error/60">videocam_off</span>
                                             <p class="text-[8px] font-bold text-error/60 uppercase mt-1">Camera Unavailable</p>
@@ -105,8 +111,8 @@
                             <div x-ref="flashOverlay" class="absolute inset-0 bg-white pointer-events-none" style="opacity:0; transition: opacity 0.15s;"></div>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <div class="w-2 h-2 rounded-full" :class="!isSecureContext ? 'bg-warning' : (cameraReady ? 'bg-success animate-pulse' : (cameraError ? 'bg-error' : 'bg-warning animate-pulse'))"></div>
-                            <span class="text-[8px] font-black uppercase tracking-widest opacity-50" x-text="!isSecureContext ? 'HTTP Mode' : (cameraReady ? 'Camera Live' : (cameraError ? 'Camera Off' : 'Connecting...'))"></span>
+                            <div class="w-2 h-2 rounded-full" :class="!isSecureContext ? 'bg-warning' : (!requirePhoto ? 'bg-slate-400' : (cameraReady ? 'bg-success animate-pulse' : (cameraError ? 'bg-error' : 'bg-warning animate-pulse')))"></div>
+                            <span class="text-[8px] font-black uppercase tracking-widest opacity-50" x-text="!isSecureContext ? 'HTTP Mode' : (!requirePhoto ? 'Camera Disabled' : (cameraReady ? 'Camera Live' : (cameraError ? 'Camera Off' : 'Connecting...')))"></span>
                         </div>
                     </div>
 
