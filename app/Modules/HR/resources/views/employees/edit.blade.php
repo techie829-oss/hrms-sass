@@ -284,7 +284,7 @@
                         @php
                             $userPermissions = $employee->user->permissions->pluck('name')->toArray();
                             $groupedPermissions = $permissions->groupBy(function($permission) {
-                                $parts = explode(' ', $permission->name);
+                                $parts = explode('_', $permission->name);
                                 return $parts[1] ?? 'general';
                             });
                         @endphp
@@ -342,7 +342,7 @@
 
                             @php
                                 $groupedPermissions = $permissions->groupBy(function($permission) {
-                                    $parts = explode(' ', $permission->name);
+                                    $parts = explode('_', $permission->name);
                                     return $parts[1] ?? 'general';
                                 });
                             @endphp
