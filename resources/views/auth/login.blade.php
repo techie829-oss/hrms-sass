@@ -13,6 +13,36 @@
         <p class="text-slate-500 mt-2 text-sm">Sign in to your account to continue.</p>
     </div>
 
+    {{-- Demo Tenant Quick Login --}}
+    @if(isset($activeTenant) && $activeTenant && $activeTenant->id === 'demo')
+        <div class="mb-6 p-4 rounded-xl border border-amber-200 bg-amber-50">
+            <p class="text-xs font-bold text-amber-700 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-sm">bolt</span>
+                Demo — Quick Login
+            </p>
+            <div class="grid grid-cols-3 gap-2">
+                <button type="button"
+                    onclick="fillDemo('admin@demo.com', 'password')"
+                    class="py-2 px-1 text-xs font-semibold text-indigo-700 bg-white border border-indigo-200 rounded-lg hover:bg-indigo-50 transition-colors text-center shadow-sm">
+                    🛡️ Admin
+                </button>
+                <button type="button"
+                    onclick="fillDemo('arjun@demo.com', 'password')"
+                    class="py-2 px-1 text-xs font-semibold text-emerald-700 bg-white border border-emerald-200 rounded-lg hover:bg-emerald-50 transition-colors text-center shadow-sm">
+                    👔 Manager
+                </button>
+                <button type="button"
+                    onclick="fillDemo('ravi@demo.com', 'password')"
+                    class="py-2 px-1 text-xs font-semibold text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors text-center shadow-sm">
+                    👤 Employee
+                </button>
+            </div>
+            <p class="text-[10px] text-amber-600 mt-2 text-center">Password: <strong>password</strong></p>
+        </div>
+    @endif
+
+
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -54,3 +84,19 @@
         </div>
     </form>
 </x-guest-layout>
+
+<script>
+function fillDemo(email, password) {
+    var emailInput = document.getElementById('email');
+    var passInput  = document.getElementById('password');
+    if (emailInput) emailInput.value = email;
+    if (passInput)  passInput.value  = password;
+    // Highlight the filled fields briefly
+    [emailInput, passInput].forEach(function(el) {
+        if (!el) return;
+        el.classList.add('ring-2', 'ring-amber-400');
+        setTimeout(function() { el.classList.remove('ring-2', 'ring-amber-400'); }, 1500);
+    });
+}
+</script>
+
