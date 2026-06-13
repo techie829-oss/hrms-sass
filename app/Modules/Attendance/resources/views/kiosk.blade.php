@@ -90,13 +90,14 @@
                                     <div x-show="!cameraReady && !cameraError" class="absolute inset-0 flex items-center justify-center bg-black/80">
                                         <div class="text-center">
                                             <span class="material-symbols-outlined text-3xl text-white/40 animate-pulse">videocam</span>
-                                            <p class="text-[8px] font-bold text-white/40 uppercase mt-1">Starting Camera...</p>
+                                            <p id="camera-status-text" class="text-[8px] font-bold text-white/40 uppercase mt-1">Starting Camera...</p>
                                         </div>
                                     </div>
                                     <div x-show="cameraError" class="absolute inset-0 flex items-center justify-center bg-black/80">
-                                        <div class="text-center">
+                                        <div class="text-center px-4">
                                             <span class="material-symbols-outlined text-3xl text-error/60">videocam_off</span>
                                             <p class="text-[8px] font-bold text-error/60 uppercase mt-1">Camera Unavailable</p>
+                                            <p class="text-[8px] font-medium text-error/80 mt-1" x-text="cameraErrorMessage"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -337,6 +338,7 @@
                 locationError: false,
                 cameraReady: false,
                 cameraError: false,
+                cameraErrorMessage: '',
                 photoCaptured: false,
                 browserName: '',
                 platform: '',
@@ -365,15 +367,29 @@
 
                 async startCamera() {
                     if (!this.requirePhoto || !this.isSecureContext) return;
+                    
+                    // Show helpful message if it takes more than 5s
+                    const slowTimeout = setTimeout(() => {
+                        if (!this.cameraReady && !this.cameraError) {
+                            const p = document.getElementById('camera-status-text');
+                            if(p) p.innerText = 'Please click "Allow" in your browser...';
+                        }
+                    }, 4000);
+
                     try {
                         this.stream = await navigator.mediaDevices.getUserMedia({
                             video: { facingMode: 'user', width: { ideal: 480 }, height: { ideal: 480 } },
                             audio: false
                         });
+                        clearTimeout(slowTimeout);
                         this.$refs.cameraVideo.srcObject = this.stream;
                         this.cameraReady = true;
+                        this.cameraError = false;
                     } catch (err) {
+                        clearTimeout(slowTimeout);
+                        console.error('Camera Access Error:', err);
                         this.cameraError = true;
+                        this.cameraErrorMessage = err.name + ': ' + err.message;
                     }
                 },
 
