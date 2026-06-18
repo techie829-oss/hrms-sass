@@ -1,14 +1,14 @@
 @extends('layouts.marketing')
 
-@section('title', 'Contact Us | ' . config('app.name', 'Solidrix HRMS'))
-
+@section('title', 'Contact Us | Solidrix HRMS Sales & Support')
+@section('description', 'Get in touch with the Solidrix HRMS team. Contact our sales or support for assistance, to request a demo, or to discuss custom enterprise requirements.')
 @section('content')
 
 {{-- Hero Section --}}
 <section class="pt-28 pb-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">Get in Touch</h1>
-        <p class="text-xl text-gray-500 max-w-2xl mx-auto">
+        <p class="text-xl text-gray-500 max-w-2xl">
             Have questions about Solidrix HRMS? Need support? Want to schedule a demo?
             We're here to help you succeed.
         </p>

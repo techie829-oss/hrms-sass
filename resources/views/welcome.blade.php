@@ -1,22 +1,28 @@
 @extends('layouts.marketing')
 
-@section('title', 'Solidrix - HRMS Software That Keeps Operations in One Place')
-
+@section('title', 'Solidrix HRMS - Cloud HR, Payroll & Attendance Software')
+@section('description', 'Solidrix HRMS eliminates spreadsheet chaos. Automate payroll, track GPS attendance, manage leave, and simplify recruitment in one unified platform.')
 @section('content')
 
 <!-- Hero Section -->
 <section class="relative pt-24 pb-16 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-gray-900 mb-6 max-w-4xl mx-auto">
-            HRMS Software That Keeps HR Operations in One Place
+            Stop managing your team on spreadsheets.
         </h1>
         <p class="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Attendance, payroll, leave management, recruitment, and employee records &mdash; without the spreadsheet chaos.
+            Solidrix HRMS brings attendance, payroll, leave, and recruitment into one unified platform. Simple enough for employees, powerful enough for HR.
         </p>
         <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16">
-            <a href="/contact" class="px-8 py-3 rounded-lg text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition shadow-sm w-full sm:w-auto">
-                Book a Demo
-            </a>
+            @if(\Illuminate\Support\Facades\Cookie::has('demo_access_granted'))
+                <a href="https://demo.hr.solidrix.com/" target="_blank" class="px-8 py-3 rounded-lg text-base font-medium text-white bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transition shadow-lg shadow-orange-500/30 w-full sm:w-auto">
+                    Start Demo
+                </a>
+            @else
+                <button type="button" x-data @click="$dispatch('open-demo-modal')" class="px-8 py-3 rounded-lg text-base font-medium text-white bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transition shadow-lg shadow-orange-500/30 w-full sm:w-auto animate-pulse hover:animate-none">
+                    Start Demo
+                </button>
+            @endif
             <a href="/features" class="px-8 py-3 rounded-lg text-base font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 transition shadow-sm w-full sm:w-auto">
                 View Features
             </a>
@@ -163,9 +169,15 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl md:text-5xl font-bold mb-6">Ready to simplify your HR operations?</h2>
         <p class="text-xl text-gray-400 mb-10">Join growing organizations that trust Solidrix for their daily workforce management.</p>
-        <a href="/contact" class="inline-flex px-8 py-3 rounded-lg text-lg font-medium text-gray-900 bg-white hover:bg-gray-100 transition shadow-sm">
-            Book a Demo
-        </a>
+        @if(\Illuminate\Support\Facades\Cookie::has('demo_access_granted'))
+            <a href="https://demo.hr.solidrix.com/" target="_blank" class="inline-flex px-8 py-3 rounded-lg text-lg font-bold text-white bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transition shadow-lg shadow-orange-500/30">
+                Start Demo
+            </a>
+        @else
+            <button type="button" x-data @click="$dispatch('open-demo-modal')" class="inline-flex px-8 py-3 rounded-lg text-lg font-bold text-white bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 transition shadow-lg shadow-orange-500/30 animate-pulse hover:animate-none">
+                Start Demo
+            </button>
+        @endif
     </div>
 </section>
 

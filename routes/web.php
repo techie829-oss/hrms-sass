@@ -14,11 +14,19 @@ $centralHost = parse_url(config('app.url'), PHP_URL_HOST) ?? config('app.url');
 
 // 3. Central Landing Site (hrms.test)
 Route::domain($centralHost)->middleware(['web'])->group(function () {
+    Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
     Route::get('/', function () {
         return view('welcome');
     })->name('central.home');
 
-    Route::get('/pricing', fn() => view('core.pricing'))->name('central.pricing');
+    Route::get('/pricing', function () {
+        $plans = \App\SaaS\Billing\Plan::active()->get();
+        return view('core.pricing', compact('plans'));
+    })->name('central.pricing');
+    
+    // Legal Pages
+    Route::view('/privacy-policy', 'core.privacy')->name('central.privacy');
+    Route::view('/terms-of-service', 'core.terms')->name('central.terms');
     Route::get('/features', fn() => view('core.features'))->name('central.features');
     Route::get('/about', fn() => view('core.about'))->name('central.about');
     Route::get('/contact', fn() => view('core.contact'))->name('central.contact');
@@ -32,6 +40,20 @@ Route::domain($centralHost)->middleware(['web'])->group(function () {
     Route::get('/recruitment-software', fn() => view('features.recruitment-software'))->name('features.recruitment');
     Route::get('/performance-management-software', fn() => view('features.performance-management-software'))->name('features.performance');
     Route::get('/project-management-software', fn() => view('features.project-management-software'))->name('features.operations');
+    Route::get('/employee-self-service', fn() => view('features.employee-self-service'))->name('features.employee-self-service');
+
+    // Use Case Landing Pages
+    Route::get('/hrms-for-small-business', fn() => view('features.hrms-for-small-business'))->name('usecase.small-business');
+    Route::get('/hrms-for-startups', fn() => view('features.hrms-for-startups'))->name('usecase.startups');
+    Route::get('/hrms-for-manufacturing', fn() => view('features.hrms-for-manufacturing'))->name('usecase.manufacturing');
+    Route::get('/hrms-for-it-companies', fn() => view('features.hrms-for-it-companies'))->name('usecase.it-companies');
+    Route::get('/hrms-for-retail-stores', fn() => view('features.hrms-for-retail-stores'))->name('usecase.retail-stores');
+    
+    // Additional Core Pages
+    Route::get('/faqs', fn() => view('core.faqs'))->name('central.faqs');
+    Route::get('/cookie-policy', fn() => view('core.cookie-policy'))->name('central.cookie-policy');
+
+    Route::post('/start-demo', [\App\Http\Controllers\DemoController::class, 'store'])->name('central.start-demo');
 
     // Tenant Selection Hub
     Route::middleware(['auth'])->get('/hub', [\App\Http\Controllers\SaaS\TenantHubController::class, 'index'])->name('saas.hub');

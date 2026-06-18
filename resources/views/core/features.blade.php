@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'Features | All HR Modules | Solidrix HRMS')
-
+@section('title', 'Features & Modules | Solidrix HRMS')
+@section('description', 'Explore the core modules of Solidrix HRMS including Attendance tracking, Payroll automation, Leave Management, and Employee Self-Service.')
 @section('content')
 
 {{-- Hero --}}

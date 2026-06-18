@@ -19,10 +19,12 @@ class PlanSeeder extends Seeder
                 ['slug' => $slug],
                 [
                     'name' => $data['name'],
+                    'description' => $data['description'] ?? null,
                     'price_monthly' => $data['price_monthly'],
                     'price_yearly' => $data['price_yearly'],
                     'max_employees' => $data['max_employees'],
                     'max_modules' => $data['max_modules'],
+                    'features' => $data['features'] ?? [],
                     'is_active' => true,
                 ]
             );

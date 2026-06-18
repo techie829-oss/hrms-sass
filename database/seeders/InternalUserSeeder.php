@@ -21,23 +21,6 @@ class InternalUserSeeder extends Seeder
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // 1. Create Foundational Permissions
-        $permissions = [
-            'view_dashboard',
-            'view_employees',
-            'manage_attendance',
-            'approve_leave',
-            'view_reports',
-            'manage_projects',
-            'manage_payroll',
-            'manage_performance',
-            'manage_recruitment',
-        ];
-
-        foreach ($permissions as $name) {
-            Permission::firstOrCreate(['name' => $name, 'guard_name' => 'web']);
-        }
-
         // 2. Create Essential SaaS Roles using Models
         $roles = [
             RoleConstants::SADMIN          => 'Primary SaaS Administrator',

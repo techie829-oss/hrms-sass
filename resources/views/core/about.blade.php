@@ -1,19 +1,19 @@
 @extends('layouts.marketing')
 
-@section('title', 'About Us | ' . config('app.name', 'Solidrix HRMS'))
-
+@section('title', 'About Us | Solidrix HRMS')
+@section('description', 'Learn about Solidrix HRMS, our mission to simplify workforce management, and how we are empowering growing businesses with smart HR technology.')
 @section('content')
 
 {{-- Hero Section --}}
 <section class="pt-28 pb-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 max-w-3xl mx-auto leading-tight">
-            Building the Future of <span class="text-blue-600">HR Management</span>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 max-w-3xl leading-tight">
+            HR Software Built for <span class="text-blue-600">People</span>
         </h1>
-        <p class="text-xl text-gray-500 max-w-3xl mx-auto leading-relaxed">
-            We're on a mission to transform how organizations manage their workforce —
-            making HR administration more efficient, data-driven, and people-focused through our
-            <a href="/modules" class="text-blue-600 hover:underline font-semibold">cloud-based HRMS platform</a>.
+        <p class="text-xl text-gray-500 max-w-3xl leading-relaxed">
+            We started Solidrix because managing teams shouldn't mean drowning in spreadsheets. We build practical,
+            <a href="/modules" class="text-blue-600 hover:underline font-semibold">cloud-based HR tools</a>
+            that let you focus on your people, not your admin work.
         </p>
     </div>
 </section>
@@ -54,9 +54,7 @@
                 </div>
                 <h2 class="text-2xl font-bold text-gray-900 mb-4">Our Mission</h2>
                 <p class="text-gray-500 leading-relaxed text-[15px]">
-                    To empower HR teams and business owners with intelligent technology that eliminates manual
-                    processes, reduces payroll errors, and gives every employee a seamless self-service experience.
-                    We believe that when HR runs efficiently, people can focus on what matters most — growing the business.
+                    We build tools that make payroll, attendance, and leave management invisible. No manual calculations, no missing records, and no confusing interfaces. Just a single system that works so well, you barely notice it's there.
                 </p>
             </div>
 
@@ -69,11 +67,9 @@
                 </div>
                 <h2 class="text-2xl font-bold text-gray-900 mb-4">Our Vision</h2>
                 <p class="text-gray-500 leading-relaxed text-[15px]">
-                    To become the most trusted HRMS platform for growing businesses across India and beyond —
-                    recognized for reliability, simplicity, and customer success. We envision a future where every
-                    organization, regardless of size, has access to
+                    To give every growing business access to 
                     <a href="/pricing" class="text-blue-600 hover:underline font-semibold">enterprise-grade HR tools</a>
-                    at an affordable price.
+                    without the enterprise price tag. We want to be the background engine that keeps your operations running smoothly every single day.
                 </p>
             </div>
         </div>
@@ -88,7 +84,7 @@
             <p class="mt-4 text-gray-500 text-lg">How we went from an idea to an HR platform trusted by hundreds</p>
         </div>
 
-        <div class="relative max-w-5xl mx-auto px-4">
+        <div class="relative w-full px-4">
             <div class="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-blue-200 via-amber-200 to-transparent"></div>
 
             <div class="space-y-12">
