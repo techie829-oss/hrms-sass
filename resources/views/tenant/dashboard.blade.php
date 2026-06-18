@@ -1,5 +1,6 @@
 @php
     use App\Core\Constants\RoleConstants;
+    use App\Core\Constants\PermissionConstants;
 @endphp
 <x-app-layout>
     <div class="space-y-5 animate-fade-in pb-8">
@@ -26,15 +27,15 @@
                     </p>
                 </div>
                 
-                @if(auth()->user()->can('create_employees') || auth()->user()->can('manage_attendance'))
+                @if(auth()->user()->can(PermissionConstants::CREATE_EMPLOYEES) || auth()->user()->can(PermissionConstants::MANAGE_ATTENDANCE))
                 <div class="mt-5 sm:mt-0 flex flex-shrink-0 gap-3">
-                    @if($hasHr && auth()->user()->can('create_employees'))
+                    @if($hasHr && auth()->user()->can(PermissionConstants::CREATE_EMPLOYEES))
                     <a href="{{ route('hr.employees.create') }}" class="inline-flex items-center rounded-xl bg-white px-4 py-2 text-xs font-semibold text-gray-900 shadow-sm transition-all hover:bg-gray-50">
                         <span class="material-symbols-outlined mr-1.5 -ml-0.5 text-[16px] text-primary-600 font-bold">person_add</span>
                         {{ __('Add Employee') }}
                     </a>
                     @endif
-                    @if($hasAttendance && auth()->user()->can('manage_attendance'))
+                    @if($hasAttendance && auth()->user()->can(PermissionConstants::MANAGE_ATTENDANCE))
                     <a href="{{ route('attendance.kiosk') }}" class="inline-flex items-center rounded-xl bg-white/10 backdrop-blur-md px-4 py-2 text-xs font-semibold text-white shadow-sm ring-1 ring-inset ring-white/20 transition-all hover:bg-white/20">
                         <span class="material-symbols-outlined mr-1.5 -ml-0.5 text-[16px] text-white">qr_code_scanner</span>
                         {{ __('Kiosk Mode') }}
@@ -91,7 +92,7 @@
             @endif
 
             <!-- Pending Leaves -->
-            @if($hasLeave && ($canApproveLeave || auth()->user()->can('view_own-leave')))
+            @if($hasLeave && ($canApproveLeave || auth()->user()->can(PermissionConstants::VIEW_OWN_LEAVE)))
             <div class="group relative overflow-hidden rounded-2xl bg-white p-5 shadow-sm border border-gray-100 hover:border-amber-200 hover:shadow-md transition-all duration-300">
                 <div class="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-gradient-to-br from-amber-50 to-amber-100/50 transition-transform duration-500 group-hover:scale-150"></div>
                 <div class="relative flex items-center justify-between">
@@ -139,13 +140,13 @@
             <div class="lg:col-span-2 space-y-5">
                 
                 <!-- Quick Actions Grid -->
-                @if(auth()->user()->can('view_employees') || auth()->user()->can('manage_attendance') || auth()->user()->can('manage_leave') || auth()->user()->can('view_payroll'))
+                @if(auth()->user()->can(PermissionConstants::VIEW_EMPLOYEES) || auth()->user()->can(PermissionConstants::MANAGE_ATTENDANCE) || auth()->user()->can(PermissionConstants::APPROVE_LEAVE) || auth()->user()->can(PermissionConstants::VIEW_PAYROLL))
                 <div class="space-y-3">
                     <h3 class="text-[11px] font-bold text-gray-500 flex items-center uppercase tracking-wider">
                         {{ __('Quick Actions') }}
                     </h3>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                        @if($hasHr && auth()->user()->can('view_employees'))
+                        @if($hasHr && auth()->user()->can(PermissionConstants::VIEW_EMPLOYEES))
                         <a href="{{ route('hr.employees.index') }}" class="group flex flex-col justify-between rounded-2xl border border-gray-100 bg-white p-5 transition-all duration-300 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-500/5 hover:-translate-y-0.5">
                             <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50/50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
                                 <span class="material-symbols-outlined text-[20px]">badge</span>
@@ -157,7 +158,7 @@
                         </a>
                         @endif
 
-                        @if($hasAttendance && auth()->user()->can('manage_attendance'))
+                        @if($hasAttendance && auth()->user()->can(PermissionConstants::MANAGE_ATTENDANCE))
                         <a href="{{ route('attendance.index') }}" class="group flex flex-col justify-between rounded-2xl border border-gray-100 bg-white p-5 transition-all duration-300 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-500/5 hover:-translate-y-0.5">
                             <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50/50 text-emerald-600 transition-colors group-hover:bg-emerald-600 group-hover:text-white">
                                 <span class="material-symbols-outlined text-[20px]">event_available</span>
@@ -169,7 +170,7 @@
                         </a>
                         @endif
 
-                        @if($hasLeave && auth()->user()->can('manage_leave'))
+                        @if($hasLeave && auth()->user()->can(PermissionConstants::APPROVE_LEAVE))
                         <a href="{{ route('leave.requests.index') }}" class="group flex flex-col justify-between rounded-2xl border border-gray-100 bg-white p-5 transition-all duration-300 hover:border-amber-200 hover:shadow-lg hover:shadow-amber-500/5 hover:-translate-y-0.5">
                             <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50/50 text-amber-600 transition-colors group-hover:bg-amber-600 group-hover:text-white">
                                 <span class="material-symbols-outlined text-[20px]">event_busy</span>
@@ -181,7 +182,7 @@
                         </a>
                         @endif
 
-                        @if($hasPayroll && auth()->user()->can('view_payroll'))
+                        @if($hasPayroll && auth()->user()->can(PermissionConstants::VIEW_PAYROLL))
                         <a href="{{ route('payroll.index') }}" class="group flex flex-col justify-between rounded-2xl border border-gray-100 bg-white p-5 transition-all duration-300 hover:border-purple-200 hover:shadow-lg hover:shadow-purple-500/5 hover:-translate-y-0.5">
                             <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50/50 text-purple-600 transition-colors group-hover:bg-purple-600 group-hover:text-white">
                                 <span class="material-symbols-outlined text-[20px]">payments</span>
@@ -193,7 +194,7 @@
                         </a>
                         @endif
 
-                        @if($hasRecruitment && auth()->user()->can('view_recruitment'))
+                        @if($hasRecruitment && auth()->user()->can(PermissionConstants::VIEW_RECRUITMENT))
                         <a href="{{ route('recruitment.dashboard') }}" class="group flex flex-col justify-between rounded-2xl border border-gray-100 bg-white p-5 transition-all duration-300 hover:border-rose-200 hover:shadow-lg hover:shadow-rose-500/5 hover:-translate-y-0.5">
                             <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50/50 text-rose-600 transition-colors group-hover:bg-rose-600 group-hover:text-white">
                                 <span class="material-symbols-outlined text-[20px]">how_to_reg</span>
@@ -205,6 +206,7 @@
                         </a>
                         @endif
 
+                        @if(auth()->user()->hasRole(RoleConstants::TADMIN) || auth()->user()->can(PermissionConstants::MANAGE_SETTINGS))
                         <a href="{{ route($dashboardRoute) }}" class="group flex flex-col justify-between rounded-2xl border border-gray-100 bg-white p-5 transition-all duration-300 hover:border-gray-300 hover:shadow-lg hover:shadow-gray-500/5 hover:-translate-y-0.5">
                             <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-50/50 text-gray-600 transition-colors group-hover:bg-gray-800 group-hover:text-white">
                                 <span class="material-symbols-outlined text-[20px]">settings</span>
@@ -214,6 +216,7 @@
                                 <p class="mt-1 text-xs text-gray-500 line-clamp-1">Manage configuration</p>
                             </div>
                         </a>
+                        @endif
                     </div>
                 </div>
                 @endif
