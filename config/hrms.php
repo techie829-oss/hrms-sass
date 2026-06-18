@@ -9,7 +9,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'name' => env('APP_NAME', 'HRMS SaaS'),
+    'name' => env('APP_NAME', 'Solidrix HRMS'),
 
     'modules' => [
         'hr',
