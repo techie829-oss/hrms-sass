@@ -92,6 +92,7 @@ Route::domain('app.' . $centralHost)->middleware(['web', 'auth', 'scope.roles', 
     Route::resource('plans', \App\Http\Controllers\Admin\PlanController::class)->only(['index', 'edit', 'update'])->names('admin.plans');
     Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class)->names('admin.roles');
     Route::resource('permissions', \App\Http\Controllers\Admin\PermissionController::class)->names('admin.permissions');
+    Route::get('/leads', [\App\Http\Controllers\Admin\DemoLeadController::class, 'index'])->name('admin.leads');
     Route::get('/modules', [ModuleController::class, 'index'])->name('admin.modules.index');
     Route::post('/modules/sync', [ModuleController::class, 'sync'])->name('admin.modules.sync');
     Route::get('/modules/visualizer', [ModuleController::class, 'visualizer'])->name('admin.modules.visualizer');

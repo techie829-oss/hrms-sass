@@ -71,7 +71,7 @@
                 @endcan
             @endif
 
-            @if(($hasAttendance && Auth::user()->can(PermissionConstants::VIEW_ATTENDANCE)) || ($hasLeave && Auth::user()->can(PermissionConstants::APPROVE_LEAVE)) || ($hasPayroll && Auth::user()->can(PermissionConstants::VIEW_PAYROLL)) || ($hasOperations && (Auth::user()->can(PermissionConstants::VIEW_LEADS) || Auth::user()->can(PermissionConstants::VIEW_PROJECTS) || Auth::user()->can(PermissionConstants::VIEW_TASKS) || Auth::user()->can(PermissionConstants::VIEW_TIMESHEET))))
+            @if(($hasAttendance && Auth::user()->can(PermissionConstants::VIEW_ATTENDANCE)) || ($hasLeave && Auth::user()->can(PermissionConstants::MANAGE_LEAVE)) || ($hasPayroll && Auth::user()->can(PermissionConstants::VIEW_PAYROLL)) || ($hasOperations && (Auth::user()->can(PermissionConstants::VIEW_LEADS) || Auth::user()->can(PermissionConstants::VIEW_PROJECTS) || Auth::user()->can(PermissionConstants::VIEW_TASKS) || Auth::user()->can(PermissionConstants::VIEW_TIMESHEET))))
                 <div class="pt-6 pb-2">
                     <p class="px-4 text-[10px] font-black tracking-widest text-white/40 uppercase">Operations</p>
                 </div>
@@ -82,7 +82,7 @@
                     {{ __('Attendance') }}
                 </a>
                 @endif
-                @if($hasLeave && Auth::user()->can(PermissionConstants::APPROVE_LEAVE))
+                @if($hasLeave && Auth::user()->can(PermissionConstants::MANAGE_LEAVE))
                 <a href="{{ route('leave.requests.index') }}"
                     class="flex items-center px-4 py-3 {{ request()->routeIs('leave.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                     <span class="material-symbols-outlined text-[20px] mr-3">event_busy</span>
@@ -173,7 +173,7 @@
             @endif
             @if($hasLeave && Auth::user()->can(PermissionConstants::VIEW_OWN_LEAVE))
             <a href="{{ route('leave.requests.index') }}"
-                class="flex items-center px-4 py-3 {{ request()->routeIs('leave.requests.*') && !Auth::user()->can(PermissionConstants::APPROVE_LEAVE) ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
+                class="flex items-center px-4 py-3 {{ request()->routeIs('leave.requests.*') && !Auth::user()->can(PermissionConstants::MANAGE_LEAVE) ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                 <span class="material-symbols-outlined text-[20px] mr-3">event_busy</span>
                 {{ __('My Leaves') }}
             </a>
@@ -211,6 +211,11 @@
                 class="flex items-center px-4 py-3 {{ request()->routeIs('admin.modules.*') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
                 <span class="material-symbols-outlined text-[20px] mr-3">widgets</span>
                 {{ __('Modules') }}
+            </a>
+            <a href="{{ route('admin.leads') }}"
+                class="flex items-center px-4 py-3 {{ request()->routeIs('admin.leads') ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
+                <span class="material-symbols-outlined text-[20px] mr-3">contact_mail</span>
+                {{ __('Leads') }}
             </a>
         @endif
     </nav>
