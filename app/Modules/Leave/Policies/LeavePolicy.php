@@ -16,7 +16,7 @@ class LeavePolicy
     {
         return $user->hasAnyPermission([
             PermissionConstants::VIEW_OWN_LEAVE,
-            PermissionConstants::APPROVE_LEAVE,
+            PermissionConstants::MANAGE_LEAVE,
             PermissionConstants::CREATE_LEAVE,
         ]);
     }
@@ -31,12 +31,12 @@ class LeavePolicy
         }
 
         // Staff can only view their own if they have view_own-leave
-        if ($user->hasPermissionTo(PermissionConstants::VIEW_OWN_LEAVE) && !$user->hasPermissionTo(PermissionConstants::APPROVE_LEAVE)) {
+        if ($user->hasPermissionTo(PermissionConstants::VIEW_OWN_LEAVE) && !$user->hasPermissionTo(PermissionConstants::MANAGE_LEAVE)) {
             return $user->employee?->id === $leaveRequest->employee_id;
         }
 
         return $user->hasAnyPermission([
-            PermissionConstants::APPROVE_LEAVE,
+            PermissionConstants::MANAGE_LEAVE,
             PermissionConstants::VIEW_OWN_LEAVE,
         ]);
     }
@@ -63,7 +63,7 @@ class LeavePolicy
             return false;
         }
 
-        return $user->hasPermissionTo(PermissionConstants::APPROVE_LEAVE);
+        return $user->hasPermissionTo(PermissionConstants::MANAGE_LEAVE);
     }
 
     /**

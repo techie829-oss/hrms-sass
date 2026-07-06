@@ -33,7 +33,7 @@ class DashboardController extends Controller
         $canViewAttendance = $user->can('view_attendance');
         $canViewLeave = $user->can('manage_leave') || $user->can('view_own_leave');
         $canViewPayroll = $user->can('view_payroll');
-        $canApproveLeave = $user->can('approve_leave');
+        $canApproveLeave = $user->can('manage_leave');
         
         $recentActivities = ($canViewEmployees || $canViewAttendance || $canViewLeave) 
             ? $this->activityService->getRecentActivities(5) 

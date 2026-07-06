@@ -25,16 +25,22 @@
                 <div class="pt-8 border-t border-slate-100">
                     <h3 class="font-bold text-lg text-slate-900 mb-6">Assign Permissions</h3>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        @foreach($permissions as $group => $perms)
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @php
+                            $permissionDetails = \App\Core\Constants\PermissionConstants::getPermissionDetails();
+                            $dbPermissions = $permissions->pluck('name')->toArray();
+                        @endphp
+                        @foreach($permissionDetails as $group => $perms)
                             <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-                                <h4 class="font-semibold text-xs uppercase tracking-widest text-indigo-600 mb-4 border-b border-indigo-100 pb-2">{{ str_replace('-', ' ', $group) }}</h4>
+                                <h4 class="font-semibold text-xs uppercase tracking-widest text-indigo-600 mb-4 border-b border-indigo-100 pb-2">{{ $group }}</h4>
                                 <div class="space-y-3">
-                                    @foreach($perms as $permission)
-                                        <label class="flex items-start gap-3 cursor-pointer group">
-                                            <input type="checkbox" name="permissions[]" value="{{ $permission->name }}" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-600" />
-                                            <span class="text-sm font-medium text-slate-700 group-hover:text-indigo-600 transition-colors capitalize">{{ str_replace('-', ' ', $permission->name) }}</span>
-                                        </label>
+                                    @foreach($perms as $rawName => $label)
+                                        @if(in_array($rawName, $dbPermissions))
+                                            <label class="flex items-start gap-3 cursor-pointer group">
+                                                <input type="checkbox" name="permissions[]" value="{{ $rawName }}" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-600" />
+                                                <span class="text-sm font-medium text-slate-700 group-hover:text-indigo-600 transition-colors">{{ $label }}</span>
+                                            </label>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>

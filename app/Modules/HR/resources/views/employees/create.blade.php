@@ -296,25 +296,24 @@
                     </div>
 
                     @php
-                        $groupedPermissions = $permissions->groupBy(function($permission) {
-                            $parts = explode('_', $permission->name);
-                            $group = end($parts);
-                            return $group === 'off' ? 'comp_off' : $group;
-                        });
+                        $permissionDetails = \App\Core\Constants\PermissionConstants::getPermissionDetails();
+                        $dbPermissions = $permissions->pluck('name')->toArray();
                     @endphp
                     <div class="col-span-2 mt-6">
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Direct User Permissions (Optional)</label>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-slate-50/50 p-6 rounded-xl border border-slate-200">
-                            @foreach($groupedPermissions as $group => $groupPerms)
+                            @foreach($permissionDetails as $group => $perms)
                                 <div class="space-y-2">
-                                    <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wide border-b border-slate-200/60 pb-1.5">{{ ucfirst($group) }}</h4>
+                                    <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wide border-b border-slate-200/60 pb-1.5">{{ $group }}</h4>
                                     <div class="space-y-1.5">
-                                        @foreach($groupPerms as $perm)
-                                            <label class="flex items-center text-xs text-slate-700 select-none cursor-pointer hover:text-slate-900 transition-colors w-full">
-                                                <input type="checkbox" name="permissions[]" value="{{ $perm->name }}" class="rounded border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 mr-2 permission-checkbox" />
-                                                <span class="flex-1 truncate">{{ ucfirst($perm->name) }}</span>
-                                                <span class="ml-2 text-[9px] font-bold text-slate-500 bg-slate-200/80 px-1.5 py-0.5 rounded hidden role-badge">Role Default</span>
-                                            </label>
+                                        @foreach($perms as $rawName => $label)
+                                            @if(in_array($rawName, $dbPermissions))
+                                                <label class="flex items-center text-xs text-slate-700 select-none cursor-pointer hover:text-slate-900 transition-colors w-full">
+                                                    <input type="checkbox" name="permissions[]" value="{{ $rawName }}" class="rounded border-slate-300 text-primary-600 shadow-sm focus:ring-primary-500 mr-2 permission-checkbox" />
+                                                    <span class="flex-1 truncate">{{ $label }}</span>
+                                                    <span class="ml-2 text-[9px] font-bold text-slate-500 bg-slate-200/80 px-1.5 py-0.5 rounded hidden role-badge">Role Default</span>
+                                                </label>
+                                            @endif
                                         @endforeach
                                     </div>
                                 </div>

@@ -34,7 +34,7 @@ class PermissionConstants
     // ── LEAVE ──────────────────────────────────────────────────────────────
     public const CREATE_LEAVE           = 'create_leave';
     public const CANCEL_LEAVE           = 'cancel_leave';
-    public const APPROVE_LEAVE          = 'approve_leave';
+    public const MANAGE_LEAVE           = 'manage_leave';
     public const VIEW_OWN_LEAVE         = 'view_own_leave';
 
     // ── HOLIDAYS ───────────────────────────────────────────────────────────
@@ -79,4 +79,79 @@ class PermissionConstants
 
     // ── SETTINGS ───────────────────────────────────────────────────────────
     public const MANAGE_SETTINGS        = 'manage_settings';
+
+    /**
+     * Get a structured array of permissions grouped by Module for UI rendering.
+     * Maps the raw permission strings to human-readable labels.
+     */
+    public static function getPermissionDetails(): array
+    {
+        return [
+            'Dashboard' => [
+                self::VIEW_DASHBOARD => 'View Dashboard',
+            ],
+            'Employees' => [
+                self::VIEW_EMPLOYEES => 'View Employees',
+                self::CREATE_EMPLOYEES => 'Create Employee',
+                self::EDIT_EMPLOYEES => 'Edit Employee',
+                self::DELETE_EMPLOYEES => 'Delete Employee',
+                self::VIEW_DEPARTMENTS => 'View Departments',
+            ],
+            'Attendance' => [
+                self::MANAGE_ATTENDANCE => 'Full Control (Manage All)',
+                self::VIEW_ALL_ATTENDANCE => 'View All Attendance',
+                self::VIEW_ATTENDANCE => 'View Team Attendance',
+                self::VIEW_OWN_ATTENDANCE => 'View Own Attendance',
+            ],
+            'Leave' => [
+                self::MANAGE_LEAVE => 'Full Control (Manage All)',
+                self::VIEW_OWN_LEAVE => 'View Own Leaves',
+                self::CREATE_LEAVE => 'Create Leave Request',
+                self::CANCEL_LEAVE => 'Cancel Leave Request',
+            ],
+            'Comp-Off' => [
+                self::MANAGE_COMP_OFF => 'Full Control (Manage All)',
+                self::VIEW_COMP_OFF => 'View Team Comp-Off',
+                self::VIEW_OWN_COMP_OFF => 'View Own Comp-Off',
+                self::CREATE_COMP_OFF => 'Create Comp-Off Request',
+            ],
+            'Holidays' => [
+                self::MANAGE_HOLIDAYS => 'Full Control (Manage)',
+                self::VIEW_HOLIDAYS => 'View Holidays',
+            ],
+            'Payroll' => [
+                self::MANAGE_PAYROLL => 'Full Control (Manage All)',
+                self::VIEW_PAYROLL => 'View Team Payroll',
+                self::VIEW_OWN_PAYROLL => 'View Own Payroll',
+            ],
+            'Operations' => [
+                self::MANAGE_LEADS => 'Manage Leads',
+                self::VIEW_LEADS => 'View Leads',
+                self::MANAGE_PROJECTS => 'Manage Projects',
+                self::VIEW_PROJECTS => 'View Projects',
+                self::MANAGE_TASKS => 'Manage Tasks',
+                self::VIEW_TASKS => 'View Tasks',
+            ],
+            'Timesheet' => [
+                self::MANAGE_TIMESHEET => 'Full Control (Manage All)',
+                self::VIEW_TIMESHEET => 'View Team Timesheet',
+                self::VIEW_OWN_TIMESHEET => 'View Own Timesheet',
+            ],
+            'Performance' => [
+                self::MANAGE_PERFORMANCE => 'Full Control (Manage All)',
+                self::VIEW_PERFORMANCE => 'View Team Performance',
+                self::VIEW_OWN_PERFORMANCE => 'View Own Performance',
+            ],
+            'Recruitment' => [
+                self::MANAGE_RECRUITMENT => 'Full Control (Manage All)',
+                self::VIEW_RECRUITMENT => 'View Recruitment',
+            ],
+            'Reports' => [
+                self::VIEW_REPORTS => 'View Reports',
+            ],
+            'Settings' => [
+                self::MANAGE_SETTINGS => 'Full System Settings Access',
+            ],
+        ];
+    }
 }

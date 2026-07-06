@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            @if($leaveRequest->status === 'pending' && Auth::user()->can('approve_leave'))
+            @if($leaveRequest->status === 'pending' && Auth::user()->can('manage_leave'))
             <div class="flex items-center gap-2">
                 <form action="{{ route('leave.requests.status', $leaveRequest->id) }}" method="POST">
                     @csrf

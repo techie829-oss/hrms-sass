@@ -59,7 +59,7 @@ class RoleSeeder extends Seeder
             // -- LEAVE ------------------------------------------------------
             'create_leave'           => 'Submit New Leave Requests, Apply for Time-Off',
             'cancel_leave'           => 'Cancel Pending/Approved Leave Requests',
-            'approve_leave'          => 'Approve/Reject Leave Requests',
+            'manage_leave'           => 'Manage Leave Requests',
             'view_own_leave'         => 'View Personal Leave History',
             'manage_settings'        => 'Full System Configuration Access (Leave Types etc.)',
 

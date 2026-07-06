@@ -35,7 +35,7 @@ class SetupTenantBlueprint
             'view_dashboard', 
             'view_employees', 'create_employees', 'edit_employees',
             'manage_attendance', 'view_attendance',
-            'approve_leave', 'create_leave', 'cancel_leave',
+            'manage_leave', 'create_leave', 'cancel_leave',
             'view_reports',
             'view_payroll',
             'view_timesheet', 'manage_timesheet',

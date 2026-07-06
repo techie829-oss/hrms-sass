@@ -103,9 +103,7 @@ class AppServiceProvider extends ServiceProvider
             $user->hasAnyPermission(['manage_payroll', 'view_payroll'])
         );
 
-        Gate::define('manage_leave', fn($user) =>
-            $user->hasAnyPermission(['approve_leave', 'create_leave'])
-        );
+
 
         Gate::define('view_reports', fn($user) =>
             $user->hasPermissionTo('view_reports')
