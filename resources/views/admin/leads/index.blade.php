@@ -16,7 +16,7 @@
                         <th class="px-6 py-4 font-bold tracking-wider">Name & Email</th>
                         <th class="px-6 py-4 font-bold tracking-wider hidden sm:table-cell">Mobile</th>
                         <th class="px-6 py-4 font-bold tracking-wider hidden md:table-cell">Company</th>
-                        <th class="px-6 py-4 font-bold tracking-wider hidden lg:table-cell">Country</th>
+                        <th class="px-6 py-4 font-bold tracking-wider hidden lg:table-cell">Status & Source</th>
                         <th class="px-6 py-4 font-bold tracking-wider">Date Requested</th>
                     </tr>
                 </thead>
@@ -27,17 +27,23 @@
                             <div class="font-bold text-slate-900">{{ $lead->name }}</div>
                             <div class="text-xs text-slate-500">{{ $lead->email }}</div>
                             <!-- Mobile only visibility for extra fields -->
-                            <div class="text-xs text-slate-500 sm:hidden mt-1">{{ $lead->mobile }}</div>
+                            <div class="text-xs text-slate-500 sm:hidden mt-1">{{ $lead->phone }}</div>
                             <div class="text-xs text-slate-500 md:hidden">{{ $lead->company_name ?? 'N/A' }}</div>
+                            <span class="inline-flex items-center px-2 py-0.5 mt-1 rounded text-[10px] font-medium bg-indigo-100 text-indigo-800">
+                                Tenant: {{ $lead->tenant_id }}
+                            </span>
                         </td>
                         <td class="px-6 py-4 text-slate-600 font-medium hidden sm:table-cell">
-                            {{ $lead->mobile }}
+                            {{ $lead->phone }}
                         </td>
                         <td class="px-6 py-4 text-slate-600 hidden md:table-cell">
                             {{ $lead->company_name ?? '-' }}
                         </td>
                         <td class="px-6 py-4 text-slate-600 hidden lg:table-cell">
-                            {{ $lead->country ?? '-' }}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $lead->status == 'new' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                                {{ ucfirst($lead->status) }}
+                            </span>
+                            <div class="text-xs text-slate-400 mt-1">{{ $lead->source ?? '-' }}</div>
                         </td>
                         <td class="px-6 py-4 text-slate-500 text-xs font-medium">
                             <div class="font-semibold">{{ $lead->created_at->format('d M, Y') }}</div>
