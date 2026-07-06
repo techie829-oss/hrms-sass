@@ -13,8 +13,12 @@ class DemoLeadController extends Controller
      */
     public function index()
     {
-        // Fetch leads without tenant scope so superadmin can see all of them
-        $leads = Lead::withoutGlobalScopes()->latest()->paginate(15);
+        // Fetch leads without tenant scope and explicitly use shared schema 
+        // because superadmin doesn't have 'shared' in its default search_path
+        $leads = Lead::withoutGlobalScopes()
+                    ->from('shared.leads')
+                    ->latest()
+                    ->paginate(15);
         
         return view('admin.leads.index', compact('leads'));
     }
