@@ -4,17 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\DemoLead;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DemoLeadController extends Controller
 {
     /**
-     * Display a listing of demo leads from the landing page.
+     * Display both demo leads (landing page) and tenant CRM leads (Operations module).
      */
     public function index()
     {
-        $leads = DemoLead::latest()->paginate(20);
+        // 1. Demo leads from landing page form (public.demo_leads)
+        $demoLeads = DemoLead::latest()->paginate(20, ['*'], 'demo_page');
 
-        return view('admin.leads.index', compact('leads'));
+        // 2. CRM leads from tenant shared schema (shared.leads)
+        $crmLeads = DB::table('shared.leads')
+            ->orderByDesc('created_at')
+            ->paginate(20, ['*'], 'crm_page');
+
+        return view('admin.leads.index', compact('demoLeads', 'crmLeads'));
     }
 }
