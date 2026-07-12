@@ -34,6 +34,7 @@ use App\Modules\Operations\Policies\TimesheetPolicy;
 use App\Core\Constants\RoleConstants;
 use App\Core\Constants\PermissionConstants;
 use App\SaaS\Tenancy\TenantContext;
+use App\Services\ColorPaletteService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -51,6 +52,11 @@ class AppServiceProvider extends ServiceProvider
         // Custom SaaS Tenancy Context Singleton
         $this->app->singleton(TenantContext::class, function ($app) {
             return new TenantContext();
+        });
+
+        // Color Palette Service — used in tenant layout for dynamic theming
+        $this->app->singleton(ColorPaletteService::class, function ($app) {
+            return new ColorPaletteService();
         });
     }
 

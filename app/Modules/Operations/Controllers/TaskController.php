@@ -82,6 +82,12 @@ class TaskController extends BaseController
         return redirect()->route('operations.tasks.index')->with('success', 'Task assigned successfully.');
     }
 
+    public function show(Task $task)
+    {
+        $task->load(['project', 'assignee', 'timesheets']);
+        return view('operations::tasks.show', compact('task'));
+    }
+
     public function edit(Task $task)
     {
         $employees = Employee::where('tenant_id', saas_tenant('id'))->get();

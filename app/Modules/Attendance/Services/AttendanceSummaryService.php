@@ -79,7 +79,7 @@ class AttendanceSummaryService
                 $actualIn = Carbon::parse($firstIn);
                 if ($actualIn->greaterThan($expected->copy()->addMinutes($graceMinutes))) {
                     $isLate = true;
-                    $lateMinutes = (int) abs($actualIn->diffInMinutes($expected));
+                    $lateMinutes = max(0, (int) round(abs($actualIn->diffInMinutes($expected))));
                 }
             }
 
@@ -90,16 +90,16 @@ class AttendanceSummaryService
                     $expected  = Carbon::parse($targetEndTime)->setDateFrom($date);
                     $actualOut = Carbon::parse($lastOut);
                     if ($actualOut->greaterThan($expected)) {
-                        $overtimeMinutes = (int) abs($actualOut->diffInMinutes($expected));
+                        $overtimeMinutes = max(0, (int) round(abs($actualOut->diffInMinutes($expected))));
                     } elseif ($actualOut->lessThan($expected->copy()->subMinutes($earlyLeaveMin))) {
-                        $earlyLeaveMinutes = (int) abs($actualOut->diffInMinutes($expected));
+                        $earlyLeaveMinutes = max(0, (int) round(abs($actualOut->diffInMinutes($expected))));
                     }
                 }
             }
         } elseif ($isFlexible) {
             // Flexible: Only check overtime (worked more than full day hours)
             if ($totalWorkedHours > $fullDayHours) {
-                $overtimeMinutes = (int)(($totalWorkedHours - $fullDayHours) * 60);
+                $overtimeMinutes = max(0, (int) round(($totalWorkedHours - $fullDayHours) * 60));
             }
         }
 

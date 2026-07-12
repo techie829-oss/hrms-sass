@@ -4,7 +4,7 @@
         <p class="text-slate-500 mt-2 text-sm">Start your 14-day Professional trial today.</p>
     </div>
 
-    <form method="POST" action="{{ route('register') }}" class="space-y-6">
+    <form method="POST" action="{{ route('central.contact') }}" class="space-y-6">
         @csrf
 
         <!-- Company Info -->
