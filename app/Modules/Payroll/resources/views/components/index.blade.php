@@ -67,9 +67,87 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <button class="btn btn-ghost btn-xs btn-square rounded-xl hover:bg-slate-100" title="Edit (Coming soon)">
-                                    <span class="material-symbols-outlined text-sm">edit</span>
-                                </button>
+                                <div class="flex items-center justify-end gap-1">
+                                    <button onclick="document.getElementById('edit_component_{{ $component->id }}').showModal()" class="btn btn-ghost btn-xs btn-square rounded-xl hover:bg-slate-100 text-primary-600" title="Edit Component">
+                                        <span class="material-symbols-outlined text-sm">edit</span>
+                                    </button>
+                                    <form action="{{ route('payroll.components.destroy', $component->id) }}" method="POST" onsubmit="return confirm('Delete this component?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-ghost btn-xs btn-square rounded-xl hover:bg-rose-50 text-rose-500" title="Delete Component">
+                                            <span class="material-symbols-outlined text-sm">delete</span>
+                                        </button>
+                                    </form>
+                                </div>
+
+                                {{-- Edit Modal --}}
+                                <dialog id="edit_component_{{ $component->id }}" class="modal text-left">
+                                    <div class="modal-box max-w-lg bg-surface rounded-2xl p-6 shadow-2xl border border-outline-variant/20">
+                                        <div class="flex items-center justify-between pb-4 border-b border-outline-variant/10">
+                                            <h3 class="text-base font-bold text-on-surface">Edit Component — {{ $component->name }}</h3>
+                                            <button type="button" onclick="document.getElementById('edit_component_{{ $component->id }}').close()" class="btn btn-ghost btn-xs btn-circle">
+                                                <span class="material-symbols-outlined text-sm">close</span>
+                                            </button>
+                                        </div>
+                                        <form action="{{ route('payroll.components.update', $component->id) }}" method="POST" class="mt-4 space-y-4">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="grid grid-cols-2 gap-4">
+                                                <div class="form-control w-full">
+                                                    <label class="label text-[10px] font-bold uppercase opacity-60">Display Name</label>
+                                                    <input type="text" name="name" value="{{ $component->name }}" required class="input input-sm border border-slate-200 rounded-xl w-full text-xs" />
+                                                </div>
+                                                <div class="form-control w-full">
+                                                    <label class="label text-[10px] font-bold uppercase opacity-60">System Code</label>
+                                                    <input type="text" name="code" value="{{ $component->code }}" required class="input input-sm border border-slate-200 rounded-xl w-full text-xs uppercase" />
+                                                </div>
+                                                <div class="form-control w-full">
+                                                    <label class="label text-[10px] font-bold uppercase opacity-60">Entry Type</label>
+                                                    <select name="type" required class="select select-sm border border-slate-200 rounded-xl w-full text-xs">
+                                                        <option value="earning" {{ $component->type === 'earning' ? 'selected' : '' }}>Earning</option>
+                                                        <option value="deduction" {{ $component->type === 'deduction' ? 'selected' : '' }}>Deduction</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-control w-full">
+                                                    <label class="label text-[10px] font-bold uppercase opacity-60">Calculation Path</label>
+                                                    <select name="calculation_type" required class="select select-sm border border-slate-200 rounded-xl w-full text-xs">
+                                                        <option value="fixed" {{ $component->calculation_type === 'fixed' ? 'selected' : '' }}>Fixed Amount</option>
+                                                        <option value="percentage" {{ $component->calculation_type === 'percentage' ? 'selected' : '' }}>Percentage Based</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-control w-full">
+                                                    <label class="label text-[10px] font-bold uppercase opacity-60">Default Value / %</label>
+                                                    <input type="number" name="default_amount" step="0.01" value="{{ $component->default_amount }}" required class="input input-sm border border-slate-200 rounded-xl w-full text-xs" />
+                                                </div>
+                                                <div class="form-control w-full">
+                                                    <label class="label text-[10px] font-bold uppercase opacity-60">% Calculated On</label>
+                                                    <select name="percentage_base" class="select select-sm border border-slate-200 rounded-xl w-full text-xs">
+                                                        <option value="" {{ empty($component->percentage_base) ? 'selected' : '' }}>None (Fixed)</option>
+                                                        <option value="BASIC" {{ $component->percentage_base === 'BASIC' ? 'selected' : '' }}>Basic Salary</option>
+                                                        <option value="GROSS" {{ $component->percentage_base === 'GROSS' ? 'selected' : '' }}>Gross Salary</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="bg-slate-50/50 p-4 rounded-xl border border-slate-200/60 flex items-center gap-6">
+                                                <label class="flex items-center gap-2 cursor-pointer select-none">
+                                                    <input type="checkbox" name="is_taxable" value="1" class="checkbox checkbox-primary checkbox-sm rounded-md" {{ $component->is_taxable ? 'checked' : '' }} />
+                                                    <span class="text-[10px] font-bold uppercase opacity-70">Subject to Taxation</span>
+                                                </label>
+                                                <label class="flex items-center gap-2 cursor-pointer select-none">
+                                                    <input type="checkbox" name="is_mandatory" value="1" class="checkbox checkbox-primary checkbox-sm rounded-md" {{ $component->is_mandatory ? 'checked' : '' }} />
+                                                    <span class="text-[10px] font-bold uppercase opacity-70">Mandatory</span>
+                                                </label>
+                                            </div>
+                                            <div class="flex gap-2 justify-end pt-2">
+                                                <button type="button" onclick="document.getElementById('edit_component_{{ $component->id }}').close()" class="btn btn-ghost btn-sm rounded-xl text-xs uppercase font-bold">Cancel</button>
+                                                <button type="submit" class="btn btn-primary btn-sm rounded-xl text-xs uppercase font-bold">Update</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <form method="dialog" class="modal-backdrop bg-base-900/40 backdrop-blur-xs">
+                                        <button>close</button>
+                                    </form>
+                                </dialog>
                             </td>
                         </tr>
                     @empty

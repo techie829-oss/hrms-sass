@@ -346,11 +346,46 @@
                         <!-- Work History Tab -->
                         <input type="radio" name="employee_tabs" role="tab" class="tab text-[10px] font-bold uppercase tracking-widest [--tab-border-color:theme(colors.primary)] [--tab-bg:theme(colors.base-100)]" aria-label="Work History" />
                         <div role="tabpanel" class="tab-content bg-base-100 p-8 border-none">
-                            <div class="py-20 text-center opacity-40">
-                                <span class="material-symbols-outlined text-6xl">history</span>
-                                <p class="font-bold text-sm mt-4">Work history tracking coming soon.</p>
+                            <div class="max-w-3xl space-y-8">
+                                <h5 class="text-xs font-bold uppercase tracking-wider opacity-60 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm font-bold">history</span>
+                                    Career Milestones & Role Timeline
+                                </h5>
+                                <ul class="timeline timeline-vertical timeline-compact">
+                                    <li>
+                                        <div class="timeline-middle">
+                                            <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                                        </div>
+                                        <div class="timeline-end timeline-box bg-surface-container-lowest border border-outline-variant/15 rounded-2xl p-5 shadow-sm w-full">
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-xs font-black text-on-surface uppercase">{{ $employee->designation?->name ?? 'Current Designation' }}</span>
+                                                <span class="badge badge-primary badge-sm font-bold uppercase text-[10px]">Active Role</span>
+                                            </div>
+                                            <p class="text-xs text-on-surface-variant mt-1">Assigned to <span class="font-bold text-on-surface">{{ $employee->department?->name ?? 'General Department' }}</span></p>
+                                            <div class="mt-3 flex items-center gap-4 text-[10px] font-bold text-on-surface-variant opacity-70">
+                                                <span>Employment Type: {{ ucfirst($employee->employment_type ?? 'Full-time') }}</span>
+                                                <span>Status: {{ ucfirst($employee->status ?? 'Active') }}</span>
+                                            </div>
+                                        </div>
+                                        <hr class="bg-primary"/>
+                                    </li>
+                                    <li>
+                                        <hr class="bg-primary"/>
+                                        <div class="timeline-middle">
+                                            <span class="material-symbols-outlined text-primary text-lg">flight_land</span>
+                                        </div>
+                                        <div class="timeline-end timeline-box bg-surface-container-lowest border border-outline-variant/15 rounded-2xl p-5 shadow-sm w-full">
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-xs font-black text-on-surface uppercase">Joined Organisation</span>
+                                                <span class="text-[10px] font-bold text-on-surface-variant">{{ $employee->joining_date ? \Carbon\Carbon::parse($employee->joining_date)->format('d M, Y') : 'Date Not Recorded' }}</span>
+                                            </div>
+                                            <p class="text-xs text-on-surface-variant mt-1">Official onboarding completed under employee ID <span class="font-mono font-bold text-on-surface">{{ $employee->employee_code }}</span>.</p>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
+
 
                         <!-- Documents Tab -->
                         <input type="radio" name="employee_tabs" role="tab" class="tab text-[10px] font-bold uppercase tracking-widest [--tab-border-color:theme(colors.primary)] [--tab-bg:theme(colors.base-100)]" aria-label="Documents" {{ session('success') && str_contains(session('success'), 'Document') ? 'checked="checked"' : '' }} />

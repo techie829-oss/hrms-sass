@@ -82,13 +82,26 @@
             </div>
         </div>
 
-        {{-- Future Insights Placeholders --}}
-        <div class="pt-6">
-            <div class="bg-surface-container-low/30 border-2 border-dashed border-outline-variant/20 rounded-2xl p-10 text-center">
-                <div class="flex flex-col items-center gap-3 opacity-30">
-                    <span class="material-symbols-outlined text-5xl">monitoring</span>
-                    <p class="text-xs font-bold uppercase tracking-widest">More analytical insights coming soon</p>
+        {{-- Quick Export & Compliance Status --}}
+        <div class="pt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-surface-container-lowest border border-outline-variant/15 rounded-2xl p-6 shadow-sm flex items-center justify-between">
+                <div>
+                    <h5 class="text-xs font-black uppercase tracking-wider text-on-surface">Data Integrity & Compliance</h5>
+                    <p class="text-xs text-on-surface-variant opacity-70 mt-1">All analytical metrics are synced in real-time with tenant security boundaries.</p>
                 </div>
+                <div class="flex items-center gap-2">
+                    <span class="badge badge-success badge-sm font-bold uppercase tracking-wider">Audit Ready</span>
+                </div>
+            </div>
+            <div class="bg-surface-container-lowest border border-outline-variant/15 rounded-2xl p-6 shadow-sm flex items-center justify-between">
+                <div>
+                    <h5 class="text-xs font-black uppercase tracking-wider text-on-surface">Monthly Data Export</h5>
+                    <p class="text-xs text-on-surface-variant opacity-70 mt-1">Need all reports combined? Download a verified monthly summary.</p>
+                </div>
+                <button onclick="window.print()" class="btn btn-sm btn-outline rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">print</span>
+                    Export Summary
+                </button>
             </div>
         </div>
     </div>

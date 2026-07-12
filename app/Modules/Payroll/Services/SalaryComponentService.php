@@ -46,4 +46,24 @@ class SalaryComponentService extends BaseService
     {
         return $this->repository->getAllKeyedByCode();
     }
+
+    public function updateComponent($id, SalaryComponentData $data)
+    {
+        return $this->repository->update($id, [
+            'name' => $data->name,
+            'code' => $data->code,
+            'type' => $data->type,
+            'calculation_type' => $data->calculation_type,
+            'default_amount' => $data->default_amount,
+            'percentage_base' => $data->percentage_base,
+            'is_taxable' => $data->is_taxable,
+            'is_mandatory' => $data->is_mandatory,
+            'display_order' => $data->display_order,
+        ]);
+    }
+
+    public function deleteComponent($id)
+    {
+        return $this->repository->delete($id);
+    }
 }

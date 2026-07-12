@@ -18,6 +18,8 @@ Route::name('payroll.')->middleware(['auth', 'tenant.active', 'scope.roles', 'mo
     Route::prefix('settings')->group(function () {
         Route::get('components', [SalaryComponentController::class, 'index'])->name('components.index');
         Route::post('components', [SalaryComponentController::class, 'store'])->name('components.store');
+        Route::put('components/{component}', [SalaryComponentController::class, 'update'])->name('components.update');
+        Route::delete('components/{component}', [SalaryComponentController::class, 'destroy'])->name('components.destroy');
     });
 
     Route::resource('salary-structures', SalaryStructureController::class)->names('salary_structures');

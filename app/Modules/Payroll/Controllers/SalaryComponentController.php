@@ -29,4 +29,23 @@ class SalaryComponentController extends BaseController
         return redirect()->route('payroll.components.index')
             ->with('success', 'Salary component created successfully.');
     }
+
+    public function update(StoreSalaryComponentRequest $request, $component)
+    {
+        $this->authorize('manage', PayrollRun::class);
+        $data = SalaryComponentData::fromRequest($request);
+        $this->salaryComponentService->updateComponent($component, $data);
+
+        return redirect()->route('payroll.components.index')
+            ->with('success', 'Salary component updated successfully.');
+    }
+
+    public function destroy($component)
+    {
+        $this->authorize('manage', PayrollRun::class);
+        $this->salaryComponentService->deleteComponent($component);
+
+        return redirect()->route('payroll.components.index')
+            ->with('success', 'Salary component deleted successfully.');
+    }
 }
