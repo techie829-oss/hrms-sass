@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\SaaS\RazorpayController;
 use App\Http\Controllers\SaaS\WebhookController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 
 // 1. Foundation: Central Host Identification
@@ -30,6 +31,7 @@ Route::domain($centralHost)->middleware(['web'])->group(function () {
     Route::get('/features', fn() => view('core.features'))->name('central.features');
     Route::get('/about', fn() => view('core.about'))->name('central.about');
     Route::get('/contact', fn() => view('core.contact'))->name('central.contact');
+    Route::post('/contact', [ContactController::class, 'store'])->name('central.contact.store');
 
     // Codebase-driven SEO Feature Landing Pages
     Route::get('/hrms-software', fn() => view('features.hrms-software'))->name('features.hrms');

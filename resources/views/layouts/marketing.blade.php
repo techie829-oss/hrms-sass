@@ -29,10 +29,10 @@
 <body class="bg-white text-gray-900 selection:bg-blue-100 selection:text-blue-900 flex flex-col min-h-screen">
 
     <!-- Vibrant Navigation -->
-    <header class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+    <header class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm" x-data="{ mobileOpen: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <!-- Logo with Geeno Style -->
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="/" class="flex items-center gap-2">
                         <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center relative shadow-sm">
@@ -51,7 +51,7 @@
                     <a href="/contact" class="text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
                 </nav>
 
-                <!-- CTA -->
+                <!-- Desktop CTA -->
                 <div class="hidden md:flex items-center space-x-4">
                     <a href="/login" class="text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors">Log in</a>
                     
@@ -66,6 +66,57 @@
                     @endif
 
                     <a href="/contact" class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg shadow-sm text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors">
+                        Start Trial
+                    </a>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <button
+                    type="button"
+                    class="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-colors"
+                    @click="mobileOpen = !mobileOpen"
+                    aria-label="Toggle menu"
+                >
+                    <svg x-show="!mobileOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg x-show="mobileOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div
+            x-show="mobileOpen"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 -translate-y-2"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 translate-y-0"
+            x-transition:leave-end="opacity-0 -translate-y-2"
+            class="md:hidden border-t border-gray-100 bg-white"
+            style="display:none"
+        >
+            <div class="px-4 py-4 space-y-1">
+                <a href="/features" class="block px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Features</a>
+                <a href="/pricing" class="block px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Pricing</a>
+                <a href="/about" class="block px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">About</a>
+                <a href="/contact" class="block px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Contact</a>
+                <a href="/faqs" class="block px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">FAQs</a>
+                <div class="pt-3 border-t border-gray-100 flex flex-col gap-3">
+                    <a href="/login" class="block text-center px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 border border-gray-200 hover:border-blue-300 hover:text-blue-600 transition-colors">Log in</a>
+                    @if(\Illuminate\Support\Facades\Cookie::has('demo_access_granted'))
+                        <a href="https://demo.hr.solidrix.com/" target="_blank" class="block text-center px-4 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-red-500">
+                            Start Demo
+                        </a>
+                    @else
+                        <button type="button" x-data @click="$dispatch('open-demo-modal'); mobileOpen = false" class="block w-full text-center px-4 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-red-500">
+                            Start Demo
+                        </button>
+                    @endif
+                    <a href="/contact" class="block text-center px-4 py-3 rounded-xl text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors">
                         Start Trial
                     </a>
                 </div>
