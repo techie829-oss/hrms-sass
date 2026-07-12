@@ -73,9 +73,9 @@
 
         {{-- Payroll Run Status Banner --}}
         @if($payrollRun)
-            <div class="flex items-center gap-4 p-4 rounded-xl border {{ $payrollRun->status === 'processed' ? 'bg-success/5 border-success/10' : 'bg-warning/5 border-warning/10' }}">
-                <span class="material-symbols-outlined {{ $payrollRun->status === 'processed' ? 'text-success' : 'text-warning' }} text-xl">
-                    {{ $payrollRun->status === 'processed' ? 'verified' : 'pending' }}
+            <div class="flex items-center gap-4 p-4 rounded-xl border {{ $payrollRun->status === 'completed' ? 'bg-success/5 border-success/10' : 'bg-warning/5 border-warning/10' }}">
+                <span class="material-symbols-outlined {{ $payrollRun->status === 'completed' ? 'text-success' : 'text-warning' }} text-xl">
+                    {{ $payrollRun->status === 'completed' ? 'verified' : 'pending' }}
                 </span>
                 <div>
                     <p class="text-[10px] font-black text-on-surface uppercase tracking-wider">
