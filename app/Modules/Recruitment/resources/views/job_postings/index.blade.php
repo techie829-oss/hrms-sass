@@ -1,3 +1,7 @@
+@php
+use App\Core\Constants\PermissionConstants;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -6,7 +10,7 @@
                 <p class="text-sm opacity-70 mt-1">Manage job postings and track candidates.</p>
             </div>
             <div class="flex gap-3">
-                @can('create', \App\Modules\Recruitment\Models\JobPosting::class)
+                @can(PermissionConstants::MANAGE_RECRUITMENT)
                     <a href="{{ route('recruitment.job_postings.create') }}" class="btn btn-primary">
                         <span class="material-symbols-outlined text-base">work</span> New Job Posting
                     </a>

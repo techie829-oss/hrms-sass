@@ -147,9 +147,9 @@
                                 </div>
                                 <div>
                                     <p class="font-bold text-primary-900">Phone</p>
-                                    <p class="text-primary-800">+91 70074 20572</p>
+                                    <p class="text-primary-800">+91 98116 55457</p>
                                     <p class="text-xs mt-1">
-                                        <a href="https://wa.me/917007420572?text=Hello%20School+ERP,%20I%20have%20an%20inquiry%20about%20your%20services."
+                                        <a href="https://wa.me/919811655457?text=Hello%20School+ERP,%20I%20have%20an%20inquiry%20about%20your%20services."
                                             target="_blank" class="text-primary-600 hover:text-primary-800 font-medium flex items-center gap-1 group">
                                             <span>Chat on WhatsApp</span>
                                             <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>

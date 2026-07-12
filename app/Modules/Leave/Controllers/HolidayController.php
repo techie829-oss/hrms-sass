@@ -6,27 +6,29 @@ use App\Core\BaseController;
 use App\Modules\Leave\Models\Holiday;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Modules\Leave\Requests\StoreHolidayRequest;
+use App\Modules\Leave\DTOs\HolidayData;
+use App\Modules\Leave\Services\HolidayService;
 
 class HolidayController extends BaseController
 {
+    public function __construct(
+        protected HolidayService $holidayService
+    ) {}
+
     public function index()
     {
         $this->authorize('viewAny', Holiday::class);
-        $holidays = Holiday::orderBy('date')->get();
+        $holidays = $this->holidayService->getAllOrderedByDate();
         return view('leave::holidays.index', compact('holidays'));
     }
 
-    public function store(Request $request)
+    public function store(StoreHolidayRequest $request)
     {
         $this->authorize('create', Holiday::class);
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'date' => 'required|date',
-            'is_optional' => 'boolean',
-            'description' => 'nullable|string',
-        ]);
-
-        Holiday::create(array_merge($validated, ['tenant_id' => saas_tenant('id')]));
+        
+        $dto = HolidayData::fromArray($request->validated(), saas_tenant('id'));
+        $this->holidayService->createHoliday($dto);
 
         return back()->with('success', 'Holiday added successfully.');
     }
@@ -34,7 +36,8 @@ class HolidayController extends BaseController
     public function destroy(Holiday $holiday)
     {
         $this->authorize('delete', $holiday);
-        $holiday->delete();
+        $this->holidayService->deleteHoliday($holiday);
+        
         return back()->with('success', 'Holiday deleted successfully.');
     }
 }

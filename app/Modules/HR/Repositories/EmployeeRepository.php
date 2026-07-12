@@ -24,6 +24,11 @@ class EmployeeRepository extends BaseRepository implements EmployeeRepositoryInt
         return $this->model->where('status', 'active')->count();
     }
 
+    public function getActiveEmployees(): Collection
+    {
+        return $this->model->where('status', 'active')->orderBy('first_name')->get();
+    }
+
     // Explicitly typing return for interface compliance
     public function find(int|string $id): ?Employee
     {

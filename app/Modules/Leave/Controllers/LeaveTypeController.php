@@ -5,30 +5,31 @@ namespace App\Modules\Leave\Controllers;
 use App\Core\BaseController;
 use App\Modules\Leave\Models\LeaveType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use App\Core\Constants\PermissionConstants;
+use App\Modules\Leave\Requests\StoreLeaveTypeRequest;
+use App\Modules\Leave\DTOs\LeaveTypeData;
+use App\Modules\Leave\Services\LeaveTypeService;
 
 class LeaveTypeController extends BaseController
 {
+    public function __construct(
+        protected LeaveTypeService $leaveTypeService
+    ) {}
+
     public function index()
     {
-        \Illuminate\Support\Facades\Gate::authorize('manage_settings');
-        $leaveTypes = LeaveType::all();
+        Gate::authorize(PermissionConstants::MANAGE_LEAVE);
+        $leaveTypes = $this->leaveTypeService->getActiveLeaveTypes();
         return view('leave::types.index', compact('leaveTypes'));
     }
 
-    public function store(Request $request)
+    public function store(StoreLeaveTypeRequest $request)
     {
-        \Illuminate\Support\Facades\Gate::authorize('manage_settings');
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:10'],
-            'max_days_per_year' => ['required', 'integer', 'min:0'],
-            'is_paid' => ['boolean'],
-            'is_carry_forward' => ['boolean'],
-            'applicable_in_probation' => ['boolean'],
-            'description' => ['nullable', 'string'],
-        ]);
-
-        LeaveType::create(array_merge($validated, ['tenant_id' => saas_tenant('id')]));
+        $validated = $request->validated();
+        
+        $dto = LeaveTypeData::fromArray($validated, saas_tenant('id'));
+        $this->leaveTypeService->createLeaveType($dto);
 
         return redirect()->route('leave.types.index')
             ->with('success', 'Leave type created successfully.');

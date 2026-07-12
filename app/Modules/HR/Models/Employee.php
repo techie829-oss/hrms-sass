@@ -4,14 +4,20 @@ namespace App\Modules\HR\Models;
 
 use App\Core\Traits\BelongsToTenant;
 use App\Core\Traits\HasDynamicSchema;
+use App\Models\User;
+use App\Modules\Attendance\Models\AttendanceLog;
+use App\Modules\Attendance\Models\AttendanceShift;
+use App\Modules\Performance\Models\Appraisal;
+use App\Modules\Performance\Models\Goal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Employee extends Model
 {
-    use BelongsToTenant, HasDynamicSchema, HasFactory, LogsActivity;
+    use BelongsToTenant, HasDynamicSchema, HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [
         'tenant_id',
@@ -67,12 +73,12 @@ class Employee extends Model
 
     public function user()
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function todayAttendance()
     {
-        return $this->hasOne(\App\Modules\Attendance\Models\AttendanceLog::class)->where('date', now()->toDateString());
+        return $this->hasOne(AttendanceLog::class)->where('date', now()->toDateString());
     }
 
     public function department()
@@ -87,7 +93,7 @@ class Employee extends Model
 
     public function attendanceShift()
     {
-        return $this->belongsTo(\App\Modules\Attendance\Models\AttendanceShift::class);
+        return $this->belongsTo(AttendanceShift::class);
     }
 
     public function reportingTo()
@@ -97,7 +103,7 @@ class Employee extends Model
 
     public function appraisals()
     {
-        return $this->hasMany(\App\Modules\Performance\Models\Appraisal::class);
+        return $this->hasMany(Appraisal::class);
     }
 
     public function documents()
@@ -107,12 +113,12 @@ class Employee extends Model
 
     public function attendanceLogs()
     {
-        return $this->hasMany(\App\Modules\Attendance\Models\AttendanceLog::class);
+        return $this->hasMany(AttendanceLog::class);
     }
 
     public function goals()
     {
-        return $this->hasMany(\App\Modules\Performance\Models\Goal::class);
+        return $this->hasMany(Goal::class);
     }
 
     public function bankAccounts()

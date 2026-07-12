@@ -5,6 +5,9 @@ namespace App\Modules\HR\Services;
 use App\Core\BaseService;
 use App\Modules\HR\Interfaces\DesignationRepositoryInterface;
 
+/**
+ * @property DesignationRepositoryInterface $repository
+ */
 class DesignationService extends BaseService
 {
     public function __construct(DesignationRepositoryInterface $repository)

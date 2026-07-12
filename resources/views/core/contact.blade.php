@@ -135,8 +135,8 @@
                             </div>
                             <div>
                                 <p class="font-bold text-gray-800 text-sm">Phone</p>
-                                <p class="text-gray-600 text-sm">+91 70074 20572</p>
-                                <a href="https://wa.me/917007420572?text=Hello,%20I%20have%20an%20inquiry%20about%20Solidrix%20HRMS." target="_blank"
+                                <p class="text-gray-600 text-sm">+91 98116 55457</p>
+                                <a href="https://wa.me/919811655457?text=Hello,%20I%20have%20an%20inquiry%20about%20Solidrix%20HRMS." target="_blank"
                                     class="text-blue-600 hover:text-blue-800 text-xs font-medium flex items-center gap-1 mt-1 group">
                                     <span>Chat on WhatsApp</span>
                                     <span class="group-hover:translate-x-1 transition-transform inline-block">→</span>
@@ -179,7 +179,7 @@
                             </div>
                             <div>
                                 <p class="font-bold text-gray-800 text-sm">Live Demo</p>
-                                <a href="https://wa.me/917007420572?text=Hi,%20I%20want%20to%20book%20a%20demo%20of%20Solidrix%20HRMS." target="_blank" class="text-amber-600 hover:text-amber-800 text-xs font-medium flex items-center gap-1 mt-1 group">
+                                <a href="https://wa.me/919811655457?text=Hi,%20I%20want%20to%20book%20a%20demo%20of%20Solidrix%20HRMS." target="_blank" class="text-amber-600 hover:text-amber-800 text-xs font-medium flex items-center gap-1 mt-1 group">
                                     <span>Book a Demo on WhatsApp</span>
                                     <span class="group-hover:translate-x-1 transition-transform inline-block">→</span>
                                 </a>

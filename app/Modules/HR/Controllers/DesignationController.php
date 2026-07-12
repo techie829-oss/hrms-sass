@@ -7,6 +7,10 @@ use App\Modules\HR\Models\Department;
 use App\Modules\HR\Services\DesignationService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Core\Constants\PermissionConstants;
+use App\Modules\HR\Requests\StoreDesignationRequest;
+use App\Modules\HR\Requests\UpdateDesignationRequest;
+use App\Modules\HR\DTOs\DesignationData;
 
 class DesignationController extends BaseController
 {
@@ -16,43 +20,29 @@ class DesignationController extends BaseController
 
     public function index()
     {
+        $this->authorize(PermissionConstants::VIEW_DEPARTMENTS);
+
         $designations = $this->designationService->getAllWithCounts();
         $departments = Department::all();
-        
+
         return view('hr::designations.index', compact('designations', 'departments'));
     }
 
-    public function store(Request $request)
+    public function store(StoreDesignationRequest $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:50', Rule::unique('designations')->where('tenant_id', saas_tenant('id'))],
-            'department_id' => ['required', 'exists:departments,id'],
-            'description' => ['nullable', 'string'],
-            'min_salary' => ['nullable', 'numeric', 'min:0'],
-            'max_salary' => ['nullable', 'numeric', 'min:0', 'gte:min_salary'],
-            'is_active' => ['boolean']
-        ]);
+        $dto = DesignationData::fromRequest($request->validated());
 
-        $this->designationService->create($validated);
+        $this->designationService->create($dto->toArray());
 
         return redirect()->route('hr.designations.index')
             ->with('success', 'Designation created successfully.');
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateDesignationRequest $request, int $id)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:50', Rule::unique('designations')->where('tenant_id', saas_tenant('id'))->ignore($id)],
-            'department_id' => ['required', 'exists:departments,id'],
-            'description' => ['nullable', 'string'],
-            'min_salary' => ['nullable', 'numeric', 'min:0'],
-            'max_salary' => ['nullable', 'numeric', 'min:0', 'gte:min_salary'],
-            'is_active' => ['boolean']
-        ]);
+        $dto = DesignationData::fromRequest($request->validated());
 
-        $this->designationService->update($id, $validated);
+        $this->designationService->update($id, $dto->toArray());
 
         return redirect()->route('hr.designations.index')
             ->with('success', 'Designation updated successfully.');
@@ -60,6 +50,8 @@ class DesignationController extends BaseController
 
     public function destroy(int $id)
     {
+        $this->authorize(PermissionConstants::MANAGE_DEPARTMENTS);
+
         $this->designationService->delete($id);
 
         return redirect()->route('hr.designations.index')

@@ -1,3 +1,7 @@
+@php
+use App\Core\Constants\PermissionConstants;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center gap-4">
@@ -296,7 +300,7 @@
                     </div>
 
                     @php
-                        $permissionDetails = \App\Core\Constants\PermissionConstants::getPermissionDetails();
+                        $permissionDetails = PermissionConstants::getPermissionDetails();
                         $dbPermissions = $permissions->pluck('name')->toArray();
                     @endphp
                     <div class="col-span-2 mt-6">

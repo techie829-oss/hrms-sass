@@ -1,3 +1,7 @@
+@php
+use App\Modules\Operations\Models\Project;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -129,7 +133,7 @@
                         <label class="label text-xs uppercase font-bold">Select Project (Optional)</label>
                         <select name="project_id" class="select select-bordered w-full">
                             <option value="">General / Outside Project</option>
-                            @foreach(\App\Modules\Operations\Models\Project::where('tenant_id', saas_tenant('id'))->get() as $project)
+                            @foreach(Project::where('tenant_id', saas_tenant('id'))->get() as $project)
                                 <option value="{{ $project->id }}">{{ $project->name }}</option>
                             @endforeach
                         </select>

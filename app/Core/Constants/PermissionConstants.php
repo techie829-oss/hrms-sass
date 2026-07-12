@@ -16,69 +16,72 @@ namespace App\Core\Constants;
 class PermissionConstants
 {
     // ── DASHBOARD ──────────────────────────────────────────────────────────
-    public const VIEW_DASHBOARD         = 'view_dashboard';
+    public const VIEW_DASHBOARD         = 'core_dashboard_view';
 
     // ── EMPLOYEES (HR) ─────────────────────────────────────────────────────
-    public const VIEW_EMPLOYEES         = 'view_employees';
-    public const CREATE_EMPLOYEES       = 'create_employees';
-    public const EDIT_EMPLOYEES         = 'edit_employees';
-    public const DELETE_EMPLOYEES       = 'delete_employees';
-    public const VIEW_DEPARTMENTS       = 'view_departments';
+    public const VIEW_EMPLOYEES         = 'hr_employee_view';
+    public const CREATE_EMPLOYEES       = 'hr_employee_create';
+    public const EDIT_EMPLOYEES         = 'hr_employee_edit';
+    public const DELETE_EMPLOYEES       = 'hr_employee_delete';
+    public const VIEW_DEPARTMENTS       = 'hr_department_view';
+    public const MANAGE_DEPARTMENTS     = 'hr_department_manage';
+    public const VIEW_DESIGNATIONS      = 'hr_designation_view';
+    public const MANAGE_DESIGNATIONS    = 'hr_designation_manage';
 
     // ── ATTENDANCE ─────────────────────────────────────────────────────────
-    public const VIEW_ATTENDANCE        = 'view_attendance';
-    public const VIEW_OWN_ATTENDANCE    = 'view_own_attendance';
-    public const VIEW_ALL_ATTENDANCE    = 'view_all_attendance';
-    public const MANAGE_ATTENDANCE      = 'manage_attendance';
+    public const VIEW_ATTENDANCE        = 'attendance_log_view_team';
+    public const VIEW_OWN_ATTENDANCE    = 'attendance_log_view_own';
+    public const VIEW_ALL_ATTENDANCE    = 'attendance_log_view_all';
+    public const MANAGE_ATTENDANCE      = 'attendance_log_manage';
 
     // ── LEAVE ──────────────────────────────────────────────────────────────
-    public const CREATE_LEAVE           = 'create_leave';
-    public const CANCEL_LEAVE           = 'cancel_leave';
-    public const MANAGE_LEAVE           = 'manage_leave';
-    public const VIEW_OWN_LEAVE         = 'view_own_leave';
+    public const CREATE_LEAVE           = 'leave_request_create';
+    public const CANCEL_LEAVE           = 'leave_request_cancel';
+    public const MANAGE_LEAVE           = 'leave_request_manage';
+    public const VIEW_OWN_LEAVE         = 'leave_request_view_own';
 
     // ── HOLIDAYS ───────────────────────────────────────────────────────────
-    public const VIEW_HOLIDAYS          = 'view_holidays';
-    public const MANAGE_HOLIDAYS        = 'manage_holidays';
+    public const VIEW_HOLIDAYS          = 'leave_holiday_view';
+    public const MANAGE_HOLIDAYS        = 'leave_holiday_manage';
 
     // ── COMP-OFF ───────────────────────────────────────────────────────────
-    public const VIEW_COMP_OFF          = 'view_comp_off';
-    public const VIEW_OWN_COMP_OFF      = 'view_own_comp_off';
-    public const CREATE_COMP_OFF        = 'create_comp_off';
-    public const MANAGE_COMP_OFF        = 'manage_comp_off';
+    public const VIEW_COMP_OFF          = 'leave_compoff_view_team';
+    public const VIEW_OWN_COMP_OFF      = 'leave_compoff_view_own';
+    public const CREATE_COMP_OFF        = 'leave_compoff_create';
+    public const MANAGE_COMP_OFF        = 'leave_compoff_manage';
 
     // ── PAYROLL ────────────────────────────────────────────────────────────
-    public const VIEW_PAYROLL           = 'view_payroll';
-    public const VIEW_OWN_PAYROLL       = 'view_own_payroll';
-    public const MANAGE_PAYROLL         = 'manage_payroll';
+    public const VIEW_PAYROLL           = 'payroll_run_view_team';
+    public const VIEW_OWN_PAYROLL       = 'payroll_run_view_own';
+    public const MANAGE_PAYROLL         = 'payroll_run_manage';
 
     // ── OPERATIONS (Leads / Projects / Tasks) ──────────────────────────────
-    public const VIEW_LEADS             = 'view_leads';
-    public const MANAGE_LEADS           = 'manage_leads';
-    public const VIEW_PROJECTS          = 'view_projects';
-    public const MANAGE_PROJECTS        = 'manage_projects';
-    public const VIEW_TASKS             = 'view_tasks';
-    public const MANAGE_TASKS           = 'manage_tasks';
+    public const VIEW_LEADS             = 'operations_lead_view';
+    public const MANAGE_LEADS           = 'operations_lead_manage';
+    public const VIEW_PROJECTS          = 'operations_project_view';
+    public const MANAGE_PROJECTS        = 'operations_project_manage';
+    public const VIEW_TASKS             = 'operations_task_view';
+    public const MANAGE_TASKS           = 'operations_task_manage';
 
     // ── TIMESHEET ──────────────────────────────────────────────────────────
-    public const VIEW_TIMESHEET         = 'view_timesheet';
-    public const VIEW_OWN_TIMESHEET     = 'view_own_timesheet';
-    public const MANAGE_TIMESHEET       = 'manage_timesheet';
+    public const VIEW_TIMESHEET         = 'timesheet_log_view_team';
+    public const VIEW_OWN_TIMESHEET     = 'timesheet_log_view_own';
+    public const MANAGE_TIMESHEET       = 'timesheet_log_manage';
 
     // ── PERFORMANCE ────────────────────────────────────────────────────────
-    public const VIEW_PERFORMANCE       = 'view_performance';
-    public const VIEW_OWN_PERFORMANCE   = 'view_own_performance';
-    public const MANAGE_PERFORMANCE     = 'manage_performance';
+    public const VIEW_PERFORMANCE       = 'performance_appraisal_view_team';
+    public const VIEW_OWN_PERFORMANCE   = 'performance_appraisal_view_own';
+    public const MANAGE_PERFORMANCE     = 'performance_appraisal_manage';
 
     // ── RECRUITMENT ────────────────────────────────────────────────────────
-    public const VIEW_RECRUITMENT       = 'view_recruitment';
-    public const MANAGE_RECRUITMENT     = 'manage_recruitment';
+    public const VIEW_RECRUITMENT       = 'recruitment_job_view';
+    public const MANAGE_RECRUITMENT     = 'recruitment_job_manage';
 
     // ── REPORTS ────────────────────────────────────────────────────────────
-    public const VIEW_REPORTS           = 'view_reports';
+    public const VIEW_REPORTS           = 'reports_analytics_view';
 
     // ── SETTINGS ───────────────────────────────────────────────────────────
-    public const MANAGE_SETTINGS        = 'manage_settings';
+    public const MANAGE_SETTINGS        = 'core_settings_manage';
 
     /**
      * Get a structured array of permissions grouped by Module for UI rendering.
@@ -96,6 +99,9 @@ class PermissionConstants
                 self::EDIT_EMPLOYEES => 'Edit Employee',
                 self::DELETE_EMPLOYEES => 'Delete Employee',
                 self::VIEW_DEPARTMENTS => 'View Departments',
+                self::MANAGE_DEPARTMENTS => 'Manage Departments',
+                self::VIEW_DESIGNATIONS => 'View Designations',
+                self::MANAGE_DESIGNATIONS => 'Manage Designations',
             ],
             'Attendance' => [
                 self::MANAGE_ATTENDANCE => 'Full Control (Manage All)',

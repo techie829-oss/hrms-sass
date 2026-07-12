@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Core\Constants\PermissionConstants;
+use App\Modules\HR\Models\Employee;
 
 class ProfileController extends Controller
 {
@@ -111,7 +113,7 @@ class ProfileController extends Controller
         $currentUser = $request->user();
         
         // Only allow admins or the employee themselves to update their profile
-        if (!$currentUser->can('manage_employees')) {
+        if (!$currentUser->can(PermissionConstants::EDIT_EMPLOYEES)) {
             // Logic for self-update or check if they are trying to update someone else
             // For now, if they don't have manage_employees, we check if the request is for themselves
             if ($request->employee_id && $currentUser->employee?->id != $request->employee_id) {
@@ -124,7 +126,7 @@ class ProfileController extends Controller
             'main_image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:5120'],
         ]);
 
-        $employee = \App\Modules\HR\Models\Employee::findOrFail($request->employee_id);
+        $employee = Employee::findOrFail($request->employee_id);
         $path = $request->file('main_image')->store('official_photos', 'public');
         $employee->update(['main_image' => $path]);
 

@@ -5,13 +5,9 @@ namespace App\Modules\Payroll\Controllers;
 use App\Core\BaseController;
 use App\Modules\Payroll\Models\PayrollRun;
 use App\Modules\Payroll\Models\Payslip;
-use App\Modules\Payroll\Models\SalaryComponent;
-use App\Modules\Payroll\Models\SalaryStructure;
-use App\Modules\HR\Models\Employee;
 use App\Modules\Payroll\Services\PayrollService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Modules\Payroll\Requests\StorePayrollRunRequest;
+use App\Modules\Payroll\DTOs\PayrollRunData;
 
 class PayrollController extends BaseController
 {
@@ -21,30 +17,21 @@ class PayrollController extends BaseController
 
     public function index()
     {
-        $runs = PayrollRun::latest()->paginate(10);
+        $this->authorize('viewAny', PayrollRun::class);
+        $runs = $this->payrollService->paginateRuns(10);
         return view('payroll::index', compact('runs'));
     }
 
     public function create()
     {
+        $this->authorize('create', PayrollRun::class);
         return view('payroll::create');
     }
 
-    public function store(Request $request)
+    public function store(StorePayrollRunRequest $request)
     {
-        $validated = $request->validate([
-            'month' => ['required', 'integer', 'min:1', 'max:12'],
-            'year' => ['required', 'integer', 'min:2020'],
-            'pay_date' => ['required', 'date'],
-            'notes' => ['nullable', 'string'],
-        ]);
-
-        $title = \Carbon\Carbon::createFromDate($validated['year'], $validated['month'], 1)->format('F Y') . " Payroll";
-
-        $run = PayrollRun::create(array_merge($validated, [
-            'title' => $title,
-            'status' => 'draft',
-        ]));
+        $data = PayrollRunData::fromRequest($request);
+        $run = $this->payrollService->createRun($data);
 
         return redirect()->route('payroll.show', $run->id)
             ->with('success', 'Payroll run initialized as draft.');
@@ -52,18 +39,20 @@ class PayrollController extends BaseController
 
     public function show(PayrollRun $run)
     {
-        $payslips = $run->payslips()->with('employee')->paginate(20);
+        $this->authorize('view', $run);
+        $payslips = $this->payrollService->getPayslips($run->id, 20);
         return view('payroll::show', compact('run', 'payslips'));
     }
 
     public function generate(PayrollRun $run)
     {
+        $this->authorize('create', PayrollRun::class);
         if ($run->status === 'completed') {
             return back()->with('error', 'Completed payroll runs cannot be re-generated.');
         }
 
         try {
-            $processed = $this->payrollService->generatePayslips($run);
+            $processed = $this->payrollService->generatePayslips($run->id);
             return back()->with('success', "Payslips for $processed employees generated successfully.");
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to generate payslips: ' . $e->getMessage());
@@ -72,6 +61,7 @@ class PayrollController extends BaseController
 
     public function download(Payslip $payslip)
     {
+        $this->authorize('viewPayslip', [PayrollRun::class, $payslip]);
         $payslip->load('employee', 'payrollRun');
         return view('payroll::payslip_print', compact('payslip'));
     }

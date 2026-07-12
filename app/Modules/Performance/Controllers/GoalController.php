@@ -4,42 +4,41 @@ namespace App\Modules\Performance\Controllers;
 
 use App\Core\BaseController;
 use App\Modules\Performance\Models\Goal;
-use App\Modules\HR\Models\Employee;
-use Illuminate\Http\Request;
+use App\Modules\HR\Services\EmployeeService;
+use App\Modules\Performance\Requests\StoreGoalRequest;
+use App\Modules\Performance\Requests\UpdateGoalRequest;
+use App\Modules\Performance\DTOs\GoalData;
+use App\Modules\Performance\Services\GoalService;
 
 class GoalController extends BaseController
 {
+    public function __construct(
+        protected GoalService $goalService,
+        protected EmployeeService $employeeService
+    ) {
+        $this->authorizeResource(Goal::class, 'goal');
+    }
+
     public function index()
     {
-        $goals = Goal::with('employee')->paginate(15);
-        $employees = Employee::active()->get();
+        $goals = $this->goalService->getPaginatedWithRelations(15);
+        $employees = $this->employeeService->getActiveEmployees();
         return view('performance::goals.index', compact('goals', 'employees'));
     }
 
-    public function store(Request $request)
+    public function store(StoreGoalRequest $request)
     {
-        $validated = $request->validate([
-            'employee_id' => ['required', 'exists:employees,id'],
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'start_date' => ['required', 'date'],
-            'end_date' => ['required', 'date', 'after_or_equal:start_date'],
-        ]);
-
-        Goal::create($validated);
+        $dto = GoalData::fromStoreRequest($request->validated());
+        $this->goalService->createGoal($dto);
 
         return redirect()->route('performance.goals.index')
             ->with('success', 'Goal created successfully.');
     }
 
-    public function update(Request $request, Goal $goal)
+    public function update(UpdateGoalRequest $request, Goal $goal)
     {
-        $validated = $request->validate([
-            'progress_percentage' => ['required', 'integer', 'min:0', 'max:100'],
-            'status' => ['required', 'in:in_progress,completed,cancelled'],
-        ]);
-
-        $goal->update($validated);
+        $dto = GoalData::fromUpdateRequest($request->validated());
+        $this->goalService->updateGoal($goal, $dto);
 
         return redirect()->route('performance.goals.index')
             ->with('success', 'Goal progress updated.');

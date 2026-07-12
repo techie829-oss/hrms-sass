@@ -1,3 +1,7 @@
+@php
+use App\Core\Constants\PermissionConstants;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -6,7 +10,7 @@
                 <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Earned time-off for working extra days or holidays.</p>
             </div>
             <div class="flex items-center gap-2">
-                @can('manage_comp_off')
+                @can(PermissionConstants::MANAGE_COMP_OFF)
                 <button onclick="one_click_settle_modal.showModal()" class="btn btn-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-3.5 shadow-sm flex items-center justify-center gap-1.5 font-semibold text-xs">
                     <span class="material-symbols-outlined text-sm text-indigo-600">auto_fix_high</span> One-Click Settle
                 </button>
@@ -89,7 +93,7 @@
                             @endif
                         </td>
                         <td class="py-3 px-4 text-right">
-                            @if($request->status === 'pending' && Auth::user()->can('manage_comp_off'))
+                            @if($request->status === 'pending' && Auth::user()->can(PermissionConstants::MANAGE_COMP_OFF))
                             <div class="flex justify-end items-center gap-2">
                                 <form action="{{ route('leave.comp-off.status', $request->id) }}" method="POST" class="inline">
                                     @csrf

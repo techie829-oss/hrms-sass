@@ -5,8 +5,12 @@ namespace App\Modules\Attendance\Repositories;
 use App\Core\BaseRepository;
 use App\Modules\Attendance\Interfaces\AttendanceRepositoryInterface;
 use App\Modules\Attendance\Models\AttendanceLog;
+use App\Modules\Attendance\Models\AttendanceDailySummary;
+use App\Modules\Attendance\Models\AttendanceShift;
+use App\Modules\HR\Models\Employee;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Carbon\Carbon;
 
 class AttendanceRepository extends BaseRepository implements AttendanceRepositoryInterface
 {
@@ -47,7 +51,7 @@ class AttendanceRepository extends BaseRepository implements AttendanceRepositor
             ->where('date', $date)
             ->first();
 
-        if ($log) {
+        if ($log instanceof AttendanceLog) {
             $log->update([
                 'check_out' => $data['check_out'] ?? now()->toTimeString(),
                 'check_out_ip' => $data['check_out_ip'] ?? null,
@@ -114,5 +118,53 @@ class AttendanceRepository extends BaseRepository implements AttendanceRepositor
         }
 
         return $query->orderBy('date', 'desc')->orderBy('created_at', 'desc')->paginate($perPage);
+    }
+
+    public function getLogById(int $id): ?AttendanceLog
+    {
+        return $this->model->with('employee')->findOrFail($id);
+    }
+
+    public function getLogsByEmployeeAndDate(int $employeeId, string $date): Collection
+    {
+        return $this->model->where('employee_id', $employeeId)
+            ->where('date', $date)
+            ->orderBy('check_in', 'asc')
+            ->get();
+    }
+
+    public function getSummaryQuery(array $filters): Collection
+    {
+        $summaryQuery = AttendanceDailySummary::query();
+        
+        if (isset($filters['employee_id'])) {
+            $summaryQuery->where('employee_id', $filters['employee_id']);
+        }
+        
+        if (isset($filters['month'])) {
+            $carbon = Carbon::parse($filters['month']);
+            $summaryQuery->whereYear('date', $carbon->year)->whereMonth('date', $carbon->month);
+        } else {
+            $summaryQuery->whereYear('date', date('Y'))->whereMonth('date', date('m'));
+        }
+
+        return $summaryQuery->get();
+    }
+
+    public function updateEmployeeShift(int $employeeId, ?int $shiftId): void
+    {
+        Employee::where('id', $employeeId)->update([
+            'attendance_shift_id' => $shiftId,
+        ]);
+    }
+
+    public function getActiveShifts(): Collection
+    {
+        return AttendanceShift::where('is_active', true)->get();
+    }
+
+    public function getEmployeesWithShifts(): Collection
+    {
+        return Employee::with('attendanceShift')->where('status', 'active')->get();
     }
 }

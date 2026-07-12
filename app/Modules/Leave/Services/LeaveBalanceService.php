@@ -6,9 +6,20 @@ use App\Modules\HR\Models\Employee;
 use App\Modules\Leave\Models\LeaveBalance;
 use App\Modules\Leave\Models\LeaveType;
 use Illuminate\Support\Facades\DB;
+use App\Modules\Leave\Interfaces\LeaveBalanceRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class LeaveBalanceService
 {
+    public function __construct(
+        protected LeaveBalanceRepositoryInterface $repository
+    ) {}
+
+    public function getBalancesForEmployee(int $employeeId, int $year): Collection
+    {
+        return $this->repository->getBalancesForEmployee($employeeId, $year);
+    }
+
     /**
      * Allocate default leave balances for a new employee.
      */
@@ -41,7 +52,7 @@ class LeaveBalanceService
      * Adjust (increment/decrement) leave balance for an employee.
      * Useful for Comp-Off additions or manual corrections.
      */
-    public function adjustBalance(Employee $employee, string $typeCode, float $amount, int $year = null)
+    public function adjustBalance(Employee $employee, string $typeCode, float $amount, ?int $year = null)
     {
         $year = $year ?? now()->year;
         $leaveType = LeaveType::where('tenant_id', $employee->tenant_id)

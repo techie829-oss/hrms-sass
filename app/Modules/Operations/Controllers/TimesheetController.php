@@ -2,16 +2,26 @@
 
 namespace App\Modules\Operations\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Core\BaseController;
 use App\Modules\Operations\Models\Timesheet;
 use App\Modules\Operations\Models\Project;
 use App\Modules\Operations\Models\Task;
 use Illuminate\Http\Request;
+use App\Modules\Operations\Requests\StoreTimesheetRequest;
+use App\Modules\Operations\DTOs\TimesheetData;
+use App\Modules\Operations\Services\TimesheetService;
 
-class TimesheetController extends Controller
+class TimesheetController extends BaseController
 {
+    public function __construct(
+        protected TimesheetService $timesheetService
+    ) {
+        // Authorization handled in methods if needed
+    }
+
     public function index()
     {
+        $this->authorize('viewAny', Timesheet::class);
         $timesheets = Timesheet::where('tenant_id', saas_tenant('id'))
             ->with(['employee', 'project', 'task'])
             ->latest()
@@ -22,26 +32,18 @@ class TimesheetController extends Controller
         return view('operations::timesheets.index', compact('timesheets', 'projects'));
     }
 
-    public function store(Request $request)
+    public function store(StoreTimesheetRequest $request)
     {
-        $validated = $request->validate([
-            'project_id' => 'nullable|exists:projects,id',
-            'task_id' => 'nullable|exists:tasks,id',
-            'date' => 'required|date',
-            'start_time' => 'nullable|date_format:H:i',
-            'end_time' => 'nullable|date_format:H:i',
-            'hours' => 'required|numeric|min:0.01|max:24',
-            'description' => 'required|string',
-        ]);
+        $this->authorize('create', Timesheet::class);
+        
+        $employeeId = auth()->user()->employee->id ?? null;
 
-        $validated['tenant_id'] = saas_tenant('id');
-        $validated['employee_id'] = auth()->user()->employee->id ?? null;
-
-        if (!$validated['employee_id']) {
+        if (!$employeeId) {
             return back()->with('error', 'Only employees can log timesheets.');
         }
 
-        Timesheet::create($validated);
+        $dto = TimesheetData::fromArray($request->validated(), saas_tenant('id'), $employeeId);
+        $this->timesheetService->createTimesheet($dto);
 
         return back()->with('success', 'Daily sprint log submitted successfully.');
     }

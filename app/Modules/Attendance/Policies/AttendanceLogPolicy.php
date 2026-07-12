@@ -58,15 +58,20 @@ class AttendanceLogPolicy
         return $user->hasPermissionTo(PermissionConstants::MANAGE_ATTENDANCE);
     }
 
-    /**
-     * Delete an attendance log.
-     */
     public function delete(User $user, AttendanceLog $attendanceLog): bool
     {
         if ($attendanceLog->tenant_id !== $user->tenant_id) {
             return false;
         }
 
+        return $user->hasPermissionTo(PermissionConstants::MANAGE_ATTENDANCE);
+    }
+
+    /**
+     * Manage attendance settings, shifts, etc.
+     */
+    public function manage(User $user): bool
+    {
         return $user->hasPermissionTo(PermissionConstants::MANAGE_ATTENDANCE);
     }
 }

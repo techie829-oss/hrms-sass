@@ -2,13 +2,22 @@
 
 namespace App\Modules\Operations\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Core\BaseController;
 use App\Modules\Operations\Models\Contact;
 use App\Modules\Operations\Models\Client;
 use Illuminate\Http\Request;
+use App\Modules\Operations\Requests\SaveContactRequest;
+use App\Modules\Operations\DTOs\ContactData;
+use App\Modules\Operations\Services\ContactService;
 
-class ContactController extends Controller
+class ContactController extends BaseController
 {
+    public function __construct(
+        protected ContactService $contactService
+    ) {
+        $this->authorizeResource(Contact::class, 'contact');
+    }
+
     public function index()
     {
         $contacts = Contact::with('clients')
@@ -24,23 +33,10 @@ class ContactController extends Controller
         return view('operations::contacts.create', compact('clients'));
     }
 
-    public function store(Request $request)
+    public function store(SaveContactRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'job_title' => 'nullable|string|max:255',
-            'client_ids' => 'nullable|array',
-            'client_ids.*' => 'exists:clients,id',
-        ]);
-
-        $validated['tenant_id'] = saas_tenant('id');
-        $contact = Contact::create($validated);
-
-        if ($request->has('client_ids')) {
-            $contact->clients()->sync($request->client_ids);
-        }
+        $dto = ContactData::fromArray($request->validated(), saas_tenant('id'));
+        $this->contactService->createContact($dto);
 
         return redirect()->route('operations.contacts.index')->with('success', 'Contact created successfully.');
     }
@@ -52,29 +48,17 @@ class ContactController extends Controller
         return view('operations::contacts.edit', compact('contact', 'clients'));
     }
 
-    public function update(Request $request, Contact $contact)
+    public function update(SaveContactRequest $request, Contact $contact)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'job_title' => 'nullable|string|max:255',
-            'client_ids' => 'nullable|array',
-            'client_ids.*' => 'exists:clients,id',
-        ]);
-
-        $contact->update($validated);
-
-        if ($request->has('client_ids')) {
-            $contact->clients()->sync($request->client_ids);
-        }
+        $dto = ContactData::fromArray($request->validated(), saas_tenant('id'));
+        $this->contactService->updateContact($contact, $dto);
 
         return redirect()->route('operations.contacts.index')->with('success', 'Contact updated successfully.');
     }
 
     public function destroy(Contact $contact)
     {
-        $contact->delete();
+        $this->contactService->deleteContact($contact);
         return redirect()->route('operations.contacts.index')->with('success', 'Contact deleted successfully.');
     }
 }

@@ -2,13 +2,22 @@
 
 namespace App\Modules\Operations\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Core\BaseController;
 use App\Modules\Operations\Models\Project;
 use App\Modules\Operations\Models\Client;
 use Illuminate\Http\Request;
+use App\Modules\Operations\Requests\StoreProjectRequest;
+use App\Modules\Operations\DTOs\ProjectData;
+use App\Modules\Operations\Services\ProjectService;
 
-class ProjectController extends Controller
+class ProjectController extends BaseController
 {
+    public function __construct(
+        protected ProjectService $projectService
+    ) {
+        $this->authorizeResource(Project::class, 'project');
+    }
+
     public function index()
     {
         $projects = Project::where('tenant_id', saas_tenant('id'))
@@ -25,19 +34,10 @@ class ProjectController extends Controller
         return view('operations::projects.create', compact('clients'));
     }
 
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'client_id' => 'nullable|exists:clients,id',
-            'description' => 'nullable|string',
-            'start_date' => 'nullable|date',
-            'deadline' => 'nullable|date',
-            'budget' => 'nullable|numeric',
-        ]);
-
-        $validated['tenant_id'] = saas_tenant('id');
-        $project = Project::create($validated);
+        $dto = ProjectData::fromArray($request->validated(), saas_tenant('id'));
+        $project = $this->projectService->createProject($dto);
 
         return redirect()->route('operations.projects.show', $project)
             ->with('success', 'Project created successfully.');

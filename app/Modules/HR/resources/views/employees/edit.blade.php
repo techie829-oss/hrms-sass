@@ -1,3 +1,8 @@
+@php
+use App\Modules\Attendance\Models\AttendanceEmployeeEnforcement;
+use App\Core\Constants\PermissionConstants;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
@@ -283,7 +288,7 @@
 
                         @php
                             $userPermissions = $employee->user->permissions->pluck('name')->toArray();
-                            $permissionDetails = \App\Core\Constants\PermissionConstants::getPermissionDetails();
+                            $permissionDetails = PermissionConstants::getPermissionDetails();
                             $dbPermissions = $permissions->pluck('name')->toArray();
                         @endphp
                         <div class="col-span-2 mb-6">
@@ -342,7 +347,7 @@
                             </div>
 
                             @php
-                                $permissionDetails = \App\Core\Constants\PermissionConstants::getPermissionDetails();
+                                $permissionDetails = PermissionConstants::getPermissionDetails();
                                 $dbPermissions = $permissions->pluck('name')->toArray();
                             @endphp
                             <div class="col-span-2 mt-2">
@@ -371,7 +376,7 @@
                     @endif
 
                     @php
-                        $employeeEnforcement = \App\Modules\Attendance\Models\AttendanceEmployeeEnforcement::where('employee_id', $employee->id)->first();
+                        $employeeEnforcement = AttendanceEmployeeEnforcement::where('employee_id', $employee->id)->first();
                         $currentCheckinRequired = $employeeEnforcement ? ($employeeEnforcement->enforce_kiosk == 1 ? '1' : '0') : '';
                     @endphp
                     <div class="form-control w-full">

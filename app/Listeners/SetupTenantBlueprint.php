@@ -8,6 +8,8 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
+use App\SaaS\Tenancy\TenantContext;
+use App\Modules\HR\Models\Employee;
 
 class SetupTenantBlueprint
 {
@@ -19,7 +21,7 @@ class SetupTenantBlueprint
         $tenant = $event->tenant;
 
         // Activate the tenant context for this process
-        app(\App\SaaS\Tenancy\TenantContext::class)->setTenant($tenant);
+        app(TenantContext::class)->setTenant($tenant);
 
         // 1. Set the team ID for Spatie Permission so roles are created for this tenant
         if (function_exists('setPermissionsTeamId')) {
@@ -32,33 +34,33 @@ class SetupTenantBlueprint
         $staffRole = Role::firstOrCreate(['name' => RoleConstants::TSTAFF, 'guard_name' => 'web', 'tenant_id' => $tenant->id]);
 
         $managerPermissions = [
-            'view_dashboard', 
-            'view_employees', 'create_employees', 'edit_employees',
-            'manage_attendance', 'view_attendance',
-            'manage_leave', 'create_leave', 'cancel_leave',
-            'view_reports',
-            'view_payroll',
-            'view_timesheet', 'manage_timesheet',
-            'view_performance',
-            'view_leads', 'manage_leads',
-            'view_projects', 'manage_projects',
-            'view_tasks', 'manage_tasks',
+            'core_dashboard_view', 
+            'hr_employee_view', 'hr_employee_create', 'hr_employee_edit',
+            'attendance_log_manage', 'attendance_log_view_team',
+            'leave_request_manage', 'leave_request_create', 'leave_request_cancel',
+            'reports_analytics_view',
+            'payroll_run_view_team',
+            'timesheet_log_view_team', 'timesheet_log_manage',
+            'performance_appraisal_view_team',
+            'operations_lead_view', 'operations_lead_manage',
+            'operations_project_view', 'operations_project_manage',
+            'operations_task_view', 'operations_task_manage',
         ];
 
         $staffPermissions = [
-            'view_dashboard',
-            'view_own_attendance',
-            'view_own_leave',
-            'create_leave',
-            'cancel_leave',
-            'view_holidays',
-            'view_own_comp_off',
-            'create_comp_off',
-            'view_own_payroll',
-            'view_own_timesheet',
-            'manage_timesheet',
-            'view_own_performance',
-            'view_tasks',
+            'core_dashboard_view',
+            'attendance_log_view_own',
+            'leave_request_view_own',
+            'leave_request_create',
+            'leave_request_cancel',
+            'leave_holiday_view',
+            'leave_compoff_view_own',
+            'leave_compoff_create',
+            'payroll_run_view_own',
+            'timesheet_log_view_own',
+            'timesheet_log_manage',
+            'performance_appraisal_view_own',
+            'operations_task_view',
         ];
 
         $allPermissions = array_unique(array_merge($managerPermissions, $staffPermissions));
@@ -92,7 +94,7 @@ class SetupTenantBlueprint
         }
 
         // 5. Create a skeleton employee record for the initial admin
-        \App\Modules\HR\Models\Employee::firstOrCreate(
+        Employee::firstOrCreate(
             ['user_id' => $user->id, 'tenant_id' => $tenant->id],
             [
                 'employee_id' => 'ADMIN-001',

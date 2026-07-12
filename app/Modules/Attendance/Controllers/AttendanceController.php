@@ -7,6 +7,8 @@ use App\Modules\Attendance\Services\AttendanceService;
 use Illuminate\Http\Request;
 use App\Modules\Attendance\Models\AttendanceLog;
 use App\Core\Constants\PermissionConstants;
+use App\Modules\Attendance\Requests\StoreAttendanceLogRequest;
+use App\Modules\Attendance\DTOs\AttendanceLogData;
 
 class AttendanceController extends BaseController
 {
@@ -52,20 +54,7 @@ class AttendanceController extends BaseController
         $logs = $this->attendanceService->paginate($perPage, $filters);
 
         // Fetch Daily Summaries for the current month/view
-        $summaryQuery = \App\Modules\Attendance\Models\AttendanceDailySummary::query();
-        
-        if (isset($filters['employee_id'])) {
-            $summaryQuery->where('employee_id', $filters['employee_id']);
-        }
-        
-        if (isset($filters['month'])) {
-            $carbon = \Carbon\Carbon::parse($filters['month']);
-            $summaryQuery->whereYear('date', $carbon->year)->whereMonth('date', $carbon->month);
-        } else {
-            $summaryQuery->whereYear('date', date('Y'))->whereMonth('date', date('m'));
-        }
-
-        $summaries = $summaryQuery->get();
+        $summaries = $this->attendanceService->getSummaryQuery($filters);
 
         return view('attendance::index', compact('logs', 'summaries', 'canViewAll', 'view', 'filters'));
     }
@@ -82,18 +71,11 @@ class AttendanceController extends BaseController
     /**
      * Store a new check-in.
      */
-    public function store(Request $request)
+    public function store(StoreAttendanceLogRequest $request)
     {
-        $this->authorize('create', AttendanceLog::class);
-        
-        $validated = $request->validate([
-            'employee_id' => ['required', 'exists:employees,id'],
-            'date' => ['required', 'date'],
-            'check_in' => ['nullable', 'date_format:H:i'],
-            'remarks' => ['nullable', 'string'],
-        ]);
+        $dto = AttendanceLogData::fromRequest($request->validated());
 
-        $this->attendanceService->checkIn($validated['employee_id'], $validated);
+        $this->attendanceService->checkIn($dto->employee_id, $dto->toArray());
 
         return redirect()->route('attendance.index')
             ->with('success', 'Check-in recorded successfully.');
@@ -104,14 +86,11 @@ class AttendanceController extends BaseController
      */
     public function show(string $id)
     {
-        $log = AttendanceLog::with('employee')->findOrFail($id);
+        $log = $this->attendanceService->getLogById($id);
         $this->authorize('view', $log);
 
         // Fetch all logs for this employee on this date
-        $allLogs = AttendanceLog::where('employee_id', $log->employee_id)
-            ->where('date', $log->date)
-            ->orderBy('check_in', 'asc')
-            ->get();
+        $allLogs = $this->attendanceService->getLogsByEmployeeAndDate($log->employee_id, $log->date);
 
         $user = auth()->user();
         $canViewAll = $user->can(PermissionConstants::VIEW_ALL_ATTENDANCE);

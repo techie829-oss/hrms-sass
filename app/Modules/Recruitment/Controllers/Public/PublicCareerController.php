@@ -8,8 +8,17 @@ use App\Modules\Recruitment\Models\JobApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
+use App\Modules\Recruitment\Requests\StorePublicJobApplicationRequest;
+use App\Modules\Recruitment\DTOs\PublicJobApplicationData;
+use App\Modules\Recruitment\Services\JobPostingService;
+use App\Modules\Recruitment\Services\JobApplicationService;
+
 class PublicCareerController extends BaseController
 {
+    public function __construct(
+        protected JobPostingService $jobPostingService,
+        protected JobApplicationService $jobApplicationService
+    ) {}
     /**
      * Display a listing of active job postings for the public.
      */
@@ -17,9 +26,7 @@ class PublicCareerController extends BaseController
     {
         $tenant = saas_tenant();
         
-        $postings = JobPosting::where('status', 'open')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $postings = $this->jobPostingService->getActivePostings();
 
         return view('recruitment::public.index', compact('postings', 'tenant'));
     }
@@ -29,6 +36,8 @@ class PublicCareerController extends BaseController
      */
     public function show($hash)
     {
+        // In a real scenario we'd query by share_key in repository
+        // For now we can find by share_key or use a new method
         $job_posting = JobPosting::where('share_key', $hash)->firstOrFail();
 
         if ($job_posting->status !== 'open') {
@@ -43,7 +52,7 @@ class PublicCareerController extends BaseController
     /**
      * Store a newly created job application in storage.
      */
-    public function store(Request $request, $hash)
+    public function store(StorePublicJobApplicationRequest $request, $hash)
     {
         $job_posting = JobPosting::where('share_key', $hash)->firstOrFail();
 
@@ -51,34 +60,15 @@ class PublicCareerController extends BaseController
             abort(404);
         }
 
-        $validated = $request->validate([
-            'first_name'   => 'required|string|max:255',
-            'last_name'    => 'required|string|max:255',
-            'email'        => 'required|email|max:255',
-            'phone'        => 'nullable|string|max:20',
-            'cover_letter' => 'nullable|string',
-            'resume'       => 'nullable|file|mimes:pdf,doc,docx|max:5120', // 5MB max
-        ]);
+        $validated = $request->validated();
+        $dto = PublicJobApplicationData::fromRequest($validated);
 
         $resumePath = null;
         if ($request->hasFile('resume')) {
             $resumePath = $request->file('resume')->store('resumes/' . saas_tenant('id'), 'public');
         }
 
-        $application = new JobApplication([
-            'job_posting_id' => $job_posting->id,
-            'first_name'     => $validated['first_name'],
-            'last_name'      => $validated['last_name'],
-            'email'          => $validated['email'],
-            'phone'          => $validated['phone'] ?? null,
-            'cover_letter'   => $validated['cover_letter'] ?? null,
-            'resume_path'    => $resumePath,
-            'status'         => 'new',
-            'applied_at'     => Carbon::now(),
-        ]);
-        
-        $application->tenant_id = saas_tenant('id');
-        $application->save();
+        $this->jobApplicationService->storePublicApplication($dto, $job_posting->id, $resumePath);
 
         return redirect()->route('tenant.careers.show', ['job_posting' => $hash])
             ->with('success', 'Your application has been submitted successfully! We will be in touch soon.');

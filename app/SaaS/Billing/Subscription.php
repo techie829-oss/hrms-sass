@@ -1,6 +1,8 @@
 <?php
 
 namespace App\SaaS\Billing;
+use App\Models\Tenant;
+
 
 use App\Core\Traits\UsesPublicSchema;
 use Illuminate\Database\Eloquent\Model;
@@ -45,7 +47,7 @@ class Subscription extends Model
      */
     public function saas_tenant()
     {
-        return $this->belongsTo(\App\Models\Tenant::class);
+        return $this->belongsTo(Tenant::class);
     }
 
     /**

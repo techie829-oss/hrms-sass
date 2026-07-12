@@ -6,7 +6,10 @@
                 <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Manage payroll cycles and salary distributions.</p>
             </div>
             <div class="flex gap-2">
-                @can('manage_payroll')
+                @php
+                    use App\Core\Constants\PermissionConstants;
+                @endphp
+                @can(PermissionConstants::MANAGE_PAYROLL)
                 <a href="{{ route('payroll.components.index') }}" class="btn btn-ghost btn-sm btn-outline">
                     <span class="material-symbols-outlined text-base">settings</span> Components
                 </a>

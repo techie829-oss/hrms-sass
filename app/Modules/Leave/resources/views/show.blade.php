@@ -1,3 +1,7 @@
+@php
+use App\Core\Constants\PermissionConstants;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -28,7 +32,7 @@
                 </div>
             </div>
 
-            @if($leaveRequest->status === 'pending' && Auth::user()->can('manage_leave'))
+            @if($leaveRequest->status === 'pending' && Auth::user()->can(PermissionConstants::MANAGE_LEAVE))
             <div class="flex items-center gap-2">
                 <form action="{{ route('leave.requests.status', $leaveRequest->id) }}" method="POST">
                     @csrf

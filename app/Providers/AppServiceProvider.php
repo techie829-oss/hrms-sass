@@ -19,7 +19,21 @@ use App\Modules\Payroll\Policies\PayrollPolicy;
 use App\Modules\Recruitment\Policies\JobPostingPolicy;
 use App\Modules\Recruitment\Policies\JobApplicationPolicy;
 use App\Modules\Performance\Policies\PerformancePolicy;
+use App\Modules\Operations\Models\Lead;
+use App\Modules\Operations\Models\Contact;
+use App\Modules\Operations\Models\Project;
+use App\Modules\Operations\Models\Task;
+use App\Modules\Operations\Models\Client;
+use App\Modules\Operations\Models\Timesheet;
+use App\Modules\Operations\Policies\LeadPolicy;
+use App\Modules\Operations\Policies\ContactPolicy;
+use App\Modules\Operations\Policies\ProjectPolicy;
+use App\Modules\Operations\Policies\TaskPolicy;
+use App\Modules\Operations\Policies\ClientPolicy;
+use App\Modules\Operations\Policies\TimesheetPolicy;
 use App\Core\Constants\RoleConstants;
+use App\Core\Constants\PermissionConstants;
+use App\SaaS\Tenancy\TenantContext;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,8 +49,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Custom SaaS Tenancy Context Singleton
-        $this->app->singleton(\App\SaaS\Tenancy\TenantContext::class, function ($app) {
-            return new \App\SaaS\Tenancy\TenantContext();
+        $this->app->singleton(TenantContext::class, function ($app) {
+            return new TenantContext();
         });
     }
 
@@ -59,6 +73,12 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Appraisal::class, PerformancePolicy::class);
         Gate::policy(Goal::class, PerformancePolicy::class);
         Gate::policy(KPI::class, PerformancePolicy::class);
+        Gate::policy(Lead::class, LeadPolicy::class);
+        Gate::policy(Contact::class, ContactPolicy::class);
+        Gate::policy(Project::class, ProjectPolicy::class);
+        Gate::policy(Task::class, TaskPolicy::class);
+        Gate::policy(Client::class, ClientPolicy::class);
+        Gate::policy(Timesheet::class, TimesheetPolicy::class);
 
         // ── SaaS Internal Gates ────────────────────────────────────────────
         // SADMIN and Tenant Admins bypass all gates
@@ -96,17 +116,17 @@ class AppServiceProvider extends ServiceProvider
 
         // ── Tenant-level Gates ────────────────────────────────────────────
         Gate::define('manage_employees', fn($user) =>
-            $user->hasPermissionTo('view_employees')
+            $user->hasPermissionTo(PermissionConstants::VIEW_EMPLOYEES)
         );
 
         Gate::define('manage_payroll', fn($user) =>
-            $user->hasAnyPermission(['manage_payroll', 'view_payroll'])
+            $user->hasAnyPermission([PermissionConstants::MANAGE_PAYROLL, PermissionConstants::VIEW_PAYROLL])
         );
 
 
 
         Gate::define('view_reports', fn($user) =>
-            $user->hasPermissionTo('view_reports')
+            $user->hasPermissionTo(PermissionConstants::VIEW_REPORTS)
         );
 
         Gate::define('manage_settings', fn($user) =>
@@ -114,7 +134,7 @@ class AppServiceProvider extends ServiceProvider
         );
 
         Gate::define('manage_recruitment', fn($user) =>
-            $user->hasPermissionTo('manage_recruitment')
+            $user->hasPermissionTo(PermissionConstants::MANAGE_RECRUITMENT)
         );
 
         // Staff can access the tenant space

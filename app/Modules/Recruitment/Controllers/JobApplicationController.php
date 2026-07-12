@@ -8,21 +8,36 @@ use App\Modules\Recruitment\Models\JobPosting;
 use App\Modules\Recruitment\Models\Interview;
 use App\Modules\HR\Models\Employee;
 use Illuminate\Http\Request;
+use App\Modules\Recruitment\Services\JobApplicationService;
+use App\Modules\Recruitment\Requests\UpdateJobApplicationStatusRequest;
+use App\Modules\Recruitment\Requests\ScheduleInterviewRequest;
+use App\Modules\Recruitment\Requests\UpdateInterviewRequest;
+use App\Modules\Recruitment\DTOs\UpdateJobApplicationStatusData;
+use App\Modules\Recruitment\DTOs\ScheduleInterviewData;
+use App\Modules\Recruitment\DTOs\UpdateInterviewData;
+use App\Modules\Recruitment\Services\JobPostingService;
+use App\Modules\HR\Services\EmployeeService;
 
 class JobApplicationController extends BaseController
 {
+    public function __construct(
+        protected JobApplicationService $jobApplicationService,
+        protected JobPostingService $jobPostingService,
+        protected EmployeeService $employeeService
+    ) {}
+
     /**
      * List all applications, optionally filtered by posting.
      */
     public function index(Request $request)
     {
-        $query = JobApplication::with('jobPosting')
-            ->when($request->posting_id, fn($q) => $q->where('job_posting_id', $request->posting_id))
-            ->when($request->status, fn($q) => $q->where('status', $request->status))
-            ->latest('applied_at');
+        $this->authorize('viewAny', JobApplication::class);
+        $applications = $this->jobApplicationService->getPaginatedList([
+            'posting_id' => $request->posting_id,
+            'status' => $request->status,
+        ], 20);
 
-        $applications = $query->paginate(20)->withQueryString();
-        $postings = JobPosting::orderBy('title')->get();
+        $postings = $this->jobPostingService->getActivePostings();
 
         return view('recruitment::applications.index', compact('applications', 'postings'));
     }
@@ -32,8 +47,9 @@ class JobApplicationController extends BaseController
      */
     public function show(JobApplication $application)
     {
+        $this->authorize('view', $application);
         $application->load('jobPosting', 'interviews.interviewer');
-        $employees = Employee::active()->orderBy('first_name')->get();
+        $employees = $this->employeeService->getActiveEmployees();
 
         return view('recruitment::applications.show', compact('application', 'employees'));
     }
@@ -41,39 +57,25 @@ class JobApplicationController extends BaseController
     /**
      * Update the status of an application (move through pipeline).
      */
-    public function updateStatus(Request $request, JobApplication $application)
+    public function updateStatus(UpdateJobApplicationStatusRequest $request, JobApplication $application)
     {
-        $request->validate([
-            'status' => 'required|in:new,reviewing,shortlisted,interview,offered,hired,rejected',
-            'notes'  => 'nullable|string|max:1000',
-        ]);
+        $this->authorize('update', $application);
 
-        $application->update(['status' => $request->status]);
+        $dto = UpdateJobApplicationStatusData::fromRequest($request->validated());
+        $this->jobApplicationService->updateStatus($application, $dto);
 
-        return back()->with('success', 'Candidate status updated to ' . ucwords(str_replace('_', ' ', $request->status)) . '.');
+        return back()->with('success', 'Candidate status updated to ' . ucwords(str_replace('_', ' ', $dto->status)) . '.');
     }
 
     /**
      * Schedule an interview for an application.
      */
-    public function scheduleInterview(Request $request, JobApplication $application)
+    public function scheduleInterview(ScheduleInterviewRequest $request, JobApplication $application)
     {
-        $validated = $request->validate([
-            'interview_date' => 'required|date|after:now',
-            'type'           => 'required|in:phone,video,in_person,technical',
-            'location'       => 'nullable|string|max:255',
-            'interviewer_id' => 'nullable|exists:employees,id',
-        ]);
+        $this->authorize('update', $application);
 
-        Interview::create(array_merge($validated, [
-            'job_application_id' => $application->id,
-            'status'             => 'scheduled',
-        ]));
-
-        // Auto-move status to interview stage
-        if ($application->status === 'shortlisted' || $application->status === 'reviewing') {
-            $application->update(['status' => 'interview']);
-        }
+        $dto = ScheduleInterviewData::fromRequest($request->validated());
+        $this->jobApplicationService->scheduleInterview($application, $dto);
 
         return back()->with('success', 'Interview scheduled successfully.');
     }
@@ -81,13 +83,12 @@ class JobApplicationController extends BaseController
     /**
      * Update interview result (feedback).
      */
-    public function updateInterview(Request $request, Interview $interview)
+    public function updateInterview(UpdateInterviewRequest $request, Interview $interview)
     {
-        $request->validate([
-            'status'   => 'required|in:scheduled,completed,cancelled,no_show',
-            'feedback' => 'nullable|string',
-        ]);
-        $interview->update($request->only('status', 'feedback'));
+        $this->authorize('update', $interview->application ?? JobApplication::class);
+
+        $dto = UpdateInterviewData::fromRequest($request->validated());
+        $this->jobApplicationService->updateInterview($interview, $dto);
 
         return back()->with('success', 'Interview updated.');
     }
@@ -97,8 +98,9 @@ class JobApplicationController extends BaseController
      */
     public function hire(JobApplication $application)
     {
-        // Update status to hired first
-        $application->update(['status' => 'hired']);
+        $this->authorize('update', $application);
+        
+        $this->jobApplicationService->hire($application);
 
         return redirect()->route('hr.employees.create', [
             'first_name'      => $application->first_name,

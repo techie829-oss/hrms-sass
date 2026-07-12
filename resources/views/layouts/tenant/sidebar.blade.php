@@ -1,5 +1,6 @@
 @php
     use App\Core\Constants\RoleConstants;
+    use App\Core\Constants\PermissionConstants;
     $dashboardRoute = 'tenant.dashboard';
 @endphp
 
@@ -48,7 +49,7 @@
         @endphp
 
         <!-- Workforce Section -->
-        @if($hasHr && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
+        @if($hasHr && Auth::user()->canAny([PermissionConstants::VIEW_EMPLOYEES, PermissionConstants::VIEW_DEPARTMENTS]))
             <div class="space-y-1">
                 <p class="px-3 mb-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ __('Workforce') }}</p>
                 <div class="space-y-0.5">
@@ -72,32 +73,38 @@
         @endif
 
         <!-- Operations Section -->
-        @if(($hasAttendance || $hasLeave || $hasPayroll || $hasOperations) && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
+        @if(($hasAttendance || $hasLeave || $hasPayroll || $hasOperations) && Auth::user()->canAny([
+            PermissionConstants::VIEW_ATTENDANCE, PermissionConstants::VIEW_ALL_ATTENDANCE,
+            PermissionConstants::MANAGE_LEAVE, PermissionConstants::VIEW_OWN_LEAVE,
+            PermissionConstants::VIEW_PAYROLL, PermissionConstants::VIEW_LEADS,
+            PermissionConstants::VIEW_PROJECTS, PermissionConstants::VIEW_TASKS,
+            PermissionConstants::VIEW_TIMESHEET
+        ]))
             <div class="space-y-1">
                 <p class="px-3 mb-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ __('Operations') }}</p>
                 <div class="space-y-0.5">
-                    @if($hasAttendance)
+                    @if($hasAttendance && Auth::user()->canAny([PermissionConstants::VIEW_ATTENDANCE, PermissionConstants::VIEW_ALL_ATTENDANCE, PermissionConstants::MANAGE_ATTENDANCE]))
                         <a href="{{ route('attendance.index') }}"
                             class="group flex items-center px-3 py-2 text-xs font-medium rounded-lg transition-all duration-150 {{ request()->routeIs('attendance.*') ? 'bg-primary-50 text-primary-700 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
                             <span class="material-symbols-outlined text-[18px] mr-2.5 transition-colors {{ request()->routeIs('attendance.*') ? 'text-primary-500 font-bold' : 'text-gray-400 group-hover:text-gray-500' }}">event_available</span>
                             {{ __('Attendance') }}
                         </a>
                     @endif
-                    @if($hasLeave)
+                    @if($hasLeave && Auth::user()->canAny([PermissionConstants::MANAGE_LEAVE, PermissionConstants::VIEW_OWN_LEAVE]))
                         <a href="{{ route('leave.requests.index') }}"
                             class="group flex items-center px-3 py-2 text-xs font-medium rounded-lg transition-all duration-150 {{ request()->routeIs('leave.*') ? 'bg-primary-50 text-primary-700 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
                             <span class="material-symbols-outlined text-[18px] mr-2.5 transition-colors {{ request()->routeIs('leave.*') ? 'text-primary-500 font-bold' : 'text-gray-400 group-hover:text-gray-500' }}">event_busy</span>
                             {{ __('Leaves') }}
                         </a>
                     @endif
-                    @if($hasPayroll)
+                    @if($hasPayroll && Auth::user()->canAny([PermissionConstants::VIEW_PAYROLL, PermissionConstants::MANAGE_PAYROLL, PermissionConstants::VIEW_OWN_PAYROLL]))
                         <a href="{{ route('payroll.index') }}"
                             class="group flex items-center px-3 py-2 text-xs font-medium rounded-lg transition-all duration-150 {{ request()->routeIs('payroll.*') ? 'bg-primary-50 text-primary-700 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
                             <span class="material-symbols-outlined text-[18px] mr-2.5 transition-colors {{ request()->routeIs('payroll.*') ? 'text-primary-500 font-bold' : 'text-gray-400 group-hover:text-gray-500' }}">payments</span>
                             {{ __('Payroll') }}
                         </a>
                     @endif
-                    @if($hasOperations)
+                    @if($hasOperations && Auth::user()->canAny([PermissionConstants::VIEW_LEADS, PermissionConstants::VIEW_PROJECTS, PermissionConstants::VIEW_TASKS, PermissionConstants::VIEW_TIMESHEET]))
                         <a href="{{ route('operations.leads.index') }}"
                             class="group flex items-center px-3 py-2 text-xs font-medium rounded-lg transition-all duration-150 {{ request()->routeIs('operations.leads.*', 'operations.contacts.*', 'operations.clients.*') ? 'bg-primary-50 text-primary-700 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
                             <span class="material-symbols-outlined text-[18px] mr-2.5 transition-colors {{ request()->routeIs('operations.leads.*', 'operations.contacts.*', 'operations.clients.*') ? 'text-primary-500 font-bold' : 'text-gray-400 group-hover:text-gray-500' }}">business_center</span>
@@ -124,18 +131,18 @@
         @endif
 
         <!-- Growth Section -->
-        @if(($hasPerformance || $hasRecruitment) && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
+        @if(($hasPerformance || $hasRecruitment) && Auth::user()->canAny([PermissionConstants::VIEW_PERFORMANCE, PermissionConstants::VIEW_RECRUITMENT]))
             <div class="space-y-1">
                 <p class="px-3 mb-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ __('Growth') }}</p>
                 <div class="space-y-0.5">
-                    @if($hasPerformance)
+                    @if($hasPerformance && Auth::user()->canAny([PermissionConstants::VIEW_PERFORMANCE, PermissionConstants::MANAGE_PERFORMANCE]))
                         <a href="{{ route('performance.dashboard') }}"
                             class="group flex items-center px-3 py-2 text-xs font-medium rounded-lg transition-all duration-150 {{ request()->routeIs('performance.*') ? 'bg-primary-50 text-primary-700 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
                             <span class="material-symbols-outlined text-[18px] mr-2.5 transition-colors {{ request()->routeIs('performance.*') ? 'text-primary-500 font-bold' : 'text-gray-400 group-hover:text-gray-500' }}">speed</span>
                             {{ __('Performance') }}
                         </a>
                     @endif
-                    @if($hasRecruitment)
+                    @if($hasRecruitment && Auth::user()->canAny([PermissionConstants::VIEW_RECRUITMENT, PermissionConstants::MANAGE_RECRUITMENT]))
                         <a href="{{ route('recruitment.dashboard') }}"
                             class="group flex items-center px-3 py-2 text-xs font-medium rounded-lg transition-all duration-150 {{ request()->routeIs('recruitment.*') ? 'bg-primary-50 text-primary-700 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
                             <span class="material-symbols-outlined text-[18px] mr-2.5 transition-colors {{ request()->routeIs('recruitment.*') ? 'text-primary-500 font-bold' : 'text-gray-400 group-hover:text-gray-500' }}">how_to_reg</span>
@@ -147,7 +154,7 @@
         @endif
 
         <!-- Analytics Section -->
-        @if($hasReports && Auth::user()->hasAnyRole([RoleConstants::TADMIN, RoleConstants::TMANAGER]))
+        @if($hasReports && Auth::user()->can(PermissionConstants::VIEW_REPORTS))
             <div class="space-y-1">
                 <p class="px-3 mb-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ __('Analytics') }}</p>
                 <div class="space-y-0.5">

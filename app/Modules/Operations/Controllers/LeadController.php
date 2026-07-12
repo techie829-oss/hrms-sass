@@ -2,13 +2,22 @@
 
 namespace App\Modules\Operations\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Core\BaseController;
 use App\Modules\Operations\Models\Lead;
 use App\Modules\HR\Models\Employee;
 use Illuminate\Http\Request;
+use App\Modules\Operations\Requests\SaveLeadRequest;
+use App\Modules\Operations\DTOs\LeadData;
+use App\Modules\Operations\Services\LeadService;
 
-class LeadController extends Controller
+class LeadController extends BaseController
 {
+    public function __construct(
+        protected LeadService $leadService
+    ) {
+        $this->authorizeResource(Lead::class, 'lead');
+    }
+
     public function index()
     {
         $leads = Lead::with('assignee')
@@ -24,21 +33,10 @@ class LeadController extends Controller
         return view('operations::leads.create', compact('employees'));
     }
 
-    public function store(Request $request)
+    public function store(SaveLeadRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'company_name' => 'nullable|string|max:255',
-            'source' => 'nullable|string|max:255',
-            'status' => 'required|string|in:new,contacted,qualified,lost,converted',
-            'assigned_to' => 'nullable|exists:employees,id',
-            'description' => 'nullable|string',
-        ]);
-
-        $validated['tenant_id'] = saas_tenant('id');
-        Lead::create($validated);
+        $dto = LeadData::fromArray($request->validated(), saas_tenant('id'));
+        $this->leadService->createLead($dto);
 
         return redirect()->route('operations.leads.index')->with('success', 'Lead created successfully.');
     }
@@ -55,27 +53,17 @@ class LeadController extends Controller
         return view('operations::leads.edit', compact('lead', 'employees'));
     }
 
-    public function update(Request $request, Lead $lead)
+    public function update(SaveLeadRequest $request, Lead $lead)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'company_name' => 'nullable|string|max:255',
-            'source' => 'nullable|string|max:255',
-            'status' => 'required|string|in:new,contacted,qualified,lost,converted',
-            'assigned_to' => 'nullable|exists:employees,id',
-            'description' => 'nullable|string',
-        ]);
-
-        $lead->update($validated);
+        $dto = LeadData::fromArray($request->validated(), saas_tenant('id'));
+        $this->leadService->updateLead($lead, $dto);
 
         return redirect()->route('operations.leads.index')->with('success', 'Lead updated successfully.');
     }
 
     public function destroy(Lead $lead)
     {
-        $lead->delete();
+        $this->leadService->deleteLead($lead);
         return redirect()->route('operations.leads.index')->with('success', 'Lead deleted successfully.');
     }
 }

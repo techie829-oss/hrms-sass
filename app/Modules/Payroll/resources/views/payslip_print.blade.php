@@ -51,7 +51,7 @@
             <div class="company-info">
                 <h1>{{ saas_tenant('name') ?? 'Solidrix HRMS' }}</h1>
                 <p>Corporate Office Address</p>
-                <p>support@sklops.com | +91 70074 20572</p>
+                <p>support@sklops.com | +91 98116 55457</p>
             </div>
             <div class="payslip-title">
                 <h2>PAYSLIP</h2>

@@ -2,9 +2,9 @@
 
 namespace App\Modules\HR\Policies;
 
+use App\Core\Constants\PermissionConstants;
 use App\Models\User;
 use App\Modules\HR\Models\Employee;
-use App\Core\Constants\PermissionConstants;
 
 class EmployeePolicy
 {
@@ -26,6 +26,7 @@ class EmployeePolicy
     public function viewAny(User $user): bool
     {
         $this->scopeTeam($user);
+
         return $user->hasPermissionTo(PermissionConstants::VIEW_EMPLOYEES);
     }
 
@@ -54,6 +55,7 @@ class EmployeePolicy
     public function create(User $user): bool
     {
         $this->scopeTeam($user);
+
         return $user->hasPermissionTo(PermissionConstants::CREATE_EMPLOYEES);
     }
 

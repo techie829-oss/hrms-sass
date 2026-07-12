@@ -6,6 +6,7 @@ use App\Models\Tenant;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use App\SaaS\Tenancy\TenantContext;
 
 class ModuleInstaller
 {
@@ -20,7 +21,7 @@ class ModuleInstaller
 
         if (class_exists($seederClass)) {
             // Set the TenantContext so HasDynamicSchema works
-            $context = app(\App\SaaS\Tenancy\TenantContext::class);
+            $context = app(TenantContext::class);
             $previousTenant = $context->getTenant();
             $context->setTenant($tenant);
 

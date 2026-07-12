@@ -6,70 +6,66 @@ use App\Models\User;
 use App\Modules\Performance\Models\Appraisal;
 use App\Modules\Performance\Models\Goal;
 use App\Modules\Performance\Models\KPI;
+use App\Core\Constants\PermissionConstants;
 
 class PerformancePolicy
 {
-    /**
-     * Determine whether the user can view the performance dashboard.
-     */
-    public function viewDashboard(User $user): bool
-    {
-        return $user->hasAnyRole(['tadmin', 'tmanager', 'tstaff']);
-    }
-
-    /**
-     * Determine whether the user can view any performance records.
-     */
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['tadmin', 'tmanager', 'tstaff']);
+        return $user->hasPermissionTo(PermissionConstants::VIEW_PERFORMANCE) || 
+               $user->hasPermissionTo(PermissionConstants::VIEW_OWN_PERFORMANCE) ||
+               $user->hasPermissionTo(PermissionConstants::MANAGE_PERFORMANCE);
     }
 
-    /**
-     * Determine whether the user can view a specific appraisal.
-     */
-    public function viewAppraisal(User $user, Appraisal $appraisal): bool
+    public function view(User $user, $model): bool
     {
-        if ($appraisal->tenant_id !== $user->tenant_id) {
+        if ($model->tenant_id !== $user->tenant_id) {
             return false;
         }
 
-        if ($user->hasRole('tstaff')) {
-            return $user->employee?->id === $appraisal->employee_id;
+        if ($user->hasPermissionTo(PermissionConstants::VIEW_PERFORMANCE) || 
+            $user->hasPermissionTo(PermissionConstants::MANAGE_PERFORMANCE)) {
+            return true;
         }
 
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        if ($user->hasPermissionTo(PermissionConstants::VIEW_OWN_PERFORMANCE)) {
+            if (isset($model->employee_id)) {
+                return $user->employee?->id === $model->employee_id;
+            }
+            return true; // e.g. KPI
+        }
+
+        return false;
     }
 
-    /**
-     * Determine whether the user can view a specific goal.
-     */
-    public function viewGoal(User $user, Goal $goal): bool
+    public function create(User $user): bool
     {
-        if ($goal->tenant_id !== $user->tenant_id) {
+        return $user->hasPermissionTo(PermissionConstants::MANAGE_PERFORMANCE);
+    }
+
+    public function update(User $user, $model): bool
+    {
+        if ($model->tenant_id !== $user->tenant_id) {
             return false;
         }
 
-        if ($user->hasRole('tstaff')) {
-            return $user->employee?->id === $goal->employee_id;
+        if ($user->hasPermissionTo(PermissionConstants::MANAGE_PERFORMANCE)) {
+            return true;
         }
 
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        if ($model instanceof Goal && $user->hasPermissionTo(PermissionConstants::VIEW_OWN_PERFORMANCE)) {
+            return $user->employee?->id === $model->employee_id;
+        }
+
+        return false;
     }
 
-    /**
-     * Determine whether the user can update a specific goal progress.
-     */
-    public function updateGoal(User $user, Goal $goal): bool
+    public function delete(User $user, $model): bool
     {
-        if ($goal->tenant_id !== $user->tenant_id) {
+        if ($model->tenant_id !== $user->tenant_id) {
             return false;
         }
-
-        if ($user->hasRole('tstaff')) {
-            return $user->employee?->id === $goal->employee_id;
-        }
-
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        
+        return $user->hasPermissionTo(PermissionConstants::MANAGE_PERFORMANCE);
     }
 }

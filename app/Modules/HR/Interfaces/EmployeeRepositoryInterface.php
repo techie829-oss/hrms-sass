@@ -25,4 +25,6 @@ interface EmployeeRepositoryInterface
     public function findByDepartment(int $departmentId): Collection;
 
     public function countActive(): int;
+
+    public function getActiveEmployees(): Collection;
 }

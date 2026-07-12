@@ -3,32 +3,28 @@
 namespace App\Modules\Attendance\Controllers;
 
 use App\Core\BaseController;
-use App\Modules\HR\Models\Employee;
-use App\Modules\Attendance\Models\AttendanceShift;
-use Illuminate\Http\Request;
+use App\Modules\Attendance\Services\AttendanceService;
+use App\Modules\Attendance\Requests\UpdateShiftAssignmentsRequest;
+use App\Modules\Attendance\DTOs\UpdateShiftAssignmentsData;
 
 class ShiftAssignmentController extends BaseController
 {
+    public function __construct(
+        protected AttendanceService $attendanceService
+    ) {}
+
     public function index()
     {
-        $employees = Employee::with('attendanceShift')->active()->get();
-        $shifts = AttendanceShift::where('is_active', true)->get();
+        $employees = $this->attendanceService->getEmployeesWithShifts();
+        $shifts = $this->attendanceService->getActiveShifts();
         return view('attendance::shifts.assignments', compact('employees', 'shifts'));
     }
 
-    public function update(Request $request)
+    public function update(UpdateShiftAssignmentsRequest $request)
     {
-        $validated = $request->validate([
-            'assignments' => ['required', 'array'],
-            'assignments.*.employee_id' => ['required', 'exists:employees,id'],
-            'assignments.*.shift_id' => ['nullable', 'exists:attendance_shifts,id'],
-        ]);
+        $dto = UpdateShiftAssignmentsData::fromRequest($request->validated());
 
-        foreach ($validated['assignments'] as $assignment) {
-            Employee::where('id', $assignment['employee_id'])->update([
-                'attendance_shift_id' => $assignment['shift_id'],
-            ]);
-        }
+        $this->attendanceService->updateShiftAssignments($dto->assignments);
 
         return redirect()->back()->with('success', 'Shift assignments updated successfully.');
     }

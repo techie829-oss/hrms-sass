@@ -1,3 +1,7 @@
+@php
+use App\Core\Constants\PermissionConstants;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -20,7 +24,7 @@
                     </a>
                 </div>
                 @endif
-                @can('manage_attendance')
+                @can(PermissionConstants::MANAGE_ATTENDANCE)
                 <div class="flex gap-2">
                     <a href="{{ route('attendance.settings') }}" class="btn btn-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-3 shadow-sm flex items-center justify-center">
                         <span class="material-symbols-outlined text-base">settings</span>
@@ -41,7 +45,7 @@
                 <form action="{{ route('attendance.index') }}" method="GET" class="flex flex-wrap items-center gap-3">
                     <input type="hidden" name="view" value="{{ $view }}">
                     
-                    @can('view_all_attendance')
+                    @can(PermissionConstants::VIEW_ALL_ATTENDANCE)
                     <div class="relative group">
                         <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
                         <input type="text" name="search" value="{{ request('search') }}" placeholder="Search employee..." class="w-full max-w-[200px] pl-8 pr-3 py-1.5 text-xs border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-xl bg-white text-slate-900 placeholder-slate-400 transition-all shadow-sm">

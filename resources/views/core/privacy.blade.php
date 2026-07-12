@@ -26,7 +26,7 @@
         <p class="mb-4">If you have any questions about this privacy policy or our privacy practices, please contact us in the following ways:</p>
         <ul class="list-disc pl-6 mb-4">
             <li>Email address: support@sklops.com</li>
-            <li>Phone number: +91 70074 20572</li>
+            <li>Phone number: +91 98116 55457</li>
         </ul>
     </div>
         </div>

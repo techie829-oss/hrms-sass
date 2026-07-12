@@ -6,6 +6,7 @@ use App\Core\Traits\UsesPublicSchema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use App\SaaS\Billing\Subscription;
 
 class Tenant extends Model
 {
@@ -60,6 +61,6 @@ class Tenant extends Model
      */
     public function subscription()
     {
-        return $this->hasOne(\App\SaaS\Billing\Subscription::class, 'tenant_id');
+        return $this->hasOne(Subscription::class, 'tenant_id');
     }
 }

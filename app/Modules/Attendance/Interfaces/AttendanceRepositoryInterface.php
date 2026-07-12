@@ -27,4 +27,14 @@ interface AttendanceRepositoryInterface
     public function checkIn(int $employeeId, array $data): AttendanceLog;
 
     public function checkOut(int $employeeId, array $data): ?AttendanceLog;
+
+    public function getLogById(int $id): ?AttendanceLog;
+    
+    public function getLogsByEmployeeAndDate(int $employeeId, string $date): Collection;
+    
+    public function getSummaryQuery(array $filters): Collection;
+
+    public function updateEmployeeShift(int $employeeId, ?int $shiftId): void;
+    public function getActiveShifts(): \Illuminate\Database\Eloquent\Collection;
+    public function getEmployeesWithShifts(): \Illuminate\Database\Eloquent\Collection;
 }

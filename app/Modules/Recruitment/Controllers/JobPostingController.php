@@ -5,12 +5,18 @@ namespace App\Modules\Recruitment\Controllers;
 use App\Core\BaseController;
 use App\Modules\Recruitment\Services\JobPostingService;
 use Illuminate\Http\Request;
+use App\Modules\Recruitment\Requests\StoreJobPostingRequest;
+use App\Modules\Recruitment\Requests\UpdateJobPostingRequest;
+use App\Modules\Recruitment\DTOs\JobPostingData;
+use App\Modules\Recruitment\Models\JobPosting;
 
 class JobPostingController extends BaseController
 {
     public function __construct(
         protected JobPostingService $jobPostingService
-    ) {}
+    ) {
+        $this->authorizeResource(JobPosting::class, 'job_posting');
+    }
 
     public function index()
     {
@@ -23,20 +29,10 @@ class JobPostingController extends BaseController
         return view('recruitment::job_postings.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreJobPostingRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'location' => 'nullable|string|max:255',
-            'employment_type' => 'required|string|in:full_time,part_time,contract,intern',
-            'status' => 'required|string|in:draft,open,closed',
-            'salary_range' => 'nullable|string|max:255',
-            'closing_date' => 'nullable|date',
-            'description' => 'required|string',
-            'requirements' => 'nullable|string',
-        ]);
-
-        $this->jobPostingService->create($validated);
+        $dto = JobPostingData::fromStoreRequest($request->validated());
+        $this->jobPostingService->createPosting($dto);
 
         return redirect()->route('recruitment.job_postings.index')->with('success', 'Job posting created successfully.');
     }
@@ -54,20 +50,10 @@ class JobPostingController extends BaseController
         return view('recruitment::job_postings.edit', compact('posting'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateJobPostingRequest $request, $id)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'location' => 'nullable|string|max:255',
-            'employment_type' => 'required|string|in:full_time,part_time,contract,intern',
-            'status' => 'required|string|in:draft,open,closed',
-            'salary_range' => 'nullable|string|max:255',
-            'closing_date' => 'nullable|date',
-            'description' => 'required|string',
-            'requirements' => 'nullable|string',
-        ]);
-
-        $this->jobPostingService->update($id, $validated);
+        $dto = JobPostingData::fromUpdateRequest($request->validated());
+        $this->jobPostingService->updatePosting($id, $dto);
 
         return redirect()->route('recruitment.job_postings.show', $id)->with('success', 'Job posting updated successfully.');
     }

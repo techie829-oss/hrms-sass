@@ -3,9 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Modules\Recruitment\Controllers\JobPostingController;
 use App\Modules\Recruitment\Controllers\JobApplicationController;
+use App\Core\Constants\PermissionConstants;
 
-Route::name('recruitment.')->middleware(['auth', 'role:tadmin|tmanager'])->group(function () {
+Route::name('recruitment.')->middleware(['auth', 'tenant.active', 'scope.roles', 'module.access:recruitment'])->group(function () {
     Route::get('/', [JobPostingController::class, 'index'])->name('dashboard');
+    
     Route::resource('job_postings', JobPostingController::class);
 
     // Applications

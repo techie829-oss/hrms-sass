@@ -17,4 +17,14 @@ class JobApplicationRepository extends BaseRepository implements JobApplicationR
     {
         return $this->model->where('job_posting_id', $postingId)->latest()->get();
     }
+
+    public function getPaginatedList(array $filters = [], int $perPage = 20)
+    {
+        return $this->model->with('jobPosting')
+            ->when($filters['posting_id'] ?? null, fn($q, $v) => $q->where('job_posting_id', $v))
+            ->when($filters['status'] ?? null, fn($q, $v) => $q->where('status', $v))
+            ->latest('applied_at')
+            ->paginate($perPage)
+            ->withQueryString();
+    }
 }

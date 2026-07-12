@@ -41,67 +41,70 @@ class RoleSeeder extends Seeder
         $permissions = [
 
             // -- DASHBOARD --------------------------------------------------
-            'view_dashboard'         => 'Main Admin & Staff Dashboard Access',
+            'core_dashboard_view'         => 'Main Admin & Staff Dashboard Access',
 
             // -- EMPLOYEES (HR) ---------------------------------------------
-            'view_employees'         => 'List Employees, View Profiles, Directory',
-            'create_employees'       => 'Onboard Employees, Create User Accounts',
-            'edit_employees'         => 'Update Employee Information, Salary, Contacts',
-            'delete_employees'       => 'Terminate Employee, Purge User Account',
-            'view_departments'       => 'List Departments, View Head of Departments',
+            'hr_employee_view'         => 'List Employees, View Profiles, Directory',
+            'hr_employee_create'       => 'Onboard Employees, Create User Accounts',
+            'hr_employee_edit'         => 'Update Employee Information, Salary, Contacts',
+            'hr_employee_delete'       => 'Terminate Employee, Purge User Account',
+            'hr_department_view'       => 'List Departments, View Head of Departments',
+            'hr_department_manage'     => 'Create, Edit, and Delete Departments',
+            'hr_designation_view'      => 'List Designations',
+            'hr_designation_manage'    => 'Create, Edit, and Delete Designations',
 
             // -- ATTENDANCE -------------------------------------------------
-            'view_attendance'        => 'View Team Attendance Logs',
-            'view_own_attendance'    => 'View Personal Attendance Logs',
-            'view_all_attendance'    => 'View All Employees Attendance Logs',
-            'manage_attendance'      => 'Approve/Correct Attendance Logs, Configure Shifts',
+            'attendance_log_view_team'        => 'View Team Attendance Logs',
+            'attendance_log_view_own'    => 'View Personal Attendance Logs',
+            'attendance_log_view_all'    => 'View All Employees Attendance Logs',
+            'attendance_log_manage'      => 'Approve/Correct Attendance Logs, Configure Shifts',
 
             // -- LEAVE ------------------------------------------------------
-            'create_leave'           => 'Submit New Leave Requests, Apply for Time-Off',
-            'cancel_leave'           => 'Cancel Pending/Approved Leave Requests',
-            'manage_leave'           => 'Manage Leave Requests',
-            'view_own_leave'         => 'View Personal Leave History',
-            'manage_settings'        => 'Full System Configuration Access (Leave Types etc.)',
+            'leave_request_create'           => 'Submit New Leave Requests, Apply for Time-Off',
+            'leave_request_cancel'           => 'Cancel Pending/Approved Leave Requests',
+            'leave_request_manage'           => 'Manage Leave Requests',
+            'leave_request_view_own'         => 'View Personal Leave History',
+            'core_settings_manage'        => 'Full System Configuration Access (Leave Types etc.)',
 
             // -- HOLIDAYS ---------------------------------------------------
-            'view_holidays'          => 'View Company Holiday Calendar',
-            'manage_holidays'        => 'Create, Edit, and Delete Holidays',
+            'leave_holiday_view'          => 'View Company Holiday Calendar',
+            'leave_holiday_manage'        => 'Create, Edit, and Delete Holidays',
 
             // -- COMP-OFF ---------------------------------------------------
-            'view_comp_off'          => 'View Team Compensatory Off Requests & Balances',
-            'view_own_comp_off'      => 'View Personal Compensatory Off History',
-            'create_comp_off'        => 'Submit Personal Comp-Off Requests',
-            'manage_comp_off'        => 'Approve/Reject Comp-Off Earnings',
+            'leave_compoff_view_team'          => 'View Team Compensatory Off Requests & Balances',
+            'leave_compoff_view_own'      => 'View Personal Compensatory Off History',
+            'leave_compoff_create'        => 'Submit Personal Comp-Off Requests',
+            'leave_compoff_manage'        => 'Approve/Reject Comp-Off Earnings',
 
             // -- PAYROLL ----------------------------------------------------
-            'view_payroll'           => 'View Team Payslips',
-            'view_own_payroll'       => 'View Personal Payslips',
-            'manage_payroll'         => 'Process Monthly Salaries, Generate Payslips',
+            'payroll_run_view_team'           => 'View Team Payslips',
+            'payroll_run_view_own'       => 'View Personal Payslips',
+            'payroll_run_manage'         => 'Process Monthly Salaries, Generate Payslips',
 
             // -- OPERATIONS (Leads / Projects / Tasks) ----------------------
-            'view_leads'             => 'View Leads and Clients List',
-            'manage_leads'           => 'Create, Update, and Delete Leads & Clients',
-            'view_projects'          => 'View Projects List and Details',
-            'manage_projects'        => 'Create, Update, Assign, and Delete Projects',
-            'view_tasks'             => 'View Tasks Assigned or Available',
-            'manage_tasks'           => 'Create, Update, Assign, and Delete Tasks',
+            'operations_lead_view'             => 'View Leads and Clients List',
+            'operations_lead_manage'           => 'Create, Update, and Delete Leads & Clients',
+            'operations_project_view'          => 'View Projects List and Details',
+            'operations_project_manage'        => 'Create, Update, Assign, and Delete Projects',
+            'operations_task_view'             => 'View Tasks Assigned or Available',
+            'operations_task_manage'           => 'Create, Update, Assign, and Delete Tasks',
 
             // -- TIMESHEET --------------------------------------------------
-            'view_timesheet'         => 'View Team Timesheet & Activity Logs',
-            'view_own_timesheet'     => 'Access Personal Timesheet & Activity Logs',
-            'manage_timesheet'       => 'Submit, Edit, and Approve Timesheet Hours',
+            'timesheet_log_view_team'         => 'View Team Timesheet & Activity Logs',
+            'timesheet_log_view_own'     => 'Access Personal Timesheet & Activity Logs',
+            'timesheet_log_manage'       => 'Submit, Edit, and Approve Timesheet Hours',
 
             // -- PERFORMANCE ------------------------------------------------
-            'view_performance'       => 'View Team Goals & KPIs',
-            'view_own_performance'   => 'View Personal Goals & Reviews',
-            'manage_performance'     => 'Define KPIs, Submit Staff Appraisals & Reviews',
+            'performance_appraisal_view_team'       => 'View Team Goals & KPIs',
+            'performance_appraisal_view_own'   => 'View Personal Goals & Reviews',
+            'performance_appraisal_manage'     => 'Define KPIs, Submit Staff Appraisals & Reviews',
 
             // -- RECRUITMENT ------------------------------------------------
-            'view_recruitment'       => 'View Job Postings and Applications',
-            'manage_recruitment'     => 'Create Job Postings, Manage Applications & Pipeline',
+            'recruitment_job_view'       => 'View Job Postings and Applications',
+            'recruitment_job_manage'     => 'Create Job Postings, Manage Applications & Pipeline',
 
             // -- REPORTS ----------------------------------------------------
-            'view_reports'           => 'Access Analytics, Staff Demographics, & Attendance Reports',
+            'reports_analytics_view'           => 'Access Analytics, Staff Demographics, & Attendance Reports',
         ];
 
         foreach ($permissions as $permission => $description) {

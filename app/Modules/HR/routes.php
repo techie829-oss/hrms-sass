@@ -3,9 +3,10 @@
 use App\Modules\HR\Controllers\DepartmentController;
 use App\Modules\HR\Controllers\DesignationController;
 use App\Modules\HR\Controllers\EmployeeController;
+use App\Core\Constants\PermissionConstants;
 use Illuminate\Support\Facades\Route;
 
-Route::name('hr.')->middleware(['auth', 'role:tadmin|tmanager'])->group(function () {
+Route::name('hr.')->middleware(['auth', 'tenant.active', 'scope.roles', 'module.access:hr'])->group(function () {
     Route::post('employees/{employee}/documents', [EmployeeController::class, 'uploadDocument'])->name('employees.documents.store');
     Route::get('employees/{employee}/documents/{document}/download', [EmployeeController::class, 'downloadDocument'])->name('employees.documents.download');
     Route::delete('employees/{employee}/documents/{document}', [EmployeeController::class, 'destroyDocument'])->name('employees.documents.destroy');

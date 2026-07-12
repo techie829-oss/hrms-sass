@@ -2,6 +2,7 @@
 
 namespace App\Core\Traits;
 
+use App\SaaS\Tenancy\TenantContext;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -27,7 +28,7 @@ trait HasDynamicSchema
         }
 
         // Use custom TenantContext
-        $context = app(\App\SaaS\Tenancy\TenantContext::class);
+        $context = app(TenantContext::class);
         if ($context->isActive()) {
             $schema = $context->getSchema();
             return $schema . '.' . $baseTable;

@@ -5,6 +5,7 @@ namespace App\Modules\Attendance\Models;
 use App\Core\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Modules\HR\Models\Employee;
 
 class AttendanceEmployeeEnforcement extends Model
 {
@@ -26,6 +27,6 @@ class AttendanceEmployeeEnforcement extends Model
 
     public function employee()
     {
-        return $this->belongsTo(\App\Modules\HR\Models\Employee::class);
+        return $this->belongsTo(Employee::class);
     }
 }

@@ -14,6 +14,7 @@ use App\Modules\Attendance\Models\AttendanceRoleEnforcement;
 use App\Modules\Attendance\Models\AttendancePolicy;
 use App\Modules\Leave\Models\LeaveRequest;
 use App\Modules\Payroll\Models\PayrollRun;
+use App\Core\Constants\PermissionConstants;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -29,11 +30,11 @@ class DashboardController extends Controller
         $user = auth()->user();
         
         // Granular Permissions (Now automatically true for Admins via Gate::before)
-        $canViewEmployees = $user->can('view_employees');
-        $canViewAttendance = $user->can('view_attendance');
-        $canViewLeave = $user->can('manage_leave') || $user->can('view_own_leave');
-        $canViewPayroll = $user->can('view_payroll');
-        $canApproveLeave = $user->can('manage_leave');
+        $canViewEmployees = $user->can(PermissionConstants::VIEW_EMPLOYEES);
+        $canViewAttendance = $user->can(PermissionConstants::VIEW_ATTENDANCE);
+        $canViewLeave = $user->can(PermissionConstants::MANAGE_LEAVE) || $user->can(PermissionConstants::VIEW_OWN_LEAVE);
+        $canViewPayroll = $user->can(PermissionConstants::VIEW_PAYROLL);
+        $canApproveLeave = $user->can(PermissionConstants::MANAGE_LEAVE);
         
         $recentActivities = ($canViewEmployees || $canViewAttendance || $canViewLeave) 
             ? $this->activityService->getRecentActivities(5) 
@@ -170,7 +171,7 @@ class DashboardController extends Controller
                         'is_completed' => false
                     ]);
                 }
-            } else if ($user->employee && $user->can('view_own_leave')) {
+            } else if ($user->employee && $user->can(PermissionConstants::VIEW_OWN_LEAVE)) {
                 // Staff view: Their own pending requests
                 $data['pendingLeaves'] = LeaveRequest::where('employee_id', $user->employee->id)->where('status', 'pending')->count();
             }

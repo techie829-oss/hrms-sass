@@ -23,7 +23,7 @@
         <p class="mb-4">If you have any questions about these Terms, please contact us:</p>
         <ul class="list-disc pl-6 mb-4">
             <li>Email: support@sklops.com</li>
-            <li>Phone: +91 70074 20572</li>
+            <li>Phone: +91 98116 55457</li>
         </ul>
     </div>
         </div>

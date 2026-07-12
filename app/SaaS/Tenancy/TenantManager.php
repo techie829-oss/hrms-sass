@@ -8,6 +8,7 @@ use App\SaaS\Modules\ModuleManager;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Events\TenantProvisioned;
 
 class TenantManager
 {
@@ -68,8 +69,8 @@ class TenantManager
             $this->moduleManager->enableModule($module, $tenant);
         }
 
-        // 6. Dispatch Provisioned Event for Blueprinting
-        event(new \App\Events\TenantProvisioned($tenant));
+        // Dispatch event so blueprint/seeders can run
+        event(new TenantProvisioned($tenant));
 
         return $tenant;
     }

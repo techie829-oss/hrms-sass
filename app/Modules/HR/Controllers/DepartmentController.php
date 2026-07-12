@@ -6,6 +6,10 @@ use App\Core\BaseController;
 use App\Modules\HR\Services\DepartmentService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Core\Constants\PermissionConstants;
+use App\Modules\HR\Requests\StoreDepartmentRequest;
+use App\Modules\HR\Requests\UpdateDepartmentRequest;
+use App\Modules\HR\DTOs\DepartmentData;
 
 class DepartmentController extends BaseController
 {
@@ -15,6 +19,8 @@ class DepartmentController extends BaseController
 
     public function index()
     {
+        $this->authorize(PermissionConstants::VIEW_DEPARTMENTS);
+
         $departments = $this->departmentService->getAllWithCounts();
 
         return view('hr::departments.index', compact('departments'));
@@ -22,33 +28,28 @@ class DepartmentController extends BaseController
 
     public function show(int $id)
     {
+        $this->authorize(PermissionConstants::VIEW_DEPARTMENTS);
+
         $department = $this->departmentService->findWithEmployees($id);
+
         return view('hr::departments.show', compact('department'));
     }
 
-    public function store(Request $request)
+    public function store(StoreDepartmentRequest $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('departments')->where('tenant_id', saas_tenant('id'))],
-            'code' => ['required', 'string', 'max:20', Rule::unique('departments')->where('tenant_id', saas_tenant('id'))],
-            'description' => ['nullable', 'string'],
-        ]);
+        $dto = DepartmentData::fromRequest($request->validated());
 
-        $this->departmentService->create($validated);
+        $this->departmentService->create($dto->toArray());
 
         return redirect()->route('hr.departments.index')
             ->with('success', 'Department created successfully.');
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateDepartmentRequest $request, int $id)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('departments')->where('tenant_id', saas_tenant('id'))->ignore($id)],
-            'code' => ['required', 'string', 'max:20', Rule::unique('departments')->where('tenant_id', saas_tenant('id'))->ignore($id)],
-            'description' => ['nullable', 'string'],
-        ]);
+        $dto = DepartmentData::fromRequest($request->validated());
 
-        $this->departmentService->update($id, $validated);
+        $this->departmentService->update($id, $dto->toArray());
 
         return redirect()->route('hr.departments.index')
             ->with('success', 'Department updated successfully.');
@@ -56,6 +57,8 @@ class DepartmentController extends BaseController
 
     public function destroy(int $id)
     {
+        $this->authorize(PermissionConstants::MANAGE_DEPARTMENTS);
+
         $this->departmentService->delete($id);
 
         return redirect()->route('hr.departments.index')

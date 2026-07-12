@@ -1,9 +1,13 @@
+@php
+use App\Modules\Performance\Models\Appraisal;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-bold text-on-surface tracking-tight">Performance Appraisals</h2>
             <div class="flex gap-2">
-                @can('create', \App\Modules\Performance\Models\Appraisal::class)
+                @can('create', Appraisal::class)
                     <button onclick="appraisal_modal.showModal()" class="btn btn-sm btn-primary border-none rounded-lg font-bold text-[10px] uppercase tracking-wider shadow-sm">
                         <span class="material-symbols-outlined text-sm">add_circle</span> Initiate Appraisal
                     </button>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Core\Constants\RoleConstants;
 
 class RoleController extends Controller
 {
@@ -84,13 +85,11 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         // Prevent deleting core system roles
-        $coreRoles = [
-            \App\Core\Constants\RoleConstants::SADMIN,
-            \App\Core\Constants\RoleConstants::TADMIN,
-            \App\Core\Constants\RoleConstants::TSTAFF,
-        ];
-
-        if (in_array(strtolower($role->name), $coreRoles)) {
+        if (in_array($role->name, [
+            RoleConstants::SADMIN,
+            RoleConstants::TADMIN,
+            RoleConstants::TSTAFF,
+        ])) {
             return back()->with('error', 'Core system roles cannot be deleted.');
         }
 

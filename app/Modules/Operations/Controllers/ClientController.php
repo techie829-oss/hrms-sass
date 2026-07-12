@@ -2,12 +2,21 @@
 
 namespace App\Modules\Operations\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Core\BaseController;
 use App\Modules\Operations\Models\Client;
 use Illuminate\Http\Request;
+use App\Modules\Operations\Requests\StoreClientRequest;
+use App\Modules\Operations\DTOs\ClientData;
+use App\Modules\Operations\Services\ClientService;
 
-class ClientController extends Controller
+class ClientController extends BaseController
 {
+    public function __construct(
+        protected ClientService $clientService
+    ) {
+        $this->authorizeResource(Client::class, 'client');
+    }
+
     public function index()
     {
         $clients = Client::where('tenant_id', saas_tenant('id'))
@@ -19,18 +28,10 @@ class ClientController extends Controller
         return view('operations::clients.index', compact('clients'));
     }
 
-    public function store(Request $request)
+    public function store(StoreClientRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'company' => 'nullable|string|max:255',
-            'address' => 'nullable|string',
-        ]);
-
-        $validated['tenant_id'] = saas_tenant('id');
-        Client::create($validated);
+        $dto = ClientData::fromArray($request->validated(), saas_tenant('id'));
+        $this->clientService->createClient($dto);
 
         return back()->with('success', 'Client added successfully.');
     }

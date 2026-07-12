@@ -5,6 +5,9 @@ namespace App\Modules\HR\Services;
 use App\Core\BaseService;
 use App\Modules\HR\Interfaces\DepartmentRepositoryInterface;
 
+/**
+ * @property DepartmentRepositoryInterface $repository
+ */
 class DepartmentService extends BaseService
 {
     public function __construct(DepartmentRepositoryInterface $repository)

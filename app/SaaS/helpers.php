@@ -1,8 +1,10 @@
 <?php
 
+use App\SaaS\Tenancy\TenantContext;
+
 if (!function_exists('saas_tenant')) {
     function saas_tenant($attribute = null) {
-        $tenant = app(\App\SaaS\Tenancy\TenantContext::class)->getTenant();
+        $tenant = app(TenantContext::class)->getTenant();
         if (!$tenant) return null;
         if ($attribute) return $tenant->{$attribute} ?? null;
         return $tenant;

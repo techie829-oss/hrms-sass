@@ -6,14 +6,18 @@ use App\Models\User;
 use App\Modules\Payroll\Models\PayrollRun;
 use App\Modules\Payroll\Models\Payslip;
 
+use App\Core\Constants\PermissionConstants;
+
 class PayrollPolicy
 {
     /**
-     * View payroll runs list — tadmin and tmanager only.
+     * View payroll runs list.
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        return $user->hasPermissionTo(PermissionConstants::VIEW_PAYROLL) || 
+               $user->hasPermissionTo(PermissionConstants::VIEW_OWN_PAYROLL) ||
+               $user->hasPermissionTo(PermissionConstants::MANAGE_PAYROLL);
     }
 
     /**
@@ -25,7 +29,9 @@ class PayrollPolicy
             return false;
         }
 
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        return $user->hasPermissionTo(PermissionConstants::VIEW_PAYROLL) || 
+               $user->hasPermissionTo(PermissionConstants::VIEW_OWN_PAYROLL) ||
+               $user->hasPermissionTo(PermissionConstants::MANAGE_PAYROLL);
     }
 
     /**
@@ -33,13 +39,11 @@ class PayrollPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        return $user->hasPermissionTo(PermissionConstants::MANAGE_PAYROLL);
     }
 
     /**
      * View a payslip.
-     * - tstaff: can only view their own payslip
-     * - tadmin / tmanager: can view any payslip in tenant
      */
     public function viewPayslip(User $user, Payslip $payslip): bool
     {
@@ -47,15 +51,19 @@ class PayrollPolicy
             return false;
         }
 
-        if ($user->hasRole('tstaff')) {
+        if ($user->hasPermissionTo(PermissionConstants::MANAGE_PAYROLL) || $user->hasPermissionTo(PermissionConstants::VIEW_PAYROLL)) {
+            return true;
+        }
+
+        if ($user->hasPermissionTo(PermissionConstants::VIEW_OWN_PAYROLL)) {
             return $user->employee?->id === $payslip->employee_id;
         }
 
-        return $user->hasAnyRole(['tadmin', 'tmanager']);
+        return false;
     }
 
     /**
-     * Delete a payroll run — tadmin only.
+     * Delete a payroll run.
      */
     public function delete(User $user, PayrollRun $payrollRun): bool
     {
@@ -63,6 +71,14 @@ class PayrollPolicy
             return false;
         }
 
-        return $user->hasRole('tadmin');
+        return $user->hasPermissionTo(PermissionConstants::MANAGE_PAYROLL);
+    }
+
+    /**
+     * Manage payroll settings / general components.
+     */
+    public function manage(User $user): bool
+    {
+        return $user->hasPermissionTo(PermissionConstants::MANAGE_PAYROLL);
     }
 }

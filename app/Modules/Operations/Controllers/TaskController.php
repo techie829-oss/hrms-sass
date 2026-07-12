@@ -2,14 +2,24 @@
 
 namespace App\Modules\Operations\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Core\BaseController;
 use App\Modules\Operations\Models\Task;
 use App\Modules\Operations\Models\Project;
 use App\Modules\HR\Models\Employee;
 use Illuminate\Http\Request;
+use App\Modules\Operations\Requests\StoreTaskRequest;
+use App\Modules\Operations\Requests\UpdateTaskRequest;
+use App\Modules\Operations\DTOs\TaskData;
+use App\Modules\Operations\Services\TaskService;
 
-class TaskController extends Controller
+class TaskController extends BaseController
 {
+    public function __construct(
+        protected TaskService $taskService
+    ) {
+        $this->authorizeResource(Task::class, 'task');
+    }
+
     public function index(Request $request)
     {
         $query = Task::where('tenant_id', saas_tenant('id'))
@@ -54,24 +64,16 @@ class TaskController extends Controller
         return view('operations::tasks.create', compact('employees', 'projects'));
     }
 
-    public function store(Request $request, ?Project $project = null)
+    public function store(StoreTaskRequest $request, ?Project $project = null)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'project_id' => 'nullable|exists:projects,id',
-            'assigned_to' => 'nullable|exists:employees,id',
-            'priority' => 'required|in:low,medium,high,urgent',
-            'due_date' => 'nullable|date',
-            'description' => 'nullable|string',
-        ]);
-
-        $validated['tenant_id'] = saas_tenant('id');
+        $validated = $request->validated();
         if ($project) {
             $validated['project_id'] = $project->id;
         }
         $validated['status'] = 'todo';
 
-        Task::create($validated);
+        $dto = TaskData::fromArray($validated, saas_tenant('id'));
+        $this->taskService->createTask($dto);
 
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json(['success' => true, 'message' => 'Task assigned successfully.']);
@@ -87,23 +89,18 @@ class TaskController extends Controller
         return view('operations::tasks.edit', compact('task', 'employees', 'projects'));
     }
 
-    public function update(Request $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
-        $validated = $request->validate([
-            'title' => 'sometimes|required|string|max:255',
-            'project_id' => 'nullable|exists:projects,id',
-            'assigned_to' => 'sometimes|nullable|exists:employees,id',
-            'status' => 'sometimes|required|in:todo,in_progress,review,done',
-            'priority' => 'sometimes|required|in:low,medium,high,urgent',
-            'due_date' => 'nullable|date',
-            'description' => 'nullable|string',
-        ]);
-
+        $validated = $request->validated();
+        
         if (isset($validated['status']) && $validated['status'] === 'done' && $task->status !== 'done') {
-            $validated['completed_at'] = now();
+            $validated['completed_at'] = now()->toDateTimeString();
+        } elseif ($task->status === 'done' && (!isset($validated['status']) || $validated['status'] === 'done')) {
+            $validated['completed_at'] = $task->completed_at;
         }
 
-        $task->update($validated);
+        $dto = TaskData::fromArray($validated, saas_tenant('id'));
+        $this->taskService->updateTask($task, $dto);
 
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json(['success' => true, 'message' => 'Task updated.']);
@@ -114,7 +111,7 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
-        $task->delete();
+        $this->taskService->deleteTask($task);
         return redirect()->route('operations.tasks.index')->with('success', 'Task deleted.');
     }
 }

@@ -34,10 +34,10 @@ All public/marketing pages must use layouts.marketing — NOT layouts.landing.
 
 ### 4. USE REAL DATA — NO PLACEHOLDERS
 Content must come from sklops.com reference:
-- Phone: +91 70074 20572
+- Phone: +91 98116 55457
 - Email: support@sklops.com
 - Address: Lakhimpur, Uttar Pradesh – 262701
-- WhatsApp: https://wa.me/917007420572
+- WhatsApp: https://wa.me/919811655457
 
 ---
 

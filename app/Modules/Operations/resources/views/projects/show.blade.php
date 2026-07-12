@@ -1,3 +1,7 @@
+@php
+use App\Modules\HR\Models\Employee;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -218,7 +222,7 @@
                     <label class="label"><span class="label-text font-bold text-xs uppercase">Assign To</span></label>
                     <x-rich-select name="assigned_to" placeholder="Search for an employee">
                         <option value="">Unassigned</option>
-                        @foreach(\App\Modules\HR\Models\Employee::where('tenant_id', saas_tenant('id'))->get() as $emp)
+                        @foreach(Employee::where('tenant_id', saas_tenant('id'))->get() as $emp)
                             <option value="{{ $emp->id }}">{{ $emp->full_name }}</option>
                         @endforeach
                     </x-rich-select>

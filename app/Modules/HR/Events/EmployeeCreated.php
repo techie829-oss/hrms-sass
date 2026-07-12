@@ -10,7 +10,5 @@ class EmployeeCreated
 {
     use Dispatchable, SerializesModels;
 
-    public function __construct(public Employee $employee)
-    {
-    }
+    public function __construct(public Employee $employee) {}
 }

@@ -33,18 +33,18 @@ class HRSettingsSeeder extends Seeder
             // HR Designations
             ['name' => 'HR Manager', 'code' => 'HRM', 'dept' => 'HR'],
             ['name' => 'HR Executive', 'code' => 'HRE', 'dept' => 'HR'],
-            
+
             // IT Designations
             ['name' => 'Software Engineer', 'code' => 'SWE', 'dept' => 'IT'],
             ['name' => 'System Administrator', 'code' => 'SYS', 'dept' => 'IT'],
-            
+
             // Sales Designations
             ['name' => 'Sales Manager', 'code' => 'SMG', 'dept' => 'SM'],
             ['name' => 'Sales Associate', 'code' => 'SA', 'dept' => 'SM'],
-            
+
             // Finance Designations
             ['name' => 'Accountant', 'code' => 'ACC', 'dept' => 'FIN'],
-            
+
             // Operations Designations
             ['name' => 'Operations Manager', 'code' => 'OPM', 'dept' => 'OPS'],
         ];
@@ -55,7 +55,7 @@ class HRSettingsSeeder extends Seeder
                 [
                     'name' => $desig['name'],
                     'department_id' => $deptIds[$desig['dept']] ?? null,
-                    'is_active' => true
+                    'is_active' => true,
                 ]
             );
         }

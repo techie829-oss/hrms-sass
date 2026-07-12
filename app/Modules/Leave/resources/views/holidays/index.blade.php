@@ -1,3 +1,7 @@
+@php
+use App\Core\Constants\PermissionConstants;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -6,7 +10,7 @@
                 <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Official company holidays and restricted days off.</p>
             </div>
             <div class="flex items-center gap-2">
-                @can('manage_holidays')
+                @can(PermissionConstants::MANAGE_HOLIDAYS)
                 <button onclick="add_holiday_modal.showModal()" class="btn btn-primary btn-sm rounded-xl px-4 shadow-sm shadow-primary/20 text-white font-semibold text-xs flex items-center gap-1">
                     <span class="material-symbols-outlined text-sm">add</span> Add Holiday
                 </button>
@@ -31,7 +35,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($holidays as $holiday)
             <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 group relative hover:border-primary/50 transition-all flex flex-col justify-between">
-                @can('manage_holidays')
+                @can(PermissionConstants::MANAGE_HOLIDAYS)
                 <form action="{{ route('leave.holidays.destroy', $holiday->id) }}" method="POST" class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     @csrf
                     @method('DELETE')

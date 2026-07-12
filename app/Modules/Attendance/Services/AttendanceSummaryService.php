@@ -6,6 +6,7 @@ use App\Modules\Attendance\Models\AttendanceDailySummary;
 use App\Modules\Attendance\Models\AttendanceLog;
 use App\Modules\Attendance\Models\AttendancePolicy;
 use App\Modules\Attendance\Models\AttendanceShift;
+use App\Modules\Attendance\Models\AttendanceEmployeeEnforcement;
 use App\Modules\HR\Models\Employee;
 use Carbon\Carbon;
 
@@ -51,8 +52,7 @@ class AttendanceSummaryService
         // --- Determine Shift Mode ---
         // Flexible is per-EMPLOYEE, not per-shift.
         // Check employee enforcement override first.
-        $empEnforcement = \App\Modules\Attendance\Models\AttendanceEmployeeEnforcement
-            ::where('employee_id', $employeeId)
+        $empEnforcement = AttendanceEmployeeEnforcement::where('employee_id', $employeeId)
             ->where('tenant_id', $tenantId)
             ->first();
         $isFlexible = $empEnforcement?->is_flexible ?? false;

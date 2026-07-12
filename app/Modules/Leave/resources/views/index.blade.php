@@ -1,3 +1,7 @@
+@php
+use App\Core\Constants\PermissionConstants;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -6,7 +10,7 @@
                 <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Track and manage employee time-off requests.</p>
             </div>
             <div class="flex items-center gap-2">
-                @can('manage_settings')
+                @can(PermissionConstants::MANAGE_SETTINGS)
                 <button onclick="bulk_apply_modal.showModal()" class="btn btn-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-3.5 shadow-sm flex items-center justify-center gap-1.5 font-semibold text-xs">
                     <span class="material-symbols-outlined text-sm">group_add</span> Bulk Apply
                 </button>

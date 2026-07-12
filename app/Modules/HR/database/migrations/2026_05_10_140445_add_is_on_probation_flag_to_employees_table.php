@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            if (!Schema::hasColumn('employees', 'is_on_probation')) {
+            if (! Schema::hasColumn('employees', 'is_on_probation')) {
                 $table->boolean('is_on_probation')->default(true)->after('probation_end_date');
             }
         });
