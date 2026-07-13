@@ -52,7 +52,13 @@ class EmployeeController extends BaseController
 
         $departments = Department::all();
 
-        return view('hr::employees.index', compact('employees', 'departments'));
+        $stats = [
+            'total' => Employee::count(),
+            'active' => Employee::where('status', 'active')->count(),
+            'on_leave' => Employee::where('status', 'on_leave')->count(),
+        ];
+
+        return view('hr::employees.index', compact('employees', 'departments', 'stats'));
     }
 
     /**

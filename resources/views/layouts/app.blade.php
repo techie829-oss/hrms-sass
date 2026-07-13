@@ -219,6 +219,22 @@
                     {{ $slot }}
                 </div>
             </main>
+
+            <!-- Mobile Bottom Navigation Bar (Sklops Mobile Reference UI) -->
+            <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 flex items-center justify-around h-16 shadow-lg px-2">
+                <a href="{{ route('tenant.dashboard') }}" class="flex flex-col items-center justify-center text-xs {{ request()->routeIs('tenant.dashboard') ? 'text-blue-600 font-bold' : 'text-gray-500 hover:text-gray-900' }}">
+                    <span class="material-symbols-outlined text-[24px]">home</span>
+                    <span class="text-[10px] mt-0.5">Home</span>
+                </a>
+                <a href="{{ route('hr.employees.index') }}" class="flex flex-col items-center justify-center text-xs {{ request()->routeIs('hr.employees.*') ? 'text-blue-600 font-bold' : 'text-gray-500 hover:text-gray-900' }}">
+                    <span class="material-symbols-outlined text-[24px]">groups</span>
+                    <span class="text-[10px] mt-0.5">People</span>
+                </a>
+                <button onclick="toggleSidebar()" class="flex flex-col items-center justify-center text-xs text-gray-500 hover:text-gray-900 focus:outline-none">
+                    <span class="material-symbols-outlined text-[24px]">menu</span>
+                    <span class="text-[10px] mt-0.5">Menu</span>
+                </button>
+            </nav>
         </div>
 
         @stack('scripts')
