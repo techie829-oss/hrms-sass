@@ -9,16 +9,16 @@ use App\Core\Constants\PermissionConstants;
                 <h2 class="text-xl font-bold text-on-surface tracking-tight">Comp-Off Claims</h2>
                 <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Earned time-off for working extra days or holidays.</p>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                 @can(PermissionConstants::MANAGE_COMP_OFF)
-                <button onclick="one_click_settle_modal.showModal()" class="btn btn-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-3.5 shadow-sm flex items-center justify-center gap-1.5 font-semibold text-xs">
+                <button onclick="one_click_settle_modal.showModal()" class="btn btn-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-3.5 shadow-sm flex items-center justify-center gap-1.5 font-semibold text-xs flex-1 sm:flex-none">
                     <span class="material-symbols-outlined text-sm text-indigo-600">auto_fix_high</span> One-Click Settle
                 </button>
-                <button onclick="bulk_grant_modal.showModal()" class="btn btn-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-3.5 shadow-sm flex items-center justify-center gap-1.5 font-semibold text-xs">
+                <button onclick="bulk_grant_modal.showModal()" class="btn btn-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-3.5 shadow-sm flex items-center justify-center gap-1.5 font-semibold text-xs flex-1 sm:flex-none">
                     <span class="material-symbols-outlined text-sm text-primary">group_add</span> Bulk Grant
                 </button>
                 @endcan
-                <button onclick="request_compoff_modal.showModal()" class="btn btn-primary btn-sm rounded-xl px-4 shadow-sm shadow-primary/20 text-white font-semibold text-xs flex items-center gap-1">
+                <button onclick="request_compoff_modal.showModal()" class="btn btn-primary btn-sm rounded-xl px-4 shadow-sm shadow-primary/20 text-white font-semibold text-xs flex items-center justify-center gap-1 flex-1 sm:flex-none">
                     <span class="material-symbols-outlined text-sm">add_circle</span> Request Claim
                 </button>
             </div>
@@ -26,29 +26,40 @@ use App\Core\Constants\PermissionConstants;
     </x-slot>
 
     {{-- Module Navigation Tabs --}}
-    <div class="flex items-center gap-1 mb-6 bg-slate-100 p-1 rounded-xl border border-slate-200 w-fit">
-        <a href="{{ route('leave.requests.index') }}" class="px-4 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all {{ request()->routeIs('leave.requests.*') ? 'bg-white shadow-sm text-primary border border-slate-200/60' : 'text-slate-500 hover:text-slate-800' }}">
+    <div class="flex items-center gap-1 mb-6 bg-slate-100 p-1 rounded-xl border border-slate-200 w-full sm:w-fit overflow-x-auto">
+        <a href="{{ route('leave.requests.index') }}" class="px-4 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all whitespace-nowrap shrink-0 {{ request()->routeIs('leave.requests.*') ? 'bg-white shadow-sm text-primary border border-slate-200/60' : 'text-slate-500 hover:text-slate-800' }}">
             Leave Requests
         </a>
-        <a href="{{ route('leave.holidays.index') }}" class="px-4 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all {{ request()->routeIs('leave.holidays.*') ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-800' }}">
+        <a href="{{ route('leave.holidays.index') }}" class="px-4 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all whitespace-nowrap shrink-0 {{ request()->routeIs('leave.holidays.*') ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-800' }}">
             Holiday Calendar
         </a>
-        <a href="{{ route('leave.comp-off.index') }}" class="px-4 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all {{ request()->routeIs('leave.comp-off.*') ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-800' }}">
+        <a href="{{ route('leave.comp-off.index') }}" class="px-4 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all whitespace-nowrap shrink-0 {{ request()->routeIs('leave.comp-off.*') ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-800' }}">
             Comp-Off Claims
         </a>
     </div>
 
     <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-        <div class="table-crm">
+        {{-- Desktop Table View --}}
+        <div class="hidden lg:block table-crm">
             <x-table :headers="['Employee', 'Worked On', 'Duration', 'Reason', 'Status', 'Settlement', 'Actions']" :striped="false">
                 @forelse($requests as $request)
+                    @php
+                        $colors = ['bg-blue-600', 'bg-indigo-600', 'bg-emerald-600', 'bg-slate-700', 'bg-teal-600'];
+                        $colorClass = $colors[$request->employee->id % count($colors)];
+                    @endphp
                     <tr class="hover:bg-slate-50/50 transition-all border-b border-slate-100 last:border-0 group">
                         <td class="py-3 px-4">
                             <div class="flex items-center gap-3">
-                                <div class="avatar placeholder">
-                                    <div class="bg-slate-100 text-slate-700 rounded-xl w-9 h-9 font-bold text-xs flex items-center justify-center border border-slate-200/60 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
-                                        {{ strtoupper(substr($request->employee->first_name, 0, 1) . substr($request->employee->last_name, 0, 1)) }}
-                                    </div>
+                                <div class="w-9 h-9 rounded-xl {{ !empty($request->employee->profile_photo) ? 'bg-slate-100 text-slate-800' : $colorClass . ' text-white' }} font-bold text-xs flex items-center justify-center shrink-0 border border-slate-200/60 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
+                                    @if(!empty($request->employee->profile_photo))
+                                        <img src="{{ asset('storage/' . $request->employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
+                                    @else
+                                        @php
+                                            $nameParts = explode(' ', trim($request->employee->full_name ?? 'U'));
+                                            $initials = strtoupper(substr($nameParts[0], 0, 1) . (isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : ''));
+                                        @endphp
+                                        {{ $initials }}
+                                    @endif
                                 </div>
                                 <div>
                                     <div class="font-bold text-xs text-slate-700">{{ $request->employee->full_name }}</div>
@@ -120,6 +131,76 @@ use App\Core\Constants\PermissionConstants;
                     </tr>
                 @endforelse
             </x-table>
+        </div>
+
+        {{-- Mobile Card View --}}
+        <div class="lg:hidden divide-y divide-slate-100">
+            @forelse($requests as $request)
+                @php
+                    $colors = ['bg-blue-600', 'bg-indigo-600', 'bg-emerald-600', 'bg-slate-700', 'bg-teal-600'];
+                    $colorClass = $colors[$request->employee->id % count($colors)];
+                    $statusConfig = [
+                        'pending' => 'bg-amber-50 text-amber-700 border-amber-200/60',
+                        'approved' => 'bg-emerald-50 text-emerald-700 border-emerald-200/60',
+                        'rejected' => 'bg-rose-50 text-rose-700 border-rose-200/60',
+                    ];
+                    $statusClass = $statusConfig[$request->status] ?? 'bg-slate-50 text-slate-400 border-slate-200/50';
+                @endphp
+                <div class="p-4 space-y-3">
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <div class="w-9 h-9 rounded-xl {{ !empty($request->employee->profile_photo) ? 'bg-slate-100 text-slate-800' : $colorClass . ' text-white' }} font-bold text-xs flex items-center justify-center shrink-0 border border-slate-200/60 shadow-sm overflow-hidden">
+                                @if(!empty($request->employee->profile_photo))
+                                    <img src="{{ asset('storage/' . $request->employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
+                                @else
+                                    @php
+                                        $nameParts = explode(' ', trim($request->employee->full_name ?? 'U'));
+                                        $initials = strtoupper(substr($nameParts[0], 0, 1) . (isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : ''));
+                                    @endphp
+                                    {{ $initials }}
+                                @endif
+                            </div>
+                            <div class="min-w-0">
+                                <div class="font-bold text-xs text-slate-800 truncate">{{ $request->employee->full_name }}</div>
+                                <div class="text-[10px] font-medium text-slate-500 truncate">{{ $request->reason }}</div>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-lg border text-[9px] font-bold uppercase tracking-widest shrink-0 {{ $statusClass }}">
+                            {{ $request->status }}
+                        </span>
+                    </div>
+
+                    <div class="bg-slate-50/80 rounded-xl p-2.5 flex items-center justify-between text-xs border border-slate-100">
+                        <div class="flex items-center gap-1.5 text-slate-600">
+                            <span class="material-symbols-outlined text-sm text-slate-400">calendar_today</span>
+                            <span class="font-medium">Worked on {{ $request->worked_on_date->format('M d, Y') }}</span>
+                        </div>
+                        <span class="font-bold text-slate-700">{{ $request->duration }} Day</span>
+                    </div>
+
+                    @if($request->status === 'pending' && Auth::user()->can(PermissionConstants::MANAGE_COMP_OFF))
+                    <div class="flex items-center justify-end gap-2 pt-1">
+                        <form action="{{ route('leave.comp-off.status', $request->id) }}" method="POST" class="inline">
+                            @csrf
+                            <input type="hidden" name="status" value="approved">
+                            <button type="submit" class="btn btn-xs bg-emerald-50 text-emerald-700 border border-emerald-200/60 hover:bg-emerald-100 rounded-lg">Approve</button>
+                        </form>
+                        <form action="{{ route('leave.comp-off.status', $request->id) }}" method="POST" class="inline">
+                            @csrf
+                            <input type="hidden" name="status" value="rejected">
+                            <button type="submit" class="btn btn-xs bg-rose-50 text-rose-700 border border-rose-200/60 hover:bg-rose-100 rounded-lg">Reject</button>
+                        </form>
+                    </div>
+                    @endif
+                </div>
+            @empty
+                <div class="py-16 text-center">
+                    <div class="flex flex-col items-center gap-2 opacity-45">
+                        <span class="material-symbols-outlined text-4xl">leak_remove</span>
+                        <p class="font-bold text-sm text-slate-600">No compensatory off claims found.</p>
+                    </div>
+                </div>
+            @endforelse
         </div>
         @if($requests->hasPages())
             <div class="p-4 bg-slate-50 border-t border-slate-100">

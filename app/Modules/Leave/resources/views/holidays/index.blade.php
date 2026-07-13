@@ -20,14 +20,14 @@ use App\Core\Constants\PermissionConstants;
     </x-slot>
 
     {{-- Module Navigation Tabs --}}
-    <div class="flex items-center gap-1 mb-6 bg-slate-100 p-1 rounded-xl border border-slate-200 w-fit">
-        <a href="{{ route('leave.requests.index') }}" class="px-4 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all {{ request()->routeIs('leave.requests.*') ? 'bg-white shadow-sm text-primary border border-slate-200/60' : 'text-slate-500 hover:text-slate-800' }}">
+    <div class="flex items-center gap-1 mb-6 bg-slate-100 p-1 rounded-xl border border-slate-200 w-full sm:w-fit overflow-x-auto">
+        <a href="{{ route('leave.requests.index') }}" class="px-4 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all whitespace-nowrap shrink-0 {{ request()->routeIs('leave.requests.*') ? 'bg-white shadow-sm text-primary border border-slate-200/60' : 'text-slate-500 hover:text-slate-800' }}">
             Leave Requests
         </a>
-        <a href="{{ route('leave.holidays.index') }}" class="px-4 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all {{ request()->routeIs('leave.holidays.*') ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-800' }}">
+        <a href="{{ route('leave.holidays.index') }}" class="px-4 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all whitespace-nowrap shrink-0 {{ request()->routeIs('leave.holidays.*') ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-800' }}">
             Holiday Calendar
         </a>
-        <a href="{{ route('leave.comp-off.index') }}" class="px-4 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all {{ request()->routeIs('leave.comp-off.*') ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-800' }}">
+        <a href="{{ route('leave.comp-off.index') }}" class="px-4 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all whitespace-nowrap shrink-0 {{ request()->routeIs('leave.comp-off.*') ? 'bg-white shadow-sm text-primary' : 'text-slate-500 hover:text-slate-800' }}">
             Comp-Off Claims
         </a>
     </div>
