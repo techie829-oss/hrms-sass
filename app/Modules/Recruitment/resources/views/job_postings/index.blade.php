@@ -21,37 +21,53 @@ use App\Core\Constants\PermissionConstants;
 
     <div class="space-y-6">
         <!-- Overview Stats -->
-        <div class="stats shadow w-full">
-            <div class="stat">
-                <div class="stat-figure text-primary">
-                    <span class="material-symbols-outlined text-3xl">work</span>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Active Jobs</p>
+                        <h3 class="text-2xl font-black text-gray-900 mt-1">{{ $postings->where('status', 'open')->count() }}</h3>
+                    </div>
+                    <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-2xl">work</span>
+                    </div>
                 </div>
-                <div class="stat-title">Active Jobs</div>
-                <div class="stat-value text-primary">{{ $postings->where('status', 'open')->count() }}</div>
             </div>
             
-            <div class="stat">
-                <div class="stat-figure text-secondary">
-                    <span class="material-symbols-outlined text-3xl">group</span>
+            <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Applicants</p>
+                        <h3 class="text-2xl font-black text-gray-900 mt-1">0</h3>
+                    </div>
+                    <div class="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-2xl">group</span>
+                    </div>
                 </div>
-                <div class="stat-title">Total Applicants</div>
-                <div class="stat-value text-secondary">0</div>
             </div>
             
-            <div class="stat">
-                <div class="stat-figure text-warning">
-                    <span class="material-symbols-outlined text-3xl">event</span>
+            <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Interviews Scheduled</p>
+                        <h3 class="text-2xl font-black text-gray-900 mt-1">0</h3>
+                    </div>
+                    <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-2xl">event</span>
+                    </div>
                 </div>
-                <div class="stat-title">Interviews Scheduled</div>
-                <div class="stat-value text-warning">0</div>
             </div>
             
-            <div class="stat">
-                <div class="stat-figure text-success">
-                    <span class="material-symbols-outlined text-3xl">check_circle</span>
+            <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Hired This Month</p>
+                        <h3 class="text-2xl font-black text-gray-900 mt-1">0</h3>
+                    </div>
+                    <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-2xl">check_circle</span>
+                    </div>
                 </div>
-                <div class="stat-title">Hired This Month</div>
-                <div class="stat-value text-success">0</div>
             </div>
         </div>
 
@@ -61,7 +77,8 @@ use App\Core\Constants\PermissionConstants;
                 <div class="p-6 border-b border-base-200 flex justify-between items-center bg-base-200/50">
                     <h3 class="text-sm font-bold uppercase tracking-widest">Active Job Postings</h3>
                 </div>
-                <div class="overflow-x-auto">
+                {{-- Desktop Table View --}}
+                <div class="hidden lg:block overflow-x-auto">
                     <table class="table table-zebra w-full">
                         <thead>
                             <tr>
@@ -151,6 +168,61 @@ use App\Core\Constants\PermissionConstants;
                         </tbody>
                     </table>
                 </div>
+
+                {{-- Mobile Card Stack View --}}
+                <div class="lg:hidden p-4 space-y-3 bg-slate-50/50">
+                    @forelse($postings as $posting)
+                        @php
+                            $statusConfig = [
+                                'open' => ['class' => 'badge-success', 'icon' => 'public'],
+                                'draft' => ['class' => 'badge-ghost', 'icon' => 'edit_note'],
+                                'closed' => ['class' => 'badge-neutral', 'icon' => 'lock'],
+                            ];
+                            $config = $statusConfig[$posting->status] ?? $statusConfig['draft'];
+                        @endphp
+                        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-3">
+                            <div class="flex items-start justify-between gap-2">
+                                <div>
+                                    <div class="font-bold text-sm text-slate-800">{{ $posting->title }}</div>
+                                    <div class="text-xs text-slate-500 mt-0.5">{{ $posting->location ?? 'Remote' }}</div>
+                                </div>
+                                <span class="badge {{ $config['class'] }} gap-1 font-semibold text-[10px] uppercase shrink-0">
+                                    {{ ucfirst($posting->status) }}
+                                </span>
+                            </div>
+
+                            <div class="flex flex-wrap items-center gap-2 text-xs">
+                                <span class="badge badge-outline badge-sm">{{ str_replace('_', ' ', $posting->employment_type) }}</span>
+                                <span class="text-slate-400">|</span>
+                                <span class="text-xs font-semibold text-primary">0 Candidates</span>
+                            </div>
+
+                            <div class="flex items-center justify-between border-t border-slate-100 pt-3">
+                                <span class="text-[10px] text-slate-400 font-medium">
+                                    Closes: {{ $posting->closing_date ? $posting->closing_date->format('M d, Y') : 'Open Ended' }}
+                                </span>
+                                <div class="flex items-center gap-1">
+                                    @can('view', $posting)
+                                        <a href="{{ route('recruitment.job_postings.show', $posting->id) }}" class="btn btn-ghost btn-xs text-primary font-bold">
+                                            View
+                                        </a>
+                                    @endcan
+                                    @can('update', $posting)
+                                        <a href="{{ route('recruitment.job_postings.edit', $posting->id) }}" class="btn btn-ghost btn-xs text-secondary font-bold">
+                                            Edit
+                                        </a>
+                                    @endcan
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="py-12 text-center bg-white border border-slate-200 rounded-xl">
+                            <span class="material-symbols-outlined text-4xl text-slate-400 mb-2">work_off</span>
+                            <p class="font-bold text-xs text-slate-500">No Job Postings Yet</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
             </div>
         </div>
     </div>

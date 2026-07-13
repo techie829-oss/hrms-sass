@@ -193,15 +193,6 @@
             <!-- Header -->
             @include('layouts.header')
 
-            <!-- Page Heading (Optional, inside content area) -->
-            @isset($header)
-                <div class="bg-white border-b border-gray-200">
-                    <div class="w-full max-w-[1600px] mx-auto py-3.5 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </div>
-            @endisset
-
             <!-- Page Content -->
             <main class="pt-4 pb-24 lg:py-6 px-4 sm:px-6 lg:px-8">
                 <div class="w-full max-w-[1600px] mx-auto">

@@ -1,25 +1,29 @@
-<header class="top-header">
-    <div class="px-4 sm:px-6 py-3">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <!-- Toggle button for all screen sizes (Mobile drawer / Desktop toggle) -->
-                <button
-                    class="mr-3.5 text-gray-600 hover:text-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 rounded-lg p-1.5 hover:bg-gray-100 transition-colors"
-                    onclick="toggleSidebar()"
-                    title="Toggle Navigation Sidebar">
-                    <span class="material-symbols-outlined text-[22px]">menu</span>
-                </button>
+<header class="min-h-16 bg-white border-b border-gray-200 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-20 py-2.5 sm:py-0">
+    <div class="flex items-center flex-1 min-w-0 mr-4">
+        <!-- Toggle button for all screen sizes (Mobile drawer / Desktop toggle) -->
+        <button
+            class="mr-3.5 text-gray-600 hover:text-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 rounded-lg p-1.5 hover:bg-gray-100 transition-colors shrink-0"
+            onclick="toggleSidebar()"
+            title="Toggle Navigation Sidebar">
+            <span class="material-symbols-outlined text-[22px]">menu</span>
+        </button>
 
+        <div class="flex-1 min-w-0">
+            @isset($header)
+                {{ $header }}
+            @else
                 <div>
-                    <h2 class="text-lg sm:text-xl font-bold text-gray-900 tracking-tight leading-snug">@yield('page-title', 'Dashboard')</h2>
-                    <p class="text-xs text-gray-500 hidden sm:block">@yield('page-description', 'Welcome to your HRMS dashboard')</p>
+                    <h2 class="text-base sm:text-lg font-bold text-gray-900 tracking-tight leading-snug truncate">@yield('page-title', 'Dashboard')</h2>
+                    <p class="text-xs text-gray-500 hidden sm:block truncate">@yield('page-description', 'Welcome to your HRMS dashboard')</p>
                 </div>
-            </div>
+            @endisset
+        </div>
+    </div>
 
-            <!-- User Profile Dropdown -->
-            <div class="relative">
-                <button id="userMenuButton"
-                    class="flex items-center space-x-3 p-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50">
+    <!-- User Profile Dropdown -->
+    <div class="relative shrink-0">
+        <button id="userMenuButton"
+            class="flex items-center space-x-3 p-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50">
                     
                     <div class="hidden sm:block text-right">
                         <div class="text-sm font-semibold text-gray-900">
@@ -86,6 +90,4 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 </header>

@@ -25,7 +25,8 @@ use App\Modules\Performance\Models\KPI;
                     <span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-wider italic">Strategic Trackers</span>
                 </div>
             </div>
-            <div class="overflow-x-auto">
+            {{-- Desktop Table View --}}
+            <div class="hidden lg:block overflow-x-auto">
                 <table class="table table-xs table-zebra w-full text-[11px]">
                     <thead>
                         <tr class="text-on-surface-variant/70 border-b border-outline-variant/5">
@@ -64,6 +65,48 @@ use App\Modules\Performance\Models\KPI;
                     </tbody>
                 </table>
             </div>
+
+            {{-- Mobile Card Stack View --}}
+            <div class="lg:hidden p-4 space-y-3 bg-slate-50/50">
+                @forelse($kpis as $kpi)
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-3">
+                    <div class="flex items-start justify-between gap-2">
+                        <div>
+                            <div class="font-bold text-sm text-slate-800">{{ $kpi->name }}</div>
+                            <div class="text-xs text-slate-500 mt-0.5 line-clamp-2">{{ $kpi->description }}</div>
+                        </div>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60 uppercase shrink-0">
+                            {{ $kpi->department->name ?? 'Global' }}
+                        </span>
+                    </div>
+
+                    <div class="bg-slate-50/80 rounded-xl p-3 grid grid-cols-2 gap-3 border border-slate-100 text-xs">
+                        <div>
+                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Target Value</span>
+                            <span class="font-bold text-slate-800 text-sm mt-0.5 block">{{ number_format($kpi->target_value, 2) }}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Tracking Unit</span>
+                            <span class="font-bold text-primary-600 text-sm mt-0.5 uppercase block">{{ $kpi->unit }}</span>
+                        </div>
+                    </div>
+
+                    @can('update', $kpi)
+                    <div class="flex justify-end pt-1">
+                        <button class="btn btn-primary btn-xs rounded-lg px-3 text-white font-semibold flex items-center gap-1 shadow-sm">
+                            Edit Metric <span class="material-symbols-outlined text-sm">edit</span>
+                        </button>
+                    </div>
+                    @endcan
+                </div>
+                @empty
+                <div class="py-12 text-center bg-white border border-slate-200 rounded-xl">
+                    <span class="material-symbols-outlined text-4xl text-slate-400 mb-2">trending_up</span>
+                    <p class="font-bold text-xs text-slate-500">No KPI metrics defined.</p>
+                </div>
+                @endforelse
+            </div>
+
             @if($kpis->hasPages())
             <div class="p-4 border-t border-outline-variant/5 bg-surface-container-low/20">
                 {{ $kpis->links() }}

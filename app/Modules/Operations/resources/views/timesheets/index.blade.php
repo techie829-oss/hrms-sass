@@ -53,9 +53,11 @@ use App\Modules\Operations\Models\Project;
             </div>
 
             <!-- Timesheet table -->
+            <!-- Timesheet table -->
             <div class="lg:col-span-3">
                 <div class="table-crm">
-                    <div class="overflow-x-auto">
+                    {{-- Desktop Table View --}}
+                    <div class="hidden lg:block overflow-x-auto">
                         <table class="table table-zebra">
                             <thead>
                                 <tr class="bg-base-200/50">
@@ -109,6 +111,44 @@ use App\Modules\Operations\Models\Project;
                                 @endforelse
                             </tbody>
                         </table>
+                    </div>
+
+                    {{-- Mobile Card Stack View --}}
+                    <div class="lg:hidden p-4 space-y-3 bg-slate-50/50">
+                        @forelse($timesheets as $log)
+                        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-3">
+                            <div class="flex items-start justify-between gap-2">
+                                <div>
+                                    <div class="font-bold text-sm text-slate-800">{{ $log->project ? $log->project->name : 'General / Internal' }}</div>
+                                    <div class="text-xs text-slate-500 italic mt-0.5">{{ $log->task->title ?? 'Daily Update' }}</div>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-black bg-primary/10 text-primary shrink-0">
+                                    {{ number_format($log->hours, 2) }}h
+                                </span>
+                            </div>
+
+                            <p class="text-xs text-slate-600 line-clamp-2">{{ $log->description }}</p>
+
+                            <div class="flex items-center justify-between border-t border-slate-100 pt-3 text-xs text-slate-500">
+                                <div class="font-semibold text-slate-700">
+                                    {{ $log->date->format('M d, Y') }}
+                                    <span class="text-[10px] text-slate-400 uppercase ml-1">{{ $log->date->format('l') }}</span>
+                                </div>
+                                <div>
+                                    @if($log->start_time && $log->end_time)
+                                        <span class="font-mono text-xs">{{ $log->start_time->format('H:i') }} - {{ $log->end_time->format('H:i') }}</span>
+                                    @else
+                                        <span class="text-slate-400">Duration Only</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        @empty
+                        <div class="py-12 text-center bg-white border border-slate-200 rounded-xl">
+                            <span class="material-symbols-outlined text-4xl text-slate-400 mb-2">work_history</span>
+                            <p class="font-bold text-xs text-slate-500">No time logs found for this period.</p>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
                 <div class="mt-6">

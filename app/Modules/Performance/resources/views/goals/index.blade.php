@@ -4,7 +4,7 @@ use App\Modules\Performance\Models\Goal;
 
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <h2 class="text-xl font-bold text-on-surface tracking-tight">Employee Goals</h2>
             <div class="flex gap-2">
                 @can('create', Goal::class)
@@ -20,14 +20,20 @@ use App\Modules\Performance\Models\Goal;
         <!-- Goals Grid (Matches Dashboard Refined Cards) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             @forelse($goals as $goal)
+                @php
+                    $colors = ['bg-blue-600', 'bg-indigo-600', 'bg-violet-600', 'bg-purple-600', 'bg-teal-600', 'bg-emerald-600', 'bg-cyan-600', 'bg-sky-600'];
+                    $colorClass = $colors[$goal->employee->id % count($colors)];
+                @endphp
                 <div class="card bg-surface-container-lowest shadow-sm border border-outline-variant/10 hover:border-primary/30 transition-all flex flex-col justify-between rounded-xl overflow-hidden min-h-[180px]">
                     <div class="card-body p-5">
                         <div class="flex items-start justify-between mb-4">
                             <div class="flex items-center gap-3">
-                                <div class="avatar placeholder">
-                                    <div class="bg-primary/10 text-primary rounded-lg w-9 h-9 font-bold text-[10px] uppercase tracking-wider flex items-center justify-center">
-                                        {{ substr($goal->employee->first_name, 0, 1) }}{{ substr($goal->employee->last_name, 0, 1) }}
-                                    </div>
+                                <div class="w-9 h-9 rounded-lg {{ !empty($goal->employee->profile_photo) ? 'bg-slate-100 text-slate-800' : $colorClass . ' text-white' }} font-bold text-xs flex items-center justify-center shrink-0 border border-slate-200/60 shadow-sm overflow-hidden">
+                                    @if(!empty($goal->employee->profile_photo))
+                                        <img src="{{ asset('storage/' . $goal->employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
+                                    @else
+                                        {{ strtoupper(substr($goal->employee->first_name, 0, 1) . substr($goal->employee->last_name, 0, 1)) }}
+                                    @endif
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-on-surface leading-tight text-sm">{{ $goal->title }}</h3>

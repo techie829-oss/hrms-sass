@@ -16,13 +16,14 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($contacts as $contact)
-            <div class="bg-white border border-slate-200 rounded-xl shadow-sm hover:border-indigo-300 transition-all">
+                @php
+                    $colors = ['bg-blue-600', 'bg-indigo-600', 'bg-violet-600', 'bg-purple-600', 'bg-teal-600', 'bg-emerald-600', 'bg-cyan-600', 'bg-sky-600'];
+                    $colorClass = $colors[$contact->id % count($colors)];
+                @endphp
                 <div class="p-6">
                     <div class="flex items-center gap-4">
-                        <div class="avatar placeholder">
-                            <div class="bg-primary-focus text-primary-content rounded-full w-12">
-                                <span class="text-lg font-bold uppercase">{{ substr($contact->name, 0, 1) }}</span>
-                            </div>
+                        <div class="w-12 h-12 rounded-full {{ $colorClass }} text-white font-bold text-base flex items-center justify-center shrink-0 shadow-sm">
+                            {{ strtoupper(substr($contact->name, 0, 1)) }}
                         </div>
                         <div>
                             <h2 class="text-base font-bold text-slate-900">{{ $contact->name }}</h2>

@@ -9,23 +9,26 @@
     }
 @endphp
 
-<div class="p-6">
-    <!-- Logo -->
-    <div class="flex items-center justify-between mb-8">
-        <a href="{{ route($dashboardRoute) }}" class="flex items-center">
-            <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center mr-3 shadow-sm">
-                <span class="material-symbols-outlined text-[20px] text-primary-600">view_cozy</span>
+<div class="h-full flex flex-col">
+    <!-- Header/Logo Area -->
+    <div class="flex items-center justify-between h-16 px-6 border-b border-gray-200 bg-white sticky top-0 z-10">
+        <a href="{{ route($dashboardRoute) }}" class="flex items-center gap-2.5">
+            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-sm">
+                <span class="material-symbols-outlined text-[18px] text-white font-bold">view_cozy</span>
             </div>
-            <h1 class="text-xl font-bold text-white tracking-tight">{{ config('app.name', 'HRMS') }}</h1>
+            <div class="text-left">
+                <h1 class="text-sm font-bold text-gray-900 leading-none">{{ config('app.name', 'HRMS') }}</h1>
+                <p class="text-[9px] font-semibold text-gray-400 uppercase tracking-widest mt-0.5">Management</p>
+            </div>
         </a>
         <!-- Close button for mobile -->
-        <button class="lg:hidden text-white/80 hover:text-white transition-colors" onclick="toggleSidebar()">
-            <span class="material-symbols-outlined text-[24px]">close</span>
+        <button class="lg:hidden text-gray-400 hover:text-gray-600 p-1 rounded-md hover:bg-gray-100 transition-colors" onclick="toggleSidebar()">
+            <span class="material-symbols-outlined text-[20px]">close</span>
         </button>
     </div>
 
     <!-- Navigation -->
-    <nav class="space-y-1.5 pb-20">
+    <nav class="flex-1 overflow-y-auto px-4 py-6 space-y-1.5 pb-24">
         <a href="{{ route($dashboardRoute) }}"
             class="flex items-center px-4 py-3 {{ request()->routeIs($dashboardRoute) ? 'text-white bg-white/20 font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' }} rounded-xl transition-all">
             <span class="material-symbols-outlined text-[20px] mr-3">dashboard</span>

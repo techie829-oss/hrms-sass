@@ -9,7 +9,7 @@ use App\Core\Constants\PermissionConstants;
                 <h2 class="text-xl font-bold text-on-surface tracking-tight">Attendance Logs</h2>
                 <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Track and manage employee daily presence.</p>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                 @php
                     $showCalendarToggle = !$canViewAll || isset($filters['employee_id']) || request('search');
                 @endphp
@@ -25,7 +25,7 @@ use App\Core\Constants\PermissionConstants;
                 </div>
                 @endif
                 @can(PermissionConstants::MANAGE_ATTENDANCE)
-                <div class="flex gap-2">
+                <div class="flex flex-wrap gap-2">
                     <a href="{{ route('attendance.settings') }}" class="btn btn-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-3 shadow-sm flex items-center justify-center">
                         <span class="material-symbols-outlined text-base">settings</span>
                     </a>
