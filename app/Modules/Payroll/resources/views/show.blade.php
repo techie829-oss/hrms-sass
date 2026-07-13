@@ -8,16 +8,16 @@
                 </div>
                 <p class="text-xs font-medium mt-1 opacity-70">Payroll distribution for {{ \Carbon\Carbon::createFromDate($run->year, $run->month, 1)->format('F, Y') }}.</p>
             </div>
-            <div class="flex gap-2 mt-4 md:mt-0">
+            <div class="flex flex-wrap items-center gap-2 mt-4 md:mt-0 w-full sm:w-auto">
                 @if($run->status === 'draft' || $run->status === 'processing')
                     <form action="{{ route('payroll.generate', $run->id) }}" method="POST">
                         @csrf
-                        <button type="submit" class="btn btn-primary btn-sm">
+                        <button type="submit" class="btn btn-primary btn-sm rounded-xl">
                             <span class="material-symbols-outlined text-base">settings_suggest</span> Generate Payslips
                         </button>
                     </form>
                 @endif
-                <a href="{{ route('payroll.index') }}" class="btn btn-ghost btn-sm btn-outline">
+                <a href="{{ route('payroll.index') }}" class="btn btn-ghost btn-sm btn-outline rounded-xl">
                     Back
                 </a>
             </div>
@@ -57,48 +57,109 @@
             <div class="text-[10px] font-bold uppercase tracking-wider opacity-40">Showing {{ $payslips->count() }} Records</div>
         </div>
 
-        <x-table :headers="['Employee', 'ID / Code', 'Gross', 'Net Salary', 'Status', 'Actions']" :striped="false">
-            @forelse($payslips as $payslip)
-                <tr class="hover:bg-base-200/50 transition-colors border-b border-base-200">
-                    <td class="py-3 px-6">
-                        <div class="flex items-center gap-3">
-                            <div class="avatar placeholder">
-                                <div class="bg-primary/10 text-primary rounded-lg w-8 h-8 font-bold text-[10px] border border-primary/10">
-                                    {{ substr($payslip->employee->first_name, 0, 1) }}{{ substr($payslip->employee->last_name, 0, 1) }}
+        {{-- Desktop Table View --}}
+        <div class="hidden lg:block">
+            <x-table :headers="['Employee', 'ID / Code', 'Gross', 'Net Salary', 'Status', 'Actions']" :striped="false">
+                @forelse($payslips as $payslip)
+                    @php
+                        $colors = ['bg-blue-600', 'bg-indigo-600', 'bg-violet-600', 'bg-purple-600', 'bg-teal-600', 'bg-emerald-600', 'bg-cyan-600', 'bg-sky-600'];
+                        $colorClass = $colors[$payslip->employee->id % count($colors)];
+                    @endphp
+                    <tr class="hover:bg-base-200/50 transition-colors border-b border-base-200">
+                        <td class="py-3 px-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl {{ !empty($payslip->employee->profile_photo) ? 'bg-slate-100 text-slate-800' : $colorClass . ' text-white' }} font-bold text-xs flex items-center justify-center shrink-0 border border-slate-200/60 shadow-sm overflow-hidden">
+                                    @if(!empty($payslip->employee->profile_photo))
+                                        <img src="{{ asset('storage/' . $payslip->employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
+                                    @else
+                                        {{ strtoupper(substr($payslip->employee->first_name, 0, 1) . substr($payslip->employee->last_name, 0, 1)) }}
+                                    @endif
                                 </div>
+                                <div class="font-bold text-sm">{{ $payslip->employee->full_name }}</div>
                             </div>
-                            <div class="font-bold text-sm">{{ $payslip->employee->full_name }}</div>
+                        </td>
+                        <td>
+                            <div class="text-[10px] font-bold uppercase tracking-wider opacity-70">{{ $payslip->payslip_number }}</div>
+                        </td>
+                        <td>
+                            <div class="text-xs font-bold">₹{{ number_format($payslip->gross_earnings, 2) }}</div>
+                        </td>
+                        <td>
+                            <div class="text-sm font-bold text-primary">₹{{ number_format($payslip->net_salary, 2) }}</div>
+                        </td>
+                        <td>
+                            <span class="badge {{ $payslip->status === 'paid' ? 'badge-success' : 'badge-ghost' }} badge-sm font-bold text-[10px] uppercase">{{ $payslip->status }}</span>
+                        </td>
+                        <td class="text-right px-6">
+                            <a href="{{ route('payroll.payslip.download', $payslip->id) }}" target="_blank" class="btn btn-ghost btn-xs btn-square text-primary hover:bg-primary/10" title="View/Print">
+                                <span class="material-symbols-outlined text-base">picture_as_pdf</span>
+                            </a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="py-20 text-center">
+                            <div class="flex flex-col items-center gap-4 opacity-40">
+                                <span class="material-symbols-outlined text-6xl">description</span>
+                                <p class="font-bold text-sm">Records Not Yet Generated</p>
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
+            </x-table>
+        </div>
+
+        {{-- Mobile Card Stack View --}}
+        <div class="lg:hidden p-4 space-y-3 bg-slate-50/50">
+            @forelse($payslips as $payslip)
+                @php
+                    $colors = ['bg-blue-600', 'bg-indigo-600', 'bg-violet-600', 'bg-purple-600', 'bg-teal-600', 'bg-emerald-600', 'bg-cyan-600', 'bg-sky-600'];
+                    $colorClass = $colors[$payslip->employee->id % count($colors)];
+                @endphp
+                <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-sm space-y-2.5">
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <div class="w-8 h-8 rounded-xl {{ !empty($payslip->employee->profile_photo) ? 'bg-slate-100 text-slate-800' : $colorClass . ' text-white' }} font-bold text-xs flex items-center justify-center shrink-0 border border-slate-200/60 shadow-sm overflow-hidden">
+                                @if(!empty($payslip->employee->profile_photo))
+                                    <img src="{{ asset('storage/' . $payslip->employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
+                                @else
+                                    {{ strtoupper(substr($payslip->employee->first_name, 0, 1) . substr($payslip->employee->last_name, 0, 1)) }}
+                                @endif
+                            </div>
+                            <div class="min-w-0">
+                                <div class="font-bold text-xs text-slate-800 truncate">{{ $payslip->employee->full_name }}</div>
+                                <div class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider truncate">{{ $payslip->payslip_number }}</div>
+                            </div>
                         </div>
-                    </td>
-                    <td>
-                        <div class="text-[10px] font-bold uppercase tracking-wider opacity-70">{{ $payslip->payslip_number }}</div>
-                    </td>
-                    <td>
-                        <div class="text-xs font-bold">₹{{ number_format($payslip->gross_earnings, 2) }}</div>
-                    </td>
-                    <td>
-                        <div class="text-sm font-bold text-primary">₹{{ number_format($payslip->net_salary, 2) }}</div>
-                    </td>
-                    <td>
-                        <span class="badge {{ $payslip->status === 'paid' ? 'badge-success' : 'badge-ghost' }} badge-sm font-bold text-[10px] uppercase">{{ $payslip->status }}</span>
-                    </td>
-                    <td class="text-right px-6">
-                        <a href="{{ route('payroll.payslip.download', $payslip->id) }}" target="_blank" class="btn btn-ghost btn-xs btn-square text-primary hover:bg-primary/10" title="View/Print">
-                            <span class="material-symbols-outlined text-base">picture_as_pdf</span>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase {{ $payslip->status === 'paid' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60' : 'bg-slate-100 text-slate-600 border border-slate-200/60' }} shrink-0">
+                            {{ $payslip->status }}
+                        </span>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-2.5 grid grid-cols-2 gap-2 border border-slate-100 text-xs">
+                        <div>
+                            <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400">Gross Earnings</span>
+                            <span class="font-bold text-slate-700 text-xs mt-0.5 block">₹{{ number_format($payslip->gross_earnings, 2) }}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-[9px] font-bold uppercase tracking-wider text-slate-400">Net Salary</span>
+                            <span class="font-bold text-primary-600 text-xs mt-0.5 block">₹{{ number_format($payslip->net_salary, 2) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-end pt-0.5">
+                        <a href="{{ route('payroll.payslip.download', $payslip->id) }}" target="_blank" class="btn btn-ghost btn-xs border border-slate-200/60 bg-white text-primary hover:bg-primary/10 rounded-lg flex items-center gap-1 font-semibold">
+                            <span class="material-symbols-outlined text-sm">picture_as_pdf</span> Download Payslip
                         </a>
-                    </td>
-                </tr>
+                    </div>
+                </div>
             @empty
-                <tr>
-                    <td colspan="6" class="py-20 text-center">
-                        <div class="flex flex-col items-center gap-4 opacity-40">
-                            <span class="material-symbols-outlined text-6xl">description</span>
-                            <p class="font-bold text-sm">Records Not Yet Generated</p>
-                        </div>
-                    </td>
-                </tr>
+                <div class="py-12 text-center bg-white border border-slate-200 rounded-xl">
+                    <span class="material-symbols-outlined text-4xl text-slate-400 mb-2">description</span>
+                    <p class="font-bold text-xs text-slate-500">Records Not Yet Generated</p>
+                </div>
             @endforelse
-        </x-table>
+        </div>
         
         @if($payslips->hasPages())
             <div class="p-8 border-t border-base-200 bg-base-200/30">
