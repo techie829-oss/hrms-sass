@@ -113,21 +113,19 @@ use App\Core\Constants\PermissionConstants;
                                             <td class="py-3 px-4">
                                                 <div class="flex items-center gap-3">
                                                     @php
-                                                        $colors = ['bg-blue-600', 'bg-indigo-600', 'bg-purple-600', 'bg-emerald-600', 'bg-amber-600'];
+                                                        $colors = ['bg-blue-600', 'bg-indigo-600', 'bg-emerald-600', 'bg-slate-700', 'bg-teal-600'];
                                                         $colorClass = $colors[$employee->id % count($colors)];
                                                     @endphp
-                                                    <div class="avatar {{ !$employee->profile_photo ? 'placeholder' : '' }}">
-                                                        <div class="{{ $employee->profile_photo ? 'bg-slate-100' : $colorClass }} text-white rounded-xl w-9 h-9 font-bold text-xs flex items-center justify-center border border-slate-200/60 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
-                                                            @if($employee->profile_photo)
-                                                                <img src="{{ asset('storage/' . $employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
-                                                            @else
-                                                                @php
-                                                                    $nameParts = explode(' ', $employee->full_name ?? 'U');
-                                                                    $initials = strtoupper(substr($nameParts[0], 0, 1) . (isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : ''));
-                                                                @endphp
-                                                                {{ $initials }}
-                                                            @endif
-                                                        </div>
+                                                    <div class="w-9 h-9 rounded-xl {{ !empty($employee->profile_photo) ? 'bg-slate-100 text-slate-800' : $colorClass . ' text-white' }} font-bold text-xs flex items-center justify-center shrink-0 border border-slate-200/60 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
+                                                        @if(!empty($employee->profile_photo))
+                                                            <img src="{{ asset('storage/' . $employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
+                                                        @else
+                                                            @php
+                                                                $nameParts = explode(' ', trim($employee->full_name ?? 'U'));
+                                                                $initials = strtoupper(substr($nameParts[0], 0, 1) . (isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : ''));
+                                                            @endphp
+                                                            {{ $initials }}
+                                                        @endif
                                                     </div>
                                                     <div>
                                                         <div class="font-bold text-xs text-slate-700">{{ $employee->full_name }}</div>
@@ -247,7 +245,7 @@ use App\Core\Constants\PermissionConstants;
                                         $summary = $summaries->where('date', $date)->where('employee_id', $employeeId)->first();
                                         $totalWorkedHours = abs($summary ? $summary->total_worked_hours : $empLogs->sum('worked_hours'));
                                         
-                                        $colors = ['bg-blue-600', 'bg-indigo-600', 'bg-purple-600', 'bg-emerald-600', 'bg-amber-600'];
+                                        $colors = ['bg-blue-600', 'bg-indigo-600', 'bg-emerald-600', 'bg-slate-700', 'bg-teal-600'];
                                         $colorClass = $colors[$employee->id % count($colors)];
                                         
                                         $typeMap = [

@@ -23,18 +23,16 @@
                             <td class="py-3 px-4">
                                 <input type="hidden" name="assignments[{{ $index }}][employee_id]" value="{{ $employee->id }}">
                                 <div class="flex items-center gap-3">
-                                    <div class="avatar {{ !$employee->profile_photo ? 'placeholder' : '' }}">
-                                        <div class="bg-slate-100 text-slate-700 rounded-xl w-9 h-9 font-bold text-xs flex items-center justify-center border border-slate-200/60 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
-                                            @if($employee->profile_photo)
-                                                <img src="{{ asset('storage/' . $employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
-                                            @else
-                                                @php
-                                                    $nameParts = explode(' ', $employee->full_name ?? 'U');
-                                                    $initials = strtoupper(substr($nameParts[0], 0, 1) . (isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : ''));
-                                                @endphp
-                                                {{ $initials }}
-                                            @endif
-                                        </div>
+                                    <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0 border border-slate-200/60 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
+                                        @if(!empty($employee->profile_photo))
+                                            <img src="{{ asset('storage/' . $employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
+                                        @else
+                                            @php
+                                                $nameParts = explode(' ', trim($employee->full_name ?? 'U'));
+                                                $initials = strtoupper(substr($nameParts[0], 0, 1) . (isset($nameParts[1]) ? substr($nameParts[1], 0, 1) : ''));
+                                            @endphp
+                                            {{ $initials }}
+                                        @endif
                                     </div>
                                     <div>
                                         <div class="font-bold text-xs text-slate-700">{{ $employee->first_name }} {{ $employee->last_name }}</div>
