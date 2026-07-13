@@ -204,7 +204,7 @@ use App\Core\Constants\PermissionConstants;
                         <span class="font-bold text-primary-600">{{ $request->total_days }} {{ $request->total_days > 1 ? 'Days' : 'Day' }}</span>
                     </div>
 
-                    <div class="flex items-center justify-end gap-2 pt-1">
+                    <div class="flex flex-wrap items-center justify-end gap-1.5 pt-1">
                         @can('view', $request)
                         <a href="{{ route('leave.requests.show', $request->id) }}" class="btn btn-ghost btn-xs border border-slate-200/60 bg-white text-slate-600 hover:text-primary rounded-lg">
                             <span class="material-symbols-outlined text-sm">visibility</span> View
