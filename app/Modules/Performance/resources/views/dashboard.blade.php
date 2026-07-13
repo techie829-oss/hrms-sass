@@ -133,7 +133,7 @@ use App\Modules\Performance\Models\Goal;
                                     </td>
                                     <td class="text-right pr-5">
                                         @can('view', $appraisal)
-                                            <a href="{{ route('performance.appraisals.show', $appraisal->id) }}" class="btn btn-ghost btn-xs rounded-md">
+                                            <a href="{{ route('performance.appraisals.index') }}" class="btn btn-ghost btn-xs rounded-md" title="View Appraisals">
                                                 <span class="material-symbols-outlined text-sm">visibility</span>
                                             </a>
                                         @endcan
