@@ -198,11 +198,11 @@ use App\Core\Constants\PermissionConstants;
                                             <td class="py-3 px-4">
                                                 <div class="flex flex-col gap-1 w-24">
                                                     <div class="flex items-center justify-between text-[10px]">
-                                                        <span class="font-bold text-slate-700">{{ $summary ? $summary->formatted_hours : number_format($totalWorkedHours, 1) . 'h' }}</span>
-                                                        <span class="font-semibold text-slate-400">{{ min(round(($totalWorkedHours / 8) * 100), 100) }}%</span>
+                                                        <span class="font-bold text-slate-700">{{ $summary ? $summary->formatted_hours : number_format(abs($totalWorkedHours), 1) . 'h' }}</span>
+                                                        <span class="font-semibold text-slate-400">{{ min(round((abs($totalWorkedHours) / 8) * 100), 100) }}%</span>
                                                     </div>
                                                     <div class="w-full bg-slate-100 rounded-full h-1">
-                                                        <div class="bg-primary h-1 rounded-full" style="width: {{ min(($totalWorkedHours / 8) * 100, 100) }}%"></div>
+                                                        <div class="bg-primary h-1 rounded-full" style="width: {{ min((abs($totalWorkedHours) / 8) * 100, 100) }}%"></div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -245,7 +245,7 @@ use App\Core\Constants\PermissionConstants;
                                         $employee = $firstLog->employee;
                                         $entryCount = count($empLogs);
                                         $summary = $summaries->where('date', $date)->where('employee_id', $employeeId)->first();
-                                        $totalWorkedHours = $summary ? $summary->total_worked_hours : $empLogs->sum('worked_hours');
+                                        $totalWorkedHours = abs($summary ? $summary->total_worked_hours : $empLogs->sum('worked_hours'));
                                         
                                         $colors = ['bg-blue-600', 'bg-indigo-600', 'bg-purple-600', 'bg-emerald-600', 'bg-amber-600'];
                                         $colorClass = $colors[$employee->id % count($colors)];
@@ -262,8 +262,8 @@ use App\Core\Constants\PermissionConstants;
                                         <!-- Top Row: Avatar, Name & Status Badge -->
                                         <div class="flex items-start justify-between gap-3">
                                             <div class="flex items-center gap-3 min-w-0">
-                                                <div class="w-10 h-10 rounded-xl {{ $employee->profile_photo ? 'bg-slate-100' : $colorClass }} text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
-                                                    @if($employee->profile_photo)
+                                                <div class="w-10 h-10 rounded-xl {{ !empty($employee->profile_photo) ? 'bg-slate-100 text-slate-800' : $colorClass . ' text-white' }} font-bold text-xs flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
+                                                    @if(!empty($employee->profile_photo))
                                                         <img src="{{ asset('storage/' . $employee->profile_photo) }}" alt="" class="w-full h-full object-cover">
                                                     @else
                                                         @php

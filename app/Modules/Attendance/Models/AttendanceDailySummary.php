@@ -63,8 +63,9 @@ class AttendanceDailySummary extends Model
      */
     public function getFormattedHoursAttribute(): string
     {
-        $hours = (int) $this->total_worked_hours;
-        $minutes = (int) round(($this->total_worked_hours - $hours) * 60);
+        $totalHours = abs((float) $this->total_worked_hours);
+        $hours = (int) $totalHours;
+        $minutes = (int) round(($totalHours - $hours) * 60);
         return $minutes > 0 ? "{$hours}h {$minutes}m" : "{$hours}h";
     }
 }

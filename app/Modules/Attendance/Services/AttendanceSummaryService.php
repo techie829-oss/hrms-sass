@@ -41,11 +41,11 @@ class AttendanceSummaryService
         $totalWorkedMinutes = 0;
         foreach ($logs as $log) {
             if ($log->check_in && $log->check_out) {
-                $totalWorkedMinutes += Carbon::parse($log->check_in)
-                    ->diffInMinutes(Carbon::parse($log->check_out));
+                $totalWorkedMinutes += abs(Carbon::parse($log->check_in)
+                    ->diffInMinutes(Carbon::parse($log->check_out)));
             }
         }
-        $totalWorkedHours = round($totalWorkedMinutes / 60, 2);
+        $totalWorkedHours = abs(round($totalWorkedMinutes / 60, 2));
 
         $totalSessions = $logs->whereNotNull('check_in')->count();
 
