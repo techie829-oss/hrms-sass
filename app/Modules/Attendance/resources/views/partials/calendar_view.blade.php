@@ -20,28 +20,30 @@
 @else
 <div class="flex flex-col gap-6">
     <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-        <!-- Calendar Header: Weekdays -->
-        <div class="grid grid-cols-7 bg-slate-50 border-b border-slate-200 p-1">
-            @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $index => $day)
-                <div class="p-2 flex justify-center">
-                    <div class="px-3 py-1.5 rounded-xl flex items-center gap-1.5 {{ $index == 0 || $index == 6 ? 'bg-rose-50 text-rose-600 border border-rose-100' : 'bg-slate-100/60 text-slate-500' }} transition-all">
-                        <span class="material-symbols-outlined text-[10px]">
-                            {{ $index == 0 || $index == 6 ? 'event_busy' : 'calendar_today' }}
-                        </span>
-                        <span class="text-[10px] font-bold uppercase tracking-wider">
-                            {{ substr($day, 0, 3) }}
-                        </span>
-                    </div>
+        <div class="overflow-x-auto">
+            <div class="min-w-[640px]">
+                <!-- Calendar Header: Weekdays -->
+                <div class="grid grid-cols-7 bg-slate-50 border-b border-slate-200 p-1">
+                    @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $index => $day)
+                        <div class="p-2 flex justify-center">
+                            <div class="px-3 py-1.5 rounded-xl flex items-center gap-1.5 {{ $index == 0 || $index == 6 ? 'bg-rose-50 text-rose-600 border border-rose-100' : 'bg-slate-100/60 text-slate-500' }} transition-all">
+                                <span class="material-symbols-outlined text-[10px]">
+                                    {{ $index == 0 || $index == 6 ? 'event_busy' : 'calendar_today' }}
+                                </span>
+                                <span class="text-[10px] font-bold uppercase tracking-wider">
+                                    {{ substr($day, 0, 3) }}
+                                </span>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-            @endforeach
-        </div>
 
-        <!-- Calendar Grid -->
-        <div class="grid grid-cols-7 auto-rows-fr bg-slate-50/20">
-            <!-- Empty slots before the first day -->
-            @for($i = 0; $i < $firstDayOfMonth; $i++)
-                <div class="min-h-[120px] bg-slate-50/30 border-b border-r border-slate-100"></div>
-            @endfor
+                <!-- Calendar Grid -->
+                <div class="grid grid-cols-7 auto-rows-fr bg-slate-50/20">
+                    <!-- Empty slots before the first day -->
+                    @for($i = 0; $i < $firstDayOfMonth; $i++)
+                        <div class="min-h-[120px] bg-slate-50/30 border-b border-r border-slate-100"></div>
+                    @endfor
 
             <!-- Days of the month -->
             @for($day = 1; $day <= $daysInMonth; $day++)
@@ -158,6 +160,8 @@
             @for($i = 0; $i < $remainingSlots; $i++)
                 <div class="min-h-[120px] bg-slate-50/30 border-b border-r border-slate-100"></div>
             @endfor
+                </div>
+            </div>
         </div>
     </div>
 
