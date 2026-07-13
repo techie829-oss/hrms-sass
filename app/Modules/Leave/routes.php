@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('leave.')->middleware(['auth', 'tenant.active', 'scope.roles', 'module.access:leave'])->group(function () {
     Route::post('requests/bulk', [LeaveRequestController::class, 'bulkStore'])->name('requests.bulk');
-    Route::resource('requests', LeaveRequestController::class);
+    Route::resource('requests', LeaveRequestController::class)->except(['edit', 'update', 'destroy']);
     
     // Holidays
     Route::get('holidays', [HolidayController::class, 'index'])->name('holidays.index');

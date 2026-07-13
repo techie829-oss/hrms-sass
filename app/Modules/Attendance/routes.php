@@ -23,8 +23,6 @@ Route::name('attendance.')->middleware(['auth', 'tenant.active', 'scope.roles', 
     // Other admin-only log actions
     Route::get('logs/create', [AttendanceController::class, 'create'])->name('create');
     Route::post('logs', [AttendanceController::class, 'store'])->name('store');
-    Route::get('logs/{log}/edit', [AttendanceController::class, 'edit'])->name('edit');
-    Route::put('logs/{log}', [AttendanceController::class, 'update'])->name('update');
     Route::delete('logs/{log}', [AttendanceController::class, 'destroy'])->name('destroy');
 
     Route::get('shifts/assignments', [ShiftAssignmentController::class, 'index'])->name('shifts.assignments');

@@ -97,4 +97,17 @@ class AttendanceController extends BaseController
 
         return view('attendance::show', compact('log', 'allLogs', 'canViewAll'));
     }
+
+    /**
+     * Delete an attendance log.
+     */
+    public function destroy(string $id)
+    {
+        $log = $this->attendanceService->getLogById($id);
+        $this->authorize('delete', $log);
+        $this->attendanceService->delete($id);
+
+        return redirect()->route('attendance.index')
+            ->with('success', 'Attendance log deleted successfully.');
+    }
 }

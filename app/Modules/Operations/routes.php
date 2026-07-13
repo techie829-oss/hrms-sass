@@ -15,10 +15,10 @@ Route::middleware(['auth', 'tenant.active', 'scope.roles', 'module.access:operat
     Route::resource('leads', LeadController::class);
 
     // Contact Management
-    Route::resource('contacts', ContactController::class);
+    Route::resource('contacts', ContactController::class)->except(['show']);
 
     // Project Management
-    Route::resource('projects', ProjectController::class);
+    Route::resource('projects', ProjectController::class)->except(['edit', 'update', 'destroy']);
 
     // Standalone Task Management
     Route::resource('tasks', TaskController::class);
@@ -27,7 +27,7 @@ Route::middleware(['auth', 'tenant.active', 'scope.roles', 'module.access:operat
     Route::resource('projects.tasks', TaskController::class)->except(['index']);
 
     // Client Management (CRM Lite)
-    Route::resource('clients', ClientController::class);
+    Route::resource('clients', ClientController::class)->only(['index', 'store']);
 
     // Timesheets
     Route::get('timesheets', [TimesheetController::class, 'index'])->name('timesheets.index');

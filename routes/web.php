@@ -92,8 +92,8 @@ Route::domain('app.' . $centralHost)->middleware(['web', 'auth', 'scope.roles', 
     Route::post('tenants/{tenant}/verify/{plan:slug}', [RazorpayController::class, 'verify'])->name('admin.tenants.verify');
 
     Route::resource('plans', \App\Http\Controllers\Admin\PlanController::class)->only(['index', 'edit', 'update'])->names('admin.plans');
-    Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class)->names('admin.roles');
-    Route::resource('permissions', \App\Http\Controllers\Admin\PermissionController::class)->names('admin.permissions');
+    Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class)->except(['show'])->names('admin.roles');
+    Route::resource('permissions', \App\Http\Controllers\Admin\PermissionController::class)->except(['create', 'show'])->names('admin.permissions');
     Route::get('/leads', [\App\Http\Controllers\Admin\DemoLeadController::class, 'index'])->name('admin.leads');
     Route::get('/modules', [ModuleController::class, 'index'])->name('admin.modules.index');
     Route::post('/modules/sync', [ModuleController::class, 'sync'])->name('admin.modules.sync');

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::name('performance.')->middleware(['auth', 'tenant.active', 'scope.roles', 'module.access:performance'])->group(function () {
     Route::get('/', [PerformanceController::class, 'index'])->name('dashboard');
     
-    Route::resource('kpis', KPIController::class);
-    Route::resource('appraisals', AppraisalController::class);
-    Route::resource('goals', GoalController::class);
+    Route::resource('kpis', KPIController::class)->only(['index', 'store']);
+    Route::resource('appraisals', AppraisalController::class)->only(['index', 'store', 'update']);
+    Route::resource('goals', GoalController::class)->only(['index', 'store', 'update']);
 });

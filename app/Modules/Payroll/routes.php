@@ -22,5 +22,5 @@ Route::name('payroll.')->middleware(['auth', 'tenant.active', 'scope.roles', 'mo
         Route::delete('components/{component}', [SalaryComponentController::class, 'destroy'])->name('components.destroy');
     });
 
-    Route::resource('salary-structures', SalaryStructureController::class)->names('salary_structures');
+    Route::resource('salary-structures', SalaryStructureController::class)->except(['edit', 'update', 'destroy'])->names('salary_structures');
 });

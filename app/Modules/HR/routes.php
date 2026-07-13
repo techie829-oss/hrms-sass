@@ -15,6 +15,6 @@ Route::name('hr.')->middleware(['auth', 'tenant.active', 'scope.roles', 'module.
     Route::delete('employees/{employee}/bank-accounts/{bank_account}', [EmployeeController::class, 'destroyBankAccount'])->name('employees.bank-accounts.destroy');
 
     Route::resource('employees', EmployeeController::class);
-    Route::resource('departments', DepartmentController::class);
-    Route::resource('designations', DesignationController::class);
+    Route::resource('departments', DepartmentController::class)->except(['create', 'edit']);
+    Route::resource('designations', DesignationController::class)->except(['create', 'show', 'edit']);
 });
