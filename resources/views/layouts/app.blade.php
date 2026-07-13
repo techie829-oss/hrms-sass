@@ -70,10 +70,11 @@
             .bg-accent-50 { background-color: var(--color-accent-50) !important; }
             .text-accent-600 { color: var(--color-accent-600) !important; }
 
-            /* Layout Architecture */
+            /* Layout Architecture (Sklops Responsive Compact Design) */
             body {
                 overflow-x: hidden;
                 background-color: #f8fafc; /* Slate 50 */
+                font-family: 'Inter', system-ui, -apple-system, sans-serif;
             }
 
             .sidebar {
@@ -81,12 +82,12 @@
                 overflow-y: auto;
                 background-color: #0f172a; /* Slate 900 for premium HRMS look */
                 border-right: 1px solid #1e293b;
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
                 position: fixed;
                 top: 0;
                 left: 0;
                 z-index: 50;
-                width: 16rem;
+                width: 15.5rem;
             }
 
             .sidebar.collapsed {
@@ -99,7 +100,7 @@
                 left: 0;
                 right: 0;
                 bottom: 0;
-                background-color: rgba(15, 23, 42, 0.5); /* Slate overlay */
+                background-color: rgba(15, 23, 42, 0.5);
                 backdrop-filter: blur(2px);
                 z-index: 40;
                 display: none;
@@ -111,8 +112,8 @@
 
             .content-area {
                 min-height: 100vh;
-                margin-left: 16rem;
-                transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                margin-left: 15.5rem;
+                transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
             .content-area.sidebar-collapsed {
@@ -123,13 +124,13 @@
                 position: sticky;
                 top: 0;
                 z-index: 30;
-                background: rgba(255, 255, 255, 0.9);
-                border-bottom: 1px solid #f1f5f9;
+                background: rgba(255, 255, 255, 0.95);
+                border-bottom: 1px solid #e2e8f0;
                 backdrop-filter: blur(12px);
             }
 
-            /* Mobile responsive */
-            @media (max-width: 768px) {
+            /* Responsive Drawer for Tablet & Mobile (up to 1024px) */
+            @media (max-width: 1024px) {
                 .sidebar {
                     transform: translateX(-100%);
                 }
@@ -192,15 +193,15 @@
             <!-- Page Heading (Optional, inside content area) -->
             @isset($header)
                 <div class="bg-white border-b border-gray-200">
-                    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                    <div class="w-full max-w-[1600px] mx-auto py-3.5 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </div>
             @endisset
 
             <!-- Page Content -->
-            <main class="py-6 sm:py-8 px-4 sm:px-6">
-                <div class="max-w-7xl mx-auto">
+            <main class="py-4 sm:py-6 px-4 sm:px-6 lg:px-8">
+                <div class="w-full max-w-[1600px] mx-auto">
                     @if (session('success'))
                         <div class="alert alert-success shadow-sm mb-6 rounded-xl border-none font-bold text-sm">
                             <span class="material-symbols-outlined">check_circle</span>
@@ -223,15 +224,15 @@
         @stack('scripts')
 
         <script>
-            // Universal sidebar toggle function
+            // Universal sidebar toggle function (Sklops Responsive Design up to 1024px)
             function toggleSidebar() {
                 const sidebar = document.getElementById('sidebar');
                 const overlay = document.getElementById('sidebarOverlay');
                 const contentArea = document.getElementById('contentArea');
 
-                // Check if we're on mobile or desktop
-                if (window.innerWidth <= 768) {
-                    // Mobile behavior
+                // Check if we're on mobile/tablet (<= 1024px) or desktop (> 1024px)
+                if (window.innerWidth <= 1024) {
+                    // Mobile & Tablet behavior
                     sidebar.classList.toggle('show');
                     overlay.classList.toggle('show');
                 } else {
@@ -241,34 +242,34 @@
                 }
             }
 
-            // Close sidebar when clicking overlay (mobile only)
+            // Close sidebar when clicking overlay (mobile/tablet only)
             document.getElementById('sidebarOverlay').addEventListener('click', function() {
-                if (window.innerWidth <= 768) {
+                if (window.innerWidth <= 1024) {
                     toggleSidebar();
                 }
             });
 
-            // Close sidebar on mobile when clicking nav links
+            // Close sidebar on mobile/tablet when clicking nav links
             document.querySelectorAll('.sidebar nav a').forEach(link => {
                 link.addEventListener('click', function() {
-                    if (window.innerWidth <= 768) {
+                    if (window.innerWidth <= 1024) {
                         toggleSidebar();
                     }
                 });
             });
 
-            // Handle window resize
+            // Handle window resize cleanly across breakpoints
             window.addEventListener('resize', function() {
                 const sidebar = document.getElementById('sidebar');
                 const overlay = document.getElementById('sidebarOverlay');
                 const contentArea = document.getElementById('contentArea');
 
-                if (window.innerWidth > 768) {
+                if (window.innerWidth > 1024) {
                     // Desktop: remove mobile classes
                     sidebar.classList.remove('show');
                     overlay.classList.remove('show');
                 } else {
-                    // Mobile: remove desktop classes
+                    // Mobile/Tablet: remove desktop classes
                     sidebar.classList.remove('collapsed');
                     contentArea.classList.remove('sidebar-collapsed');
                 }
