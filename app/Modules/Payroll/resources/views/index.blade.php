@@ -1,3 +1,7 @@
+@php
+use App\Core\Constants\PermissionConstants;
+@endphp
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -5,10 +9,7 @@
                 <h2 class="text-xl font-bold text-on-surface tracking-tight">Payroll Dashboard</h2>
                 <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Manage payroll cycles and salary distributions.</p>
             </div>
-            <div class="flex gap-2">
-                @php
-                    use App\Core\Constants\PermissionConstants;
-                @endphp
+            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                 @can(PermissionConstants::MANAGE_PAYROLL)
                 <a href="{{ route('payroll.components.index') }}" class="btn btn-ghost btn-sm btn-outline">
                     <span class="material-symbols-outlined text-base">settings</span> Components
