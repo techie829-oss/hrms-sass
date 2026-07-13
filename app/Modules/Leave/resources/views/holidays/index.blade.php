@@ -9,7 +9,7 @@ use App\Core\Constants\PermissionConstants;
                 <h2 class="text-xl font-bold text-on-surface tracking-tight">Holiday Calendar</h2>
                 <p class="text-xs font-medium mt-0.5 text-on-surface-variant">Official company holidays and restricted days off.</p>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                 @can(PermissionConstants::MANAGE_HOLIDAYS)
                 <button onclick="add_holiday_modal.showModal()" class="btn btn-primary btn-sm rounded-xl px-4 shadow-sm shadow-primary/20 text-white font-semibold text-xs flex items-center gap-1">
                     <span class="material-symbols-outlined text-sm">add</span> Add Holiday
