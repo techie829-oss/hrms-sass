@@ -18,4 +18,13 @@ class ClockActionData
             photo: $data['photo'] ?? null
         );
     }
+
+    public function toArray(): array
+    {
+        return [
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+            'photo' => $this->photo,
+        ];
+    }
 }
