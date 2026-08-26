@@ -216,7 +216,8 @@
                         </div>
                     @endif
 
-                    {{ $slot }}
+                    {{ $slot ?? '' }}
+                    @yield('content')
                 </div>
             </main>
 
