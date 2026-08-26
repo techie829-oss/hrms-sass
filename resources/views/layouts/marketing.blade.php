@@ -5,7 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Solidrix HRMS - Best Cloud HR, Payroll & Attendance Software')</title>
     <meta name="description" content="@yield('description', 'Simplify your HR operations with Solidrix HRMS. A complete cloud-based solution for payroll, attendance tracking, leave management, and employee self-service.')">
-    
+    <meta name="keywords" content="@yield('keywords', 'HRMS software, payroll software India, attendance management, leave tracking, employee management, cloud HRMS, retail HRMS, startup HRMS')">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="{{ url()->current() }}" />
+
+    <!-- OpenGraph Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Solidrix HRMS">
+    <meta property="og:title" content="@yield('title', 'Solidrix HRMS - Best Cloud HR, Payroll & Attendance Software')">
+    <meta property="og:description" content="@yield('description', 'Simplify your HR operations with Solidrix HRMS. A complete cloud-based solution for payroll, attendance tracking, leave management, and employee self-service.')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ asset('images/solidrix-hrms-og.jpg') }}">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title', 'Solidrix HRMS - Best Cloud HR, Payroll & Attendance Software')">
+    <meta name="twitter:description" content="@yield('description', 'Simplify your HR operations with Solidrix HRMS. A complete cloud-based solution for payroll, attendance tracking, leave management, and employee self-service.')">
+    <meta name="twitter:image" content="{{ asset('images/solidrix-hrms-og.jpg') }}">
+
+    <!-- Schema.org Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Solidrix HRMS",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All",
+      "url": "https://hr.solidrix.com",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "description": "Cloud-based HRMS for attendance, payroll, leave management, and employee self-service."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Solidrix Technologies",
+      "url": "https://www.solidrix.com",
+      "logo": "https://hr.solidrix.com/favicon.ico",
+      "sameAs": [
+        "https://hr.solidrix.com"
+      ]
+    }
+    </script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
