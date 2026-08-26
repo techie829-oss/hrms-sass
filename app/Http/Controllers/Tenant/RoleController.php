@@ -15,9 +15,8 @@ class RoleController extends Controller
     {
         $tenantId = saas_tenant('id');
 
-        // Fetch central tenant-level default roles and custom dynamic roles for this tenant
-        $roles = Role::whereNull('tenant_id')
-            ->orWhere('tenant_id', $tenantId)
+        // Fetch roles specifically scoped to this tenant (including tadmin/tmanager/tstaff & custom roles)
+        $roles = Role::where('tenant_id', $tenantId)
             ->withCount(['users', 'permissions'])
             ->get();
 
