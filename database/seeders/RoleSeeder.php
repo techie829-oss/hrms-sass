@@ -20,6 +20,9 @@ class RoleSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
+        // --- 0. CLEANUP LEGACY HYPHENATED PERMISSIONS ---
+        Permission::where('name', 'LIKE', '%-%')->delete();
+
         // --- 1. SAAS INTERNAL ROLES (tenant_id = null) ---
         setPermissionsTeamId(null);
 

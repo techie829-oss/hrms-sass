@@ -26,8 +26,8 @@ class RoleController extends Controller
     public function create()
     {
         $permissions = Permission::all()->groupBy(function ($permission) {
-            $parts = explode('.', $permission->name);
-            return count($parts) > 1 ? $parts[1] : 'general';
+            $parts = explode('_', $permission->name);
+            return count($parts) > 0 ? strtoupper($parts[0]) : 'GENERAL';
         });
 
         return view('tenant.roles.create', compact('permissions'));
@@ -79,8 +79,8 @@ class RoleController extends Controller
         }
 
         $permissions = Permission::all()->groupBy(function ($permission) {
-            $parts = explode('.', $permission->name);
-            return count($parts) > 1 ? $parts[1] : 'general';
+            $parts = explode('_', $permission->name);
+            return count($parts) > 0 ? strtoupper($parts[0]) : 'GENERAL';
         });
 
         $rolePermissions = $role->permissions->pluck('name')->toArray();
