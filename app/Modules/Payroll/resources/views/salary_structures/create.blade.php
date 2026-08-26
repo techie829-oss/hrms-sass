@@ -26,7 +26,7 @@
         get net() {
             return this.gross - this.totalDeductions;
         }
-    }" class="max-w-5xl mx-auto">
+    }" class="w-full mx-auto">
         <form action="{{ route('payroll.salary_structures.store') }}" method="POST" class="space-y-8 pb-20">
             @csrf
             

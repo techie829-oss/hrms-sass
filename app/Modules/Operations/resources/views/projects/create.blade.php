@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="container mx-auto p-6 max-w-4xl">
+    <div class="container mx-auto p-6 w-full">
         <div class="flex items-center gap-2 mb-6">
             <a href="{{ route('operations.projects.index') }}" class="btn btn-sm btn-ghost btn-square">
                 <span class="material-symbols-outlined text-base">arrow_back</span>

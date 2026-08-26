@@ -13,7 +13,7 @@
         </div>
     </x-slot>
 
-    <div class="max-w-4xl mx-auto space-y-6" x-data="kioskApp({
+    <div class="w-full mx-auto space-y-6" x-data="kioskApp({
         isKioskEnabled: {{ ($policy->is_kiosk_enabled ?? true) ? 'true' : 'false' }},
         requirePhoto: {{ ($policy->kiosk_require_photo ?? true) ? 'true' : 'false' }},
         requireLocation: {{ ($policy->kiosk_require_location ?? true) ? 'true' : 'false' }}

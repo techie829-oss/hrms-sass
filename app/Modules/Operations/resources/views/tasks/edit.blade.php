@@ -11,7 +11,7 @@
         </div>
     </x-slot>
 
-    <div class="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="w-full mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Main Form -->
         <div class="lg:col-span-2">
             <div class="bg-white border border-slate-200 rounded-xl shadow-sm">

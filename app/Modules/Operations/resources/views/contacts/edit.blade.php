@@ -11,7 +11,7 @@
         </div>
     </x-slot>
 
-    <div class="max-w-4xl mx-auto">
+    <div class="w-full mx-auto">
         <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
             <div class="p-6">
                 <form action="{{ route('operations.contacts.update', $contact) }}" method="POST" class="space-y-6">

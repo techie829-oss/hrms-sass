@@ -11,7 +11,7 @@
         </div>
     </x-slot>
 
-    <div class="max-w-3xl mx-auto">
+    <div class="w-full mx-auto">
         <div class="bg-white border border-slate-200 rounded-xl shadow-sm">
             <div class="p-6 md:p-8">
                 <form action="{{ route('payroll.store') }}" method="POST" class="space-y-6">

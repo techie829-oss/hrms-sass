@@ -13,7 +13,7 @@
         </div>
     </x-slot>
 
-    <div class="max-w-4xl mx-auto space-y-8">
+    <div class="w-full mx-auto space-y-8">
         <div class="bg-surface-container-lowest rounded-[2.5rem] border border-outline-variant/15 shadow-xl overflow-hidden p-12">
             <div class="flex justify-between items-start mb-12">
                 <div class="flex items-center gap-6">

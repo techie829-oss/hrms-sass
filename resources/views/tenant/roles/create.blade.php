@@ -3,7 +3,7 @@
 @section('title', 'Create Custom Role')
 
 @section('content')
-<div class="max-w-4xl space-y-6">
+<div class="w-full space-y-6">
     <div class="flex items-center justify-between">
         <div>
             <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Create Custom Role</h1>

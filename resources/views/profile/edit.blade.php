@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="space-y-6 max-w-7xl mx-auto py-6">
+    <div class="space-y-6 w-full mx-auto py-6">
         {{-- Profile Header Card (Premium Aesthetic) --}}
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden mb-8 group/header transition-all duration-500 hover:shadow-md">
             {{-- Cover Photo Section --}}

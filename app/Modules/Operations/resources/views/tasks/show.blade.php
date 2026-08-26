@@ -3,7 +3,7 @@
 @section('title', 'Task: ' . $task->title)
 
 @section('content')
-<div class="max-w-4xl mx-auto py-6 space-y-6">
+<div class="w-full mx-auto py-6 space-y-6">
 
     {{-- Header --}}
     <div class="flex items-center justify-between">

@@ -11,7 +11,7 @@
         </div>
     </x-slot>
 
-    <div class="max-w-5xl mx-auto py-6">
+    <div class="w-full mx-auto py-6">
         <form action="{{ route('recruitment.job_postings.update', $posting->id) }}" method="POST" class="space-y-6">
             @csrf
             @method('PUT')
