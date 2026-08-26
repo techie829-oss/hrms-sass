@@ -26,14 +26,14 @@
     <!-- Schema.org Structured Data (JSON-LD) -->
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
+      "@@context": "https://schema.org",
+      "@@type": "SoftwareApplication",
       "name": "Solidrix HRMS",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "All",
       "url": "https://hr.solidrix.com",
       "offers": {
-        "@type": "Offer",
+        "@@type": "Offer",
         "price": "0",
         "priceCurrency": "INR"
       },
@@ -42,8 +42,8 @@
     </script>
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "Organization",
+      "@@context": "https://schema.org",
+      "@@type": "Organization",
       "name": "Solidrix Technologies",
       "url": "https://www.solidrix.com",
       "logo": "https://hr.solidrix.com/favicon.ico",
