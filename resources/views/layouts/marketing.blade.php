@@ -81,11 +81,8 @@
             <div class="flex justify-between items-center h-16 md:h-20">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="/" class="flex items-center gap-2">
-                        <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center relative shadow-sm">
-                            <span class="text-white font-bold text-xl leading-none">S</span>
-                            <div class="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full border-2 border-white"></div>
-                        </div>
+                    <a href="/" class="flex items-center gap-2.5">
+                        <img src="{{ asset('logo.png') }}" alt="SolidrixHR Logo" class="h-9 w-auto object-contain">
                         <span class="text-xl font-bold tracking-tight text-slate-800">Solidrix<span class="text-blue-600">HR</span></span>
                     </a>
                 </div>
@@ -183,11 +180,8 @@
                 
                 <!-- Column 1: Brand & Contact Info -->
                 <div class="lg:w-1/4 xl:w-[28%] shrink-0">
-                    <a href="/" class="flex items-center gap-2 mb-6">
-                        <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center relative shadow-sm">
-                            <span class="text-white font-bold text-xl leading-none">S</span>
-                            <div class="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full border-2 border-white"></div>
-                        </div>
+                    <a href="/" class="flex items-center gap-2.5 mb-6">
+                        <img src="{{ asset('logo.png') }}" alt="SolidrixHR Logo" class="h-9 w-auto object-contain">
                         <span class="text-xl font-bold tracking-tight text-slate-800">Solidrix<span class="text-blue-600">HR</span></span>
                     </a>
                     <p class="text-sm text-gray-600 mb-6 leading-relaxed">

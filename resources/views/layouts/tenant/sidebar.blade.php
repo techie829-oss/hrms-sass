@@ -8,9 +8,7 @@
     <!-- Header/Logo Area -->
     <div class="flex items-center justify-between h-16 px-6 border-b border-gray-200 bg-white sticky top-0 z-10">
         <a href="{{ route($dashboardRoute) }}" class="flex items-center gap-2.5">
-            <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center shadow-sm">
-                <span class="material-symbols-outlined text-[18px] text-white font-bold">view_cozy</span>
-            </div>
+            <img src="{{ asset('logo.png') }}" alt="SolidrixHR Logo" class="h-8 w-auto object-contain">
             <div class="text-left">
                 <h1 class="text-sm font-bold text-gray-900 leading-none">
                     {{ saas_tenant('name') ?? config('app.name', 'HRMS') }}
