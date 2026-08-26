@@ -201,7 +201,7 @@
 
             <!-- Page Content -->
             <main class="pt-4 pb-24 lg:py-6 px-4 sm:px-6 lg:px-8">
-                <div class="w-full max-w-[1600px] mx-auto">
+                <div class="w-full mx-auto">
                     @if (session('success'))
                         <div class="alert alert-success shadow-sm mb-6 rounded-xl border-none font-bold text-sm">
                             <span class="material-symbols-outlined">check_circle</span>

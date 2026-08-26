@@ -15,7 +15,7 @@ use App\Core\Constants\PermissionConstants;
         </div>
     </x-slot>
 
-    <div class="max-w-5xl mx-auto pb-12">
+    <div class="w-full mx-auto pb-12">
         <form action="{{ route('hr.employees.store') }}" method="POST" class="space-y-8">
             @csrf
             
