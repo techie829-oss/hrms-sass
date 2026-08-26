@@ -54,31 +54,40 @@ class PayrollRepository extends BaseRepository implements PayrollRepositoryInter
                 ->where('is_active', true)
                 ->get();
 
+            $activeEmployees = \App\Modules\HR\Models\Employee::active()->get();
+
             $totalNet = 0;
             $count = 0;
 
-            foreach ($activeStructures as $structure) {
-                $employee = $structure->employee;
-                
+            foreach ($activeEmployees as $employee) {
+                $structure = $activeStructures->firstWhere('employee_id', $employee->id);
+
+                $grossSalary = $structure ? $structure->gross_salary : ($employee->basic_salary ?? 0);
+                $netSalary = $structure ? $structure->net_salary : ($employee->basic_salary ?? 0);
+
+                if ($netSalary <= 0 && $grossSalary <= 0) {
+                    continue;
+                }
+
                 $absentDays = $this->calculateAbsentDays($employee->id, $startDate, $endDate);
-                
-                $perDaySalary = $structure->net_salary / $daysInMonth;
+
+                $perDaySalary = $netSalary / $daysInMonth;
                 $lopAmount = $absentDays * $perDaySalary;
-                
-                $payableNet = max(0, $structure->net_salary - $lopAmount);
+
+                $payableNet = max(0, $netSalary - $lopAmount);
                 $totalNet += $payableNet;
 
                 Payslip::create([
                     'tenant_id' => saas_tenant('id'),
                     'payroll_run_id' => $run->id,
                     'employee_id' => $employee->id,
-                    'salary_structure_id' => $structure->id,
-                    'gross_salary' => $structure->gross_salary,
+                    'salary_structure_id' => $structure?->id,
+                    'gross_salary' => $grossSalary,
                     'net_salary' => $payableNet,
-                    'total_earnings' => $structure->gross_salary,
-                    'total_deductions' => abs($structure->net_salary - $structure->gross_salary) + $lopAmount,
+                    'total_earnings' => $grossSalary,
+                    'total_deductions' => abs($netSalary - $grossSalary) + $lopAmount,
                     'is_paid' => false,
-                    'remarks' => $absentDays > 0 ? "LOP deducted for {$absentDays} days." : null,
+                    'remarks' => $absentDays > 0 ? "LOP deducted for {$absentDays} days." : ($structure ? null : "Generated from basic salary fallback"),
                 ]);
 
                 $count++;

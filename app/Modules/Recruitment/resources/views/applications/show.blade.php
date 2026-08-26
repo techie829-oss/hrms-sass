@@ -24,8 +24,14 @@
                 <p class="text-sm opacity-70 mt-0.5">Applying for: <strong>{{ $application->jobPosting->title ?? '—' }}</strong></p>
             </div>
 
+            @if($application->status === 'hired' || $application->status === 'offered')
+                <a href="{{ route('recruitment.applications.hire', $application->id) }}" class="btn btn-success btn-sm text-white gap-2 shadow-sm">
+                    <span class="material-symbols-outlined text-base">person_add</span> Onboard as Employee
+                </a>
+            @endif
+
             {{-- Stage Move Dropdown --}}
-            <div class="dropdown dropdown-end ml-auto">
+            <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-primary btn-sm gap-2">
                     <span class="material-symbols-outlined text-base">swap_horiz</span> Move Stage
                 </div>
