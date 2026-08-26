@@ -67,6 +67,9 @@ Route::middleware([
         Route::post('/profile/photo', [\App\Http\Controllers\ProfileController::class, 'updatePhoto'])->name('tenant.profile.update-photo');
         Route::post('/profile/cover', [\App\Http\Controllers\ProfileController::class, 'updateCover'])->name('tenant.profile.update-cover');
         Route::post('/profile/main-image', [\App\Http\Controllers\ProfileController::class, 'updateMainImage'])->name('tenant.profile.update-main-image');
+
+        // Company Roles & Permissions Management
+        Route::resource('roles', \App\Http\Controllers\Tenant\RoleController::class)->names('tenant.roles');
     });
 
     // Public Routes (No Auth Required)

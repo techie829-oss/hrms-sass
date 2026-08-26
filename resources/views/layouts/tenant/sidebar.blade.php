@@ -181,5 +181,17 @@
                 </a>
             </div>
         </div>
+
+        <!-- Company Administration -->
+        <div class="space-y-1">
+            <p class="px-3 mb-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ __('Settings') }}</p>
+            <div class="space-y-0.5">
+                <a href="{{ route('tenant.roles.index') }}"
+                    class="group flex items-center px-3 py-2 text-xs font-medium rounded-lg transition-all duration-150 {{ request()->routeIs('tenant.roles.*') ? 'bg-primary-50 text-primary-700 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                    <span class="material-symbols-outlined text-[18px] mr-2.5 transition-colors {{ request()->routeIs('tenant.roles.*') ? 'text-primary-500 font-bold' : 'text-gray-400 group-hover:text-gray-500' }}">admin_panel_settings</span>
+                    {{ __('Roles & Permissions') }}
+                </a>
+            </div>
+        </div>
     </nav>
 </div>

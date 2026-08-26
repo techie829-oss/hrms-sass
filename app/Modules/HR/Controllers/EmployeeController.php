@@ -70,7 +70,7 @@ class EmployeeController extends BaseController
 
         $departments = Department::all();
         $designations = Designation::all();
-        $roles = Role::where('tenant_id', saas_tenant('id'))->get();
+        $roles = Role::whereNull('tenant_id')->orWhere('tenant_id', saas_tenant('id'))->get();
         $employees = Employee::active()->get();
         $permissions = Permission::all();
 
@@ -117,7 +117,7 @@ class EmployeeController extends BaseController
 
         $departments = Department::all();
         $designations = Designation::all();
-        $roles = Role::where('tenant_id', saas_tenant('id'))->get();
+        $roles = Role::whereNull('tenant_id')->orWhere('tenant_id', saas_tenant('id'))->get();
         $employees = Employee::active()->where('id', '!=', $id)->get();
         $permissions = Permission::all();
 

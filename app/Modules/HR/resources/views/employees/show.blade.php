@@ -12,16 +12,19 @@
                     </p>
                 </div>
             </div>
-            <div class="flex gap-2">
-                <button onclick="change_password_modal.showModal()" class="btn btn-ghost btn-sm text-warning">
-                    <span class="material-symbols-outlined text-base">lock_reset</span> Change Password
+            <div class="flex flex-wrap gap-2">
+                <a href="{{ route('attendance.index', ['employee_id' => $employee->id]) }}" class="btn btn-ghost btn-sm text-primary border border-primary/20 hover:bg-primary/10">
+                    <span class="material-symbols-outlined text-base">event_available</span> Attendance Logs
+                </a>
+                <a href="{{ route('leave.requests.index', ['employee_id' => $employee->id]) }}" class="btn btn-ghost btn-sm text-secondary border border-secondary/20 hover:bg-secondary/10">
+                    <span class="material-symbols-outlined text-base">event_busy</span> Leave History
+                </a>
+                <button onclick="change_password_modal.showModal()" class="btn btn-ghost btn-sm text-warning border border-warning/20 hover:bg-warning/10">
+                    <span class="material-symbols-outlined text-base">lock_reset</span> Password
                 </button>
                 <a href="{{ route('hr.employees.edit', $employee->id) }}" class="btn btn-secondary btn-sm">
                     <span class="material-symbols-outlined text-base">edit</span> Edit Profile
                 </a>
-                <button class="btn btn-ghost btn-sm">
-                    <span class="material-symbols-outlined text-base">print</span> Print
-                </button>
             </div>
         </div>
     </x-slot>
