@@ -1,6 +1,6 @@
 @extends('layouts.marketing')
 
-@section('title', 'HRMS for Manufacturing | SolidrixHR')
+@section('title', 'HRMS for Manufacturing | Solidrix OS')
 @section('description', 'Robust HRMS for manufacturing and industrial companies. Handle complex shifts, multi-location attendance, and compliance tracking seamlessly.')
 
 @section('content')

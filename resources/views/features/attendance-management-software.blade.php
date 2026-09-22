@@ -1,6 +1,6 @@
 @extends('layouts.marketing')
 
-@section('title', 'Attendance Management Software | SolidrixHR')
+@section('title', 'Attendance Management Software | Solidrix OS')
 @section('description', 'Track employee attendance with web clock-ins, custom shifts, and strict policy enforcement.')
 
 @section('content')
@@ -9,7 +9,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-bold text-sm mb-8 border border-blue-200">
             <span class="flex w-2 h-2 rounded-full bg-orange-500 mr-2"></span>
-            SolidrixHR Attendance Module
+            Solidrix OS Attendance Module
         </div>
         
         <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8">
@@ -45,7 +45,7 @@
 
 <!-- Features Grid -->
 @include('components.marketing.features-grid', [
-    'title' => 'Why Choose SolidrixHR Attendance?',
+    'title' => 'Why Choose Solidrix OS Attendance?',
     'subtitle' => 'Built to handle complex attendance policies and shift rotations for modern businesses.',
     'features' => [
         [
@@ -142,7 +142,7 @@
         [
             'badge' => 'Attendance Enforcement',
             'title' => 'Policies that work automatically',
-            'description' => 'Say goodbye to manually checking who came in late. SolidrixHR automatically applies your custom policies to daily logs.',
+            'description' => 'Say goodbye to manually checking who came in late. Solidrix OS automatically applies your custom policies to daily logs.',
             'points' => [
                 'Automated Late Mark deductions',
                 'Half-day calculation based on working hours',
@@ -152,7 +152,7 @@
         [
             'badge' => 'Unified Ecosystem',
             'title' => 'Seamless Payroll Integration',
-            'description' => 'Attendance isn\'t just about knowing who is at work; it directly impacts pay. SolidrixHR ensures LOP (Loss of Pay) is accurately calculated.',
+            'description' => 'Attendance isn\'t just about knowing who is at work; it directly impacts pay. Solidrix OS ensures LOP (Loss of Pay) is accurately calculated.',
             'points' => [
                 'Approved logs feed directly to payroll',
                 'No manual CSV exports required',

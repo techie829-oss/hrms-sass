@@ -1,6 +1,6 @@
 @extends('layouts.marketing')
 
-@section('title', 'Employee Self Service Portal | SolidrixHR')
+@section('title', 'Employee Self Service Portal | Solidrix OS')
 @section('description', 'Empower your employees with a self-service portal to manage leaves, view payslips, and update personal information autonomously.')
 
 @section('content')

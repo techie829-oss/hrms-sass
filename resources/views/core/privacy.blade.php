@@ -1,6 +1,6 @@
 @extends('layouts.marketing')
 
-@section('title', 'Privacy Policy | SolidrixHR')
+@section('title', 'Privacy Policy | Solidrix OS')
 
 @section('content')
 <section class="pt-24 pb-16 bg-white flex-grow">
@@ -11,7 +11,7 @@
                 <p class="mb-4">Last updated: {{ date('F j, Y') }}</p>
         
         <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">1. Introduction</h2>
-        <p class="mb-4">Welcome to SolidrixHR. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.</p>
+        <p class="mb-4">Welcome to Solidrix OS. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.</p>
 
         <h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">2. The data we collect about you</h2>
         <p class="mb-4">Personal data, or personal information, means any information about an individual from which that person can be identified. We may collect, use, store and transfer different kinds of personal data about you which we have grouped together as follows:</p>

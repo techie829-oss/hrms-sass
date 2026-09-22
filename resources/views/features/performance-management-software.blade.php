@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'Performance Management Software | SolidrixHR')
-@section('description', 'Align your team with company objectives, set clear goals, and conduct structured appraisals with SolidrixHR.')
+@section('title', 'Performance Management Software | Solidrix OS')
+@section('description', 'Align your team with company objectives, set clear goals, and conduct structured appraisals with Solidrix OS.')
 
 @section('content')
 <!-- Hero Section -->
@@ -9,7 +9,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-bold text-sm mb-8 border border-blue-200">
             <span class="flex w-2 h-2 rounded-full bg-orange-500 mr-2"></span>
-            SolidrixHR Performance Module
+            Solidrix OS Performance Module
         </div>
         
         <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8">
@@ -45,7 +45,7 @@
 
 <!-- Features Grid -->
 @include('components.marketing.features-grid', [
-    'title' => 'Why Choose SolidrixHR Performance?',
+    'title' => 'Why Choose Solidrix OS Performance?',
     'subtitle' => 'Turn annual reviews into continuous growth conversations that actually improve outcomes.',
     'features' => [
         [
@@ -142,7 +142,7 @@
         [
             'badge' => 'Objective Measurement',
             'title' => 'Say Goodbye to Recency Bias',
-            'description' => 'Traditional appraisals often fail because managers only remember what happened last month. SolidrixHR forces continuous tracking of specific KPIs, ensuring reviews are fair and data-driven.',
+            'description' => 'Traditional appraisals often fail because managers only remember what happened last month. Solidrix OS forces continuous tracking of specific KPIs, ensuring reviews are fair and data-driven.',
             'points' => [
                 'Track goals quantitatively (e.g., Sales Target, Code Shipped)',
                 'Historical record of achievements',
@@ -152,7 +152,7 @@
         [
             'badge' => 'Unified Experience',
             'title' => 'Tied to the Employee Journey',
-            'description' => 'Performance doesn\'t live in a vacuum. Because it\'s part of the unified SolidrixHR platform, performance history stays with the employee profile forever.',
+            'description' => 'Performance doesn\'t live in a vacuum. Because it\'s part of the unified Solidrix OS platform, performance history stays with the employee profile forever.',
             'points' => [
                 'Helps justify salary increments in Payroll',
                 'Informs future promotion decisions in Core HR',

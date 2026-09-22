@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'Payroll Processing Software | SolidrixHR')
-@section('description', 'Automate payroll processing, configure custom salary structures, and generate payslips instantly with SolidrixHR.')
+@section('title', 'Payroll Processing Software | Solidrix OS')
+@section('description', 'Automate payroll processing, configure custom salary structures, and generate payslips instantly with Solidrix OS.')
 
 @section('content')
 <!-- Hero Section -->
@@ -9,7 +9,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-bold text-sm mb-8 border border-blue-200">
             <span class="flex w-2 h-2 rounded-full bg-orange-500 mr-2"></span>
-            SolidrixHR Payroll Module
+            Solidrix OS Payroll Module
         </div>
         
         <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8">
@@ -45,7 +45,7 @@
 
 <!-- Features Grid -->
 @include('components.marketing.features-grid', [
-    'title' => 'Why Choose SolidrixHR Payroll?',
+    'title' => 'Why Choose Solidrix OS Payroll?',
     'subtitle' => 'Eliminate calculation errors and compliance headaches with a robust payroll engine.',
     'features' => [
         [
@@ -142,7 +142,7 @@
         [
             'badge' => 'Customization Engine',
             'title' => 'Flexible Salary Components',
-            'description' => 'Every business has different compensation structures. SolidrixHR lets you define custom formulas and fixed amounts for both earnings and deductions.',
+            'description' => 'Every business has different compensation structures. Solidrix OS lets you define custom formulas and fixed amounts for both earnings and deductions.',
             'points' => [
                 'Create unlimited salary components',
                 'Set components as taxable or non-taxable',
@@ -152,7 +152,7 @@
         [
             'badge' => 'Automation',
             'title' => 'Seamless Attendance Sync',
-            'description' => 'Payroll is only as accurate as your attendance data. Because SolidrixHR is unified, your approved attendance logs automatically determine Loss of Pay (LOP) for the month.',
+            'description' => 'Payroll is only as accurate as your attendance data. Because Solidrix OS is unified, your approved attendance logs automatically determine Loss of Pay (LOP) for the month.',
             'points' => [
                 'Automatic deduction for unpaid leaves',
                 'Calculates pro-rata salary for mid-month joiners',
@@ -167,7 +167,7 @@
     'faqs' => [
         [
             'q' => 'Can I run payroll for specific departments only?',
-            'a' => 'Yes, SolidrixHR allows you to create specific Payroll Runs, meaning you can process payments for different departments or locations separately.'
+            'a' => 'Yes, Solidrix OS allows you to create specific Payroll Runs, meaning you can process payments for different departments or locations separately.'
         ],
         [
             'q' => 'How are payslips distributed?',
@@ -191,7 +191,7 @@
             Make Payday Stress-Free
         </h2>
         <p class="text-xl text-blue-100 mb-10">
-            Join the companies running zero-error payroll with SolidrixHR.
+            Join the companies running zero-error payroll with Solidrix OS.
         </p>
         <div class="flex justify-center">
             <a href="/contact" class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-orange-500 hover:bg-orange-600 rounded-xl transition-all shadow-lg">

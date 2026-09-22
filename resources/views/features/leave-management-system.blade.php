@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'Leave Management System | SolidrixHR')
-@section('description', 'Automate leave requests, track balances, and manage team holidays with SolidrixHR.')
+@section('title', 'Leave Management System | Solidrix OS')
+@section('description', 'Automate leave requests, track balances, and manage team holidays with Solidrix OS.')
 
 @section('content')
 <!-- Hero Section -->
@@ -9,7 +9,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-bold text-sm mb-8 border border-blue-200">
             <span class="flex w-2 h-2 rounded-full bg-orange-500 mr-2"></span>
-            SolidrixHR Leave Module
+            Solidrix OS Leave Module
         </div>
         
         <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8">
@@ -45,7 +45,7 @@
 
 <!-- Features Grid -->
 @include('components.marketing.features-grid', [
-    'title' => 'Why Choose SolidrixHR for Leave?',
+    'title' => 'Why Choose Solidrix OS for Leave?',
     'subtitle' => 'Designed to give employees transparency while giving HR total control.',
     'features' => [
         [
@@ -142,7 +142,7 @@
         [
             'badge' => 'Self-Service',
             'title' => 'Empower Your Employees',
-            'description' => 'SolidrixHR provides an intuitive Employee Self-Service (ESS) portal. Employees can check their leave history, current balances, and upcoming company holidays without interrupting the HR team.',
+            'description' => 'Solidrix OS provides an intuitive Employee Self-Service (ESS) portal. Employees can check their leave history, current balances, and upcoming company holidays without interrupting the HR team.',
             'points' => [
                 'View used vs. available balances',
                 'Upload medical certificates for sick leave',
@@ -152,7 +152,7 @@
         [
             'badge' => 'Compliance',
             'title' => 'Customizable Accrual Rules',
-            'description' => 'Every organization has unique leave policies. SolidrixHR allows you to configure rules that match your local labor laws and company culture.',
+            'description' => 'Every organization has unique leave policies. Solidrix OS allows you to configure rules that match your local labor laws and company culture.',
             'points' => [
                 'Monthly or annual leave crediting',
                 'Carry-forward and encashment rules',

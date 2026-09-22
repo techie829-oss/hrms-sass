@@ -88,8 +88,8 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="/" class="flex items-center gap-2.5">
-                        <img src="{{ asset('logo.png') }}" alt="SolidrixHR Logo" class="h-9 w-auto object-contain">
-                        <span class="text-xl font-bold tracking-tight text-slate-800">Solidrix<span class="text-blue-600">HR</span></span>
+                        <img src="{{ asset('logo.png') }}" alt="Solidrix OS Logo" class="h-9 w-auto object-contain">
+                        <span class="text-xl font-bold tracking-tight text-slate-800">Solidrix<span class="text-blue-600">OS</span></span>
                     </a>
                 </div>
 
@@ -187,11 +187,11 @@
                 <!-- Column 1: Brand & Contact Info -->
                 <div class="lg:w-1/4 xl:w-[28%] shrink-0">
                     <a href="/" class="flex items-center gap-2.5 mb-6">
-                        <img src="{{ asset('logo.png') }}" alt="SolidrixHR Logo" class="h-9 w-auto object-contain">
-                        <span class="text-xl font-bold tracking-tight text-slate-800">Solidrix<span class="text-blue-600">HR</span></span>
+                        <img src="{{ asset('logo.png') }}" alt="Solidrix OS Logo" class="h-9 w-auto object-contain">
+                        <span class="text-xl font-bold tracking-tight text-slate-800">Solidrix<span class="text-blue-600">OS</span></span>
                     </a>
                     <p class="text-sm text-gray-600 mb-6 leading-relaxed">
-                        SolidrixHR provides an affordable, easy-to-use HRMS tailored for modern teams. Manage attendance, payroll, and compliance without the complexity.
+                        Solidrix OS provides an affordable, easy-to-use Business Workspace tailored for modern teams. Manage everything without the complexity.
                     </p>
                     
                     <div class="space-y-4">
@@ -286,7 +286,7 @@
                 </p>
                 
                 <div class="flex items-center gap-2">
-                    <span class="text-sm font-medium text-gray-500">Solidrix - Modern HRMS</span>
+                    <span class="text-sm font-medium text-gray-500">Solidrix - Business OS</span>
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'Employee Management System | SolidrixHR')
-@section('description', 'Centralize employee data, departments, designations, and secure document storage with SolidrixHR Core HR.')
+@section('title', 'Employee Management System | Solidrix OS')
+@section('description', 'Centralize employee data, departments, designations, and secure document storage with Solidrix OS Core HR.')
 
 @section('content')
 <!-- Hero Section -->
@@ -9,7 +9,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-bold text-sm mb-8 border border-blue-200">
             <span class="flex w-2 h-2 rounded-full bg-orange-500 mr-2"></span>
-            SolidrixHR Core HR Module
+            Solidrix OS Core HR Module
         </div>
         
         <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8">
@@ -45,7 +45,7 @@
 
 <!-- Features Grid -->
 @include('components.marketing.features-grid', [
-    'title' => 'Why Choose SolidrixHR Core HR?',
+    'title' => 'Why Choose Solidrix OS Core HR?',
     'subtitle' => 'Build a strong organizational foundation with powerful directory and record management.',
     'features' => [
         [
@@ -142,7 +142,7 @@
         [
             'badge' => 'Document Vault',
             'title' => 'Digital, Secure, and Organized',
-            'description' => 'Never lose an important document again. SolidrixHR provides a secure vault for each employee where you can upload and categorize files.',
+            'description' => 'Never lose an important document again. Solidrix OS provides a secure vault for each employee where you can upload and categorize files.',
             'points' => [
                 'Store offer letters and contracts',
                 'Upload identity proofs (Aadhar, PAN, SSN)',
@@ -152,7 +152,7 @@
         [
             'badge' => 'Organizational Structure',
             'title' => 'Clear Reporting Lines',
-            'description' => 'As your company grows, understanding who reports to whom becomes critical. SolidrixHR maps relationships natively to ensure workflows (like leave approvals) function automatically.',
+            'description' => 'As your company grows, understanding who reports to whom becomes critical. Solidrix OS maps relationships natively to ensure workflows (like leave approvals) function automatically.',
             'points' => [
                 'Assign direct managers',
                 'Map employees to specific departments',

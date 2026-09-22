@@ -1,6 +1,6 @@
 @extends('layouts.marketing')
 
-@section('title', 'Cookie Policy | SolidrixHR')
+@section('title', 'Cookie Policy | Solidrix OS')
 @section('description', 'Information about how we use cookies and similar technologies.')
 
 @section('content')
@@ -20,7 +20,7 @@
 <div class="py-20 bg-white">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-slate lg:prose-lg">
         <p>
-            This Cookie Policy explains how SolidrixHR ("we", "us", or "our") uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.
+            This Cookie Policy explains how Solidrix OS ("we", "us", or "our") uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.
         </p>
 
         <h3>What are cookies?</h3>

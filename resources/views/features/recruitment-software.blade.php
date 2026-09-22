@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'Recruitment Software | SolidrixHR')
-@section('description', 'Streamline your hiring process, manage job postings, and track candidates with the SolidrixHR Recruitment module.')
+@section('title', 'Recruitment Software | Solidrix OS')
+@section('description', 'Streamline your hiring process, manage job postings, and track candidates with the Solidrix OS Recruitment module.')
 
 @section('content')
 <!-- Hero Section -->
@@ -9,7 +9,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-bold text-sm mb-8 border border-blue-200">
             <span class="flex w-2 h-2 rounded-full bg-orange-500 mr-2"></span>
-            SolidrixHR Recruitment Module
+            Solidrix OS Recruitment Module
         </div>
         
         <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8">
@@ -45,7 +45,7 @@
 
 <!-- Features Grid -->
 @include('components.marketing.features-grid', [
-    'title' => 'Why Choose SolidrixHR Recruitment?',
+    'title' => 'Why Choose Solidrix OS Recruitment?',
     'subtitle' => 'Bring structure to your hiring process and never lose track of a great candidate.',
     'features' => [
         [
@@ -142,7 +142,7 @@
         [
             'badge' => 'Visual Pipeline',
             'title' => 'Know Where Everyone Stands',
-            'description' => 'SolidrixHR gives you a clear view of your entire hiring funnel. At a glance, see how many candidates are being screened, interviewed, or offered for every open role.',
+            'description' => 'Solidrix OS gives you a clear view of your entire hiring funnel. At a glance, see how many candidates are being screened, interviewed, or offered for every open role.',
             'points' => [
                 'Customizable hiring stages',
                 'Filter candidates by job posting',
@@ -152,7 +152,7 @@
         [
             'badge' => 'Unified System',
             'title' => 'From Candidate to Employee',
-            'description' => 'The biggest pain point in recruitment is data entry. When you hire someone in SolidrixHR, their data automatically transfers to the Core HR module, saving you from typing it all over again.',
+            'description' => 'The biggest pain point in recruitment is data entry. When you hire someone in Solidrix OS, their data automatically transfers to the Core HR module, saving you from typing it all over again.',
             'points' => [
                 'One-click employee creation',
                 'Retains interview notes in employee history',
@@ -175,7 +175,7 @@
         ],
         [
             'q' => 'Do I have to manually re-enter data when a candidate is hired?',
-            'a' => 'No. SolidrixHR features a one-click conversion tool that takes the candidate\'s details and instantly generates a new employee profile in the Core HR module.'
+            'a' => 'No. Solidrix OS features a one-click conversion tool that takes the candidate\'s details and instantly generates a new employee profile in the Core HR module.'
         ],
         [
             'q' => 'Can I customize the interview stages?',

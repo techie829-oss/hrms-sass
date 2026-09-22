@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'HRMS for Retail Stores | SolidrixHR')
-@section('description', 'SolidrixHR provides an optimized HRMS for retail chains. Manage multiple store locations, shift rosters, complex attendance, and staff payroll.')
+@section('title', 'HRMS for Retail Stores | Solidrix OS')
+@section('description', 'Solidrix OS provides an optimized HRMS for retail chains. Manage multiple store locations, shift rosters, complex attendance, and staff payroll.')
 
 @section('content')
 <div class="bg-vibrant-hero py-20 lg:py-32 overflow-hidden relative">

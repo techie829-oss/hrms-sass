@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'Project & CRM Operations Software | SolidrixHR')
-@section('description', 'Go beyond HR. Manage clients, track projects, and assign tasks with the SolidrixHR Operations module.')
+@section('title', 'Project & CRM Operations Software | Solidrix OS')
+@section('description', 'Go beyond HR. Manage clients, track projects, and assign tasks with the Solidrix OS Operations module.')
 
 @section('content')
 <!-- Hero Section -->
@@ -9,7 +9,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-bold text-sm mb-8 border border-blue-200">
             <span class="flex w-2 h-2 rounded-full bg-orange-500 mr-2"></span>
-            SolidrixHR Operations Module
+            Solidrix OS Operations Module
         </div>
         
         <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8">
@@ -45,7 +45,7 @@
 
 <!-- Features Grid -->
 @include('components.marketing.features-grid', [
-    'title' => 'Why Choose SolidrixHR Operations?',
+    'title' => 'Why Choose Solidrix OS Operations?',
     'subtitle' => 'Bridge the gap between managing your people and managing the work they actually do.',
     'features' => [
         [
@@ -142,7 +142,7 @@
         [
             'badge' => 'Context Switching',
             'title' => 'Stop Buying Too Many Tools',
-            'description' => 'Small and medium businesses often suffer from "software fatigue" — using one tool for HR, another for timesheets, and a third for projects. SolidrixHR unifies them, saving you money and saving your team from constant tab-switching.',
+            'description' => 'Small and medium businesses often suffer from "software fatigue" — using one tool for HR, another for timesheets, and a third for projects. Solidrix OS unifies them, saving you money and saving your team from constant tab-switching.',
             'points' => [
                 'Reduced subscription costs',
                 'One login for employees',

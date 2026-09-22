@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'Frequently Asked Questions | SolidrixHR')
-@section('description', 'Find answers to common questions about SolidrixHR features, pricing, setup, and more.')
+@section('title', 'Frequently Asked Questions | Solidrix OS')
+@section('description', 'Find answers to common questions about Solidrix OS features, pricing, setup, and more.')
 
 @section('content')
 <div class="bg-vibrant-hero py-20 lg:py-32 overflow-hidden relative">
@@ -23,7 +23,7 @@
             <!-- FAQ Item 1 -->
             <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
                 <h3 class="text-lg font-bold text-slate-900 mb-2">Is there a free trial available?</h3>
-                <p class="text-slate-600">Yes, you can try SolidrixHR for free for 14 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</p>
+                <p class="text-slate-600">Yes, you can try Solidrix OS for free for 14 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</p>
             </div>
             
             <!-- FAQ Item 2 -->

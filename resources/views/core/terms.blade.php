@@ -1,6 +1,6 @@
 @extends('layouts.marketing')
 
-@section('title', 'Terms of Service | SolidrixHR')
+@section('title', 'Terms of Service | Solidrix OS')
 
 @section('content')
 <section class="pt-24 pb-16 bg-white flex-grow">

@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'HRMS for Small Business | SolidrixHR')
-@section('description', 'SolidrixHR provides an affordable, easy-to-use HRMS tailored for small businesses. Manage attendance, payroll, and compliance without the enterprise price tag.')
+@section('title', 'HRMS for Small Business | Solidrix OS')
+@section('description', 'Solidrix OS provides an affordable, easy-to-use HRMS tailored for small businesses. Manage attendance, payroll, and compliance without the enterprise price tag.')
 
 @section('content')
 <!-- Hero Section -->
@@ -33,7 +33,7 @@
 
 <!-- Features Grid -->
 @include('components.marketing.features-grid', [
-    'title' => 'Why Small Businesses Love SolidrixHR',
+    'title' => 'Why Small Businesses Love Solidrix OS',
     'subtitle' => 'Everything you need to manage your team, packaged in a simple interface that requires zero training.',
     'features' => [
         [

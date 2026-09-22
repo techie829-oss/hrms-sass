@@ -13,7 +13,7 @@
     <!-- Header/Logo Area -->
     <div class="flex items-center justify-between h-16 px-6 border-b border-gray-200 bg-white sticky top-0 z-10">
         <a href="{{ route($dashboardRoute) }}" class="flex items-center gap-2.5">
-            <img src="{{ asset('logo.png') }}" alt="SolidrixHR Logo" class="h-8 w-auto object-contain">
+            <img src="{{ asset('logo.png') }}" alt="Solidrix OS Logo" class="h-8 w-auto object-contain">
             <div class="text-left">
                 <h1 class="text-sm font-bold text-gray-900 leading-none">{{ config('app.name', 'HRMS') }}</h1>
                 <p class="text-[9px] font-semibold text-gray-400 uppercase tracking-widest mt-0.5">Management</p>

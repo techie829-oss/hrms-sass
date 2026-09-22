@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'HRMS for Startups | SolidrixHR')
-@section('description', 'SolidrixHR provides a flexible, scalable HRMS for fast-growing startups. Automate onboarding, manage equity, and scale your culture seamlessly.')
+@section('title', 'HRMS for Startups | Solidrix OS')
+@section('description', 'Solidrix OS provides a flexible, scalable HRMS for fast-growing startups. Automate onboarding, manage equity, and scale your culture seamlessly.')
 
 @section('content')
 <!-- Hero Section -->
@@ -17,7 +17,7 @@
         </h1>
         
         <p class="mt-6 text-xl text-slate-600 max-w-3xl leading-relaxed mb-12">
-            Focus on building your product, not drowning in HR paperwork. SolidrixHR scales with you from your first hire to your 500th.
+            Focus on building your product, not drowning in HR paperwork. Solidrix OS scales with you from your first hire to your 500th.
         </p>
         
         <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">

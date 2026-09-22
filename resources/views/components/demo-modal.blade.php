@@ -31,7 +31,7 @@
             <div class="p-8 sm:p-10">
                 <div class="text-center mb-8">
                     <h2 class="text-3xl font-extrabold text-slate-800 mb-2">Start Your Free Demo</h2>
-                    <p class="text-gray-500">Enter your details to get instant access to the SolidrixHR platform.</p>
+                    <p class="text-gray-500">Enter your details to get instant access to the Solidrix OS platform.</p>
                 </div>
 
                 <form action="{{ route('central.start-demo') }}" method="POST" class="space-y-5">

@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'Complete HRMS Software for Modern Teams | SolidrixHR')
-@section('description', 'SolidrixHR is a complete HRMS system combining Attendance, Payroll, Leave, Recruitment, and Performance into one unified platform.')
+@section('title', 'Complete HRMS Software for Modern Teams | Solidrix OS')
+@section('description', 'Solidrix OS is a complete HRMS system combining Attendance, Payroll, Leave, Recruitment, and Performance into one unified platform.')
 
 @section('content')
 <!-- Hero Section -->
@@ -17,7 +17,7 @@
         </h1>
         
         <p class="mt-6 text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-12">
-            Consolidate your tools. SolidrixHR brings Attendance, Payroll, Leave, Recruitment, and Performance into one secure, easy-to-use platform.
+            Consolidate your tools. Solidrix OS brings Attendance, Payroll, Leave, Recruitment, and Performance into one secure, easy-to-use platform.
         </p>
         
         <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
@@ -48,7 +48,7 @@
 
 <!-- Features Grid -->
 @include('components.marketing.features-grid', [
-    'title' => 'Why Choose SolidrixHR?',
+    'title' => 'Why Choose Solidrix OS?',
     'subtitle' => 'Stop juggling spreadsheets and disparate tools. Run your operations smoothly from a single source of truth.',
     'features' => [
         [
@@ -145,7 +145,7 @@
         [
             'badge' => 'Unified Dashboard',
             'title' => 'One Platform, Total Control',
-            'description' => 'SolidrixHR provides a single, unified interface for all your HR needs. No more switching tabs or copying data between incompatible systems.',
+            'description' => 'Solidrix OS provides a single, unified interface for all your HR needs. No more switching tabs or copying data between incompatible systems.',
             'points' => [
                 'Centralized employee timeline and history',
                 'Real-time notifications for pending approvals',
@@ -155,7 +155,7 @@
         [
             'badge' => 'Beyond HR',
             'title' => 'Integrated Operations & CRM',
-            'description' => 'Unlike traditional HRMS, SolidrixHR includes built-in operational tools to manage your core business alongside your team.',
+            'description' => 'Unlike traditional HRMS, Solidrix OS includes built-in operational tools to manage your core business alongside your team.',
             'points' => [
                 'Track Clients and Leads natively',
                 'Manage Projects and assign Tasks',
@@ -169,12 +169,12 @@
 @include('components.marketing.faq', [
     'faqs' => [
         [
-            'q' => 'Is SolidrixHR suitable for my industry?',
-            'a' => 'Yes, SolidrixHR is highly customizable. You can configure custom leave policies, salary structures, and attendance shifts to match the specific needs of manufacturing, IT, retail, or service industries.'
+            'q' => 'Is Solidrix OS suitable for my industry?',
+            'a' => 'Yes, Solidrix OS is highly customizable. You can configure custom leave policies, salary structures, and attendance shifts to match the specific needs of manufacturing, IT, retail, or service industries.'
         ],
         [
             'q' => 'Do I have to use all the modules?',
-            'a' => 'No. SolidrixHR is modular. You can start with Core HR and Attendance, and later activate Payroll, Recruitment, or Performance management as your company grows.'
+            'a' => 'No. Solidrix OS is modular. You can start with Core HR and Attendance, and later activate Payroll, Recruitment, or Performance management as your company grows.'
         ],
         [
             'q' => 'Is my data secure?',
@@ -182,7 +182,7 @@
         ],
         [
             'q' => 'Can employees access their own data?',
-            'a' => 'Yes, SolidrixHR includes an Employee Self-Service (ESS) portal where staff can view payslips, request leave, punch in/out, and check their performance goals.'
+            'a' => 'Yes, Solidrix OS includes an Employee Self-Service (ESS) portal where staff can view payslips, request leave, punch in/out, and check their performance goals.'
         ]
     ]
 ])
@@ -194,7 +194,7 @@
             Ready to Digitize Your HR Operations?
         </h2>
         <p class="text-xl text-blue-100 mb-10">
-            Join modern organizations that trust SolidrixHR to manage their daily workforce.
+            Join modern organizations that trust Solidrix OS to manage their daily workforce.
         </p>
         <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
             <a href="/contact" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-orange-500 hover:bg-orange-600 rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
