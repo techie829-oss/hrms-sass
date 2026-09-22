@@ -77,8 +77,12 @@ class ModuleManager
     /**
      * Check if a tenant has access to a module.
      */
-    public function tenantHasAccess(string $module, string $tenantId): bool
+    public function tenantHasAccess(string $module, ?string $tenantId = null): bool
     {
+        if (empty($tenantId)) {
+            return false;
+        }
+
         $slug = strtolower($module);
 
         if (! isset($this->modules[$slug])) {
