@@ -26,7 +26,7 @@
         var options = {
             "key": "{{ $razorpay_key_id }}",
             "subscription_id": "{{ $razorpay_subscription_id }}",
-            "name": "Solidrix HRMS",
+            "name": "Solidrix OS",
             "description": "Subscription for {{ $plan->name }}",
             "image": "https://hrms.test/logo.png",
             "handler": function (response){

@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'Pricing | Transparent HRMS Software Costs | Solidrix HRMS')
-@section('description', 'Simple, predictable per-employee pricing. Pay only for the HR modules you need with Solidrix HRMS. No hidden implementation fees.')
+@section('title', 'Pricing | Transparent Software Costs | Solidrix OS')
+@section('description', 'Simple, predictable per-employee pricing. Pay only for the modules you need with Solidrix OS. No hidden implementation fees.')
 @section('content')
 <section class="pt-24 pb-16 bg-white flex-grow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

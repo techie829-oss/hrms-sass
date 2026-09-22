@@ -1,18 +1,18 @@
 @extends('layouts.marketing')
 
-@section('title', 'About Us | Solidrix HRMS')
-@section('description', 'Learn about Solidrix HRMS, our mission to simplify workforce management, and how we are empowering growing businesses with smart HR technology.')
+@section('title', 'About Us | Solidrix OS')
+@section('description', 'Learn about Solidrix OS, our mission to simplify business operations, and how we are empowering growing businesses with smart workspace technology.')
 @section('content')
 
 {{-- Hero Section --}}
 <section class="pt-28 pb-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 max-w-3xl leading-tight">
-            HR Software Built for <span class="text-blue-600">People</span>
+            Workspace Software Built for <span class="text-blue-600">People</span>
         </h1>
         <p class="text-xl text-gray-500 max-w-3xl leading-relaxed">
             We started Solidrix because managing teams shouldn't mean drowning in spreadsheets. We build practical,
-            <a href="/modules" class="text-blue-600 hover:underline font-semibold">cloud-based HR tools</a>
+            <a href="/modules" class="text-blue-600 hover:underline font-semibold">cloud-based workspace tools</a>
             that let you focus on your people, not your admin work.
         </p>
     </div>
@@ -68,7 +68,7 @@
                 <h2 class="text-2xl font-bold text-gray-900 mb-4">Our Vision</h2>
                 <p class="text-gray-500 leading-relaxed text-[15px]">
                     To give every growing business access to 
-                    <a href="/pricing" class="text-blue-600 hover:underline font-semibold">enterprise-grade HR tools</a>
+                    <a href="/pricing" class="text-blue-600 hover:underline font-semibold">enterprise-grade workspace tools</a>
                     without the enterprise price tag. We want to be the background engine that keeps your operations running smoothly every single day.
                 </p>
             </div>
@@ -186,7 +186,7 @@
                     </svg>
                 </div>
                 <h3 class="text-lg font-bold text-gray-900 mb-3">People First</h3>
-                <p class="text-gray-500 text-sm leading-relaxed">HR software should serve people, not the other way around. Every design decision starts with the end user.</p>
+                <p class="text-gray-500 text-sm leading-relaxed">Workspace software should serve people, not the other way around. Every design decision starts with the end user.</p>
             </div>
 
             <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-center">

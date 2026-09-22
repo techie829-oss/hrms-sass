@@ -1,7 +1,7 @@
 @extends('layouts.marketing')
 
-@section('title', 'Solidrix HRMS - Cloud HR, Payroll & Attendance Software')
-@section('description', 'Solidrix HRMS eliminates spreadsheet chaos. Automate payroll, track GPS attendance, manage leave, and simplify recruitment in one unified platform.')
+@section('title', 'Solidrix OS - Cloud HRMS, Payroll & Workspace Software')
+@section('description', 'Solidrix OS is the ultimate HRMS and business workspace. Automate payroll, track GPS attendance, manage projects, and simplify recruitment in one unified platform.')
 @section('content')
 
 <!-- Hero Section -->
@@ -11,7 +11,7 @@
             Stop managing your team on spreadsheets.
         </h1>
         <p class="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Solidrix HRMS brings attendance, payroll, leave, and recruitment into one unified platform. Simple enough for employees, powerful enough for HR.
+            Solidrix OS is the ultimate HRMS that brings attendance, payroll, projects, and recruitment into one unified platform. Simple enough for employees, powerful enough for management.
         </p>
         <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16">
             @if(\Illuminate\Support\Facades\Cookie::has('demo_access_granted'))

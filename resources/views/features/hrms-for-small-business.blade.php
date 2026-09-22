@@ -13,7 +13,7 @@
         </div>
         
         <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8">
-            Big-Company HR Tools for <span class="text-blue-600">Small Businesses</span>
+            Big-Company Workspace Tools for <span class="text-blue-600">Small Businesses</span>
         </h1>
         
         <p class="mt-6 text-xl text-slate-600 max-w-3xl leading-relaxed mb-12">

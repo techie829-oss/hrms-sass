@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Solidrix HRMS - Best Cloud HR, Payroll & Attendance Software')</title>
-    <meta name="description" content="@yield('description', 'Simplify your HR operations with Solidrix HRMS. A complete cloud-based solution for payroll, attendance tracking, leave management, and employee self-service.')">
+    <title>@yield('title', 'Solidrix OS - Complete HRMS, Payroll & Workspace Software')</title>
+    <meta name="description" content="@yield('description', 'Simplify your business with Solidrix OS. A complete cloud-based HRMS solution for payroll, projects, CRM, and employee management.')">
     <meta name="keywords" content="@yield('keywords', 'HRMS software, payroll software India, attendance management, leave tracking, employee management, cloud HRMS, retail HRMS, startup HRMS')">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <link rel="canonical" href="{{ url()->current() }}" />
@@ -17,16 +17,16 @@
 
     <!-- OpenGraph Tags -->
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Solidrix HRMS">
-    <meta property="og:title" content="@yield('title', 'Solidrix HRMS - Best Cloud HR, Payroll & Attendance Software')">
-    <meta property="og:description" content="@yield('description', 'Simplify your HR operations with Solidrix HRMS. A complete cloud-based solution for payroll, attendance tracking, leave management, and employee self-service.')">
+    <meta property="og:site_name" content="Solidrix OS">
+    <meta property="og:title" content="@yield('title', 'Solidrix OS - Complete HRMS, Payroll & Workspace Software')">
+    <meta property="og:description" content="@yield('description', 'Simplify your business with Solidrix OS. A complete cloud-based HRMS solution for payroll, projects, CRM, and employee management.')">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:image" content="{{ asset('images/solidrix-hrms-og.jpg') }}">
 
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('title', 'Solidrix HRMS - Best Cloud HR, Payroll & Attendance Software')">
-    <meta name="twitter:description" content="@yield('description', 'Simplify your HR operations with Solidrix HRMS. A complete cloud-based solution for payroll, attendance tracking, leave management, and employee self-service.')">
+    <meta name="twitter:title" content="@yield('title', 'Solidrix OS - Complete HRMS, Payroll & Workspace Software')">
+    <meta name="twitter:description" content="@yield('description', 'Simplify your business with Solidrix OS. A complete cloud-based HRMS solution for payroll, projects, CRM, and employee management.')">
     <meta name="twitter:image" content="{{ asset('images/solidrix-hrms-og.jpg') }}">
 
     <!-- Schema.org Structured Data (JSON-LD) -->
@@ -34,7 +34,7 @@
     {
       "@@context": "https://schema.org",
       "@@type": "SoftwareApplication",
-      "name": "Solidrix HRMS",
+      "name": "Solidrix OS",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "All",
       "url": "https://hr.solidrix.com",
