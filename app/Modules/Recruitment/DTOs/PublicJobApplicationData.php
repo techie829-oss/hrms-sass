@@ -2,9 +2,7 @@
 
 namespace App\Modules\Recruitment\DTOs;
 
-use App\Core\BaseDTO;
-
-class PublicJobApplicationData extends BaseDTO
+class PublicJobApplicationData
 {
     public function __construct(
         public readonly string $first_name,
