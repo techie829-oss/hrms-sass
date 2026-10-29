@@ -9,6 +9,8 @@ use App\Modules\Recruitment\Requests\StoreJobPostingRequest;
 use App\Modules\Recruitment\Requests\UpdateJobPostingRequest;
 use App\Modules\Recruitment\DTOs\JobPostingData;
 use App\Modules\Recruitment\Models\JobPosting;
+use App\Modules\Recruitment\Models\JobApplication;
+use App\Modules\Recruitment\Models\Interview;
 
 class JobPostingController extends BaseController
 {
@@ -21,7 +23,13 @@ class JobPostingController extends BaseController
     public function index()
     {
         $postings = $this->jobPostingService->all();
-        return view('recruitment::job_postings.index', compact('postings'));
+        $stats = [
+            'active_jobs' => $postings->where('status', 'open')->count(),
+            'total_applicants' => JobApplication::count(),
+            'interviews_scheduled' => Interview::where('status', 'scheduled')->count(),
+            'hired_count' => JobApplication::where('status', 'hired')->count(),
+        ];
+        return view('recruitment::job_postings.index', compact('postings', 'stats'));
     }
 
     public function create()

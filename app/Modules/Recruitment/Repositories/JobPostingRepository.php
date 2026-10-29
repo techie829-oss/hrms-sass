@@ -13,8 +13,21 @@ class JobPostingRepository extends BaseRepository implements JobPostingRepositor
         $this->model = $model;
     }
 
+    public function all(array $filters = []): \Illuminate\Database\Eloquent\Collection
+    {
+        $query = $this->model->withCount('applications')->latest();
+
+        foreach ($filters as $field => $value) {
+            if (! is_null($value)) {
+                $query->where($field, $value);
+            }
+        }
+
+        return $query->get();
+    }
+
     public function getActivePostings()
     {
-        return $this->model->where('status', 'open')->latest()->get();
+        return $this->model->withCount('applications')->where('status', 'open')->latest()->get();
     }
 }

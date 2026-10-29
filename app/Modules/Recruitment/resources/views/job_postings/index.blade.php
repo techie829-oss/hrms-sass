@@ -38,7 +38,7 @@ use App\Core\Constants\PermissionConstants;
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Total Applicants</p>
-                        <h3 class="text-2xl font-black text-gray-900 mt-1">0</h3>
+                        <h3 class="text-2xl font-black text-gray-900 mt-1">{{ $stats['total_applicants'] ?? $postings->sum('applications_count') }}</h3>
                     </div>
                     <div class="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
                         <span class="material-symbols-outlined text-2xl">group</span>
@@ -50,7 +50,7 @@ use App\Core\Constants\PermissionConstants;
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Interviews Scheduled</p>
-                        <h3 class="text-2xl font-black text-gray-900 mt-1">0</h3>
+                        <h3 class="text-2xl font-black text-gray-900 mt-1">{{ $stats['interviews_scheduled'] ?? 0 }}</h3>
                     </div>
                     <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
                         <span class="material-symbols-outlined text-2xl">event</span>
@@ -61,8 +61,8 @@ use App\Core\Constants\PermissionConstants;
             <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Hired This Month</p>
-                        <h3 class="text-2xl font-black text-gray-900 mt-1">0</h3>
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Hired</p>
+                        <h3 class="text-2xl font-black text-gray-900 mt-1">{{ $stats['hired_count'] ?? 0 }}</h3>
                     </div>
                     <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                         <span class="material-symbols-outlined text-2xl">check_circle</span>
@@ -105,8 +105,11 @@ use App\Core\Constants\PermissionConstants;
                                             {{ str_replace('_', ' ', $posting->employment_type) }}
                                         </span>
                                     </td>
-                                    <td class="font-bold text-primary">
-                                        0 Candidates
+                                    <td>
+                                        <a href="{{ route('recruitment.applications.index', ['posting_id' => $posting->id]) }}" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200/80 transition-colors shadow-2xs">
+                                            <span class="material-symbols-outlined text-[15px]">group</span>
+                                            {{ $posting->applications_count ?? 0 }} {{ ($posting->applications_count ?? 0) === 1 ? 'Candidate' : 'Candidates' }}
+                                        </a>
                                     </td>
                                     <td>
                                         @php
@@ -194,7 +197,9 @@ use App\Core\Constants\PermissionConstants;
                             <div class="flex flex-wrap items-center gap-2 text-xs">
                                 <span class="badge badge-outline badge-sm">{{ str_replace('_', ' ', $posting->employment_type) }}</span>
                                 <span class="text-slate-400">|</span>
-                                <span class="text-xs font-semibold text-primary">0 Candidates</span>
+                                <a href="{{ route('recruitment.applications.index', ['posting_id' => $posting->id]) }}" class="text-xs font-semibold text-indigo-600 hover:underline">
+                                    {{ $posting->applications_count ?? 0 }} {{ ($posting->applications_count ?? 0) === 1 ? 'Candidate' : 'Candidates' }}
+                                </a>
                             </div>
 
                             <div class="flex items-center justify-between border-t border-slate-100 pt-3">
