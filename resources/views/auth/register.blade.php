@@ -60,7 +60,7 @@
         </div>
 
         <div class="text-center pt-6 border-t border-slate-100">
-            <p class="text-sm text-slate-600">Already architecting with us? <a href="{{ route('login') }}" class="text-indigo-600 font-semibold hover:text-indigo-500 transition-colors">Login</a></p>
+            <p class="text-sm text-slate-600">Already architecting with us? <a href="{{ url('/login') }}" class="text-indigo-600 font-semibold hover:text-indigo-500 transition-colors">Login</a></p>
         </div>
     </form>
 </x-guest-layout>

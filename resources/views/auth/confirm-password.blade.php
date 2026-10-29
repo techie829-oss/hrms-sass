@@ -6,7 +6,7 @@
         </p>
     </div>
 
-    <form method="POST" action="{{ route((saas_tenant() ? 'tenant.' : '') . 'password.confirm') }}" class="space-y-6">
+    <form method="POST" action="{{ url('/confirm-password') }}" class="space-y-6">
         @csrf
 
         <!-- Password -->

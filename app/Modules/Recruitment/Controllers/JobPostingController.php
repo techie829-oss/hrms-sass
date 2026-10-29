@@ -37,30 +37,30 @@ class JobPostingController extends BaseController
         return redirect()->route('recruitment.job_postings.index')->with('success', 'Job posting created successfully.');
     }
 
-    public function show($id)
+    public function show(JobPosting $job_posting)
     {
-        $posting = $this->jobPostingService->findOrFail($id);
+        $posting = $job_posting;
         $posting->load('applications');
         return view('recruitment::job_postings.show', compact('posting'));
     }
 
-    public function edit($id)
+    public function edit(JobPosting $job_posting)
     {
-        $posting = $this->jobPostingService->findOrFail($id);
+        $posting = $job_posting;
         return view('recruitment::job_postings.edit', compact('posting'));
     }
 
-    public function update(UpdateJobPostingRequest $request, $id)
+    public function update(UpdateJobPostingRequest $request, JobPosting $job_posting)
     {
         $dto = JobPostingData::fromUpdateRequest($request->validated());
-        $this->jobPostingService->updatePosting($id, $dto);
+        $this->jobPostingService->updatePosting($job_posting->id, $dto);
 
-        return redirect()->route('recruitment.job_postings.show', $id)->with('success', 'Job posting updated successfully.');
+        return redirect()->route('recruitment.job_postings.show', $job_posting->id)->with('success', 'Job posting updated successfully.');
     }
 
-    public function destroy($id)
+    public function destroy(JobPosting $job_posting)
     {
-        $this->jobPostingService->delete($id);
+        $this->jobPostingService->delete($job_posting->id);
         return redirect()->route('recruitment.job_postings.index')->with('success', 'Job posting deleted successfully.');
     }
 }

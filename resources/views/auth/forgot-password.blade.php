@@ -9,7 +9,7 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route((saas_tenant() ? 'tenant.' : '') . 'password.email') }}" class="space-y-6">
+    <form method="POST" action="{{ url('/forgot-password') }}" class="space-y-6">
         @csrf
 
         <!-- Email Address -->
@@ -26,7 +26,7 @@
         </div>
 
         <div class="text-center pt-6 border-t border-slate-100">
-            <a href="{{ route('login') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
+            <a href="{{ url('/login') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
                 Back to Login
             </a>
         </div>

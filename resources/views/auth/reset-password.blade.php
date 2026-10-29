@@ -6,7 +6,7 @@
         </p>
     </div>
 
-    <form method="POST" action="{{ route((saas_tenant() ? 'tenant.' : '') . 'password.store') }}" class="space-y-6">
+    <form method="POST" action="{{ url('/reset-password') }}" class="space-y-6">
         @csrf
 
         <!-- Password Reset Token -->

@@ -13,14 +13,14 @@
     @endif
 
     <div class="space-y-4">
-        <form method="POST" action="{{ route((saas_tenant() ? 'tenant.' : '') . 'verification.send') }}">
+        <form method="POST" action="{{ url('/email/verification-notification') }}">
             @csrf
             <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
                 {{ __('Resend Verification Email') }}
             </button>
         </form>
 
-        <form method="POST" action="{{ route((saas_tenant() ? 'tenant.' : '') . 'logout') }}" class="text-center pt-4 border-t border-slate-100">
+        <form method="POST" action="{{ url('/logout') }}" class="text-center pt-4 border-t border-slate-100">
             @csrf
             <button type="submit" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors focus:outline-none focus:underline">
                 {{ __('Log Out') }}

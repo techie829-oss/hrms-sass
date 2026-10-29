@@ -45,6 +45,7 @@ class SetupTenantBlueprint
             'operations_lead_view', 'operations_lead_manage',
             'operations_project_view', 'operations_project_manage',
             'operations_task_view', 'operations_task_manage',
+            'recruitment_job_view', 'recruitment_job_manage',
         ];
 
         $staffPermissions = [

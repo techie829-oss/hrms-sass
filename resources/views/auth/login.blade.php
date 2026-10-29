@@ -46,7 +46,7 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}" class="space-y-6">
+    <form method="POST" action="{{ url('/login') }}" class="space-y-6">
         @csrf
 
         <!-- Email Address -->
@@ -70,11 +70,9 @@
                 <span class="ms-2 text-sm font-medium text-slate-600 group-hover:text-slate-900 transition-colors">{{ __('Remember me') }}</span>
             </label>
 
-            @if (Route::has('password.request'))
-                <a class="text-sm font-medium text-indigo-600 hover:text-indigo-500 hover:underline transition-colors" href="{{ route('password.request') }}">
-                    {{ __('Forgot password?') }}
-                </a>
-            @endif
+            <a class="text-sm font-medium text-indigo-600 hover:text-indigo-500 hover:underline transition-colors" href="{{ url('/forgot-password') }}">
+                {{ __('Forgot password?') }}
+            </a>
         </div>
 
         <div class="pt-2">

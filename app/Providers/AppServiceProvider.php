@@ -90,8 +90,9 @@ class AppServiceProvider extends ServiceProvider
         // SADMIN and Tenant Admins bypass all gates
         Gate::before(function ($user) {
             // Ensure team ID is scoped for Spatie when resolving gates
-            if ($user->tenant_id && function_exists('setPermissionsTeamId')) {
-                setPermissionsTeamId($user->tenant_id);
+            $tenantId = $user->tenant_id ?? (function_exists('saas_tenant') ? saas_tenant('id') : null);
+            if ($tenantId && function_exists('setPermissionsTeamId')) {
+                setPermissionsTeamId($tenantId);
             }
             // Super Admin & Tenant Admin Bypass
             if ($user->hasRole(['superadmin', 'sadmin', 'tadmin', 'tmanager'])) {
